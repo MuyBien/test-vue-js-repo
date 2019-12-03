@@ -1,0 +1,55 @@
+Build:
+  image: node:latest
+  stage: build
+  script:
+    - npm install --progress=false
+    - npm run build
+
+Code Quality:
+  stage: test
+  image: docker:stable
+  allow_failure: true
+  services:
+    - docker:stable-dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - |
+      if ! docker info &>/dev/null; then
+        if [ -z "$DOCKER_HOST" -a "$KUBERNETES_PORT" ]; then
+          export DOCKER_HOST='tcp://localhost:2375'
+        fi
+      fi
+    - docker run
+        --env SOURCE_CODE="$PWD"
+        --volume "$PWD":/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/codequality:12-0-stable" /code
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+    expire_in: 1 week
+  dependencies: []
+  only:
+    refs:
+      - branches
+      - tags
+
+pages: # the job must be named pages
+  image: node:latest
+  stage: deploy
+  script:
+    - npm ci
+    - npm run build
+    - mv public public-vue # GitLab Pages hooks on the public folder
+    - mv dist public # rename the dist folder (result of npm run build)
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \; # active gzip
+  artifacts:
+    paths:
+      - public # artifact path must be /public for GitLab Pages to pick it up
+  environment:
+    name: production
+    url: https://muybien.gitlab.io/mpg-calculator
+  only:
+    - master
