@@ -5,17 +5,17 @@
       <h1>Calculateur de résultat de match MPG</h1>
     </nav>
 
-    <TeamConstructor :home="true"></TeamConstructor>
+    <MatchConstructor :home="true"></MatchConstructor>
   </div>
 </template>
 
 <script>
-import TeamConstructor from "./components/TeamConstructor.vue";
+import MatchConstructor from "./components/MatchConstructor.vue";
 
 export default {
     name: "App",
     components: {
-        TeamConstructor,
+        MatchConstructor,
     },
 };
 </script>
