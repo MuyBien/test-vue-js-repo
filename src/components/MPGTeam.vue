@@ -8,26 +8,26 @@
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="starter.index">
-            <PlayerSelector :index="starter.index" :place="starter.place" @select="selectStarter"></PlayerSelector>
+            <MPGPlayer :index="starter.index" :place="starter.place" @select="selectStarter"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplaçants</h3>
       <ul>
         <li v-for="substitute in substitutes" :key="substitute.index">
-            <PlayerSelector :index="substitute.index" :place="substitute.place" @select="selectSubstitute"></PlayerSelector>
+            <MPGPlayer :index="substitute.index" :place="substitute.place" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
   </div>
 </template>
 
 <script>
-import PlayerSelector from "../components/PlayerSelector.vue";
+import MPGPlayer from "../components/MPGPlayer.vue";
 
 export default {
-    name: "TeamConstructor",
+    name: "MPGTeam",
     components: {
-        PlayerSelector,
+        MPGPlayer,
     },
     props: {
         home: {

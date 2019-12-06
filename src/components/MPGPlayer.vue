@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    name: "PlayerSelector",
+    name: "MPGPlayer",
     props: {
         index: {
             type: Number,
