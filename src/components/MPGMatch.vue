@@ -1,17 +1,17 @@
 <template>
     <section class="match">
-        <TeamConstructor :home="true"></TeamConstructor>
-        <TeamConstructor :home="false"></TeamConstructor>
+        <MPGTeam :home="true"></MPGTeam>
+        <MPGTeam :home="false"></MPGTeam>
     </section>
 </template>
 
 <script>
-import TeamConstructor from "../components/TeamConstructor.vue";
+import MPGTeam from "../components/MPGTeam.vue";
 
 export default {
     name: "MPGMatch",
     components: {
-        TeamConstructor,
+        MPGTeam,
     },
 };
 </script>
