@@ -8,14 +8,14 @@
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="starter.index">
-            <MPGPlayer :index="starter.index" :place="starter.place" @select="selectStarter"></MPGPlayer>
+            <MPGPlayer :index="starter.index" :position="starter.position" @select="selectStarter"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplaçants</h3>
       <ul>
         <li v-for="substitute in substitutes" :key="substitute.index">
-            <MPGPlayer :index="substitute.index" :place="substitute.place" @select="selectSubstitute"></MPGPlayer>
+            <MPGPlayer :index="substitute.index" :position="substitute.position" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
 
@@ -50,14 +50,14 @@ export default {
         for (let i = 0; i < 11; i++) {
             starters.push({
                 index: i,
-                place: "",
+                position: "",
             });
         }
         let substitutes = [];
         for (let i = 0; i < 7; i++) {
             substitutes.push({
                 index: i,
-                place: "",
+                position: "",
             });
         }
         let substitutions = [];
@@ -76,11 +76,11 @@ export default {
         };
     },
     methods: {
-        selectStarter: function (index, place) {
-            this.starters[index].place = place;
+        selectStarter: function (index, position) {
+            this.starters[index].position = position;
         },
-        selectSubstitute: function (index, place) {
-            this.substitutes[index].place = place;
+        selectSubstitute: function (index, position) {
+            this.substitutes[index].position = position;
         },
         defineSubstitution: function (index, substitution) {
             this.substitutions[index].starter = substitution.starter;

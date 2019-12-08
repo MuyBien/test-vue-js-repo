@@ -1,7 +1,7 @@
 <template>
       <section>
           <span>#{{index}}</span>
-          <select :value="place" @change="selectPlayer">
+          <select :value="position" @change="selectPlayer">
               <option value="goalkeeper">Gardien</option>
               <option value="backer">Défenseur</option>
               <option value="middle">Milieu</option>
@@ -18,7 +18,7 @@ export default {
             type: Number,
             required: true,
         },
-        place: {
+        position: {
             type: String,
             required: true,
         },
