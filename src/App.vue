@@ -5,7 +5,7 @@
       <h1>Calculateur de résultat de match MPG</h1>
     </nav>
 
-    <MPGMatch :home="true"></MPGMatch>
+    <MPGMatch></MPGMatch>
   </div>
 </template>
 
