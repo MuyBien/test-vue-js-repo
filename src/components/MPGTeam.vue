@@ -8,14 +8,14 @@
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="starter.index">
-            <MPGPlayer :index="starter.index" :place="starter.place" @select="selectStarter"></MPGPlayer>
+            <MPGPlayer :index="starter.index" :position="starter.position" @select="selectStarter"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplaçants</h3>
       <ul>
         <li v-for="substitute in substitutes" :key="substitute.index">
-            <MPGPlayer :index="substitute.index" :place="substitute.place" @select="selectSubstitute"></MPGPlayer>
+            <MPGPlayer :index="substitute.index" :position="substitute.position" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
 
@@ -50,14 +50,16 @@ export default {
         for (let i = 0; i < 11; i++) {
             starters.push({
                 index: i,
-                place: "",
+                position: "",
+                note: undefined,
             });
         }
         let substitutes = [];
         for (let i = 0; i < 7; i++) {
             substitutes.push({
                 index: i,
-                place: "",
+                position: "",
+                note: undefined,
             });
         }
         let substitutions = [];
@@ -66,7 +68,7 @@ export default {
                 index: i,
                 starter: "",
                 substitute: "",
-                note: 0,
+                note: undefined,
             });
         }
         return {
@@ -76,11 +78,13 @@ export default {
         };
     },
     methods: {
-        selectStarter: function (index, place) {
-            this.starters[index].place = place;
+        selectStarter: function (index, player) {
+            this.starters[index].position = player.position;
+            this.starters[index].note = player.note;
         },
-        selectSubstitute: function (index, place) {
-            this.substitutes[index].place = place;
+        selectSubstitute: function (index, player) {
+            this.substitutes[index].position = player.position;
+            this.substitutes[index].note = player.note;
         },
         defineSubstitution: function (index, substitution) {
             this.substitutions[index].starter = substitution.starter;
