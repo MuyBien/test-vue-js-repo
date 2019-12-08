@@ -1,31 +1,39 @@
 <template>
       <section>
           <span>#{{index}}</span>
-          <select :value="position" @change="selectPlayer">
+          <select v-model="position" @change="selectPlayer">
               <option value="goalkeeper">Gardien</option>
               <option value="backer">Défenseur</option>
               <option value="middle">Milieu</option>
               <option value="forward">Attaquant</option>
           </select>
+          <span>
+              <input type="number" step="0.5" min="0" max="10" v-model="note" @input="selectPlayer"/>
+          </span>
       </section>
 </template>
 
 <script>
 export default {
     name: "MPGPlayer",
+    data: function () {
+        return {
+            position: "",
+            note: 5,
+        };
+    },
     props: {
         index: {
             type: Number,
             required: true,
         },
-        position: {
-            type: String,
-            required: true,
-        },
     },
     methods: {
-        selectPlayer: function (event) {
-            this.$emit("select", this.index, event.target.value);
+        selectPlayer: function () {
+            this.$emit("select", this.index, {
+                position: this.position,
+                note: Number(this.note),
+            });
         },
     },
 };

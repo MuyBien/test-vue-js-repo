@@ -76,11 +76,13 @@ export default {
         };
     },
     methods: {
-        selectStarter: function (index, position) {
-            this.starters[index].position = position;
+        selectStarter: function (index, player) {
+            this.starters[index].position = player.position;
+            this.starters[index].note = player.note;
         },
-        selectSubstitute: function (index, position) {
-            this.substitutes[index].position = position;
+        selectSubstitute: function (index, player) {
+            this.substitutes[index].position = player.position;
+            this.substitutes[index].note = player.note;
         },
         defineSubstitution: function (index, substitution) {
             this.substitutions[index].starter = substitution.starter;
