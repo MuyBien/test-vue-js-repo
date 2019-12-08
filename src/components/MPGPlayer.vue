@@ -19,7 +19,7 @@ export default {
     data: function () {
         return {
             position: "",
-            note: 5,
+            note: "",
         };
     },
     props: {
@@ -32,7 +32,7 @@ export default {
         selectPlayer: function () {
             this.$emit("select", this.index, {
                 position: this.position,
-                note: Number(this.note),
+                note: this.note !== "" ? Number(this.note) : undefined,
             });
         },
     },

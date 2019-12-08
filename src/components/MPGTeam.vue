@@ -51,6 +51,7 @@ export default {
             starters.push({
                 index: i,
                 position: "",
+                note: undefined,
             });
         }
         let substitutes = [];
@@ -58,6 +59,7 @@ export default {
             substitutes.push({
                 index: i,
                 position: "",
+                note: undefined,
             });
         }
         let substitutions = [];
@@ -66,7 +68,7 @@ export default {
                 index: i,
                 starter: "",
                 substitute: "",
-                note: 0,
+                note: undefined,
             });
         }
         return {
