@@ -18,16 +18,25 @@
             <MPGPlayer :index="substitute.index" :place="substitute.place" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
+
+      <h3>Remplacements</h3>
+      <ul>
+        <li v-for="substitution in substitutions" :key="substitution.index">
+            <MPGSubstitution :index="substitution.index" :substitution="substitution" @select="defineSubstitution"></MPGSubstitution>
+        </li>
+      </ul>
   </div>
 </template>
 
 <script>
-import MPGPlayer from "../components/MPGPlayer.vue";
+import MPGPlayer from "@/components/MPGPlayer.vue";
+import MPGSubstitution from "@/components/MPGSubstitution.vue";
 
 export default {
     name: "MPGTeam",
     components: {
         MPGPlayer,
+        MPGSubstitution,
     },
     props: {
         home: {
@@ -51,9 +60,19 @@ export default {
                 place: "",
             });
         }
+        let substitutions = [];
+        for (let i = 0; i < 5; i++) {
+            substitutions.push({
+                index: i,
+                starter: "",
+                substitute: "",
+                note: 0,
+            });
+        }
         return {
             starters: starters,
             substitutes: substitutes,
+            substitutions: substitutions,
         };
     },
     methods: {
@@ -62,6 +81,11 @@ export default {
         },
         selectSubstitute: function (index, place) {
             this.substitutes[index].place = place;
+        },
+        defineSubstitution: function (index, substitution) {
+            this.substitutions[index].starter = substitution.starter;
+            this.substitutions[index].substitute = substitution.substitute;
+            this.substitutions[index].note = substitution.note;
         },
     },
 };

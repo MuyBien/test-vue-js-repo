@@ -1,10 +1,13 @@
 <template>
-  <select :value="place" @change="selectPlayer">
-      <option value="goalkeeper">Gardien</option>
-      <option value="backer">Défenseur</option>
-      <option value="middle">Milieu</option>
-      <option value="forward">Attaquant</option>
-  </select>
+      <section>
+          <span>#{{index}}</span>
+          <select :value="place" @change="selectPlayer">
+              <option value="goalkeeper">Gardien</option>
+              <option value="backer">Défenseur</option>
+              <option value="middle">Milieu</option>
+              <option value="forward">Attaquant</option>
+          </select>
+      </section>
 </template>
 
 <script>
@@ -31,5 +34,8 @@ export default {
 <style scoped lang="scss">
     select {
         height: 25px;
+    }
+    span {
+        margin-right: 10px;
     }
 </style>
