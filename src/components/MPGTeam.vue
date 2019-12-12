@@ -25,6 +25,24 @@
             <MPGSubstitution :index="substitution.index" :substitution="substitution" @select="defineSubstitution"></MPGSubstitution>
         </li>
       </ul>
+
+      <h3>Equipe Finale</h3>
+      <table>
+            <tr>
+              <td>Joueur</td>
+              <td>Note</td>
+            </tr>
+            <template v-for="final in finalTeam">
+                <tr :key="final.index" :class="{'substitued': final.substitution}">
+                    <td>{{final.position}} {{final.index}}</td>
+                    <td>{{final.note}}</td>
+                </tr>
+                <tr v-if="final.substitution" :key="final.index">
+                    <td>↪️ {{final.substitution.position}} {{final.substitution.index}}</td>
+                    <td>{{final.substitution.note}}</td>
+                </tr>
+            </template>
+      </table>
   </div>
 </template>
 
@@ -92,6 +110,21 @@ export default {
             this.substitutions[index].note = substitution.note;
         },
     },
+    computed: {
+        finalTeam: function () {
+            let finals = [];
+            Object.assign(finals, this.starters);
+            this.substitutions.forEach(function (substitution) {
+                let starter = finals.find(function (starter) {
+                    return starter.index === substitution.starter;
+                });
+                if (starter && starter.note < substitution.note) {
+                    starter.substitution = this.substitutes[substitution.substitute];
+                }
+            }, this);
+            return finals;
+        },
+    },
 };
 </script>
 
@@ -100,5 +133,8 @@ export default {
     li {
         list-style-type: none;
         margin: 5px 0;
+    }
+    .substitued {
+        color: #ababab;
     }
 </style>
