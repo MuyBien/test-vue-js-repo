@@ -5,6 +5,13 @@ Build:
     - npm install --progress=false
     - npm run build
 
+Test:
+  image: node:latest
+  stage: test
+  script:
+    - npm install --progress=false
+    - npm run test:unit
+
 Code Quality:
   stage: test
   image: docker:stable
