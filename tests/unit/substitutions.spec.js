@@ -54,6 +54,43 @@ describe("MPGTeam.vue", () => {
         expect(componentWrapper.vm.finalTeam[1].substitution).not.to.be.undefined;
         expect(componentWrapper.vm.finalTeam[1].substitution.note).to.be.equals(5);
     });
+
+    it("remplace un attaquant qui n'a pas joué par un milieu sur le banc si aucun attaquant n'est disponible et lui enleve 1 point", () => {
+        componentWrapper.setData({
+            starters: [{ index: 1, position: "forward", note: undefined, },],
+            substitutes: [{ index: 0, position: "middle", note: 6, },],
+            substitutions: [],
+        });
+        expectStarterSubstitued();
+        expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
+        expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(5);
+        expect(componentWrapper.vm.finalTeam[0].substitution.bonus).to.be.equals(-1);
+    });
+
+    it("remplace un attaquant qui n'a pas joué par un défenseur sur le banc si aucun attaquant ni milieu n'est disponible et lui enleve 2 points", () => {
+        componentWrapper.setData({
+            starters: [{ index: 0, position: "forward", note: undefined, },],
+            substitutes: [{ index: 0, position: "backer", note: 6, },],
+            substitutions: [],
+        });
+        expectStarterSubstitued();
+        expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
+        expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(4);
+        expect(componentWrapper.vm.finalTeam[0].substitution.bonus).to.be.equals(-2);
+    });
+
+    it("remplace un milieu qui n'a pas joué par un défenseur sur le banc si aucun attaquant ni milieu n'est disponible et lui enleve 1 point", () => {
+        componentWrapper.setData({
+            starters: [{ index: 0, position: "middle", note: undefined, },],
+            substitutes: [{ index: 0, position: "backer", note: 6, },],
+            substitutions: [],
+        });
+        expectStarterSubstitued();
+        expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
+        expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(5);
+        expect(componentWrapper.vm.finalTeam[0].substitution.bonus).to.be.equals(-1);
+    });
+
     function expectStarterSubstitued() {
         expect(componentWrapper.vm.finalTeam).to.be.an("array");
     }

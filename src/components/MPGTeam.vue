@@ -114,6 +114,7 @@ export default {
         finalTeam: function () {
             let finals = JSON.parse(JSON.stringify(this.starters));
             let availableSubstitutes = JSON.parse(JSON.stringify(this.substitutes));
+            let positions = ["forward", "middle", "backer",];
 
             this.substitutions.forEach(function (substitution) {
                 if (substitution.note) {
@@ -131,13 +132,31 @@ export default {
 
             finals.forEach(function (starter) {
                 if (!starter.note && !starter.substitution) {
-                    let subIndex = availableSubstitutes.findIndex(function (availableSub) {
-                        return availableSub.position === starter.position && availableSub.note;
-                    });
-                    starter.substitution = availableSubstitutes[subIndex];
-                    availableSubstitutes.splice(subIndex, 1);
+                    let substitutePositionsAvailable = positions.slice(positions.indexOf(starter.position), 3);
+                    let malus = 0;
+                    let currentSubstitutePosition = 0;
+
+                    while (currentSubstitutePosition < substitutePositionsAvailable.length) {
+                        let neededPosition = substitutePositionsAvailable[currentSubstitutePosition];
+
+                        let subIndex = availableSubstitutes.findIndex(function (availableSub) {
+                            return availableSub.position === neededPosition && availableSub.note;
+                        });
+
+                        if (subIndex >= 0) {
+                            starter.substitution = availableSubstitutes[subIndex];
+                            availableSubstitutes.splice(subIndex, 1);
+                            starter.substitution.note = starter.substitution.note - malus;
+                            starter.substitution.bonus = -malus;
+                            break;
+                        }
+
+                        currentSubstitutePosition ++;
+                        malus ++;
+                    }
                 }
             });
+
             return finals;
         },
     },
