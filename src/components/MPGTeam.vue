@@ -2,26 +2,26 @@
   <div class="team">
       <h2>
           <span v-if="home">Équipe à domicile</span>
-          <span v-else>Équipe à l'extérieur</span>
+          <span v-else>Équipe à l"extérieur</span>
       </h2>
 
       <h3>Titulaires</h3>
       <ul>
-        <li v-for="starter in starters" :key="starter.index">
+        <li v-for="starter in starters" :key="'starter' + starter.index">
             <MPGPlayer :index="starter.index" :position="starter.position" @select="selectStarter"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplaçants</h3>
       <ul>
-        <li v-for="substitute in substitutes" :key="substitute.index">
+        <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
             <MPGPlayer :index="substitute.index" :position="substitute.position" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplacements</h3>
       <ul>
-        <li v-for="substitution in substitutions" :key="substitution.index">
+        <li v-for="substitution in substitutions" :key="'substitution' + substitution.index">
             <MPGSubstitution :index="substitution.index" :substitution="substitution" @select="defineSubstitution"></MPGSubstitution>
         </li>
       </ul>
@@ -32,12 +32,12 @@
               <td>Joueur</td>
               <td>Note</td>
             </tr>
-            <template v-for="final in finalTeam">
-                <tr :key="final.index" :class="{'substitued': final.substitution}">
+            <template v-for="(final, finalIndex) in finalTeam">
+                <tr :key="finalIndex" :class="{'substitued': final.substitution}">
                     <td>{{final.position}} {{final.index}}</td>
                     <td>{{final.note}}</td>
                 </tr>
-                <tr v-if="final.substitution" :key="final.index">
+                <tr v-if="final.substitution" :key="'sub' + finalIndex">
                     <td>↪️ {{final.substitution.position}} {{final.substitution.index}}</td>
                     <td>{{final.substitution.note}}</td>
                 </tr>
