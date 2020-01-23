@@ -112,16 +112,32 @@ export default {
     },
     computed: {
         finalTeam: function () {
-            let finals = [];
-            Object.assign(finals, this.starters);
+            let finals = JSON.parse(JSON.stringify(this.starters));
+            let availableSubstitutes = JSON.parse(JSON.stringify(this.substitutes));
+
             this.substitutions.forEach(function (substitution) {
-                let starter = finals.find(function (starter) {
-                    return starter.index === substitution.starter;
-                });
-                if (starter && starter.note < substitution.note) {
-                    starter.substitution = this.substitutes[substitution.substitute];
+                if (substitution.note) {
+                    let starter = finals.find(function (starter) {
+                        return starter.index === substitution.starter;
+                    });
+                    if (starter && starter.note && starter.note < substitution.note) {
+                        starter.substitution = this.substitutes[substitution.substitute];
+                        availableSubstitutes = availableSubstitutes.filter(function (availableSubstitute) {
+                            return availableSubstitute.index !== substitution.substitute;
+                        });
+                    }
                 }
             }, this);
+
+            finals.forEach(function (starter) {
+                if (!starter.note && !starter.substitution) {
+                    let subIndex = availableSubstitutes.findIndex(function (availableSub) {
+                        return availableSub.position === starter.position && availableSub.note;
+                    });
+                    starter.substitution = availableSubstitutes[subIndex];
+                    availableSubstitutes.splice(subIndex, 1);
+                }
+            });
             return finals;
         },
     },
