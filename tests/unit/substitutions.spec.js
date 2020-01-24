@@ -64,6 +64,7 @@ describe("MPGTeam.vue", () => {
         expectStarterSubstitued();
         expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
         expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(5);
+        expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("middle");
         expect(componentWrapper.vm.finalTeam[0].substitution.bonus).to.be.equals(-1);
     });
 
@@ -76,6 +77,7 @@ describe("MPGTeam.vue", () => {
         expectStarterSubstitued();
         expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
         expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(4);
+        expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("backer");
         expect(componentWrapper.vm.finalTeam[0].substitution.bonus).to.be.equals(-2);
     });
 
@@ -88,6 +90,7 @@ describe("MPGTeam.vue", () => {
         expectStarterSubstitued();
         expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
         expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(5);
+        expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("backer");
         expect(componentWrapper.vm.finalTeam[0].substitution.bonus).to.be.equals(-1);
     });
 
