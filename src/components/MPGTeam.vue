@@ -157,6 +157,14 @@ export default {
                         currentSubstitutePosition ++;
                         malus ++;
                     }
+
+                    if (!starter.substitution) {
+                        starter.substitution = {
+                            position: "rotaldo",
+                            note: 2.5,
+                            bonus: 0,
+                        };
+                    }
                 }
             });
 

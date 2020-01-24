@@ -106,6 +106,18 @@ describe("MPGTeam.vue", () => {
         expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("goalkeeper");
     });
 
+    it("remplace un joueur qui n'a pas joué par un Rotaldo si aucun joueur n'est disponible", () => {
+        componentWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: undefined, },],
+            substitutes: [],
+            substitutions: [],
+        });
+        expectStarterSubstitued();
+        expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
+        expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(2.5);
+        expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("rotaldo");
+    });
+
     function expectStarterSubstitued() {
         expect(componentWrapper.vm.finalTeam).to.be.an("array");
     }
