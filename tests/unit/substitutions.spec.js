@@ -91,6 +91,18 @@ describe("MPGTeam.vue", () => {
         expect(componentWrapper.vm.finalTeam[0].substitution.bonus).to.be.equals(-1);
     });
 
+    it("remplace un gardien qui n'a pas joué par son remplacant uniquement", () => {
+        componentWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: undefined, },],
+            substitutes: [{ index: 0, position: "backer", note: 3, },{ index: 1, position: "middle", note: 4, }, { index: 2, position: "goalkeeper", note: 5, },],
+            substitutions: [],
+        });
+        expectStarterSubstitued();
+        expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
+        expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(5);
+        expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("goalkeeper");
+    });
+
     function expectStarterSubstitued() {
         expect(componentWrapper.vm.finalTeam).to.be.an("array");
     }

@@ -132,7 +132,10 @@ export default {
 
             finals.forEach(function (starter) {
                 if (!starter.note && !starter.substitution) {
-                    let substitutePositionsAvailable = positions.slice(positions.indexOf(starter.position), 3);
+                    let substitutePositionsAvailable = ["goalkeeper",];
+                    if (starter.position != "goalkeeper") {
+                        substitutePositionsAvailable = positions.slice(positions.indexOf(starter.position), 3);
+                    }
                     let malus = 0;
                     let currentSubstitutePosition = 0;
 
