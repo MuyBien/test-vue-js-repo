@@ -183,4 +183,10 @@ export default {
     .substitued {
         color: #ababab;
     }
+    td {
+        &:first-child {
+            text-align: left;
+        }
+        padding: 5px;
+    }
 </style>
