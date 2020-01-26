@@ -247,7 +247,8 @@ export default {
     span.player-csc svg {
         fill: rgb(232, 30, 41);
     }
-    .substitued span.player-goal {
+    .substitued span.player-goal,
+    .substitued span.player-csc {
         opacity: .5;
     }
 </style>
