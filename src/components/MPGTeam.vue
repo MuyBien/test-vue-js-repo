@@ -220,6 +220,24 @@ export default {
                 }
             }, 0);
         },
+        averages: function () {
+            let averages = {};
+            let positions = ["forward", "middle", "backer", "goalkeeper",];
+            positions.forEach(function (position) {
+                let positionPlayers = this.finalTeam.filter(function (finalPlayer) {
+                    return finalPlayer.position === position;
+                });
+                let positionNoteSum = positionPlayers.reduce(function (positionAverage, player) {
+                    if (player.substitution) {
+                        return positionAverage + parseFloat(player.substitution.note);
+                    } else {
+                        return positionAverage + parseFloat(player.note);
+                    }
+                }, 0);
+                averages[position] = positionNoteSum / positionPlayers.length;
+            }, this);
+            return averages;
+        },
     },
 };
 </script>
