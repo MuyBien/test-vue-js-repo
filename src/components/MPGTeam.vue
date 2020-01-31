@@ -239,6 +239,20 @@ export default {
             return averages;
         },
     },
+    watch: {
+        finalTeam: {
+            deep: true,
+            handler: function () {
+                this.$emit("team-change", this.finalTeam);
+            },
+        },
+        goals: function () {
+            this.$emit("score", this.goals);
+        },
+        csc: function () {
+            this.$emit("own-score", this.csc);
+        },
+    },
 };
 </script>
 
