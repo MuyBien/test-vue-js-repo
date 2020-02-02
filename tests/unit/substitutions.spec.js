@@ -115,7 +115,7 @@ describe("MPGTeam.vue - Substitutions", () => {
         expectStarterSubstitued();
         expect(componentWrapper.vm.finalTeam[0].substitution).not.to.be.undefined;
         expect(componentWrapper.vm.finalTeam[0].substitution.note).to.be.equals(2.5);
-        expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("rotaldo");
+        expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("goalkeeper");
     });
 
     function expectStarterSubstitued() {

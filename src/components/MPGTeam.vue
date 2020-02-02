@@ -190,7 +190,7 @@ export default {
 
                     if (!starter.substitution) {
                         starter.substitution = {
-                            position: "rotaldo",
+                            position: starter.position,
                             note: 2.5,
                             bonus: 0,
                             goals: 0,
@@ -251,6 +251,12 @@ export default {
         },
         csc: function () {
             this.$emit("own-score", this.csc);
+        },
+        averages: {
+            deep: true,
+            handler: function () {
+                this.$emit("averages", this.averages);
+            },
         },
     },
 };

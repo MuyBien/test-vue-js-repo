@@ -3,11 +3,13 @@
         <MPGTeam :home="true"
             @team-change="updateHomeTeam"
             @score="updateHomeGoals"
-            @own-score="updateHomeCSC"></MPGTeam>
+            @own-score="updateHomeCSC"
+            @averages="updateHomeAverages"></MPGTeam>
         <MPGTeam :home="false"
             @team-change="updateAwayTeam"
             @score="updateAwayGoals"
-            @own-score="updateAwayCSC"></MPGTeam>
+            @own-score="updateAwayCSC"
+            @averages="updateAwayAverages"></MPGTeam>
     </section>
 </template>
 
@@ -22,16 +24,26 @@ export default {
                 team: [],
                 goals: 0,
                 csc: 0,
+                averages: [],
             },
             away: {
                 team: [],
                 goals: 0,
                 csc: 0,
+                averages: [],
             },
         };
     },
     components: {
         MPGTeam,
+    },
+    computed: {
+        mpgGoals: function () {
+            return {
+                home: this.getTeamMpgGoals(this.home.team, this.away.averages, true),
+                away: this.getTeamMpgGoals(this.away.team, this.home.averages, false),
+            };
+        },
     },
     methods: {
         updateHomeTeam: function (team) {
@@ -51,6 +63,49 @@ export default {
         },
         updateAwayCSC: function (csc) {
             this.away.csc = csc;
+        },
+        updateHomeAverages: function (averages) {
+            this.home.averages = averages;
+        },
+        updateAwayAverages: function (averages) {
+            this.away.averages = averages;
+        },
+        getTeamMpgGoals: function (team, averages, isHome) {
+            const linesToPass = {
+                forward: ["backer", "goalkeeper",],
+                middle: ["middle", "backer", "goalkeeper",],
+                backer: ["forward", "middle", "backer", "goalkeeper",],
+            };
+
+            let mpgGoals = [];
+            team.forEach(function (player) {
+                let mpgGoal = false;
+                const finalPlayer = player.substitution ? player.substitution : player;
+                if (finalPlayer.position && finalPlayer.position !== "goalkeeper" && finalPlayer.goals < 1 && finalPlayer.csc < 1) {
+                    mpgGoal = linesToPass[finalPlayer.position].every(function (lineToPass, index) {
+                        const malus = this.getMalus(index);
+                        const playerNote = finalPlayer.note - malus;
+                        if (isHome) {
+                            return playerNote >= averages[lineToPass];
+                        } else {
+                            return playerNote > averages[lineToPass];
+                        }
+                    }, this);
+                }
+                if (mpgGoal) {
+                    mpgGoals.push(player.index);
+                }
+            }, this);
+            return mpgGoals;
+        },
+        getMalus: function (index) {
+            let malus = 0;
+            if (index === 1) {
+                malus = 1;
+            } else if (index > 1) {
+                malus = 1 + (index - 1) * parseFloat(0.5);
+            }
+            return malus;
         },
     },
 };
