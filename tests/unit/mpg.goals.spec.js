@@ -2,7 +2,7 @@ import { expect, } from "chai";
 import { shallowMount, } from "@vue/test-utils";
 import MPGMatch from "@/components/MPGMatch.vue";
 
-describe("MPGMatch.vue - MPG Goals", () => {
+describe("Buts MPG", () => {
     let componentWrapper;
 
     beforeEach(() => {

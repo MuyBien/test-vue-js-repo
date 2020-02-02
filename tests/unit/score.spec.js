@@ -2,7 +2,7 @@ import { expect, } from "chai";
 import { shallowMount, } from "@vue/test-utils";
 import MPGTeam from "@/components/MPGTeam.vue";
 
-describe("MPGTeam.vue - Score", () => {
+describe("Score", () => {
     let componentWrapper;
 
     beforeEach(() => {
