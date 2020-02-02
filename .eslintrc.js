@@ -8,13 +8,13 @@ module.exports = {
         node: true,
     },
     rules: {
-        indent: ["error", 4, ],
-        quotes: ["error", "double", ],
-        semi: ["error", "always", ],
-        "comma-dangle": ["error", "always", ],
+        indent: ["error", 4 ],
+        quotes: ["error", "double" ],
+        semi: ["error", "always" ],
+        "comma-dangle": ["error", "always-multiline"],
         curly: "error",
         "no-multi-spaces": "error",
-        "quote-props": ["error", "as-needed", ],
+        "quote-props": ["error", "as-needed" ],
         "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     },
     parserOptions: {

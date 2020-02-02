@@ -72,9 +72,9 @@ export default {
         },
         getTeamMpgGoals: function (team, averages, isHome) {
             const linesToPass = {
-                forward: ["backer", "goalkeeper",],
-                middle: ["middle", "backer", "goalkeeper",],
-                backer: ["forward", "middle", "backer", "goalkeeper",],
+                forward: ["backer", "goalkeeper"],
+                middle: ["middle", "backer", "goalkeeper"],
+                backer: ["forward", "middle", "backer", "goalkeeper"],
             };
 
             let mpgGoals = [];

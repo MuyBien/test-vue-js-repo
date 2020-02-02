@@ -144,7 +144,7 @@ export default {
         finalTeam: function () {
             let finals = JSON.parse(JSON.stringify(this.starters));
             let availableSubstitutes = JSON.parse(JSON.stringify(this.substitutes));
-            let positions = ["forward", "middle", "backer",];
+            let positions = ["forward", "middle", "backer"];
 
             this.substitutions.forEach(function (substitution) {
                 if (substitution.note) {
@@ -162,7 +162,7 @@ export default {
 
             finals.forEach(function (starter) {
                 if (!starter.note && !starter.substitution) {
-                    let substitutePositionsAvailable = ["goalkeeper",];
+                    let substitutePositionsAvailable = ["goalkeeper"];
                     if (starter.position != "goalkeeper") {
                         substitutePositionsAvailable = positions.slice(positions.indexOf(starter.position), 3);
                     }
@@ -222,7 +222,7 @@ export default {
         },
         averages: function () {
             let averages = {};
-            let positions = ["forward", "middle", "backer", "goalkeeper",];
+            let positions = ["forward", "middle", "backer", "goalkeeper"];
             positions.forEach(function (position) {
                 let positionPlayers = this.finalTeam.filter(function (finalPlayer) {
                     return finalPlayer.position === position;
