@@ -118,6 +118,42 @@ describe("Remplacements", () => {
         expect(componentWrapper.vm.finalTeam[0].substitution.position).to.be.equals("goalkeeper");
     });
 
+    it("attribue un CSC tous les 3 Rotaldo entrés", () => {
+        expect(componentWrapper.vm.finalTeam.csc).to.be.equals(3);
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "goalkeeper", note: 5, csc: 0 },
+                { index: 1, position: "backer", note: 5, csc: 0 },
+                { index: 2, position: "backer", note: 5, csc: 0 },
+                { index: 3, position: "backer", note: 5, csc: 0 },
+                { index: 4, position: "backer", note: 5, csc: 0 },
+                { index: 5, position: "backer", note: undefined },
+                { index: 6, position: "middle", note: undefined },
+                { index: 7, position: "middle", note: undefined },
+                { index: 8, position: "middle", note: undefined },
+                { index: 9, position: "forward", note: undefined },
+                { index: 10, position: "forward", note: undefined },
+            ],
+        });
+        expect(componentWrapper.vm.finalTeam.csc).to.be.equals(2);
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "goalkeeper", note: 5, csc: 0 },
+                { index: 1, position: "backer", note: 5, csc: 0 },
+                { index: 2, position: "backer", note: 5, csc: 0 },
+                { index: 3, position: "backer", note: 5, csc: 0 },
+                { index: 4, position: "backer", note: 5, csc: 0 },
+                { index: 5, position: "backer", note: 5, csc: 0 },
+                { index: 6, position: "backer", note: 5, csc: 0 },
+                { index: 7, position: "backer", note: 5, csc: 0 },
+                { index: 8, position: "middle", note: undefined },
+                { index: 9, position: "forward", note: undefined },
+                { index: 10, position: "forward", note: undefined },
+            ],
+        });
+        expect(componentWrapper.vm.finalTeam.csc).to.be.equals(1);
+    });
+
     function expectStarterSubstitued() {
         expect(componentWrapper.vm.finalTeam).to.be.an("array");
     }

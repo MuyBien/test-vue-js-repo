@@ -121,6 +121,7 @@ export default {
                 }
             }, this);
 
+            let rotaldos = 0;
             finals.forEach(function (starter) {
                 if (!starter.note && !starter.substitution) {
                     let substitutePositionsAvailable = ["goalkeeper"];
@@ -150,12 +151,13 @@ export default {
                     }
 
                     if (!starter.substitution) {
+                        rotaldos ++;
                         starter.substitution = {
                             position: starter.position,
                             note: 2.5,
                             bonus: 0,
                             goals: 0,
-                            csc: 0,
+                            csc: rotaldos%3 === 0 ? 1 : 0,
                         };
                     }
                 }
