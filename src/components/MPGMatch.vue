@@ -1,20 +1,35 @@
 <template>
-    <section class="match">
-        <MPGTeam :home="true"
-            @team-change="updateHomeTeam"
-            @score="updateHomeGoals"
-            @own-score="updateHomeCSC"
-            @averages="updateHomeAverages"></MPGTeam>
-        <MPGTeam :home="false"
-            @team-change="updateAwayTeam"
-            @score="updateAwayGoals"
-            @own-score="updateAwayCSC"
-            @averages="updateAwayAverages"></MPGTeam>
-    </section>
+    <div class="main">
+        <section class="match">
+            <MPGTeam :home="true"
+                @team-change="updateHomeTeam"
+                @score="updateHomeGoals"
+                @own-score="updateHomeCSC"
+                @averages="updateHomeAverages"></MPGTeam>
+            <MPGTeam :home="false"
+                @team-change="updateAwayTeam"
+                @score="updateAwayGoals"
+                @own-score="updateAwayCSC"
+                @averages="updateAwayAverages"></MPGTeam>
+        </section>
+
+        <div class="result">
+            <div class="score">
+                <p class="team-score" :class="{winner: homeWinner}">{{homeGoals}}</p>
+                <p class="team-score" :class="{winner: awayWinner}">{{awayGoals}}</p>
+            </div>
+            <div class="final-teams">
+                <MPGResultTeam :final-team="home.team" :team-goals="home.goals" :opponent-csc="away.csc" :mpg-goals="mpgGoals.home"></MPGResultTeam>
+                <MPGResultTeam :final-team="away.team" :team-goals="away.goals" :opponent-csc="home.csc" :mpg-goals="mpgGoals.away"></MPGResultTeam>
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>
 import MPGTeam from "../components/MPGTeam.vue";
+import MPGResultTeam from "../components/MPGResultTeam.vue";
 
 export default {
     name: "MPGMatch",
@@ -36,6 +51,7 @@ export default {
     },
     components: {
         MPGTeam,
+        MPGResultTeam,
     },
     computed: {
         mpgGoals: function () {
@@ -43,6 +59,18 @@ export default {
                 home: this.getTeamMpgGoals(this.home.team, this.away.averages, true),
                 away: this.getTeamMpgGoals(this.away.team, this.home.averages, false),
             };
+        },
+        homeGoals: function () {
+            return this.home.goals + this.away.csc + this.mpgGoals.home.length;
+        },
+        awayGoals: function () {
+            return this.away.goals + this.home.csc + this.mpgGoals.away.length;
+        },
+        homeWinner: function () {
+            return this.homeGoals > this.awayGoals;
+        },
+        awayWinner: function () {
+            return this.homeGoals < this.awayGoals;
         },
     },
     methods: {
@@ -114,6 +142,26 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
     .match {
+        display: flex;
+        justify-content: space-around;
+    }
+    .score {
+        display: flex;
+        justify-content: center;
+        .team-score {
+            border: 1px solid #333;
+            display: inline-block;
+            padding: 20px 25px;
+            margin-right: 5px;
+            border-radius: 5px;
+            font-size: 2em;
+            font-weight: bold;
+            &.winner {
+                border-bottom: 10px solid #45c945;
+            }
+        }
+    }
+    .final-teams {
         display: flex;
         justify-content: space-around;
     }
