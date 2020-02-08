@@ -64,11 +64,11 @@ describe("Buts MPG", () => {
         expect(mpgs.length).to.be.equals(0);
     });
 
-    it("n'attribue pas un but MPG à un joueur qui a déjà marqué un CSC", () => {
+    it("attribue un but MPG à un joueur qui a une note qui lui permet même si il a marqué un CSC", () => {
         let team = [{index:10, position:"forward", note:7, goals: 0, csc: 1}];
         let averages = {forward:"", middle:"", backer: 5, goalkeeper: 5};
         let mpgs = componentWrapper.vm.getTeamMpgGoals(team, averages, true);
-        expect(mpgs.length).to.be.equals(0);
+        expect(mpgs.length).to.be.equals(1);
     });
 
 });

@@ -109,7 +109,7 @@ export default {
             team.forEach(function (player) {
                 let mpgGoal = false;
                 const finalPlayer = player.substitution ? player.substitution : player;
-                if (finalPlayer.position && finalPlayer.position !== "goalkeeper" && finalPlayer.goals < 1 && finalPlayer.csc < 1) {
+                if (finalPlayer.position && finalPlayer.position !== "goalkeeper" && finalPlayer.goals < 1) {
                     mpgGoal = linesToPass[finalPlayer.position].every(function (lineToPass, index) {
                         const malus = this.getMalus(index);
                         const playerNote = finalPlayer.note - malus;
