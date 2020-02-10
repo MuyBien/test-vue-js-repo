@@ -15,7 +15,7 @@ describe("Score", () => {
             substitutes: [],
             substitutions: [],
         });
-        expect(componentWrapper.vm.goals).to.be.equals(3);
+        expect(componentWrapper.vm.finalTeam.goals).to.be.equals(3);
     });
 
     it("ne comptabilise pas les buts de joueurs remplacés", () => {
@@ -24,7 +24,7 @@ describe("Score", () => {
             substitutes: [{ index: 0, position: "backer", note: 5, goals: 0, csc: 0 }],
             substitutions: [{ index: 0, starter: 0, substitute: 0, note: 7 }],
         });
-        expect(componentWrapper.vm.goals).to.be.equals(2);
+        expect(componentWrapper.vm.finalTeam.goals).to.be.equals(2);
     });
 
     it("comptabilise les CSC de l'équipe finale", () => {
@@ -33,7 +33,7 @@ describe("Score", () => {
             substitutes: [],
             substitutions: [],
         });
-        expect(componentWrapper.vm.csc).to.be.equals(2);
+        expect(componentWrapper.vm.finalTeam.csc).to.be.equals(2);
     });
 
     it("ne comptabilise pas les CSC de joueurs remplacés", () => {
@@ -42,7 +42,7 @@ describe("Score", () => {
             substitutes: [{ index: 0, position: "backer", note: 5, goals: 0, csc: 0 }],
             substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
         });
-        expect(componentWrapper.vm.csc).to.be.equals(1);
+        expect(componentWrapper.vm.finalTeam.csc).to.be.equals(1);
     });
 
 });

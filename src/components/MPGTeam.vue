@@ -100,9 +100,29 @@ export default {
             this.substitutions[index].substitute = substitution.substitute;
             this.substitutions[index].note = substitution.note;
         },
+        getGoals: function (finalTeam) {
+            return finalTeam.reduce(function (teamGoals, player) {
+                if (player.substitution) {
+                    return teamGoals + parseInt(player.substitution.goals);
+                } else {
+                    return teamGoals + parseInt(player.goals);
+                }
+            }, 0);
+        },
+        getCsc: function (finalTeam) {
+            return finalTeam.reduce(function (teamGoals, player) {
+                if (player.substitution) {
+                    return teamGoals + parseInt(player.substitution.csc);
+                } else {
+                    return teamGoals + parseInt(player.csc);
+                }
+            }, 0);
+        },
     },
     computed: {
         finalTeam: function () {
+            let teamInfos = {};
+
             let finals = JSON.parse(JSON.stringify(this.starters));
             let availableSubstitutes = JSON.parse(JSON.stringify(this.substitutes));
             let positions = ["forward", "middle", "backer"];
@@ -121,6 +141,7 @@ export default {
                 }
             }, this);
 
+            let rotaldos = 0;
             finals.forEach(function (starter) {
                 if (!starter.note && !starter.substitution) {
                     let substitutePositionsAvailable = ["goalkeeper"];
@@ -150,42 +171,46 @@ export default {
                     }
 
                     if (!starter.substitution) {
+                        rotaldos ++;
                         starter.substitution = {
                             position: starter.position,
                             note: 2.5,
                             bonus: 0,
                             goals: 0,
-                            csc: 0,
+                            csc: rotaldos%3 === 0 ? 1 : 0,
                         };
                     }
                 }
             });
 
-            return finals;
+            teamInfos.team = finals;
+            teamInfos.csc = this.getCsc(finals);
+            teamInfos.goals = this.getGoals(finals);
+            return teamInfos;
         },
-        goals: function () {
-            return this.finalTeam.reduce(function (teamGoals, player) {
-                if (player.substitution) {
-                    return teamGoals + parseInt(player.substitution.goals);
-                } else {
-                    return teamGoals + parseInt(player.goals);
-                }
-            }, 0);
-        },
-        csc: function () {
-            return this.finalTeam.reduce(function (teamGoals, player) {
-                if (player.substitution) {
-                    return teamGoals + parseInt(player.substitution.csc);
-                } else {
-                    return teamGoals + parseInt(player.csc);
-                }
-            }, 0);
-        },
+        // goals: function () {
+        //     return this.finalTeam.team.reduce(function (teamGoals, player) {
+        //         if (player.substitution) {
+        //             return teamGoals + parseInt(player.substitution.goals);
+        //         } else {
+        //             return teamGoals + parseInt(player.goals);
+        //         }
+        //     }, 0);
+        // },
+        // csc: function () {
+        //     return this.finalTeam.team.reduce(function (teamGoals, player) {
+        //         if (player.substitution) {
+        //             return teamGoals + parseInt(player.substitution.csc);
+        //         } else {
+        //             return teamGoals + parseInt(player.csc);
+        //         }
+        //     }, 0);
+        // },
         averages: function () {
             let averages = {};
             let positions = ["forward", "middle", "backer", "goalkeeper"];
             positions.forEach(function (position) {
-                let positionPlayers = this.finalTeam.filter(function (finalPlayer) {
+                let positionPlayers = this.finalTeam.team.filter(function (finalPlayer) {
                     return finalPlayer.position === position;
                 });
                 let positionNoteSum = positionPlayers.reduce(function (positionAverage, player) {
@@ -204,15 +229,17 @@ export default {
         finalTeam: {
             deep: true,
             handler: function () {
-                this.$emit("team-change", this.finalTeam);
+                this.$emit("team-change", this.finalTeam.team);
+                this.$emit("own-score", this.finalTeam.csc);
+                this.$emit("score", this.finalTeam.goals);
             },
         },
-        goals: function () {
-            this.$emit("score", this.goals);
-        },
-        csc: function () {
-            this.$emit("own-score", this.csc);
-        },
+        // goals: function () {
+        //     this.$emit("score", this.goals);
+        // },
+        // csc: function () {
+        //     this.$emit("own-score", this.csc);
+        // },
         averages: {
             deep: true,
             handler: function () {
