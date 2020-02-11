@@ -188,24 +188,6 @@ export default {
             teamInfos.goals = this.getGoals(finals);
             return teamInfos;
         },
-        // goals: function () {
-        //     return this.finalTeam.team.reduce(function (teamGoals, player) {
-        //         if (player.substitution) {
-        //             return teamGoals + parseInt(player.substitution.goals);
-        //         } else {
-        //             return teamGoals + parseInt(player.goals);
-        //         }
-        //     }, 0);
-        // },
-        // csc: function () {
-        //     return this.finalTeam.team.reduce(function (teamGoals, player) {
-        //         if (player.substitution) {
-        //             return teamGoals + parseInt(player.substitution.csc);
-        //         } else {
-        //             return teamGoals + parseInt(player.csc);
-        //         }
-        //     }, 0);
-        // },
         averages: function () {
             let averages = {};
             let positions = ["forward", "middle", "backer", "goalkeeper"];
@@ -234,12 +216,6 @@ export default {
                 this.$emit("score", this.finalTeam.goals);
             },
         },
-        // goals: function () {
-        //     this.$emit("score", this.goals);
-        // },
-        // csc: function () {
-        //     this.$emit("own-score", this.csc);
-        // },
         averages: {
             deep: true,
             handler: function () {
