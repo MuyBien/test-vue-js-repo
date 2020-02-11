@@ -5,12 +5,14 @@
                 @team-change="updateHomeTeam"
                 @score="updateHomeGoals"
                 @own-score="updateHomeCSC"
-                @averages="updateHomeAverages"></MPGTeam>
+                @averages="updateHomeAverages"
+                @goal-stop="updateHomeGoalStop"></MPGTeam>
             <MPGTeam :home="false"
                 @team-change="updateAwayTeam"
                 @score="updateAwayGoals"
                 @own-score="updateAwayCSC"
-                @averages="updateAwayAverages"></MPGTeam>
+                @averages="updateAwayAverages"
+                @goal-stop="updateAwayGoalStop"></MPGTeam>
         </section>
 
         <div class="result">
@@ -39,12 +41,14 @@ export default {
                 team: [],
                 goals: 0,
                 csc: 0,
+                goalStop: 0,
                 averages: [],
             },
             away: {
                 team: [],
                 goals: 0,
                 csc: 0,
+                goalStop: 0,
                 averages: [],
             },
         };
@@ -61,10 +65,10 @@ export default {
             };
         },
         homeGoals: function () {
-            return this.home.goals + this.away.csc + this.mpgGoals.home.length;
+            return Math.max(0, (this.home.goals - this.away.goalStop)) + this.away.csc + this.mpgGoals.home.length;
         },
         awayGoals: function () {
-            return this.away.goals + this.home.csc + this.mpgGoals.away.length;
+            return Math.max(0, (this.away.goals - this.home.goalStop)) + this.home.csc + this.mpgGoals.away.length;
         },
         homeWinner: function () {
             return this.homeGoals > this.awayGoals;
@@ -97,6 +101,12 @@ export default {
         },
         updateAwayAverages: function (averages) {
             this.away.averages = averages;
+        },
+        updateHomeGoalStop: function (goalStop) {
+            this.home.goalStop = goalStop;
+        },
+        updateAwayGoalStop: function (goalStop) {
+            this.away.goalStop = goalStop;
         },
         getTeamMpgGoals: function (team, averages, isHome) {
             const linesToPass = {

@@ -219,7 +219,7 @@ export default {
                 this.$emit("team-change", this.finalTeam.team);
                 this.$emit("own-score", this.finalTeam.csc);
                 this.$emit("score", this.finalTeam.goals);
-                this.$emit("stop", this.finalTeam.goalStop);
+                this.$emit("goal-stop", this.finalTeam.goalStop);
             },
         },
         averages: {
