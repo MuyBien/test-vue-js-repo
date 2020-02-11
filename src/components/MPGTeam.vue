@@ -118,6 +118,10 @@ export default {
                 }
             }, 0);
         },
+        getGoalStop: function (goalkeeper) {
+            const finalGoalkeeper = goalkeeper.substitution ? goalkeeper.substitution : goalkeeper;
+            return finalGoalkeeper.note >= 8 ? 1 : 0;
+        },
     },
     computed: {
         finalTeam: function () {
@@ -186,6 +190,7 @@ export default {
             teamInfos.team = finals;
             teamInfos.csc = this.getCsc(finals);
             teamInfos.goals = this.getGoals(finals);
+            teamInfos.goalStop = this.getGoalStop(finals[0]);
             return teamInfos;
         },
         averages: function () {
@@ -214,6 +219,7 @@ export default {
                 this.$emit("team-change", this.finalTeam.team);
                 this.$emit("own-score", this.finalTeam.csc);
                 this.$emit("score", this.finalTeam.goals);
+                this.$emit("stop", this.finalTeam.goalStop);
             },
         },
         averages: {
