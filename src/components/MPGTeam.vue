@@ -126,6 +126,29 @@ export default {
             const finalGoalkeeper = goalkeeper.substitution ? goalkeeper.substitution : goalkeeper;
             return finalGoalkeeper.note >= 8 ? 1 : 0;
         },
+        setFormation: function (formation) {
+            let players = [{
+                index: 0,
+                position: "goalkeeper",
+                note: undefined,
+                goals: 0,
+                csc: 0,
+            }];
+            let playerIndex = 1;
+            Object.keys(formation).forEach(function (position){
+                for(let i = 1; i <= formation[position]; i++) {
+                    players.push({
+                        index: playerIndex,
+                        position: position,
+                        note: undefined,
+                        goals: 0,
+                        csc: 0,
+                    });
+                    playerIndex ++;
+                }
+            });
+            this.starters = players;
+        },
     },
     computed: {
         finalTeam: function () {

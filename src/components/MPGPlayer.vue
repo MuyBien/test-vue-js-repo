@@ -1,7 +1,7 @@
 <template>
       <section>
           <span>#{{index}}</span>
-          <select v-model="position" @change="selectPlayer">
+          <select v-model="playerPosition" @change="selectPlayer">
               <option value="goalkeeper">Gardien</option>
               <option value="backer">Défenseur</option>
               <option value="middle">Milieu</option>
@@ -24,7 +24,7 @@ export default {
     name: "MPGPlayer",
     data: function () {
         return {
-            position: "",
+            playerPosition: "",
             note: "",
             goals: "",
             csc: "",
@@ -35,15 +35,25 @@ export default {
             type: Number,
             required: true,
         },
+        position: {
+            type: String,
+            required: false,
+            default: "",
+        },
     },
     methods: {
         selectPlayer: function () {
             this.$emit("select", this.index, {
-                position: this.position,
+                position: this.playerPosition,
                 note: this.note !== "" ? Number(this.note) : undefined,
                 goals: this.goals !== "" ? Number(this.goals) : 0,
                 csc: this.csc !== "" ? Number(this.csc) : 0,
             });
+        },
+    },
+    watch: {
+        position: function () {
+            this.playerPosition = this.position;
         },
     },
 };
