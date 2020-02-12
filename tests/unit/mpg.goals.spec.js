@@ -16,6 +16,13 @@ describe("Buts MPG", () => {
         expect(mpgs.length).to.be.equals(1);
     });
 
+    it("n'attribue pas un but MPG si sa note est inférieure à 5 même si les moyennes adverses le permettent", () => {
+        let team = [{index:10, position:"forward", note:4, goals:0, csc:0}];
+        let averages = {forward:"", middle:"", backer:4.5, goalkeeper:2};
+        let mpgs = componentWrapper.vm.getTeamMpgGoals(team, averages, true);
+        expect(mpgs.length).to.be.equals(0);
+    });
+
     it("laisse passer un joueur à domicile si sa note est égale à la ligne adverse", () => {
         let team = [{index:10, position:"backer", note:7, goals:0, csc:0}];
         let averages = {forward: 7, middle: 6, backer: 5.5, goalkeeper: 5};
@@ -64,7 +71,7 @@ describe("Buts MPG", () => {
         expect(mpgs.length).to.be.equals(0);
     });
 
-    it("attribue un but MPG à un joueur qui a une note qui lui permet même si il a marqué un CSC", () => {
+    it("attribue un but MPG à un joueur qui a une note qui lui permet même si il a marqué un CSC (Benito jurisprudence)", () => {
         let team = [{index:10, position:"forward", note:7, goals: 0, csc: 1}];
         let averages = {forward:"", middle:"", backer: 5, goalkeeper: 5};
         let mpgs = componentWrapper.vm.getTeamMpgGoals(team, averages, true);
