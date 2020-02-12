@@ -130,9 +130,9 @@ export default {
             let players = [{
                 index: 0,
                 position: "goalkeeper",
-                note: undefined,
-                goals: 0,
-                csc: 0,
+                note: this.starters[0].note,
+                goals: this.starters[0].goals,
+                csc: this.starters[0].csc,
             }];
             let playerIndex = 1;
             Object.keys(formation).forEach(function (position){
@@ -140,13 +140,13 @@ export default {
                     players.push({
                         index: playerIndex,
                         position: position,
-                        note: undefined,
-                        goals: 0,
-                        csc: 0,
+                        note: this.starters[playerIndex].note,
+                        goals: this.starters[playerIndex].goals,
+                        csc: this.starters[playerIndex].csc,
                     });
                     playerIndex ++;
                 }
-            });
+            }, this);
             this.starters = players;
         },
     },
