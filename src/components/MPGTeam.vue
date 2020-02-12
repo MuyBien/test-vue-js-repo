@@ -5,6 +5,8 @@
           <span v-else>🛫 Équipe à l'extérieur</span>
       </h2>
 
+      <MPGFormations @formation="setFormation"></MPGFormations>
+
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
@@ -32,12 +34,14 @@
 <script>
 import MPGPlayer from "@/components/MPGPlayer.vue";
 import MPGSubstitution from "@/components/MPGSubstitution.vue";
+import MPGFormations from "@/components/MPGFormations.vue";
 
 export default {
     name: "MPGTeam",
     components: {
         MPGPlayer,
         MPGSubstitution,
+        MPGFormations,
     },
     props: {
         home: {
