@@ -118,6 +118,10 @@ export default {
                 }
             }, 0);
         },
+        getGoalStop: function (goalkeeper) {
+            const finalGoalkeeper = goalkeeper.substitution ? goalkeeper.substitution : goalkeeper;
+            return finalGoalkeeper.note >= 8 ? 1 : 0;
+        },
     },
     computed: {
         finalTeam: function () {
@@ -186,26 +190,9 @@ export default {
             teamInfos.team = finals;
             teamInfos.csc = this.getCsc(finals);
             teamInfos.goals = this.getGoals(finals);
+            teamInfos.goalStop = this.getGoalStop(finals[0]);
             return teamInfos;
         },
-        // goals: function () {
-        //     return this.finalTeam.team.reduce(function (teamGoals, player) {
-        //         if (player.substitution) {
-        //             return teamGoals + parseInt(player.substitution.goals);
-        //         } else {
-        //             return teamGoals + parseInt(player.goals);
-        //         }
-        //     }, 0);
-        // },
-        // csc: function () {
-        //     return this.finalTeam.team.reduce(function (teamGoals, player) {
-        //         if (player.substitution) {
-        //             return teamGoals + parseInt(player.substitution.csc);
-        //         } else {
-        //             return teamGoals + parseInt(player.csc);
-        //         }
-        //     }, 0);
-        // },
         averages: function () {
             let averages = {};
             let positions = ["forward", "middle", "backer", "goalkeeper"];
@@ -232,14 +219,9 @@ export default {
                 this.$emit("team-change", this.finalTeam.team);
                 this.$emit("own-score", this.finalTeam.csc);
                 this.$emit("score", this.finalTeam.goals);
+                this.$emit("goal-stop", this.finalTeam.goalStop);
             },
         },
-        // goals: function () {
-        //     this.$emit("score", this.goals);
-        // },
-        // csc: function () {
-        //     this.$emit("own-score", this.csc);
-        // },
         averages: {
             deep: true,
             handler: function () {
