@@ -45,11 +45,7 @@ Code Quality:
 
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
-
-include:
   - template: SAST.gitlab-ci.yml
-  
-include:
   - template: License-Scanning.gitlab-ci.yml
   
 pages: # the job must be named pages
