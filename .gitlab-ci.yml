@@ -43,6 +43,9 @@ Code Quality:
       - branches
       - tags
 
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+
 pages: # the job must be named pages
   image: node:latest
   stage: deploy
