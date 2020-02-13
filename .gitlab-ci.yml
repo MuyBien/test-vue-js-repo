@@ -1,3 +1,10 @@
+stages:
+  - build
+  - quality
+  - test
+  - security
+  - deploy
+
 Build:
   image: node:latest
   stage: build
@@ -5,15 +12,8 @@ Build:
     - npm install --progress=false
     - npm run build
 
-Test:
-  image: node:latest
-  stage: test
-  script:
-    - npm install --progress=false
-    - npm run test:unit
-
 Code Quality:
-  stage: test
+  stage: quality
   image: docker:stable
   allow_failure: true
   services:
@@ -43,11 +43,27 @@ Code Quality:
       - branches
       - tags
 
+Test:
+  image: node:latest
+  stage: test
+  script:
+    - npm install --progress=false
+    - npm run test:unit
+
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
   - template: SAST.gitlab-ci.yml
   - template: License-Scanning.gitlab-ci.yml
+
+sast:
+  stage: security
   
+dependency_scanning:
+  stage: security
+  
+license_scanning:
+  stage: security
+    
 pages: # the job must be named pages
   image: node:latest
   stage: deploy
