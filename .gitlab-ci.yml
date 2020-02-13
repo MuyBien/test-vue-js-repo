@@ -46,6 +46,9 @@ Code Quality:
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
 
+include:
+  - template: SAST.gitlab-ci.yml
+  
 pages: # the job must be named pages
   image: node:latest
   stage: deploy
