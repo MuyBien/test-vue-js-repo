@@ -5,6 +5,8 @@
           <span v-else>🛫 Équipe à l'extérieur</span>
       </h2>
 
+      <MPGFormations @formation="setFormation"></MPGFormations>
+
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
@@ -32,12 +34,14 @@
 <script>
 import MPGPlayer from "@/components/MPGPlayer.vue";
 import MPGSubstitution from "@/components/MPGSubstitution.vue";
+import MPGFormations from "@/components/MPGFormations.vue";
 
 export default {
     name: "MPGTeam",
     components: {
         MPGPlayer,
         MPGSubstitution,
+        MPGFormations,
     },
     props: {
         home: {
@@ -121,6 +125,29 @@ export default {
         getGoalStop: function (goalkeeper) {
             const finalGoalkeeper = goalkeeper.substitution ? goalkeeper.substitution : goalkeeper;
             return finalGoalkeeper.note >= 8 ? 1 : 0;
+        },
+        setFormation: function (formation) {
+            let players = [{
+                index: 0,
+                position: "goalkeeper",
+                note: this.starters[0].note,
+                goals: this.starters[0].goals,
+                csc: this.starters[0].csc,
+            }];
+            let playerIndex = 1;
+            Object.keys(formation).forEach(function (position){
+                for(let i = 1; i <= formation[position]; i++) {
+                    players.push({
+                        index: playerIndex,
+                        position: position,
+                        note: this.starters[playerIndex].note,
+                        goals: this.starters[playerIndex].goals,
+                        csc: this.starters[playerIndex].csc,
+                    });
+                    playerIndex ++;
+                }
+            }, this);
+            this.starters = players;
         },
     },
     computed: {

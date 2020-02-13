@@ -53,4 +53,4 @@ pages: # the job must be named pages
     name: production
     url: https://muybien.gitlab.io/mpg-calculator
   only:
-    - master
+    - tags
