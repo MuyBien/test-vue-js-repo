@@ -121,8 +121,8 @@ export default {
                 const finalPlayer = player.substitution ? player.substitution : player;
                 if (finalPlayer.position && finalPlayer.note >= 5 && finalPlayer.position !== "goalkeeper" && finalPlayer.goals < 1) {
                     mpgGoal = linesToPass[finalPlayer.position].every(function (lineToPass, index) {
-                        const malus = this.getMalus(index);
-                        const playerNote = finalPlayer.note - malus;
+                        const bonus = this.getBonus(index);
+                        const playerNote = finalPlayer.note + bonus;
                         if (isHome) {
                             return playerNote >= averages[lineToPass];
                         } else {
@@ -136,14 +136,14 @@ export default {
             }, this);
             return mpgGoals;
         },
-        getMalus: function (index) {
-            let malus = 0;
+        getBonus: function (index) {
+            let bonus = 0;
             if (index === 1) {
-                malus = 1;
+                bonus = -1;
             } else if (index > 1) {
-                malus = 1 + (index - 1) * parseFloat(0.5);
+                bonus = -1 + (index - 1) * parseFloat(0.5);
             }
-            return malus;
+            return bonus;
         },
     },
 };
