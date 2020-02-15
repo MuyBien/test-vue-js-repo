@@ -58,9 +58,9 @@ export default {
         selectPlayer: function () {
             this.$emit("select", this.index, {
                 position: this.playerPosition,
-                note: this.playerNote !== "" ? Number(this.note) : undefined,
-                goals: this.playerGoals !== "" ? Number(this.goals) : 0,
-                csc: this.playerCsc !== "" ? Number(this.csc) : 0,
+                note: this.playerNote !== "" ? Number(this.playerNote) : undefined,
+                goals: this.playerGoals !== "" ? Number(this.playerGoals) : 0,
+                csc: this.playerCsc !== "" ? Number(this.playerCsc) : 0,
             });
         },
     },

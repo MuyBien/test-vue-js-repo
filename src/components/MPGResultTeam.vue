@@ -1,15 +1,21 @@
 <template>
     <section class="final-team" v-if="finalTeam.length">
         <h3>Equipe Finale</h3>
-        <table>
-              <tr>
-                <td>Joueur</td>
-                <td>Note</td>
-                <td>Buts</td>
-              </tr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Joueur</th>
+                        <th>Note</th>
+                        <th>Malus</th>
+                        <th>Finale</th>
+                        <th>Buts</th>
+                    </tr>
+                </thead>
               <template v-for="(final, finalIndex) in finalTeam">
                   <tr :key="finalIndex" :class="{'substitued': final.substitution}">
-                      <td>{{final.position}} {{final.index}}</td>
+                      <td>{{final.index + 1}} {{final.position}}</td>
+                      <td>{{getPlayerNote(final)}}</td>
+                      <td>{{final.malus}}</td>
                       <td>{{final.note}}</td>
                       <td class="goals">
                           <span class="goal-stop" v-if="final.position === 'goalkeeper' && final.note >= 8">
@@ -27,7 +33,9 @@
                       </td>
                   </tr>
                   <tr v-if="final.substitution" :key="'sub' + finalIndex">
-                      <td>↪️ {{final.substitution.position}} {{final.substitution.index}}</td>
+                      <td>↪️ {{final.substitution.position}}</td>
+                      <td>{{getPlayerNote(final.substitution)}}</td>
+                      <td>{{final.substitution.malus}}</td>
                       <td>{{final.substitution.note}}</td>
                       <td class="goals">
                           <span class="goal-stop" v-if="final.substitution.position === 'goalkeeper' && final.substitution.note >= 8">
@@ -73,10 +81,54 @@ export default {
             required: true,
         },
     },
+    methods: {
+        getPlayerNote: function (player) {
+            if (player.note) {
+                if (player.malus) {
+                    return player.note + player.malus;
+                }
+                return player.note;
+            }
+            return "";
+        },
+    },
 };
 </script>
 
 <style scoped lang="scss">
+table {
+    border-collapse: collapse;
+    thead {
+        th {
+            background-color: #f5f6f8;
+            border-color: #f5f6f8;
+            margin: 0;
+            color: #959daf;
+            padding: 5px 15px;
+            font-weight: 700;
+            font-size: .7em;
+            &:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+            &:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+        }
+    }
+    td {
+        padding: 5px 15px;
+        border-bottom: 1px dotted #959daf;
+        text-align: left;
+    }
+    tr.substitued {
+        td {
+            border-bottom: none;
+            opacity: .6;
+        }
+    }
+}
  .goals {
      .player-goal svg { fill: #4054cc; }
      .csc-goal svg { fill: rgb(232, 30, 41); }
