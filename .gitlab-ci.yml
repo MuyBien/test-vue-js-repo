@@ -10,7 +10,7 @@ include:
   - template: Dependency-Scanning.gitlab-ci.yml
   - template: SAST.gitlab-ci.yml
   - template: License-Scanning.gitlab-ci.yml
-  
+
 Build:
   image: node:latest
   stage: build
@@ -23,20 +23,20 @@ Test:
   stage: test
   script:
     - npm install --progress=false
-    - npm run test:unit
+    - npm run test:cover
 
 code_quality:
   stage: quality
 
 sast:
   stage: security
-  
+
 dependency_scanning:
   stage: security
-  
+
 license_scanning:
   stage: security
-    
+
 pages: # the job must be named pages
   image: node:latest
   stage: deploy

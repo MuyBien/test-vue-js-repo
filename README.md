@@ -1,29 +1,13 @@
-# mpg-calculator
+# Calculateur MPG
 
-## Project setup
-```
-npm install
-```
+![image](https://assets.gitlab-static.net/uploads/-/system/project/avatar/15624779/mpg-calculator.png?width=40)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+[![pipeline status](https://gitlab.com/MuyBien/mpg-calculator/badges/master/pipeline.svg)](https://gitlab.com/MuyBien/mpg-calculator/-/commits/master) [![coverage report](https://gitlab.com/MuyBien/mpg-calculator/badges/master/coverage.svg)](https://gitlab.com/MuyBien/mpg-calculator/-/commits/master)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+https://muybien.gitlab.io/mpg-calculator/
 
-### Run your unit tests
-```
-npm run test:unit
-```
+Si vous aussi, vous avez déjà calculé les moyennes de chaque ligne de l'équipe de votre adversaire le dimanche soir en vous demandant si Da Silva allait rentré ou pas à la place de Lala et si Niang va finalement mettre ce but MPG qui vous donne la victoire, alors vous êtes à la bonne adresse.
 
-### Lints and fixes files
-```
-npm run lint
-```
+En remplissant la composition de votre équipe et celle de l'adversaire, le résultat final apparaitra alors sans aucun effort.  
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Il restera toujours le suspens du bonus utilisé qui fera peut-être pencher la balance de son côté... ou pas.
