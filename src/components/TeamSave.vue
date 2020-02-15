@@ -134,6 +134,12 @@ export default {
             });
         },
     },
+    watch: {
+        showSavedTeams: async function () {
+            this.db = await this.getDb();
+            this.teams = await this.getTeamsFromDb();
+        },
+    },
 };
 </script>
 
