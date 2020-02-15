@@ -157,9 +157,23 @@ export default {
             this.starters = team.starters;
             this.substitutes = team.substitutes;
             this.substitutions = team.substitutions;
-            // team.starters.forEach(function (player, index) {
-            //     this.selectStarter(index, player);
-            // }, this);
+        },
+        setDefenseBonus: function (finalTeam) {
+            const backers = finalTeam.filter(function (player) {
+                return player.position === "backer";
+            });
+            let defenseBonus = 0;
+            defenseBonus = backers.length > 3 ? 0.5 : defenseBonus;
+            defenseBonus = backers.length > 4 ? 1 : defenseBonus;
+            finalTeam.forEach(function (player) {
+                if (player.position === "backer") {
+                    player.malus = -defenseBonus;
+                    if (player.note) {
+                        player.note = player.note + defenseBonus;
+                    }
+                }
+            });
+            return finalTeam;
         },
     },
     computed: {
@@ -176,6 +190,8 @@ export default {
             let finals = JSON.parse(JSON.stringify(this.starters));
             let availableSubstitutes = JSON.parse(JSON.stringify(this.substitutes));
             let positions = ["forward", "middle", "backer"];
+
+            finals = this.setDefenseBonus(finals);
 
             this.substitutions.forEach(function (substitution) {
                 if (substitution.note) {
