@@ -59,7 +59,7 @@ describe("Score", () => {
 
     it("ajoute un arrêt MPG si la note du remplacant du gardien le permet", () => {
         componentWrapper.setData({
-            starters: [{ index: 0, position: "goalkeeper", note: "", goals: 0, csc: 0 }],
+            starters: [{ index: 0, position: "goalkeeper", note: undefined, goals: 0, csc: 0 }],
             substitutes: [{ index: 0, position: "goalkeeper", note: 8, goals: 0, csc: 0 }],
             substitutions: [],
         });
