@@ -20,6 +20,21 @@ describe("Remplacements", () => {
         expect(componentWrapper.vm.finalTeam.team[0].note).to.be.equals(6);
     });
 
+    it("ne remplace pas un joueur si il a une note suffisante en comptant le bonus défensif", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "goalkeeper", note: 6 },
+                { index: 1, position: "backer", note: 5 },
+                { index: 2, position: "backer", note: 5 },
+                { index: 3, position: "backer", note: 5 },
+                { index: 4, position: "backer", note: 5 },
+            ],
+            substitutes: [{ index: 0, position: "backer", note: 2 }],
+            substitutions: [{ index: 0, starter: 1, substitute: 0, note: 5.5 }],
+        });
+        expect(componentWrapper.vm.finalTeam.team[1].substitution).to.be.undefined;
+    });
+
     it("remplace un joueur si il a une note insuffisante", () => {
         componentWrapper.setData({
             starters: [{ index: 0, position: "backer", note: 3 }],
