@@ -37,7 +37,7 @@ describe("Moyennes d'équipe", () => {
         expect(componentWrapper.vm.averages.backer).to.be.equals(6);
     });
 
-    it("calcule la moyenne de chaque ligne en prenant en compte les bonus", () => {
+    it("calcule la moyenne de chaque ligne en prenant en compte les bonus défensif", () => {
         componentWrapper.setData({
             starters: [
                 { index: 0, position: "backer", note: 5, goals: 0, csc: 0 },
