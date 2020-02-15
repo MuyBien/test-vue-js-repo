@@ -5,12 +5,14 @@
           <span v-else>🛫 Équipe à l'extérieur</span>
       </h2>
 
+      <TeamSave :team="completeTeam" @team-loaded="loadTeam"></TeamSave>
+
       <MPGFormations @formation="setFormation"></MPGFormations>
 
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
-            <MPGPlayer :index="starter.index" :position="starter.position" @select="selectStarter"></MPGPlayer>
+            <MPGPlayer :index="starter.index" :position="starter.position" :note="starter.note" @select="selectStarter"></MPGPlayer>
         </li>
       </ul>
 
@@ -35,6 +37,7 @@
 import MPGPlayer from "@/components/MPGPlayer.vue";
 import MPGSubstitution from "@/components/MPGSubstitution.vue";
 import MPGFormations from "@/components/MPGFormations.vue";
+import TeamSave from "@/components/TeamSave.vue";
 
 export default {
     name: "MPGTeam",
@@ -42,6 +45,7 @@ export default {
         MPGPlayer,
         MPGSubstitution,
         MPGFormations,
+        TeamSave,
     },
     props: {
         home: {
@@ -149,8 +153,23 @@ export default {
             }, this);
             this.starters = players;
         },
+        loadTeam: function (team) {
+            this.starters = team.starters;
+            this.substitutes = team.substitutes;
+            this.substitutions = team.substitutions;
+            // team.starters.forEach(function (player, index) {
+            //     this.selectStarter(index, player);
+            // }, this);
+        },
     },
     computed: {
+        completeTeam: function () {
+            return {
+                starters: this.starters,
+                substitutes: this.substitutes,
+                substitutions: this.substitutions,
+            };
+        },
         finalTeam: function () {
             let teamInfos = {};
 

@@ -8,13 +8,13 @@
               <option value="forward">Attaquant</option>
           </select>
           <span>
-              <input type="number" placeholder="Note" step="0.5" min="0" max="10" v-model="note" @input="selectPlayer" />
+              <input type="number" placeholder="Note" step="0.5" min="0" max="10" v-model="playerNote" @input="selectPlayer" />
           </span>
           <span class="goals-wrapper">
-              <input type="number" placeholder="Buts" step="1" min="0" v-model="goals" @input="selectPlayer" />
+              <input type="number" placeholder="Buts" step="1" min="0" v-model="playerGoals" @input="selectPlayer" />
           </span>
           <span class="csc-wrapper">
-              <input type="number" placeholder="CSC" step="1" min="0" v-model="csc" @input="selectPlayer" />
+              <input type="number" placeholder="CSC" step="1" min="0" v-model="playerCsc" @input="selectPlayer" />
           </span>
       </section>
 </template>
@@ -25,9 +25,9 @@ export default {
     data: function () {
         return {
             playerPosition: "",
-            note: "",
-            goals: "",
-            csc: "",
+            playerNote: "",
+            playerGoals: "",
+            playerCsc: "",
         };
     },
     props: {
@@ -38,22 +38,44 @@ export default {
         position: {
             type: String,
             required: false,
-            default: "",
+        },
+        note: {
+            type: Number,
+            required: false,
+        },
+        goals: {
+            type: Number,
+            required: false,
+            default: 0,
+        },
+        csc: {
+            type: Number,
+            required: false,
+            default: 0,
         },
     },
     methods: {
         selectPlayer: function () {
             this.$emit("select", this.index, {
                 position: this.playerPosition,
-                note: this.note !== "" ? Number(this.note) : undefined,
-                goals: this.goals !== "" ? Number(this.goals) : 0,
-                csc: this.csc !== "" ? Number(this.csc) : 0,
+                note: this.playerNote !== "" ? Number(this.note) : undefined,
+                goals: this.playerGoals !== "" ? Number(this.goals) : 0,
+                csc: this.playerCsc !== "" ? Number(this.csc) : 0,
             });
         },
     },
     watch: {
         position: function () {
             this.playerPosition = this.position;
+        },
+        note: function () {
+            this.playerNote = this.note;
+        },
+        goals: function () {
+            this.playerGoals = this.goals;
+        },
+        csc: function () {
+            this.playerCsc = this.csc;
         },
     },
 };
