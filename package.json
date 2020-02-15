@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
+    "test:cover": "nyc --reporter=lcov --reporter=text vue-cli-service test:unit",
     "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
@@ -27,6 +28,8 @@
     "chai": "^4.1.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "nyc": "^15.0.0",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
