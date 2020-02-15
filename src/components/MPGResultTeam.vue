@@ -6,8 +6,8 @@
                     <tr>
                         <th>Joueur</th>
                         <th>Note</th>
-                        <th>Malus</th>
-                        <th>Finale</th>
+                        <th>Bonus</th>
+                        <th>Final</th>
                         <th>Buts</th>
                     </tr>
                 </thead>
@@ -84,8 +84,8 @@ export default {
     methods: {
         getPlayerNote: function (player) {
             if (player.note) {
-                if (player.malus) {
-                    return player.note + player.malus;
+                if (player.bonus) {
+                    return player.note - player.bonus;
                 }
                 return player.note;
             }

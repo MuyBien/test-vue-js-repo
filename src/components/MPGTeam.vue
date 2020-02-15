@@ -162,17 +162,17 @@ export default {
             const backers = finalTeam.filter(function (player) {
                 return player.position === "backer";
             });
-            let defenseBonus = 0;
-            defenseBonus = backers.length > 3 ? 0.5 : defenseBonus;
-            defenseBonus = backers.length > 4 ? 1 : defenseBonus;
-            finalTeam.forEach(function (player) {
-                if (player.position === "backer") {
-                    player.malus = -defenseBonus;
-                    if (player.note) {
-                        player.note = player.note + defenseBonus;
+            if (backers.length > 3) {
+                let defenseBonus = backers.length > 4 ? 1 : 0.5;
+                finalTeam.forEach(function (player) {
+                    if (player.position === "backer") {
+                        player.bonus = defenseBonus;
+                        if (player.note) {
+                            player.note = player.note + defenseBonus;
+                        }
                     }
-                }
-            });
+                });
+            }
             return finalTeam;
         },
     },
@@ -214,7 +214,7 @@ export default {
                     if (starter.position != "goalkeeper") {
                         substitutePositionsAvailable = positions.slice(positions.indexOf(starter.position), 3);
                     }
-                    let malus = 0;
+                    let bonus = 0;
                     let currentSubstitutePosition = 0;
 
                     while (currentSubstitutePosition < substitutePositionsAvailable.length) {
@@ -227,13 +227,13 @@ export default {
                         if (subIndex >= 0) {
                             starter.substitution = availableSubstitutes[subIndex];
                             availableSubstitutes.splice(subIndex, 1);
-                            starter.substitution.note = starter.substitution.note - malus;
-                            starter.substitution.bonus = -malus;
+                            starter.substitution.note = starter.substitution.note + bonus;
+                            starter.substitution.bonus = bonus;
                             break;
                         }
 
                         currentSubstitutePosition ++;
-                        malus ++;
+                        bonus --;
                     }
 
                     if (!starter.substitution) {
@@ -241,7 +241,7 @@ export default {
                         starter.substitution = {
                             position: starter.position,
                             note: 2.5,
-                            bonus: 0,
+                            bonus: "",
                             goals: 0,
                             csc: rotaldos%3 === 0 ? 1 : 0,
                         };
