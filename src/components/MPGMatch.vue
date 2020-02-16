@@ -141,7 +141,7 @@ export default {
             if (index === 1) {
                 bonus = -1;
             } else if (index > 1) {
-                bonus = -1 + (index - 1) * parseFloat(0.5);
+                bonus = -((index + 1) * parseFloat(0.5));
             }
             return bonus;
         },

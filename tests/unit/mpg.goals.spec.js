@@ -16,6 +16,13 @@ describe("Buts MPG", () => {
         expect(mpgs.length).to.be.equals(1);
     });
 
+    it("n'attribue pas un but MPG si sa note ne lui permet pas de passer les lignes adverses", () => {
+        let team = [{index: 10, position: "backer", note: 6.5, goals: 0, csc: 0}];
+        let averages = {forward:6, middle:5, backer:5.5, goalkeeper:2};
+        let mpgs = componentWrapper.vm.getTeamMpgGoals(team, averages, true);
+        expect(mpgs.length).to.be.equals(0);
+    });
+
     it("n'attribue pas un but MPG si sa note est inférieure à 5 même si les moyennes adverses le permettent", () => {
         let team = [{index:10, position:"forward", note:4, goals:0, csc:0}];
         let averages = {forward:"", middle:"", backer:4.5, goalkeeper:2};
