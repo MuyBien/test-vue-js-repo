@@ -198,8 +198,9 @@ export default {
                     let starter = finals.find(function (starter) {
                         return starter.index === substitution.starter;
                     });
-                    if (starter && starter.note && starter.note < substitution.note) {
-                        starter.substitution = this.substitutes[substitution.substitute];
+                    let substitute = this.substitutes[substitution.substitute];
+                    if (starter && starter.note && starter.note < substitution.note && substitute.note) {
+                        starter.substitution = substitute;
                         availableSubstitutes = availableSubstitutes.filter(function (availableSubstitute) {
                             return availableSubstitute.index !== substitution.substitute;
                         });
