@@ -12,14 +12,14 @@
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
-            <MPGPlayer :index="starter.index" :position="starter.position" :note="starter.note" @select="selectStarter"></MPGPlayer>
+            <MPGPlayer :index="starter.index" :player="starter" @select="selectStarter"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplaçants</h3>
       <ul>
         <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
-            <MPGPlayer :index="substitute.index" :position="substitute.position" @select="selectSubstitute"></MPGPlayer>
+            <MPGPlayer :index="substitute.index" :player="substitute" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
 
