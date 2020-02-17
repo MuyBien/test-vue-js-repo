@@ -42,6 +42,13 @@ export default {
             });
         },
     },
+    watch: {
+        substitution: function () {
+            this.starter = this.substitution.starter;
+            this.substitute = this.substitution.substitute;
+            this.note = this.substitution.note;
+        },
+    },
 };
 </script>
 

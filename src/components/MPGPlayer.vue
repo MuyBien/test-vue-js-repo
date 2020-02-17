@@ -35,23 +35,9 @@ export default {
             type: Number,
             required: true,
         },
-        position: {
-            type: String,
+        player: {
+            type: Object,
             required: false,
-        },
-        note: {
-            type: Number,
-            required: false,
-        },
-        goals: {
-            type: Number,
-            required: false,
-            default: 0,
-        },
-        csc: {
-            type: Number,
-            required: false,
-            default: 0,
         },
     },
     methods: {
@@ -65,17 +51,11 @@ export default {
         },
     },
     watch: {
-        position: function () {
-            this.playerPosition = this.position;
-        },
-        note: function () {
-            this.playerNote = this.note;
-        },
-        goals: function () {
-            this.playerGoals = this.goals;
-        },
-        csc: function () {
-            this.playerCsc = this.csc;
+        player: function () {
+            this.playerPosition = this.player.position;
+            this.playerNote = this.player.note;
+            this.playerGoals = this.player.goals;
+            this.playerCsc = this.player.csc;
         },
     },
 };
