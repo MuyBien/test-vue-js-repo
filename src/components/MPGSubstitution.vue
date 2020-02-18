@@ -1,11 +1,11 @@
 <template>
     <div>
         <select v-model="substitute" @change="defineSubstitution">
-            <option v-for="i in 7" :key="i" :value="i-1">Remplaçant #{{i-1}}</option>
+            <option v-for="i in 7" :key="i" :value="i-1" v-html="getSubstituteName(i-1)"></option>
         </select>
         <span> remplace </span>
         <select v-model="starter" @change="defineSubstitution">
-            <option v-for="i in 11" :key="i" :value="i-1">Titulaire #{{i-1}}</option>
+            <option v-for="i in 11" :key="i" :value="i-1" v-html="getStarterName(i-1)"></option>
         </select>
         <span> si note inférieure à </span>
         <input type="number" step="0.5" min="0" max="10" v-model="note" @input="defineSubstitution"/>
@@ -31,6 +31,14 @@ export default {
             type: Object,
             required: true,
         },
+        starters: {
+            type: Array,
+            required: false,
+        },
+        substitutes: {
+            type: Array,
+            required: false,
+        },
     },
     methods: {
         defineSubstitution: function () {
@@ -40,6 +48,16 @@ export default {
                 substitute: this.substitute,
                 note: Number(this.note),
             });
+        },
+        getStarterName: function (index) {
+            if (this.starters[index]) {
+                return this.starters[index].name;
+            }
+        },
+        getSubstituteName: function (index) {
+            if (this.substitutes[index]) {
+                return this.substitutes[index].name;
+            }
         },
     },
     watch: {

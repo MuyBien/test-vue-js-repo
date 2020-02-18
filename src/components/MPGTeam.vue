@@ -26,7 +26,7 @@
       <h3>Remplacements</h3>
       <ul>
         <li v-for="substitution in substitutions" :key="'substitution' + substitution.index">
-            <MPGSubstitution :index="substitution.index" :substitution="substitution" @select="defineSubstitution"></MPGSubstitution>
+            <MPGSubstitution :index="substitution.index" :substitution="substitution" :starters="starters" :substitutes="substitutes" @select="defineSubstitution"></MPGSubstitution>
         </li>
       </ul>
 
