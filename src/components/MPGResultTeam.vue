@@ -15,7 +15,7 @@
                   <tr :key="finalIndex" :class="{'substitued': final.substitution}">
                       <td>
                           <span class="index additionnal value">{{final.index + 1}}</span>
-                          {{final.position}}
+                          {{final.name}}
                       </td>
                       <td class="additionnal value">{{getPlayerNote(final)}}</td>
                       <td class="additionnal value">{{final.bonus}}</td>
@@ -36,7 +36,7 @@
                       </td>
                   </tr>
                   <tr v-if="final.substitution" :key="'sub' + finalIndex">
-                      <td>↪️ {{final.substitution.position}}</td>
+                      <td>↪️ {{final.substitution.name}}</td>
                       <td class="additionnal value">{{getPlayerNote(final.substitution)}}</td>
                       <td class="additionnal value">{{final.substitution.bonus}}</td>
                       <td class="important value">{{final.substitution.note}}</td>
