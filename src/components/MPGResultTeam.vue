@@ -149,6 +149,6 @@ table {
      .player-goal svg { fill: #4054cc; }
      .csc-goal svg { fill: rgb(232, 30, 41); }
      .goal-stop svg { fill: rgb(232, 30, 41); }
-     .mpg-goal svg { stroke: #45c945; }
+     .mpg-goal svg { fill: #45c945; }
  }
 </style>
