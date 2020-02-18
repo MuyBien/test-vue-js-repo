@@ -15,9 +15,7 @@ export default new Vuex.Store({
     state: {
         players: Players,
     },
-    mutations: {
-    },
-
+    mutations: {},
     getters: {
         playersByPosition: function (state) {
             return function (position) {
@@ -27,8 +25,6 @@ export default new Vuex.Store({
             };
         },
     },
-    actions: {
-    },
-    modules: {
-    },
+    actions: {},
+    modules: {},
 });

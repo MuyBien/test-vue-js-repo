@@ -1,11 +1,14 @@
 <template>
     <div>
         <select v-model="substitute" @change="defineSubstitution">
-            <option v-for="i in 7" :key="i" :value="i-1" v-html="getSubstituteName(i-1)"></option>
+            <option value=""></option>
+            <option v-for="availableSubstitute in availableSubstitutes" :key="availableSubstitute.index" :value="availableSubstitute.index" v-html="availableSubstitute.name"></option>
+
         </select>
         <span> remplace </span>
         <select v-model="starter" @change="defineSubstitution">
-            <option v-for="i in 11" :key="i" :value="i-1" v-html="getStarterName(i-1)"></option>
+            <option value=""></option>
+            <option v-for="availableStarter in availableStarters" :key="availableStarter.index" :value="availableStarter.index" v-html="availableStarter.name"></option>
         </select>
         <span> si note inférieure à </span>
         <input type="number" step="0.5" min="0" max="10" v-model="note" @input="defineSubstitution"/>
@@ -17,8 +20,8 @@ export default {
     name: "MPGSubstitution",
     data: function () {
         return {
-            starter: "",
-            substitute: "",
+            starter: undefined,
+            substitute: undefined,
             note: 5,
         };
     },
@@ -38,6 +41,28 @@ export default {
         substitutes: {
             type: Array,
             required: false,
+        },
+    },
+    computed: {
+        availableStarters: function () {
+            if (this.substitute !== undefined) {
+                return this.starters.filter(function (starter) {
+                    return starter.position === this.substitutes[this.substitute].position;
+                }, this);
+            }
+            return this.starters.filter(function (starter) {
+                return starter.position !== "goalkeeper" && starter.name;
+            }, this);
+        },
+        availableSubstitutes: function () {
+            if (this.starter !== undefined) {
+                return this.substitutes.filter(function (substitute) {
+                    return substitute.position === this.starters[this.starter].position;
+                }, this);
+            }
+            return this.substitutes.filter(function (substitute) {
+                return substitute.position !== "goalkeeper" && substitute.name;
+            }, this);
         },
     },
     methods: {
