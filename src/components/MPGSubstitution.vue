@@ -45,7 +45,7 @@ export default {
     },
     computed: {
         availableStarters: function () {
-            if (this.substitute !== undefined) {
+            if (this.substitute || this.substitute === 0) {
                 return this.starters.filter(function (starter) {
                     return starter.position === this.substitutes[this.substitute].position;
                 }, this);
@@ -55,7 +55,7 @@ export default {
             }, this);
         },
         availableSubstitutes: function () {
-            if (this.starter !== undefined) {
+            if (this.starter || this.starter === 0) {
                 return this.substitutes.filter(function (substitute) {
                     return substitute.position === this.starters[this.starter].position;
                 }, this);
