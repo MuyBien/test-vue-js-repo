@@ -141,6 +141,7 @@ describe("Remplacements", () => {
         expect(componentWrapper.vm.finalTeam.team[0].substitution).not.to.be.undefined;
         expect(componentWrapper.vm.finalTeam.team[0].substitution.note).to.be.equals(2.5);
         expect(componentWrapper.vm.finalTeam.team[0].substitution.position).to.be.equals("goalkeeper");
+        expect(componentWrapper.vm.finalTeam.team[0].substitution.name).to.be.equals("Rotaldo");
     });
 
     it("attribue un CSC tous les 3 Rotaldo entrés", () => {
