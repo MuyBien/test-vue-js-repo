@@ -2,7 +2,7 @@
       <section>
           <span>#{{index}}</span>
           <select v-model="playerName" @change="selectPlayer">
-              <option v-for="player in players" :key="player.name" :value="player.name">{{player.position}} - {{player.name}}</option>
+              <option v-for="player in players" :key="player.name" :value="player.name">{{player.name}} ({{player.team}} - {{player.position}})</option>
           </select>
 
           <span>
