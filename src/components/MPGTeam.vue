@@ -12,21 +12,21 @@
       <h3>Titulaires</h3>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
-            <MPGPlayer :index="starter.index" :player="starter" @select="selectStarter"></MPGPlayer>
+            <MPGPlayer :index="starter.index" :player="starter" :position="starter.position" @select="selectStarter"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplaçants</h3>
       <ul>
         <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
-            <MPGPlayer :index="substitute.index" :player="substitute" @select="selectSubstitute"></MPGPlayer>
+            <MPGPlayer :index="substitute.index" :player="substitute" :position="substitute.position" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
 
       <h3>Remplacements</h3>
       <ul>
         <li v-for="substitution in substitutions" :key="'substitution' + substitution.index">
-            <MPGSubstitution :index="substitution.index" :substitution="substitution" @select="defineSubstitution"></MPGSubstitution>
+            <MPGSubstitution :index="substitution.index" :substitution="substitution" :starters="starters" :substitutes="substitutes" @select="defineSubstitution"></MPGSubstitution>
         </li>
       </ul>
 
@@ -60,6 +60,7 @@ export default {
             starters.push({
                 index: i,
                 position: "",
+                name: "",
                 note: undefined,
                 goals: 0,
                 csc: 0,
@@ -70,6 +71,7 @@ export default {
             substitutes.push({
                 index: i,
                 position: "",
+                name: "",
                 note: undefined,
                 goals: 0,
                 csc: 0,
@@ -93,12 +95,14 @@ export default {
     methods: {
         selectStarter: function (index, player) {
             this.starters[index].position = player.position;
+            this.starters[index].name = player.name;
             this.starters[index].note = player.note;
             this.starters[index].goals = player.goals;
             this.starters[index].csc = player.csc;
         },
         selectSubstitute: function (index, player) {
             this.substitutes[index].position = player.position;
+            this.substitutes[index].name = player.name;
             this.substitutes[index].note = player.note;
             this.substitutes[index].goals = player.goals;
             this.substitutes[index].csc = player.csc;
@@ -134,6 +138,7 @@ export default {
             let players = [{
                 index: 0,
                 position: "goalkeeper",
+                name: "",
                 note: this.starters[0].note,
                 goals: this.starters[0].goals,
                 csc: this.starters[0].csc,
@@ -144,6 +149,7 @@ export default {
                     players.push({
                         index: playerIndex,
                         position: position,
+                        name: "",
                         note: this.starters[playerIndex].note,
                         goals: this.starters[playerIndex].goals,
                         csc: this.starters[playerIndex].csc,
@@ -241,6 +247,7 @@ export default {
                         rotaldos ++;
                         starter.substitution = {
                             position: starter.position,
+                            name: "Rotaldo",
                             note: 2.5,
                             bonus: "",
                             goals: 0,
