@@ -19,7 +19,7 @@
       <h3>Remplaçants</h3>
       <ul>
         <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
-            <MPGPlayer :index="substitute.index" :player="substitute" :position="substitute.position" @select="selectSubstitute"></MPGPlayer>
+            <MPGPlayer :index="substitute.index" :player="substitute" @select="selectSubstitute"></MPGPlayer>
         </li>
       </ul>
 
