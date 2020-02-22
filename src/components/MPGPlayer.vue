@@ -10,25 +10,27 @@
             :label="getOptionLabel"
             :placeholder="placeholder"></SelectList>
 
-          <span>
-              <input type="number" placeholder="Note" step="0.5" min="0" max="10" v-model="playerNote" @input="selectPlayer" />
-          </span>
-          <span class="goals-wrapper">
-              <input type="number" placeholder="Buts" step="1" min="0" v-model="playerGoals" @input="selectPlayer" />
-          </span>
-          <span class="csc-wrapper">
-              <input type="number" placeholder="CSC" step="1" min="0" v-model="playerCsc" @input="selectPlayer" />
-          </span>
+          <div class="note-wrapper">
+              <input-number :step="0.5" :min="0" :max="10" v-model="playerNote" placeholder="Note" @input="selectPlayer"></input-number>
+          </div>
+          <div class="goals-wrapper">
+              <input-number :min="0" v-model="playerGoals" placeholder="Buts" @input="selectPlayer"></input-number>
+          </div>
+          <div class="csc-wrapper">
+              <input-number :min="0" v-model="playerCsc" placeholder="CSC" @input="selectPlayer"></input-number>
+          </div>
       </section>
 </template>
 
 <script>
 import SelectList from "@/components/SelectList.vue";
+import InputNumber from "@/components/InputNumber.vue";
 
 export default {
     name: "MPGPlayer",
     components: {
         SelectList,
+        InputNumber,
     },
     data: function () {
         return {
