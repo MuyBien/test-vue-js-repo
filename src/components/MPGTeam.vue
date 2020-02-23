@@ -10,6 +10,9 @@
       <MPGFormations @formation="setFormation"></MPGFormations>
 
       <h3>Titulaires</h3>
+      <div class="actions">
+          <button @click="resetStartersNote">Réinitaliser les notes</button>
+      </div>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
             <MPGPlayer :index="starter.index" :player="starter" :position="starter.position" @select="selectStarter"></MPGPlayer>
@@ -17,6 +20,9 @@
       </ul>
 
       <h3>Remplaçants</h3>
+      <div class="actions">
+          <button @click="resetSubstitutesNote">Réinitaliser les notes</button>
+      </div>
       <ul>
         <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
             <MPGPlayer :index="substitute.index" :player="substitute" @select="selectSubstitute"></MPGPlayer>
@@ -180,6 +186,20 @@ export default {
                 });
             }
             return finalTeam;
+        },
+        resetStartersNote: function () {
+            this.starters.forEach(function (starter) {
+                starter.note = undefined;
+                starter.goals = undefined;
+                starter.csc = undefined;
+            });
+        },
+        resetSubstitutesNote: function () {
+            this.substitutes.forEach(function (substitute) {
+                substitute.note = undefined;
+                substitute.goals = undefined;
+                substitute.csc = undefined;
+            });
         },
     },
     computed: {
