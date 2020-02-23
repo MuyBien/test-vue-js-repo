@@ -30,6 +30,9 @@
       </ul>
 
       <h3>Remplacements</h3>
+      <div class="actions">
+          <button @click="resetsubstitutions">Réinitaliser les remplacements</button>
+      </div>
       <ul>
         <li v-for="substitution in substitutions" :key="'substitution' + substitution.index">
             <MPGSubstitution :index="substitution.index" :substitution="substitution" :starters="starters" :substitutes="substitutes" @select="defineSubstitution"></MPGSubstitution>
