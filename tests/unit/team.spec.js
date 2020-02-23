@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { shallowMount } from "@vue/test-utils";
 import MPGTeam from "@/components/MPGTeam.vue";
 
-describe("Chargement depuis DB", () => {
+describe("Modifications en lot", () => {
     let componentWrapper;
 
     beforeEach(() => {
@@ -39,4 +39,86 @@ describe("Chargement depuis DB", () => {
         expect(componentWrapper.vm.$data.substitutions[0].substitute).to.be.equals(1);
     });
 
+    it("Réinitialise les titulaires", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+        });
+        componentWrapper.vm.resetStarters(true);
+        componentWrapper.vm.$data.starters.forEach(function (starter) {
+            expect(starter.position).to.be.undefined;
+            expect(starter.name).to.be.undefined;
+            expect(starter.note).to.be.undefined;
+            expect(starter.csc).to.be.undefined;
+            expect(starter.goals).to.be.undefined;
+        });
+    });
+
+    it("Réinitialise seulement les notes, buts et CSC des titulaires", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+        });
+        componentWrapper.vm.resetStarters(false);
+        componentWrapper.vm.$data.starters.forEach(function (starter) {
+            expect(starter.position).not.to.be.undefined;
+            expect(starter.name).not.to.be.undefined;
+            expect(starter.note).to.be.undefined;
+            expect(starter.csc).to.be.undefined;
+            expect(starter.goals).to.be.undefined;
+        });
+    });
+
+    it("Réinitialise les remplaçants", () => {
+        componentWrapper.setData({
+            substitutes: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+        });
+        componentWrapper.vm.resetSubstitutes(true);
+        componentWrapper.vm.$data.substitutes.forEach(function (substitutes) {
+            expect(substitutes.position).to.be.undefined;
+            expect(substitutes.name).to.be.undefined;
+            expect(substitutes.note).to.be.undefined;
+            expect(substitutes.csc).to.be.undefined;
+            expect(substitutes.goals).to.be.undefined;
+        });
+    });
+
+    it("Réinitialise seulement les notes, buts et CSC des remplaçants", () => {
+        componentWrapper.setData({
+            substitutes: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+        });
+        componentWrapper.vm.resetSubstitutes(false);
+        componentWrapper.vm.$data.substitutes.forEach(function (substitutes) {
+            expect(substitutes.position).not.to.be.undefined;
+            expect(substitutes.name).not.to.be.undefined;
+            expect(substitutes.note).to.be.undefined;
+            expect(substitutes.csc).to.be.undefined;
+            expect(substitutes.goals).to.be.undefined;
+        });
+    });
+
+    it("Réinitialise les remplacements", () => {
+        componentWrapper.setData({
+            substitutions: [
+                { index: 0, starter: 1, substitute: 1, note: 6 },
+                { index: 1, starter: 2, substitute: 2, note: 6 },
+            ],
+        });
+        componentWrapper.vm.resetsubstitutions();
+        componentWrapper.vm.$data.substitutions.forEach(function (substitution) {
+            expect(substitution.starter).to.be.undefined;
+            expect(substitution.substitute).to.be.undefined;
+            expect(substitution.note).to.be.undefined;
+        });
+    });
 });
