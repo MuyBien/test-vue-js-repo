@@ -11,7 +11,8 @@
 
       <h3>Titulaires</h3>
       <div class="actions">
-          <button @click="resetStartersNote">Réinitaliser les notes</button>
+          <button @click="resetStarters(true)">Réinitaliser les titulaires</button>
+          <button @click="resetStarters(false)">Réinitaliser seulement leur notes</button>
       </div>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
@@ -21,7 +22,8 @@
 
       <h3>Remplaçants</h3>
       <div class="actions">
-          <button @click="resetSubstitutesNote">Réinitaliser les notes</button>
+          <button @click="resetSubstitutes(true)">Réinitaliser les remplaçants</button>
+          <button @click="resetSubstitutes(false)">Réinitaliser seulement leur notes</button>
       </div>
       <ul>
         <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
@@ -190,18 +192,33 @@ export default {
             }
             return finalTeam;
         },
-        resetStartersNote: function () {
+        resetStarters: function (resetAll) {
             this.starters.forEach(function (starter) {
+                if (resetAll) {
+                    starter.position = undefined;
+                    starter.name = undefined;
+                }
                 starter.note = undefined;
                 starter.goals = undefined;
                 starter.csc = undefined;
             });
         },
-        resetSubstitutesNote: function () {
+        resetSubstitutes: function (resetAll) {
             this.substitutes.forEach(function (substitute) {
+                if (resetAll) {
+                    substitute.position = undefined;
+                    substitute.name = undefined;
+                }
                 substitute.note = undefined;
                 substitute.goals = undefined;
                 substitute.csc = undefined;
+            });
+        },
+        resetsubstitutions: function () {
+            this.substitutions.forEach(function (substitution) {
+                substitution.starter = undefined;
+                substitution.substitute = undefined;
+                substitution.note = undefined;
             });
         },
     },
