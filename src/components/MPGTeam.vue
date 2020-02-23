@@ -10,6 +10,10 @@
       <MPGFormations @formation="setFormation"></MPGFormations>
 
       <h3>Titulaires</h3>
+      <div class="actions">
+          <button @click="resetStarters(true)">Réinitaliser les titulaires</button>
+          <button @click="resetStarters(false)">Réinitaliser seulement leur notes</button>
+      </div>
       <ul>
         <li v-for="starter in starters" :key="'starter' + starter.index">
             <MPGPlayer :index="starter.index" :player="starter" :position="starter.position" @select="selectStarter"></MPGPlayer>
@@ -17,6 +21,10 @@
       </ul>
 
       <h3>Remplaçants</h3>
+      <div class="actions">
+          <button @click="resetSubstitutes(true)">Réinitaliser les remplaçants</button>
+          <button @click="resetSubstitutes(false)">Réinitaliser seulement leur notes</button>
+      </div>
       <ul>
         <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
             <MPGPlayer :index="substitute.index" :player="substitute" @select="selectSubstitute"></MPGPlayer>
@@ -24,6 +32,9 @@
       </ul>
 
       <h3>Remplacements</h3>
+      <div class="actions">
+          <button @click="resetsubstitutions">Réinitaliser les remplacements</button>
+      </div>
       <ul>
         <li v-for="substitution in substitutions" :key="'substitution' + substitution.index">
             <MPGSubstitution :index="substitution.index" :substitution="substitution" :starters="starters" :substitutes="substitutes" @select="defineSubstitution"></MPGSubstitution>
@@ -180,6 +191,35 @@ export default {
                 });
             }
             return finalTeam;
+        },
+        resetStarters: function (resetAll) {
+            this.starters.forEach(function (starter) {
+                if (resetAll) {
+                    starter.position = undefined;
+                    starter.name = undefined;
+                }
+                starter.note = undefined;
+                starter.goals = undefined;
+                starter.csc = undefined;
+            });
+        },
+        resetSubstitutes: function (resetAll) {
+            this.substitutes.forEach(function (substitute) {
+                if (resetAll) {
+                    substitute.position = undefined;
+                    substitute.name = undefined;
+                }
+                substitute.note = undefined;
+                substitute.goals = undefined;
+                substitute.csc = undefined;
+            });
+        },
+        resetsubstitutions: function () {
+            this.substitutions.forEach(function (substitution) {
+                substitution.starter = undefined;
+                substitution.substitute = undefined;
+                substitution.note = undefined;
+            });
         },
     },
     computed: {

@@ -53,7 +53,6 @@ export default {
     },
     methods: {
         selectPlayer: function () {
-            // this.$store.dispatch("setPlaying");
             this.$emit("select", this.index, {
                 position: this.playerPosition,
                 name: this.playerName,
@@ -64,12 +63,15 @@ export default {
         },
     },
     watch: {
-        player: function () {
-            this.playerPosition = this.player.position;
-            this.playerName = this.player.name;
-            this.playerNote = this.player.note;
-            this.playerGoals = this.player.goals;
-            this.playerCsc = this.player.csc;
+        player: {
+            deep: true,
+            handler: function () {
+                this.playerPosition = this.player.position;
+                this.playerName = this.player.name;
+                this.playerNote = this.player.note;
+                this.playerGoals = this.player.goals;
+                this.playerCsc = this.player.csc;
+            },
         },
     },
 };
