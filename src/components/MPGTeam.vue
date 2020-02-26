@@ -356,6 +356,10 @@ export default {
             margin: 0;
         }
     }
+    ul {
+        width: 100%;
+        padding-left: 0;
+    }
     li {
         list-style-type: none;
         margin: 5px 0;
