@@ -1,9 +1,14 @@
 <template>
       <section>
           <span>#{{index}}</span>
-          <select v-model="playerName" @change="selectPlayer">
-              <option v-for="player in players" :key="player.name" :value="player.name">{{player.name}} ({{player.team}} - {{player.position}})</option>
-          </select>
+
+          <SelectList class="input-player-name"
+            v-model="playerName"
+            @input="selectPlayer"
+            :options="players"
+            track-by="name"
+            :label="getOptionLabel"
+            :placeholder="placeholder"></SelectList>
 
           <span>
               <input type="number" placeholder="Note" step="0.5" min="0" max="10" v-model="playerNote" @input="selectPlayer" />
@@ -18,8 +23,13 @@
 </template>
 
 <script>
+import SelectList from "@/components/SelectList.vue";
+
 export default {
     name: "MPGPlayer",
+    components: {
+        SelectList,
+    },
     data: function () {
         return {
             playerPosition: "",
@@ -27,6 +37,12 @@ export default {
             playerNote: "",
             playerGoals: "",
             playerCsc: "",
+            positionTraductions: {
+                goalkeeper: "gardien",
+                backer: "défenseur",
+                middle: "milieu",
+                forward: "attaquant",
+            },
         };
     },
     props: {
@@ -50,6 +66,12 @@ export default {
             }
             return this.$store.state.players;
         },
+        placeholder: function () {
+            if (this.playerPosition) {
+                return "Choisir un " + this.positionTraductions[this.playerPosition];
+            }
+            return "Choisir un joueur";
+        },
     },
     methods: {
         selectPlayer: function () {
@@ -60,6 +82,9 @@ export default {
                 goals: this.playerGoals !== "" ? Number(this.playerGoals) : 0,
                 csc: this.playerCsc !== "" ? Number(this.playerCsc) : 0,
             });
+        },
+        getOptionLabel: function (option) {
+            return [option.position, option.team].join(" - ");
         },
     },
     watch: {
@@ -78,7 +103,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    select {
+    section {
+        display: flex;
+    }
+    .input-player-name {
         height: 25px;
         margin-right: 10px;
     }
