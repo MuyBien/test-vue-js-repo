@@ -107,15 +107,24 @@ export default {
 <style scoped lang="scss">
     section {
         display: flex;
+        justify-content: flex-start;
+        align-items: center;
     }
     .input-player-name {
-        height: 25px;
         margin-right: 10px;
     }
     span {
         margin-right: 10px;
     }
-    input[type="number"] {
-        max-width: 50px;
+</style>
+
+<style>
+    input[type="search"] {
+        padding: 5px;
+        border-radius: 3px;
+        border-style: solid;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        height: 30px;
     }
 </style>
