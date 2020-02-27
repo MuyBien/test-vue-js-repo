@@ -34,6 +34,7 @@ export default {
     nav.topbar {
         position: sticky;
         top: 0;
+        z-index: 10;
         height: 10vh;
         background-color: #45c945;
         overflow: hidden;
