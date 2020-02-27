@@ -1,3 +1,4 @@
+<input-number :step="0.5" :min="0" :max="10" v-model="playerNote" placeholder="Note" @input="selectPlayer"></input-number>
 <template>
     <div>
         <select v-model="substitute" @change="defineSubstitution">
@@ -11,13 +12,19 @@
             <option v-for="availableStarter in availableStarters" :key="availableStarter.index" :value="availableStarter.index" v-html="availableStarter.name"></option>
         </select>
         <span> si note inférieure à </span>
-        <input type="number" step="0.5" min="0" max="10" v-model="note" @input="defineSubstitution"/>
+
+        <input-number :step="0.5" :min="0" :max="10" v-model="note" placeholder="Note" @input="defineSubstitution"></input-number>
     </div>
 </template>
 
 <script>
+import InputNumber from "@/components/InputNumber.vue";
+
 export default {
     name: "MPGSubstitution",
+    components: {
+        InputNumber,
+    },
     data: function () {
         return {
             starter: undefined,
@@ -99,6 +106,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     select {
         height: 25px;
     }

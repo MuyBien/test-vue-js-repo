@@ -154,6 +154,7 @@ export default {
     .match {
         display: flex;
         justify-content: space-around;
+        align-items: center;
     }
     .score {
         display: flex;
@@ -174,5 +175,11 @@ export default {
     .final-teams {
         display: flex;
         justify-content: space-around;
+    }
+
+    @media screen and (max-width: 1300px) {
+        .match {
+            flex-direction: column;
+        }
     }
 </style>
