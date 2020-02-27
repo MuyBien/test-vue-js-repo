@@ -23,7 +23,7 @@ Test:
   stage: test
   script:
     - npm install --progress=false
-    - npm run test:cover
+    - npm run test:unit
 
 code_quality:
   stage: quality
