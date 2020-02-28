@@ -5,4 +5,4 @@
 Closes #
 
 <!-- Étiquettes -->
-/label ~Platform
+/label ~"type::Platform"

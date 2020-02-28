@@ -3,4 +3,4 @@
 
 
 <!-- Étiquettes -->
-/label ~Platform
+/label ~"type::Platform"

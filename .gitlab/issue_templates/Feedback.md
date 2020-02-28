@@ -2,4 +2,4 @@
 <!-- Description du retour -->
 
 <!-- Étiquettes -->
-/label ~Feedback
+/label ~"type::Feedback"

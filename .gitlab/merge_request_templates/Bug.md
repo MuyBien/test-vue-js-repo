@@ -12,4 +12,4 @@
 Closes #
 
 <!-- Étiquettes -->
-/label ~Bug
+/label ~"type::Bug"

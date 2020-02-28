@@ -12,4 +12,4 @@
 Closes #
 
 <!-- Étiquettes -->
-/label ~Feature
+/label ~"type::Feature"
