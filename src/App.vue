@@ -6,16 +6,20 @@
     </nav>
 
     <MPGMatch></MPGMatch>
+
+    <Feedback></Feedback>
   </div>
 </template>
 
 <script>
 import MPGMatch from "./components/MPGMatch.vue";
+import Feedback from "./components/Feedback.vue";
 
 export default {
     name: "App",
     components: {
         MPGMatch,
+        Feedback,
     },
 };
 </script>

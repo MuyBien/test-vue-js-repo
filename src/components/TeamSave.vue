@@ -6,7 +6,7 @@
             <button @click="showSavedTeams=true">Charger une équipe</button>
 
             <section v-if="showSavedTeams">
-                <p v-if="!teams.length" class="hint">Auune équipe enregistrée. Créez en une puis cliquer sur sauvegarder pour la retrouver ici</p>
+                <p v-if="!teams.length" class="hint">Aucune équipe enregistrée. Créez en une puis cliquer sur sauvegarder pour la retrouver ici sur cet appareil</p>
                 <ul v-else class="teams-saved">
                     <li class="team" v-for="team in teams" :key="team.name">
                         <span class="name">{{team.name}}</span>
