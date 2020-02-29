@@ -1,5 +1,4 @@
-## :notepad_spiral: Description
-<!-- Description du retour -->
 
-<!-- Étiquettes -->
 /label ~"type::Feedback"
+/assign @MuyBien
+/due in 1 week
