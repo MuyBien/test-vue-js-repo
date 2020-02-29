@@ -4,13 +4,15 @@
         <select v-model="substitute" @change="defineSubstitution">
             <option value=""></option>
             <option v-for="availableSubstitute in availableSubstitutes" :key="availableSubstitute.index" :value="availableSubstitute.index" v-html="availableSubstitute.name"></option>
-
         </select>
+
         <span> remplace </span>
+
         <select v-model="starter" @change="defineSubstitution">
             <option value=""></option>
             <option v-for="availableStarter in availableStarters" :key="availableStarter.index" :value="availableStarter.index" v-html="availableStarter.name"></option>
         </select>
+
         <span> si note inférieure à </span>
 
         <input-number :step="0.5" :min="0" :max="10" v-model="note" placeholder="Note" @input="defineSubstitution"></input-number>
@@ -109,7 +111,13 @@ export default {
     div {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        * {
+            margin-right: 5px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
     }
     select {
         height: 25px;
