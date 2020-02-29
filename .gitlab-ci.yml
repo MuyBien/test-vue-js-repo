@@ -27,6 +27,8 @@ Test:
 
 code_quality:
   stage: quality
+  except:
+    - tags
 
 sast:
   stage: security
