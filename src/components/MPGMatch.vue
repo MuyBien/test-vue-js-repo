@@ -175,6 +175,7 @@ export default {
     .final-teams {
         display: flex;
         justify-content: space-around;
+        margin-bottom: 50px;
     }
 
     @media screen and (max-width: 1300px) {
