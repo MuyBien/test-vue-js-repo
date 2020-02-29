@@ -40,20 +40,24 @@ export default {
         top: 0;
         z-index: 10;
         height: 10vh;
+        min-height: 60px;
         background-color: #45c945;
-        overflow: hidden;
+        overflow: visible;
         display: flex;
-        padding: 0 3vw;
+        padding: 0 3vw 0 10px;
         align-items: center;
         color: #fff;
-        justify-content: space-between;
+        justify-content: flex-end;
         box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0), 0px 1px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.12);
 
         img {
-            height: 5vh;
+            height: 100%;
+            position: absolute;
+            bottom: -50%;
+            left: 10px;
         }
         h1 {
-            font-size: 3vh;
+            font-size: 1rem;
         }
     }
 </style>
