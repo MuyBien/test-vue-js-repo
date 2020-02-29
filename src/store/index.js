@@ -10,6 +10,15 @@ const positionsMap = {
     middle: ["MD", "MO"],
     forward: ["A"],
 };
+const reversePositionsMap = {
+    G: "goalkeeper",
+    DL: "backer",
+    DC: "backer",
+    MD: "middle",
+    MO: "middle",
+    A: "forward",
+};
+
 
 export default new Vuex.Store({
     state: {
@@ -22,6 +31,14 @@ export default new Vuex.Store({
                 return state.players.filter(function (player) {
                     return positionsMap[position].includes(player.position);
                 });
+            };
+        },
+        playerPosition: function (state) {
+            return function (playerName) {
+                let playerFinded = state.players.filter(function (player) {
+                    return player.name === playerName;
+                })[0];
+                return reversePositionsMap[playerFinded.position];
             };
         },
     },
