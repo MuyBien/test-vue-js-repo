@@ -112,7 +112,7 @@ export default {
             this.starters[index].csc = player.csc;
         },
         selectSubstitute: function (index, player) {
-            this.substitutes[index].position = player.position;
+            this.substitutes[index].position = this.$store.getters.playerPosition(player.name);
             this.substitutes[index].name = player.name;
             this.substitutes[index].note = player.note;
             this.substitutes[index].goals = player.goals;
