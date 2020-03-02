@@ -125,20 +125,20 @@ export default {
         },
         getGoals: function (finalTeam) {
             return finalTeam.reduce(function (teamGoals, player) {
-                if (player.substitution) {
-                    return teamGoals + parseInt(player.substitution.goals);
-                } else {
-                    return teamGoals + parseInt(player.goals);
+                let finalPlayer = player.substitution ? player.substitution : player;
+                if (Number.isInteger(finalPlayer.goals)) {
+                    return teamGoals + parseInt(finalPlayer.goals);
                 }
+                return teamGoals;
             }, 0);
         },
         getCsc: function (finalTeam) {
             return finalTeam.reduce(function (teamGoals, player) {
-                if (player.substitution) {
-                    return teamGoals + parseInt(player.substitution.csc);
-                } else {
-                    return teamGoals + parseInt(player.csc);
+                let finalPlayer = player.substitution ? player.substitution : player;
+                if (Number.isInteger(finalPlayer.csc)) {
+                    return teamGoals + parseInt(finalPlayer.csc);
                 }
+                return teamGoals;
             }, 0);
         },
         getGoalStop: function (goalkeeper) {
