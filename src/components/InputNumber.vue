@@ -105,7 +105,7 @@ export default {
     },
     watch: {
         value: function () {
-            this.inputValue = this.value;
+            this.inputValue = parseFloat(this.value) ? parseFloat(this.value) : undefined;
         },
     },
 };
