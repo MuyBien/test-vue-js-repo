@@ -69,10 +69,10 @@ export default {
             this.$emit("input", finalValue);
         },
         /**
-    * Incremente la valeur présente.
-    * Si aucune valeur n'est présente, il commence à partir du min
-    * Si aucun min n'est défini, il commence à 0
-    **/
+        * Incremente la valeur présente.
+        * Si aucune valeur n'est présente, il commence à partir du min
+        * Si aucun min n'est défini, il commence à 0
+        **/
         increment: function () {
             if (typeof this.inputValue === "undefined") {
                 this.inputValue = typeof this.min !== "undefined" ? this.min : 0;
@@ -84,10 +84,10 @@ export default {
             this.updateValue(this.inputValue);
         },
         /**
-    * Décremente la valeur présente.
-    * Si aucune valeur n'est présente, il commence à partir du max
-    * Si aucun max n'est défini, il ne fait rien
-    **/
+        * Décremente la valeur présente.
+        * Si aucune valeur n'est présente, il commence à partir du max
+        * Si aucun max n'est défini, il ne fait rien
+        **/
         decrement: function () {
             if (typeof this.inputValue === "undefined") {
                 if (typeof this.max !== "undefined") {
