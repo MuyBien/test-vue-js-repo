@@ -14,7 +14,23 @@ describe("Score", () => {
 
     it("comptabilise les buts de l'équipe finale", () => {
         componentWrapper.setData({
-            starters: [{ index: 0, position: "backer", note: 6, goals: 1, csc: 0 }, { index: 1, position: "backer", note: 6, goals: 2, csc: 0 }],
+            starters: [
+                { index: 0, position: "backer", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "backer", note: 6, goals: 2, csc: 0 },
+            ],
+            substitutes: [],
+            substitutions: [],
+        });
+        expect(componentWrapper.vm.finalTeam.goals).to.be.equals(3);
+    });
+
+    it("comptabilise les buts de l'équipe finale même avec des undefined", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "backer", note: 6, goals: 2, csc: 0 },
+                { index: 2, position: "backer", note: 6, goals: undefined, csc: 0 },
+            ],
             substitutes: [],
             substitutions: [],
         });
@@ -33,6 +49,19 @@ describe("Score", () => {
     it("comptabilise les CSC de l'équipe finale", () => {
         componentWrapper.setData({
             starters: [{ index: 0, position: "backer", note: 6, goals: 1, csc: 1 }, { index: 1, position: "backer", note: 6, goals: 2, csc: 1 }],
+            substitutes: [],
+            substitutions: [],
+        });
+        expect(componentWrapper.vm.finalTeam.csc).to.be.equals(2);
+    });
+
+    it("comptabilise les CSC de l'équipe finale même avec des undefined", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", note: 6, goals: 1, csc: 1 },
+                { index: 1, position: "backer", note: 6, goals: 2, csc: 1 },
+                { index: 2, position: "backer", note: 6, goals: 2, csc: undefined },
+            ],
             substitutes: [],
             substitutions: [],
         });
