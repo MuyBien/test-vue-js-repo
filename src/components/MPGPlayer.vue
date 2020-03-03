@@ -36,9 +36,9 @@ export default {
         return {
             playerPosition: "",
             playerName: "",
-            playerNote: "",
-            playerGoals: "",
-            playerCsc: "",
+            playerNote: undefined,
+            playerGoals: undefined,
+            playerCsc: undefined,
             positionTraductions: {
                 goalkeeper: "gardien",
                 backer: "défenseur",
