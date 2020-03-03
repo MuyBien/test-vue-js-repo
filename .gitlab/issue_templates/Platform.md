@@ -4,3 +4,4 @@
 
 <!-- Étiquettes -->
 /label ~"type::Platform"
+/confidential 
