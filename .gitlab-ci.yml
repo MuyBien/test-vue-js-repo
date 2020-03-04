@@ -24,6 +24,9 @@ Test:
   script:
     - npm install --progress=false
     - npm run test:cover
+  artifacts:
+    paths:
+    - coverage/lcov-report/*
 
 code_quality:
   stage: quality
