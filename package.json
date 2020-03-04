@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "test:cover": "nyc --reporter=lcov --reporter=text vue-cli-service test:unit",
+    "test:cover": "nyc --reporter=html --reporter=text-summary vue-cli-service test:unit src/**/*/*.{js,vue} tests/**/*.spec.js",
     "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
