@@ -23,7 +23,10 @@ Test:
   stage: test
   script:
     - npm install --progress=false
-    - npm run test:unit
+    - npm run test:cover
+  artifacts:
+    paths:
+    - coverage/lcov-report
 
 code_quality:
   stage: quality
