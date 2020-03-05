@@ -26,7 +26,7 @@ Test:
     - npm run test:cover
   artifacts:
     paths:
-    - lcov-report/*
+    - coverage/lcov-report
 
 code_quality:
   stage: quality
