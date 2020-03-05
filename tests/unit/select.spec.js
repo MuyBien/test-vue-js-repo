@@ -60,6 +60,16 @@ describe("Selecteur de joueur", () => {
         expect(optionLabel).to.be.equal("Name1");
     });
 
+    it("Récupére le label d'une option selon le label sous forme de function", () => {
+        componentWrapper.setProps({
+            label: function (option) {
+                return "#" + option.name;
+            },
+        });
+        let optionLabel = componentWrapper.vm.getOptionLabel(componentWrapper.vm.options[0]);
+        expect(optionLabel).to.be.equal("#Name1");
+    });
+
     it("Récupére le label d'une option selon le 'label' si auncun label fourni", () => {
         let optionLabel = componentWrapper.vm.getOptionLabel(componentWrapper.vm.options[0]);
         expect(optionLabel).to.be.equal("label1");
