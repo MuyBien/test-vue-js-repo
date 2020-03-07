@@ -154,7 +154,7 @@ export default {
     .match {
         display: flex;
         justify-content: space-around;
-        align-items: center;
+        align-items: flex-start;
     }
     .score {
         display: flex;
