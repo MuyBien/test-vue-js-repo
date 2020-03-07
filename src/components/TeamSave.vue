@@ -144,6 +144,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+button {
+    background: #ccc;
+    border: 0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background .3s ease-out;
+    &:hover {
+        background: #ddd;
+    }
+}
+input {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
 .teams-saved {
     padding: 0;
     width: 100%;

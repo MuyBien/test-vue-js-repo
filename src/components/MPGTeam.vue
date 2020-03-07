@@ -345,6 +345,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+    button {
+        margin: 0 5px;
+        border: none;
+        background-color: #4054cc;
+        padding: 5px 10px;
+        outline: none;
+        border-radius: 3px;
+        color: #fff;
+        font-size: .8rem;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #4460a0;
+    }
     .team {
         display: flex;
         flex-direction: column;
