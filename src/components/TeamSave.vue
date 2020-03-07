@@ -2,16 +2,16 @@
     <section>
         <div v-if="dbSupported">
             <input type="text" placeholder="Team name" v-model="name" />
-            <button @click="saveTeam">Sauvegarder</button>
-            <button @click="showSavedTeams=true">Charger une équipe</button>
+            <button @click="saveTeam" title="Garder une copie des joueurs pramétrés dans le navigateur pour la réutiliser plus tard">Sauvegarder</button>
+            <button @click="showSavedTeams=true" title="Afficher la liste des équipes sauvegardées">Charger une équipe</button>
 
             <section v-if="showSavedTeams">
                 <p v-if="!teams.length" class="hint">Aucune équipe enregistrée. Créez en une puis cliquer sur sauvegarder pour la retrouver ici sur cet appareil</p>
                 <ul v-else class="teams-saved">
                     <li class="team" v-for="team in teams" :key="team.name">
                         <span class="name">{{team.name}}</span>
-                        <button @click="loadTeam(team.name)">Utiliser</button>
-                        <button @click="deleteTeam(team.name)">Supprimer</button>
+                        <button @click="loadTeam(team.name)" title="Charger cette équipe">Utiliser</button>
+                        <button @click="deleteTeam(team.name)" title="Supprimer cette sauvegarde">Supprimer</button>
                     </li>
                 </ul>
                 <button @click="showSavedTeams=false">Fermer</button>
@@ -144,6 +144,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+button {
+    background: #ccc;
+    border: 0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background .3s ease-out;
+    &:hover {
+        background: #ddd;
+    }
+}
+input {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
 .teams-saved {
     padding: 0;
     width: 100%;
