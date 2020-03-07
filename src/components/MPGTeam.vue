@@ -149,18 +149,19 @@ export default {
             let players = [{
                 index: 0,
                 position: "goalkeeper",
-                name: "",
+                name: this.starters[0].position === "goalkeeper" ? this.starters[0].name : "",
                 note: this.starters[0].note,
                 goals: this.starters[0].goals,
                 csc: this.starters[0].csc,
             }];
             let playerIndex = 1;
             Object.keys(formation).forEach(function (position){
-                for(let i = 1; i <= formation[position]; i++) {
+                for (let i = 1; i <= formation[position]; i++) {
+                    let playerName = this.starters[playerIndex].position === position ? this.starters[playerIndex].name : "";
                     players.push({
                         index: playerIndex,
                         position: position,
-                        name: "",
+                        name: playerName,
                         note: this.starters[playerIndex].note,
                         goals: this.starters[playerIndex].goals,
                         csc: this.starters[playerIndex].csc,

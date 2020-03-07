@@ -35,6 +35,31 @@ describe("Formation", () => {
         expect(componentWrapper.vm.$data.starters[1].note).to.be.equals(5);
     });
 
+    it("Ne reset pas un joueur si son poste est valide pour la nouvelle formation choisie", () => {
+        let initialStarters = initStarters();
+        initialStarters[0] = { index: 0, name: "Fabien Barthez", position: "goalkeeper" };
+        initialStarters[1] = { index: 1, name: "Basile Boli", position: "backer" };
+        componentWrapper.setData({
+            starters: initialStarters,
+        });
+        let formation = {backer: 5, middle: 3, forward: 2};
+        componentWrapper.vm.setFormation(formation);
+        expect(componentWrapper.vm.$data.starters[0].name).to.be.equals("Fabien Barthez");
+        expect(componentWrapper.vm.$data.starters[1].name).to.be.equals("Basile Boli");
+    });
+
+    it("Reset un joueur si son poste est invalide pour la nouvelle formation choisie", () => {
+        let initialStarters = initStarters();
+        initialStarters[0] = { index: 0, name: "Fabien Barthez", position: "goalkeeper" };
+        initialStarters[1] = { index: 1, name: "Didier Drogba", position: "forward" };
+        componentWrapper.setData({
+            starters: initialStarters,
+        });
+        let formation = {backer: 5, middle: 3, forward: 2};
+        componentWrapper.vm.setFormation(formation);
+        expect(componentWrapper.vm.$data.starters[1].name).to.be.empty;
+    });
+
     it("Ajoute 0,5 à chaque défenseur pour une ligne de défense à 4", () => {
         let formation = {backer: 4, middle: 4, forward: 2};
         componentWrapper.vm.setFormation(formation);
