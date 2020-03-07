@@ -159,7 +159,7 @@ export default {
         cursor: pointer;
         transition: border-color .2s ease-out;
         &:active, &.selected {
-          border-color: green;
+          border-color: hsla(120, 55%, 45%, 1);
         }
     }
 }
