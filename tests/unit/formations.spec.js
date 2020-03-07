@@ -23,20 +23,11 @@ describe("Formation", () => {
     });
 
     it("Ne modifie pas les notes déjà entrées à la selection d'une formation", () => {
+        let initialStarters = initStarters();
+        initialStarters[0].note = 6;
+        initialStarters[1].note = 5;
         componentWrapper.setData({
-            starters: [
-                { index: 0, position: "", note: 6 },
-                { index: 1, position: "", note: 5 },
-                { index: 2, position: "", note: 5 },
-                { index: 3, position: "", note: 5 },
-                { index: 4, position: "", note: 5 },
-                { index: 5, position: "", note: 5 },
-                { index: 6, position: "", note: 5 },
-                { index: 7, position: "", note: 5 },
-                { index: 8, position: "", note: 5 },
-                { index: 9, position: "", note: 5 },
-                { index: 10, position: "", note: 5 },
-            ],
+            starters: initialStarters,
         });
         let formation = {backer: 3, middle: 5, forward: 2};
         componentWrapper.vm.setFormation(formation);
@@ -84,9 +75,26 @@ describe("Formation", () => {
         expect(componentWrapper.vm.finalTeam.team[3].bonus).to.be.equals(0.5);
         expect(componentWrapper.vm.finalTeam.team[4].bonus).to.be.equals(0.5);
     });
+
     function getStarterByPosition(position) {
         return componentWrapper.vm.starters.filter(function (starter){
             return starter.position === position;
         });
+    }
+
+    function initStarters () {
+        return [
+            { index: 0, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 1, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 2, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 3, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 4, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 5, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 6, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 7, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 8, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 9, name: "", position: "", note: "", goals: "", csc: "" },
+            { index: 10, name: "", position: "", note: "", goals: "", csc: "" },
+        ];
     }
 });
