@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { shallowMount } from "@vue/test-utils";
 import MPGTeam from "@/components/MPGTeam.vue";
+import MPGFormations from "@/components/MPGFormations.vue";
 
 describe("Formation", () => {
     let componentWrapper;
@@ -58,6 +59,13 @@ describe("Formation", () => {
         let formation = {backer: 5, middle: 3, forward: 2};
         componentWrapper.vm.setFormation(formation);
         expect(componentWrapper.vm.$data.starters[1].name).to.be.empty;
+    });
+
+    it("Garde en mémoire la formation choisie", () => {
+        let formationsWrapper = shallowMount(MPGFormations);
+        formationsWrapper.vm.setFormation({backer: 5, middle: 3, forward: 2});
+        expect(formationsWrapper.vm.isSelected("532")).to.be.true;
+        expect(formationsWrapper.vm.isSelected("541")).to.be.false;
     });
 
     it("Ajoute 0,5 à chaque défenseur pour une ligne de défense à 4", () => {
