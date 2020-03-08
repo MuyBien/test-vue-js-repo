@@ -167,6 +167,7 @@ input {
     .team {
         display: flex;
         align-items: flex-end;
+        margin: 5px 0;
         .name {
             flex-grow: 3;
             text-align: left;
