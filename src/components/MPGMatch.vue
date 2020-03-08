@@ -181,6 +181,7 @@ export default {
     @media screen and (max-width: 1300px) {
         .match {
             flex-direction: column;
+            align-items: center;
         }
     }
 </style>
