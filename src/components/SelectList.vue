@@ -64,10 +64,16 @@ export default {
             return option[this.trackBy];
         },
         getOptionLabel: function (option) {
+            let optionLabel;
             if (typeof this.label === "function") {
-                return this.label(option);
+                optionLabel = this.label(option);
+            } else {
+                optionLabel = option[this.label];
             }
-            return option[this.label];
+            if (navigator.userAgent.search("Firefox") > -1) {
+                return this.getOptionValue(option) + " (" + optionLabel + ")";
+            }
+            return optionLabel;
         },
     },
 };
