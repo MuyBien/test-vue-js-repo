@@ -60,4 +60,13 @@ export default {
             font-size: 1rem;
         }
     }
+
+    @media screen and (max-width: 900px) {
+        nav.topbar {
+            img {
+                height: 6vh;
+                bottom: 2vh;
+            }
+        }
+    }
 </style>

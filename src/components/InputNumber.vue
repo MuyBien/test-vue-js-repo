@@ -176,6 +176,21 @@ export default {
             }
         }
 
+        @media screen and (max-width: 540px) {
+            .input-wrapper {
+                input {
+                    -moz-appearance: initial;
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: initial;
+                    }
+                }
+            }
+            .input-addon {
+                display: none;
+            }
+        }
+
         .validation-message {
             display: flex;
             align-items: center;

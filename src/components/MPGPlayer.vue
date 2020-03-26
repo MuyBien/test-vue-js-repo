@@ -1,6 +1,6 @@
 <template>
       <section>
-          <span>#{{index}}</span>
+          <span>#{{index + 1}}</span>
 
           <SelectList class="input-player-name"
             v-model="playerName"
