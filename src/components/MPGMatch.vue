@@ -25,7 +25,6 @@
                 <MPGResultTeam :final-team="away.team" :team-goals="away.goals" :opponent-csc="home.csc" :mpg-goals="mpgGoals.away"></MPGResultTeam>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -151,6 +150,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+    .main {
+        padding: 0 5vw;
+    }
     .match {
         display: flex;
         justify-content: space-around;
