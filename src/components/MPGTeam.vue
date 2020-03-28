@@ -41,6 +41,9 @@
         </li>
       </ul>
 
+      <h3>Bonus</h3>
+      <MPGBonus :bonus="bonus" @select="selectBonus"></MPGBonus>
+
   </div>
 </template>
 
@@ -49,6 +52,7 @@ import MPGPlayer from "@/components/MPGPlayer.vue";
 import MPGSubstitution from "@/components/MPGSubstitution.vue";
 import MPGFormations from "@/components/MPGFormations.vue";
 import TeamSave from "@/components/TeamSave.vue";
+import MPGBonus from "@/components/MPGBonus.vue";
 
 export default {
     name: "MPGTeam",
@@ -57,6 +61,7 @@ export default {
         MPGSubstitution,
         MPGFormations,
         TeamSave,
+        MPGBonus,
     },
     props: {
         home: {
@@ -101,6 +106,7 @@ export default {
             starters: starters,
             substitutes: substitutes,
             substitutions: substitutions,
+            bonus: undefined,
         };
     },
     methods: {
@@ -122,6 +128,9 @@ export default {
             this.substitutions[index].starter = substitution.starter;
             this.substitutions[index].substitute = substitution.substitute;
             this.substitutions[index].note = substitution.note;
+        },
+        selectBonus: function (bonus) {
+            this.bonus = bonus;
         },
         getGoals: function (finalTeam) {
             return finalTeam.reduce(function (teamGoals, player) {
