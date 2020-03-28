@@ -103,12 +103,20 @@ describe("Score", () => {
         expect(matchWrapper.vm.homeGoals).to.be.equals(1);
     });
 
-
     it("n'enlève pas un but CSC au score même si le gardien adverse a une note de 8 (Marçal jurisprudence)", () => {
         matchWrapper.setData({
             home: { team: [], goals: 0, csc: 0, goalStop: 0, averages: [] },
             away: { team: [], goals: 0, csc: 1, goalStop: 1, averages: [] },
         });
+        expect(matchWrapper.vm.homeGoals).to.be.equals(1);
+    });
+
+    it("enlève un but au score si l'équipe adverse a utilisé le bonus Valise", () => {
+        matchWrapper.setData({
+            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: 0 },
+            away: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: 0 },
+        });
+        expect(matchWrapper.vm.awayGoals).to.be.equals(1);
         expect(matchWrapper.vm.homeGoals).to.be.equals(1);
     });
 });

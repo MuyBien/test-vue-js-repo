@@ -311,6 +311,7 @@ export default {
             teamInfos.csc = this.getCsc(finals);
             teamInfos.goals = this.getGoals(finals);
             teamInfos.goalStop = this.getGoalStop(finals[0]);
+            teamInfos.bonus = this.bonus;
             return teamInfos;
         },
         averages: function () {
@@ -340,6 +341,7 @@ export default {
                 this.$emit("own-score", this.finalTeam.csc);
                 this.$emit("score", this.finalTeam.goals);
                 this.$emit("goal-stop", this.finalTeam.goalStop);
+                this.$emit("team-bonus", this.finalTeam.bonus);
             },
         },
         averages: {
