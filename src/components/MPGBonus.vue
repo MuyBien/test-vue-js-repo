@@ -27,6 +27,10 @@ export default {
                 id: 0,
                 name: "La valise à Nanard",
                 image: "valise",
+            },{
+                id: 1,
+                name: "Zahia",
+                image: "zahia",
             }],
             selected: "",
         };

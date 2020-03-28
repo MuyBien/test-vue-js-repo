@@ -202,6 +202,16 @@ export default {
             }
             return finalTeam;
         },
+        setZahiaBonus: function (finalTeam) {
+            let zahiaBonus = 0.5;
+            finalTeam.forEach(function (player) {
+                if (player.note) {
+                    player.note = player.note ? player.note + zahiaBonus : player.note;
+                }
+                player.bonus = player.bonus ? player.bonus + zahiaBonus : zahiaBonus;
+            });
+            return finalTeam;
+        },
         resetStarters: function (resetAll) {
             this.starters.forEach(function (starter) {
                 if (resetAll) {
@@ -248,6 +258,7 @@ export default {
             let positions = ["forward", "middle", "backer"];
 
             finals = this.setDefenseBonus(finals);
+            finals = this.bonus === 1 ? this.setZahiaBonus(finals) : finals;
 
             this.substitutions.forEach(function (substitution) {
                 if (substitution.note) {
