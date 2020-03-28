@@ -1,9 +1,10 @@
 <template>
-      <section>
-            <div v-for="bonus in bonuses" :key="bonus.id">
-                <input type="radio" v-model="selected" :value="bonus.id" @change="selectBonus" /> {{bonus.name}}
-            </div>
-      </section>
+    <section>
+        <input type="radio" v-model="selected" :value="undefined" @change="selectBonus" /> Aucun
+        <div v-for="bonus in bonuses" :key="bonus.id">
+            <input type="radio" v-model="selected" :value="bonus.id" @change="selectBonus" /> {{bonus.name}}
+        </div>
+    </section>
 </template>
 
 <script>
