@@ -84,3 +84,40 @@ describe("Bonus : Zahia", () => {
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(5);
     });
 });
+
+describe("Bonus : Suarez", () => {
+    let teamWrapper;
+
+    beforeEach(() => {
+        teamWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Enlève 1 pt au gardien adverse", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: 5 }],
+            substitutes: [],
+            substitutions: [],
+            bonus: undefined,
+        });
+        teamWrapper.setProps({
+            opponentBonus: 2,
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-1);
+    });
+
+    it("Enlève 1 pt au gardien adverse même si c'est un Rotaldo", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: undefined }],
+            substitutes: [],
+            substitutions: [],
+            bonus: undefined,
+        });
+        teamWrapper.setProps({
+            opponentBonus: 2,
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].substitution.note).to.be.equals(1.5);
+        expect(teamWrapper.vm.finalTeam.team[0].substitution.bonus).to.be.equals(-1);
+    });
+
+});
