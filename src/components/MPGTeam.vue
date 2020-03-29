@@ -69,6 +69,9 @@ export default {
             required: false,
             default: true,
         },
+        opponentBonus: {
+            type: Number,
+        },
     },
     data: function () {
         let starters = [];
@@ -212,6 +215,17 @@ export default {
             });
             return finalTeam;
         },
+        setSuarezBonus: function (finalTeam) {
+            let suarezBonus = -1;
+            if (finalTeam[0].substitution) {
+                finalTeam[0].substitution.note += suarezBonus;
+                finalTeam[0].substitution.bonus = finalTeam[0].substitution.bonus ? finalTeam[0].substitution.bonus + suarezBonus : suarezBonus;
+            } else {
+                finalTeam[0].note += suarezBonus;
+                finalTeam[0].bonus = finalTeam[0].bonus ? finalTeam[0].bonus + suarezBonus : suarezBonus;
+            }
+            return finalTeam;
+        },
         resetStarters: function (resetAll) {
             this.starters.forEach(function (starter) {
                 if (resetAll) {
@@ -310,13 +324,17 @@ export default {
                             position: starter.position,
                             name: "Rotaldo",
                             note: 2.5,
-                            bonus: "",
+                            bonus: undefined,
                             goals: 0,
                             csc: rotaldos%3 === 0 ? 1 : 0,
                         };
                     }
                 }
             });
+
+            if (this.opponentBonus === 2) {
+                finals = this.setSuarezBonus(finals);
+            }
 
             teamInfos.team = finals;
             teamInfos.csc = this.getCsc(finals);

@@ -31,6 +31,10 @@ export default {
                 id: 1,
                 name: "Zahia",
                 image: "zahia",
+            },{
+                id: 2,
+                name: "Suarez",
+                image: "suarez",
             }],
             selected: undefined,
         };

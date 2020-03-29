@@ -7,14 +7,16 @@
                 @own-score="updateHomeCSC"
                 @averages="updateHomeAverages"
                 @goal-stop="updateHomeGoalStop"
-                @team-bonus="updateHomeBonus"></MPGTeam>
+                @team-bonus="updateHomeBonus"
+                :opponent-bonus="home.opponentBonus"></MPGTeam>
             <MPGTeam :home="false"
                 @team-change="updateAwayTeam"
                 @score="updateAwayGoals"
                 @own-score="updateAwayCSC"
                 @averages="updateAwayAverages"
                 @goal-stop="updateAwayGoalStop"
-                @team-bonus="updateAwayBonus"></MPGTeam>
+                @team-bonus="updateAwayBonus"
+                :opponent-bonus="away.opponentBonus"></MPGTeam>
         </section>
 
         <div class="result">
@@ -45,6 +47,7 @@ export default {
                 goalStop: 0,
                 averages: [],
                 bonus: undefined,
+                opponentBonus: undefined,
             },
             away: {
                 team: [],
@@ -53,6 +56,7 @@ export default {
                 goalStop: 0,
                 averages: [],
                 bonus: undefined,
+                opponentBonus: undefined,
             },
         };
     },
@@ -115,9 +119,11 @@ export default {
         },
         updateHomeBonus: function (bonus) {
             this.home.bonus = bonus;
+            this.away.opponentBonus = bonus;
         },
         updateAwayBonus: function (bonus) {
             this.away.bonus = bonus;
+            this.home.opponentBonus = bonus;
         },
         getTeamMpgGoals: function (team, averages, isHome) {
             const linesToPass = {
