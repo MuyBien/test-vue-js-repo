@@ -119,5 +119,45 @@ describe("Bonus : Suarez", () => {
         expect(teamWrapper.vm.finalTeam.team[0].substitution.note).to.be.equals(1.5);
         expect(teamWrapper.vm.finalTeam.team[0].substitution.bonus).to.be.equals(-1);
     });
+});
 
+describe("Bonus : Tonton Pat'", () => {
+    let teamWrapper;
+
+    beforeEach(() => {
+        teamWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Ne réalise aucun remplacement tactique", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: 3 }],
+            substitutes: [{ index: 0, position: "backer", note: 5 }],
+            substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
+            bonus: undefined,
+        });
+        teamWrapper.setProps({
+            opponentBonus: 3,
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].substitution).to.be.undefined;
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(3);
+    });
+
+    it("Réalise les remplacements des joueurs qui n'ont pas joué", () => {
+        teamWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", note: 3 },
+                { index: 1, position: "backer", note: undefined },
+            ],
+            substitutes: [{ index: 0, position: "backer", note: 5 }],
+            substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
+            bonus: undefined,
+        });
+        teamWrapper.setProps({
+            opponentBonus: 3,
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].substitution).to.be.undefined;
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(3);
+        expect(teamWrapper.vm.finalTeam.team[1].substitution).not.to.be.undefined;
+        expect(teamWrapper.vm.finalTeam.team[1].substitution.note).to.be.equals(5);
+    });
 });
