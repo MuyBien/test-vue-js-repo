@@ -32,7 +32,7 @@ export default {
                 name: "Zahia",
                 image: "zahia",
             }],
-            selected: "",
+            selected: undefined,
         };
     },
     computed: {
