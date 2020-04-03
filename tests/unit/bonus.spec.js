@@ -28,8 +28,8 @@ describe("Bonus : Valise à Nanard", () => {
 
     it("enlève un but au score si l'équipe adverse a utilisé le bonus Valise", () => {
         matchWrapper.setData({
-            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: 0 },
-            away: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: undefined },
+            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: { id: 0 } },
+            away: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [] },
         });
         expect(matchWrapper.vm.awayGoals).to.be.equals(1);
         expect(matchWrapper.vm.homeGoals).to.be.equals(2);
@@ -37,8 +37,8 @@ describe("Bonus : Valise à Nanard", () => {
 
     it("laisse le score adverse à 0 si l'équipe adverse n'a pas marqué", () => {
         matchWrapper.setData({
-            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: 0 },
-            away: { team: [], goals: 0, csc: 0, goalStop: 0, averages: [], bonus: undefined },
+            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: { id: 0 } },
+            away: { team: [], goals: 0, csc: 0, goalStop: 0, averages: [] },
         });
         expect(matchWrapper.vm.awayGoals).to.be.equals(0);
         expect(matchWrapper.vm.homeGoals).to.be.equals(2);
@@ -58,7 +58,7 @@ describe("Bonus : Zahia", () => {
                 { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
                 { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
             ],
-            bonus: 1,
+            bonus: { id: 1 },
         });
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6.5);
         expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6.5);
@@ -69,7 +69,7 @@ describe("Bonus : Zahia", () => {
             starters: [{ index: 0, position: "backer", note: 4 }],
             substitutes: [{ index: 0, position: "backer", note: 7 }],
             substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
-            bonus: 1,
+            bonus: { id: 1 },
         });
         expect(teamWrapper.vm.finalTeam.team[0].substitution.note).to.be.equals(7);
     });
@@ -79,7 +79,7 @@ describe("Bonus : Zahia", () => {
             starters: [{ index: 0, position: "backer", note: 4.5 }],
             substitutes: [{ index: 0, position: "backer", note: 7 }],
             substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
-            bonus: 1,
+            bonus: { id: 1 },
         });
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(5);
     });
@@ -97,10 +97,9 @@ describe("Bonus : Suarez", () => {
             starters: [{ index: 0, position: "goalkeeper", note: 5 }],
             substitutes: [],
             substitutions: [],
-            bonus: undefined,
         });
         teamWrapper.setProps({
-            opponentBonus: 2,
+            opponentBonus: { id: 2 },
         });
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
         expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-1);
@@ -111,10 +110,9 @@ describe("Bonus : Suarez", () => {
             starters: [{ index: 0, position: "goalkeeper", note: undefined }],
             substitutes: [],
             substitutions: [],
-            bonus: undefined,
         });
         teamWrapper.setProps({
-            opponentBonus: 2,
+            opponentBonus: { id: 2 },
         });
         expect(teamWrapper.vm.finalTeam.team[0].substitution.note).to.be.equals(1.5);
         expect(teamWrapper.vm.finalTeam.team[0].substitution.bonus).to.be.equals(-1);
@@ -133,10 +131,9 @@ describe("Bonus : Tonton Pat'", () => {
             starters: [{ index: 0, position: "backer", note: 3 }],
             substitutes: [{ index: 0, position: "backer", note: 5 }],
             substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
-            bonus: undefined,
         });
         teamWrapper.setProps({
-            opponentBonus: 3,
+            opponentBonus: { id: 3 },
         });
         expect(teamWrapper.vm.finalTeam.team[0].substitution).to.be.undefined;
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(3);
@@ -150,10 +147,9 @@ describe("Bonus : Tonton Pat'", () => {
             ],
             substitutes: [{ index: 0, position: "backer", note: 5 }],
             substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
-            bonus: undefined,
         });
         teamWrapper.setProps({
-            opponentBonus: 3,
+            opponentBonus: { id: 3 },
         });
         expect(teamWrapper.vm.finalTeam.team[0].substitution).to.be.undefined;
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(3);

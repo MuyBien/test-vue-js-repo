@@ -42,7 +42,7 @@
       </ul>
 
       <h3>Bonus</h3>
-      <MPGBonus :bonus="bonus" @select="selectBonus"></MPGBonus>
+      <MPGBonus :bonus="bonus.id" :target="bonus.target" @select="selectBonus"></MPGBonus>
 
   </div>
 </template>
@@ -70,7 +70,13 @@ export default {
             default: true,
         },
         opponentBonus: {
-            type: Number,
+            type: Object,
+            default: function () {
+                return {
+                    id: undefined,
+                    target: undefined,
+                };
+            },
         },
     },
     data: function () {
@@ -109,7 +115,10 @@ export default {
             starters: starters,
             substitutes: substitutes,
             substitutions: substitutions,
-            bonus: undefined,
+            bonus: {
+                id: undefined,
+                target: undefined,
+            },
         };
     },
     methods: {
@@ -272,9 +281,10 @@ export default {
             let positions = ["forward", "middle", "backer"];
 
             finals = this.setDefenseBonus(finals);
-            finals = this.bonus === 1 ? this.setZahiaBonus(finals) : finals;
+            finals = this.bonus.id === 1 ? this.setZahiaBonus(finals) : finals;
+            finals = this.bonus.id === 4 ? this.setRedbullBonus(finals) : finals;
 
-            if (this.opponentBonus !== 3) {
+            if (this.opponentBonus.id !== 3) {
                 this.substitutions.forEach(function (substitution) {
                     if (substitution.note) {
                         let starter = finals.find(function (starter) {
@@ -334,7 +344,7 @@ export default {
                 }
             });
 
-            if (this.opponentBonus === 2) {
+            if (this.opponentBonus.id === 2) {
                 finals = this.setSuarezBonus(finals);
             }
 

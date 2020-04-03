@@ -10,6 +10,12 @@
             <input type="radio" :id="'bonus-' + bonus.id + scopedId" v-model="selected" :value="bonus.id" @change="selectBonus" />
             <label :style="'background-image:url(/img/bonus/' + bonus.image + '.png)'" :for="'bonus-' + bonus.id + scopedId" :title="bonus.name"></label>
         </div>
+        <div v-if="selected && bonusSelected.needTarget">
+            <select v-model="bonusTarget" @change="selectBonus">
+                <option value=""></option>
+                <option v-for="i in 10" :key="i" :value="i">Joueur {{i+1}}</option>
+            </select>
+        </div>
     </section>
 </template>
 
@@ -20,6 +26,9 @@ export default {
         bonus: {
             type: Number,
         },
+        target: {
+            type: Number,
+        },
     },
     data: function () {
         return {
@@ -27,35 +36,49 @@ export default {
                 id: 0,
                 name: "La valise à Nanard",
                 image: "valise",
+                needTarget: false,
             },{
                 id: 1,
                 name: "Zahia",
                 image: "zahia",
+                needTarget: false,
             },{
                 id: 2,
                 name: "Suarez",
                 image: "suarez",
+                needTarget: false,
             },{
                 id: 3,
                 name: "Tonton Pat'",
                 image: "tonton-pat",
+                needTarget: false,
             }],
             selected: undefined,
+            bonusTarget: undefined,
         };
     },
     computed: {
         scopedId: function () {
             return "gen-" + Date.now() + "-" + Math.random().toString(36).slice(2);
         },
+        bonusSelected: function () {
+            return this.bonuses[this.selected];
+        },
     },
     methods: {
         selectBonus: function () {
-            this.$emit("select", this.selected);
+            this.$emit("select", {
+                id: this.selected,
+                target: this.bonusTarget,
+            });
         },
     },
     watch: {
         bonus: function () {
             this.selected = this.bonus;
+        },
+        target: function () {
+            this.bonusTarget = this.target;
         },
     },
 };
