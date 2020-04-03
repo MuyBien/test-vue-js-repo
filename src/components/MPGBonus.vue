@@ -52,6 +52,11 @@ export default {
                 name: "Tonton Pat'",
                 image: "tonton-pat",
                 needTarget: false,
+            },{
+                id: 4,
+                name: "Redbull",
+                image: "redbull",
+                needTarget: true,
             }],
             selected: undefined,
             bonusTarget: undefined,

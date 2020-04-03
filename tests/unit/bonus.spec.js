@@ -157,3 +157,54 @@ describe("Bonus : Tonton Pat'", () => {
         expect(teamWrapper.vm.finalTeam.team[1].substitution.note).to.be.equals(5);
     });
 });
+
+describe("Bonus : RedBull", () => {
+    let teamWrapper;
+
+    beforeEach(() => {
+        teamWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Ajoute 1 point au joueur choisi", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: 5 }],
+            bonus: {
+                id: 4,
+                target: 0,
+            },
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(1);
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6);
+    });
+
+    it("N'ajoute pas 1 point au joueur d'un remplacement tactique", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: 3 }],
+            substitutes: [{ index: 0, position: "backer", note: 5 }],
+            substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
+            bonus: {
+                id: 4,
+                target: 0,
+            },
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(1);
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
+        expect(teamWrapper.vm.finalTeam.team[0].substitution.bonus).not.to.be.equals(1);
+        expect(teamWrapper.vm.finalTeam.team[0].substitution.note).to.be.equals(5);
+    });
+
+    it("N'ajoute pas 1 point au joueur d'un remplacement simple", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: undefined }],
+            substitutes: [{ index: 0, position: "backer", note: 5 }],
+            bonus: {
+                id: 4,
+                target: 0,
+            },
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(1);
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.undefined;
+        expect(teamWrapper.vm.finalTeam.team[0].substitution.bonus).not.to.be.equals(1);
+        expect(teamWrapper.vm.finalTeam.team[0].substitution.note).to.be.equals(5);
+    });
+});

@@ -235,6 +235,15 @@ export default {
             }
             return finalTeam;
         },
+        setRedbullBonus: function (finalTeam) {
+            const redbullBonus = 1;
+            const playerIndex = this.bonus.target;
+            if (playerIndex !== undefined) {
+                finalTeam[playerIndex].note = finalTeam[playerIndex].note ? finalTeam[playerIndex].note + redbullBonus : undefined;
+                finalTeam[playerIndex].bonus = finalTeam[playerIndex].bonus ? finalTeam[playerIndex].bonus + redbullBonus : redbullBonus;
+            }
+            return finalTeam;
+        },
         resetStarters: function (resetAll) {
             this.starters.forEach(function (starter) {
                 if (resetAll) {
