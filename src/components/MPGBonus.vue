@@ -35,6 +35,10 @@ export default {
                 id: 2,
                 name: "Suarez",
                 image: "suarez",
+            },{
+                id: 3,
+                name: "Tonton Pat'",
+                image: "tonton-pat",
             }],
             selected: undefined,
         };

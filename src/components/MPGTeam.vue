@@ -274,20 +274,22 @@ export default {
             finals = this.setDefenseBonus(finals);
             finals = this.bonus === 1 ? this.setZahiaBonus(finals) : finals;
 
-            this.substitutions.forEach(function (substitution) {
-                if (substitution.note) {
-                    let starter = finals.find(function (starter) {
-                        return starter.index === substitution.starter;
-                    });
-                    let substitute = this.substitutes[substitution.substitute];
-                    if (starter && starter.note && starter.note < substitution.note && substitute.note) {
-                        starter.substitution = substitute;
-                        availableSubstitutes = availableSubstitutes.filter(function (availableSubstitute) {
-                            return availableSubstitute.index !== substitution.substitute;
+            if (this.opponentBonus !== 3) {
+                this.substitutions.forEach(function (substitution) {
+                    if (substitution.note) {
+                        let starter = finals.find(function (starter) {
+                            return starter.index === substitution.starter;
                         });
+                        let substitute = this.substitutes[substitution.substitute];
+                        if (starter && starter.note && starter.note < substitution.note && substitute.note) {
+                            starter.substitution = substitute;
+                            availableSubstitutes = availableSubstitutes.filter(function (availableSubstitute) {
+                                return availableSubstitute.index !== substitution.substitute;
+                            });
+                        }
                     }
-                }
-            }, this);
+                }, this);
+            }
 
             let rotaldos = 0;
             finals.forEach(function (starter) {
