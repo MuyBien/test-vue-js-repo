@@ -41,6 +41,7 @@ dependency_scanning:
 
 license_scanning:
   stage: security
+  coverage: '/Do not get coverage: \d+\.\d+/'
 
 pages: # the job must be named pages
   image: node:latest
