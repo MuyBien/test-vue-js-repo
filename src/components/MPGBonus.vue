@@ -16,8 +16,10 @@
             <div class="bonus-target" v-if="selected && bonusSelected.needTarget">
                 <label>Cible du bonus {{bonusSelected.name}} :</label>
                 <select v-model="bonusTarget" @change="selectBonus">
-                    <option value="">Aucun</option>
-                    <option v-for="i in 10" :key="i" :value="i">Joueur {{i+1}}</option>
+                    <option :value="undefined">Aucun</option>
+                    <option v-for="target in targets" :key="target.index" :value="target.index">
+                        {{target.name}}
+                    </option>
                 </select>
             </div>
         </transition>
@@ -33,6 +35,9 @@ export default {
         },
         target: {
             type: Number,
+        },
+        targets: {
+            type: Array,
         },
     },
     data: function () {

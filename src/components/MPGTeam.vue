@@ -42,7 +42,7 @@
       </ul>
 
       <h3>Bonus</h3>
-      <MPGBonus :bonus="bonus.id" :target="bonus.target" @select="selectBonus"></MPGBonus>
+      <MPGBonus :bonus="bonus.id" :target="bonus.target" :targets="fieldStarters" @select="selectBonus"></MPGBonus>
 
   </div>
 </template>
@@ -281,6 +281,11 @@ export default {
                 substitutes: this.substitutes,
                 substitutions: this.substitutions,
             };
+        },
+        fieldStarters: function () {
+            return this.starters.filter(function (starter) {
+                return starter.position !== "goalkeeper";
+            });
         },
         finalTeam: function () {
             let teamInfos = {};
