@@ -1,21 +1,26 @@
 <template>
-    <section class="bonuses">
-        <div class="bonus">
-            <input type="radio" :id="'no-bonus-' + scopedId" v-model="selected" :value="undefined" @change="selectBonus" />
-            <label class="no-bonus" :for="'no-bonus-' + scopedId">
-                <span>Aucun</span>
-            </label>
+    <section>
+        <div class="bonuses">
+            <div class="bonus">
+                <input type="radio" :id="'no-bonus-' + scopedId" v-model="selected" :value="undefined" @change="selectBonus" />
+                <label class="no-bonus" :for="'no-bonus-' + scopedId">
+                    <span>Aucun</span>
+                </label>
+            </div>
+            <div v-for="bonus in bonuses" :key="bonus.id" class="bonus">
+                <input type="radio" :id="'bonus-' + bonus.id + scopedId" v-model="selected" :value="bonus.id" @change="selectBonus" />
+                <label :style="'background-image:url(/img/bonus/' + bonus.image + '.png)'" :for="'bonus-' + bonus.id + scopedId" :title="bonus.name"></label>
+            </div>
         </div>
-        <div v-for="bonus in bonuses" :key="bonus.id" class="bonus">
-            <input type="radio" :id="'bonus-' + bonus.id + scopedId" v-model="selected" :value="bonus.id" @change="selectBonus" />
-            <label :style="'background-image:url(/img/bonus/' + bonus.image + '.png)'" :for="'bonus-' + bonus.id + scopedId" :title="bonus.name"></label>
-        </div>
-        <div v-if="selected && bonusSelected.needTarget">
-            <select v-model="bonusTarget" @change="selectBonus">
-                <option value=""></option>
-                <option v-for="i in 10" :key="i" :value="i">Joueur {{i+1}}</option>
-            </select>
-        </div>
+        <transition name="fade">
+            <div class="bonus-target" v-if="selected && bonusSelected.needTarget">
+                <label>Cible du bonus {{bonusSelected.name}} :</label>
+                <select v-model="bonusTarget" @change="selectBonus">
+                    <option value="">Aucun</option>
+                    <option v-for="i in 10" :key="i" :value="i">Joueur {{i+1}}</option>
+                </select>
+            </div>
+        </transition>
     </section>
 </template>
 
@@ -100,7 +105,7 @@ export default {
         }
     }
     .bonus {
-      display: flex;
+        display: flex;
         margin: 0 5px;
         label {
             cursor: pointer;
@@ -132,5 +137,18 @@ export default {
         border-radius: 100%;
         background-color: #c6ceef;
         color: #333;
+    }
+    .bonus-target {
+        text-align: left;
+        padding: 5px 0;
+        label {
+            padding-right: 10px;
+        }
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 </style>
