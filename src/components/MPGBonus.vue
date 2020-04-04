@@ -1,15 +1,28 @@
 <template>
-    <section class="bonuses">
-        <div class="bonus">
-            <input type="radio" :id="'no-bonus-' + scopedId" v-model="selected" :value="undefined" @change="selectBonus" />
-            <label class="no-bonus" :for="'no-bonus-' + scopedId">
-                <span>Aucun</span>
-            </label>
+    <section>
+        <div class="bonuses">
+            <div class="bonus">
+                <input type="radio" :id="'no-bonus-' + scopedId" v-model="selected" :value="undefined" @change="selectBonus" />
+                <label class="no-bonus" :for="'no-bonus-' + scopedId">
+                    <span>Aucun</span>
+                </label>
+            </div>
+            <div v-for="bonus in bonuses" :key="bonus.id" class="bonus">
+                <input type="radio" :id="'bonus-' + bonus.id + scopedId" v-model="selected" :value="bonus.id" @change="selectBonus" />
+                <label :style="'background-image:url(/img/bonus/' + bonus.image + '.png)'" :for="'bonus-' + bonus.id + scopedId" :title="bonus.name"></label>
+            </div>
         </div>
-        <div v-for="bonus in bonuses" :key="bonus.id" class="bonus">
-            <input type="radio" :id="'bonus-' + bonus.id + scopedId" v-model="selected" :value="bonus.id" @change="selectBonus" />
-            <label :style="'background-image:url(/img/bonus/' + bonus.image + '.png)'" :for="'bonus-' + bonus.id + scopedId" :title="bonus.name"></label>
-        </div>
+        <transition name="fade">
+            <div class="bonus-target" v-if="selected && bonusSelected.needTarget">
+                <label>Cible du bonus {{bonusSelected.name}} :</label>
+                <select v-model="bonusTarget" @change="selectBonus">
+                    <option :value="undefined">Aucun</option>
+                    <option v-for="target in targets" :key="target.index" :value="target.index">
+                        {{target.name}}
+                    </option>
+                </select>
+            </div>
+        </transition>
     </section>
 </template>
 
@@ -20,6 +33,12 @@ export default {
         bonus: {
             type: Number,
         },
+        target: {
+            type: Number,
+        },
+        targets: {
+            type: Array,
+        },
     },
     data: function () {
         return {
@@ -27,35 +46,54 @@ export default {
                 id: 0,
                 name: "La valise à Nanard",
                 image: "valise",
+                needTarget: false,
             },{
                 id: 1,
                 name: "Zahia",
                 image: "zahia",
+                needTarget: false,
             },{
                 id: 2,
                 name: "Suarez",
                 image: "suarez",
+                needTarget: false,
             },{
                 id: 3,
                 name: "Tonton Pat'",
                 image: "tonton-pat",
+                needTarget: false,
+            },{
+                id: 4,
+                name: "Redbull",
+                image: "redbull",
+                needTarget: true,
             }],
             selected: undefined,
+            bonusTarget: undefined,
         };
     },
     computed: {
         scopedId: function () {
             return "gen-" + Date.now() + "-" + Math.random().toString(36).slice(2);
         },
+        bonusSelected: function () {
+            return this.bonuses[this.selected];
+        },
     },
     methods: {
         selectBonus: function () {
-            this.$emit("select", this.selected);
+            this.$emit("select", {
+                id: this.selected,
+                target: this.bonusTarget,
+            });
         },
     },
     watch: {
         bonus: function () {
             this.selected = this.bonus;
+        },
+        target: function () {
+            this.bonusTarget = this.target;
         },
     },
 };
@@ -72,7 +110,7 @@ export default {
         }
     }
     .bonus {
-      display: flex;
+        display: flex;
         margin: 0 5px;
         label {
             cursor: pointer;
@@ -104,5 +142,18 @@ export default {
         border-radius: 100%;
         background-color: #c6ceef;
         color: #333;
+    }
+    .bonus-target {
+        text-align: left;
+        padding: 5px 0;
+        label {
+            padding-right: 10px;
+        }
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 </style>
