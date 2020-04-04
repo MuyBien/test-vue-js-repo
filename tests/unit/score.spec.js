@@ -110,13 +110,4 @@ describe("Score", () => {
         });
         expect(matchWrapper.vm.homeGoals).to.be.equals(1);
     });
-
-    it("enlève un but au score si l'équipe adverse a utilisé le bonus Valise", () => {
-        matchWrapper.setData({
-            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: 0 },
-            away: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: 0 },
-        });
-        expect(matchWrapper.vm.awayGoals).to.be.equals(1);
-        expect(matchWrapper.vm.homeGoals).to.be.equals(1);
-    });
 });

@@ -46,8 +46,14 @@ export default {
                 csc: 0,
                 goalStop: 0,
                 averages: [],
-                bonus: undefined,
-                opponentBonus: undefined,
+                bonus: {
+                    id: undefined,
+                    target: undefined,
+                },
+                opponentBonus: {
+                    id: undefined,
+                    target: undefined,
+                },
             },
             away: {
                 team: [],
@@ -55,8 +61,14 @@ export default {
                 csc: 0,
                 goalStop: 0,
                 averages: [],
-                bonus: undefined,
-                opponentBonus: undefined,
+                bonus: {
+                    id: undefined,
+                    target: undefined,
+                },
+                opponentBonus: {
+                    id: undefined,
+                    target: undefined,
+                },
             },
         };
     },
@@ -72,11 +84,11 @@ export default {
             };
         },
         homeGoals: function () {
-            let valise = this.away.bonus === 0 ? 1 : 0;
+            const valise = this.away.bonus.id === 0 ? 1 : 0;
             return Math.max(0, (this.home.goals - this.away.goalStop - valise)) + this.away.csc + this.mpgGoals.home.length;
         },
         awayGoals: function () {
-            let valise = this.home.bonus === 0 ? 1 : 0;
+            const valise = this.home.bonus.id === 0 ? 1 : 0;
             return Math.max(0, (this.away.goals - this.home.goalStop - valise)) + this.home.csc + this.mpgGoals.away.length;
         },
         homeWinner: function () {
