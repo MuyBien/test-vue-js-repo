@@ -150,7 +150,7 @@ export default {
                 const finalPlayer = player.substitution ? player.substitution : player;
                 if (finalPlayer.position && finalPlayer.note >= 5 && finalPlayer.position !== "goalkeeper" && finalPlayer.goals < 1) {
                     mpgGoal = linesToPass[finalPlayer.position].every(function (lineToPass, index) {
-                        const bonus = this.getBonus(index);
+                        const bonus = this.getDribbleMalus(index);
                         const playerNote = finalPlayer.note + bonus;
                         if (isHome) {
                             return playerNote >= averages[lineToPass];
@@ -165,7 +165,7 @@ export default {
             }, this);
             return mpgGoals;
         },
-        getBonus: function (index) {
+        getDribbleMalus: function (index) {
             let bonus = 0;
             if (index === 1) {
                 bonus = -1;
