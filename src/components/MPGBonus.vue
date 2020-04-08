@@ -67,6 +67,11 @@ export default {
                 name: "Redbull",
                 image: "redbull",
                 needTarget: true,
+            },{
+                id: 5,
+                name: "Chapron rouge",
+                image: "chapron",
+                needTarget: false,
             }],
             selected: undefined,
             bonusTarget: undefined,

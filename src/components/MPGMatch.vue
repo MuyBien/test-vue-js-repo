@@ -8,7 +8,8 @@
                 @averages="updateHomeAverages"
                 @goal-stop="updateHomeGoalStop"
                 @team-bonus="updateHomeBonus"
-                :opponent-bonus="home.opponentBonus"></MPGTeam>
+                :opponent-bonus="home.opponentBonus"
+                :chapron-index="home.chapronIndex"></MPGTeam>
             <MPGTeam :home="false"
                 @team-change="updateAwayTeam"
                 @score="updateAwayGoals"
@@ -16,11 +17,24 @@
                 @averages="updateAwayAverages"
                 @goal-stop="updateAwayGoalStop"
                 @team-bonus="updateAwayBonus"
-                :opponent-bonus="away.opponentBonus"></MPGTeam>
+                :opponent-bonus="away.opponentBonus"
+                :chapron-index="away.chapronIndex"></MPGTeam>
         </section>
 
         <div class="result">
-            <div class="score">
+            <div class="score-probs" v-if="home.bonus.id === 5 || away.bonus.id === 5">
+                <p>Pour obtenir les scores probables en appliquand le bonus Chapron Rouge à chacun des joueurs possibles, parametrez les équipes puis cliquez sur le bouton de calcul</p>
+                <button @click="applyChapronBonus(undefined)">Calculer les probabilités</button>
+                <div class="score-prob" v-if="possibleResults">
+                    <p v-for="(resultProb, index) in possibleResults" :key="index">
+                        <span>{{resultProb.homeGoals}} - {{resultProb.awayGoals}} ({{resultProb.probability}}%)</span>
+                        <span v-for="playerTarget in resultProb.chapronTarget" :key="playerTarget">
+                            {{home.team[playerTarget].name}}
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="score" v-else>
                 <p class="team-score" :class="{winner: homeWinner}">{{homeGoals}}</p>
                 <p class="team-score" :class="{winner: awayWinner}">{{awayGoals}}</p>
             </div>
@@ -54,6 +68,7 @@ export default {
                     id: undefined,
                     target: undefined,
                 },
+                chapronIndex: [],
             },
             away: {
                 team: [],
@@ -69,7 +84,9 @@ export default {
                     id: undefined,
                     target: undefined,
                 },
+                chapronIndex: [],
             },
+            possibleResults: {},
         };
     },
     components: {
@@ -173,6 +190,35 @@ export default {
                 bonus = -((index + 1) * parseFloat(0.5));
             }
             return bonus;
+        },
+        applyChapronBonus: function (chapronIndex) {
+            if (!chapronIndex) {
+                this.possibleResults = {};
+                chapronIndex = 1;
+            }
+            let self = this;
+            this.home.chapronIndex = [chapronIndex];
+            this.$nextTick().then(function () {
+                let probability = 10;
+                let score = self.homeGoals + "-" + self.awayGoals;
+                if (self.possibleResults[score]) {
+                    self.possibleResults[score].chapronTarget.push(chapronIndex);
+                    self.possibleResults[score].probability += probability;
+                } else {
+                    self.$set(self.possibleResults, score, {
+                        homeGoals: self.homeGoals,
+                        awayGoals: self.awayGoals,
+                        chapronTarget: [chapronIndex],
+                        probability: probability,
+                    });
+                }
+                if (chapronIndex < 10) {
+                    chapronIndex++;
+                    self.applyChapronBonus(chapronIndex);
+                } else {
+                    self.home.chapronIndex = [];
+                }
+            });
         },
     },
 };
