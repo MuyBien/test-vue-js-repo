@@ -191,32 +191,44 @@ export default {
             }
             return bonus;
         },
-        applyChapronBonus: function (chapronIndex) {
+        applyChapronBonus: function (chapronIndex, teamTarget) {
             if (!chapronIndex) {
                 this.possibleResults = {};
+                teamTarget = "home";
                 chapronIndex = 1;
             }
             let self = this;
-            this.home.chapronIndex = [chapronIndex];
+            if (teamTarget === "home") {
+                this.home.chapronIndex = [chapronIndex];
+            } else {
+                this.away.chapronIndex = [chapronIndex];
+            }
+            let playerTarget = self[teamTarget].team[chapronIndex].name;
+
             this.$nextTick().then(function () {
-                let probability = 10;
+                let probability = 5;
                 let score = self.homeGoals + "-" + self.awayGoals;
                 if (self.possibleResults[score]) {
-                    self.possibleResults[score].chapronTarget.push(chapronIndex);
+                    self.possibleResults[score].chapronTarget.push(playerTarget);
                     self.possibleResults[score].probability += probability;
                 } else {
                     self.$set(self.possibleResults, score, {
                         homeGoals: self.homeGoals,
                         awayGoals: self.awayGoals,
-                        chapronTarget: [chapronIndex],
+                        chapronTarget: [playerTarget],
                         probability: probability,
                     });
                 }
                 if (chapronIndex < 10) {
-                    chapronIndex++;
-                    self.applyChapronBonus(chapronIndex);
+                    chapronIndex ++;
+                    self.applyChapronBonus(chapronIndex, teamTarget);
+                } else if (chapronIndex === 10 && teamTarget === "home") {
+                    self.home.chapronIndex = [];
+                    chapronIndex = 1;
+                    self.applyChapronBonus(chapronIndex, "away");
                 } else {
                     self.home.chapronIndex = [];
+                    self.away.chapronIndex = [];
                 }
             });
         },
