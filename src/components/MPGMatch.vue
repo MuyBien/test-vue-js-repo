@@ -203,21 +203,26 @@ export default {
             } else {
                 this.away.chapronIndex = [chapronIndex];
             }
-            let playerTarget = self[teamTarget].team[chapronIndex].name;
+
+            let isRotaldo = false;
+            let playerTarget = self[teamTarget].team[chapronIndex];
+            if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
+                isRotaldo = true;
+            }
 
             this.$nextTick().then(function () {
-                let probability = 5;
-                let score = self.homeGoals + "-" + self.awayGoals;
-                if (self.possibleResults[score]) {
-                    self.possibleResults[score].chapronTarget.push(playerTarget);
-                    self.possibleResults[score].probability += probability;
-                } else {
-                    self.$set(self.possibleResults, score, {
-                        homeGoals: self.homeGoals,
-                        awayGoals: self.awayGoals,
-                        chapronTarget: [playerTarget],
-                        probability: probability,
-                    });
+                if (!isRotaldo) {
+                    let score = self.homeGoals + "-" + self.awayGoals;
+                    if (self.possibleResults[score]) {
+                        self.possibleResults[score].chapronTarget.push(playerTarget.name);
+                    } else {
+                        self.$set(self.possibleResults, score, {
+                            homeGoals: self.homeGoals,
+                            awayGoals: self.awayGoals,
+                            score: score,
+                            chapronTarget: [playerTarget.name],
+                        });
+                    }
                 }
                 if (chapronIndex < 10) {
                     chapronIndex ++;
@@ -231,6 +236,14 @@ export default {
                     self.away.chapronIndex = [];
                 }
             });
+        },
+        getScoreProbability: function (score) {
+            let scoreOccurences = this.possibleResults[score].chapronTarget.length;
+            let scoreTotal = 0;
+            for (let obj of Object.entries(this.possibleResults)) {
+                scoreTotal += obj[1].chapronTarget.length;
+            }
+            return Math.round((scoreOccurences * 100) / scoreTotal);
         },
     },
 };
