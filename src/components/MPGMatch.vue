@@ -22,32 +22,15 @@
         </section>
 
         <div class="result">
-            <div class="score-probs" v-if="home.bonus.id === 5 || away.bonus.id === 5">
-                <div class="chapron-help">
-                    <p>Pour obtenir les scores possibles, paramétrez les équipes puis cliquez sur le bouton de calcul.</p>
-                    <p>Les probabilités doivent être recalculées à chaque changement !</p>
-                </div>
-                <button v-if="home.bonus.id === 5 && away.bonus.id === 5"  @click="applyMultipleChapronBonus(undefined)">Calculer les probabilités</button>
-                <button v-else @click="applyChapronBonus(undefined)">Calculer les probabilités</button>
-                <div class="score-prob" v-if="possibleResults">
-                    <div class="score most-probable" v-if="mostProbResult">
-                        <p class="team-score" :class="{winner: mostProbResult.homeGoals > mostProbResult.awayGoals}">{{mostProbResult.homeGoals}}</p>
-                        <p class="team-score" :class="{winner: mostProbResult.awayGoals > mostProbResult.homeGoals}">{{mostProbResult.awayGoals}}</p>
-                        <p class="score-probability" :title="mostProbResult.chapronTarget.join(', ')">{{getScoreProbability(mostProbResult.score)}}%</p>
-                    </div>
-                    <div class="other-scores">
-                        <div class="score" v-for="(resultProb, index) in otherPossibleResults" :key="index">
-                            <p class="team-score" :class="{winner: resultProb.homeGoals > resultProb.awayGoals}">{{resultProb.homeGoals}}</p>
-                            <p class="team-score" :class="{winner: resultProb.awayGoals > resultProb.homeGoals}">{{resultProb.awayGoals}}</p>
-                            <p class="score-probability" :title="resultProb.chapronTarget.join(', ')">{{getScoreProbability(resultProb.score)}}%</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="score" v-else>
-                <p class="team-score" :class="{winner: homeWinner}">{{homeGoals}}</p>
-                <p class="team-score" :class="{winner: awayWinner}">{{awayGoals}}</p>
-            </div>
+            <MPGScore
+                :home-goals="homeGoals"
+                :away-goals="awayGoals"
+                :home-bonus="home.bonus.id"
+                :away-bonus="away.bonus.id"
+                :possible-results="possibleResults"
+                @computeChapron="applyChapronBonus"
+                @computeMultipleChapron="applyMultipleChapronBonus">
+            </MPGScore>
             <div class="final-teams">
                 <MPGResultTeam :final-team="home.team" :team-goals="home.goals" :opponent-csc="away.csc" :mpg-goals="mpgGoals.home"></MPGResultTeam>
                 <MPGResultTeam :final-team="away.team" :team-goals="away.goals" :opponent-csc="home.csc" :mpg-goals="mpgGoals.away"></MPGResultTeam>
@@ -59,6 +42,7 @@
 <script>
 import MPGTeam from "../components/MPGTeam.vue";
 import MPGResultTeam from "../components/MPGResultTeam.vue";
+import MPGScore from "../components/MPGScore.vue";
 
 export default {
     name: "MPGMatch",
@@ -102,6 +86,7 @@ export default {
     components: {
         MPGTeam,
         MPGResultTeam,
+        MPGScore,
     },
     computed: {
         mpgGoals: function () {
@@ -117,29 +102,6 @@ export default {
         awayGoals: function () {
             const valise = this.home.bonus.id === 0 ? 1 : 0;
             return Math.max(0, (this.away.goals - this.home.goalStop - valise)) + this.home.csc + this.mpgGoals.away.length;
-        },
-        homeWinner: function () {
-            return this.homeGoals > this.awayGoals;
-        },
-        awayWinner: function () {
-            return this.homeGoals < this.awayGoals;
-        },
-        orderedPossibleResults: function () {
-            return Object.values(this.possibleResults).sort(function (a, b) {
-                return b.chapronTarget.length - a.chapronTarget.length;
-            });
-        },
-        mostProbResult: function () {
-            if (this.orderedPossibleResults.length) {
-                return this.orderedPossibleResults[0];
-            }
-            return;
-        },
-        otherPossibleResults: function () {
-            if (this.orderedPossibleResults.length) {
-                return this.orderedPossibleResults.slice(1, this.orderedPossibleResults.length);
-            }
-            return;
         },
     },
     methods: {
@@ -325,14 +287,6 @@ export default {
                 });
             });
         },
-        getScoreProbability: function (score) {
-            let scoreOccurences = this.possibleResults[score].chapronTarget.length;
-            let scoreTotal = 0;
-            for (let obj of Object.entries(this.possibleResults)) {
-                scoreTotal += obj[1].chapronTarget.length;
-            }
-            return Math.round((scoreOccurences * 100) / scoreTotal);
-        },
     },
 };
 </script>
@@ -347,89 +301,6 @@ export default {
         justify-content: space-around;
         align-items: flex-start;
     }
-
-    button {
-        margin: 0 5px;
-        border: none;
-        background-color: #4054cc;
-        padding: 5px 10px;
-        outline: none;
-        border-radius: 3px;
-        color: #fff;
-        font-size: .8rem;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #4460a0;
-    }
-
-    .score {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        .team-score {
-            border: 1px solid #333;
-            display: inline-block;
-            padding: 20px 25px;
-            margin: 15px 5px 15px 0px;
-            border-radius: 5px;
-            font-size: 2em;
-            font-weight: bold;
-            &.winner {
-                border-bottom: 10px solid #45c945;
-            }
-        }
-
-        p.score-probability {
-            position: absolute;
-            bottom: calc(50% - 20px);
-            margin: 0;
-            padding: 5px;
-            border-radius: 50%;
-            font-size: .8em;
-            text-align: center;
-            line-height: 20px;
-            background-color: #4054cb;
-            color: #fff;
-            font-weight: bold;
-            cursor: help;
-        }
-    }
-
-    .other-scores {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-
-        .score {
-            margin: 0 20px;
-            p.team-score {
-                font-size: 1em;
-                padding: 15px 18px;
-            }
-            p.score-probability {
-                font-size: 0.6em;
-                bottom: calc(50% - 15px);
-                line-height: 15px;
-            }
-        }
-    }
-
-    .chapron-help {
-        width: 60%;
-        margin: 5px auto;
-        background-color: #4054cc78;
-        color: #fff;
-        border-radius: 5px;
-        padding: 5px 2px;
-        font-size: .8em;
-        line-height: .6em;
-        p:last-child {
-            font-weight: bold;
-        }
-    }
-
     .final-teams {
         display: flex;
         justify-content: space-around;
