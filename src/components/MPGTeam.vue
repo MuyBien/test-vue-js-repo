@@ -80,6 +80,9 @@ export default {
         },
         chapronIndex: {
             type: Array,
+            default: function () {
+                return [];
+            },
         },
     },
     data: function () {
