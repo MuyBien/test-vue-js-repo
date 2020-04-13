@@ -327,7 +327,7 @@ export default {
                 }, this);
             }
 
-            let rotaldos = this.chapronIndex ? 1 : 0;
+            let rotaldos = this.chapronIndex.length ? 1 : 0;
             finals.forEach(function (starter) {
                 if (!starter.note && !starter.substitution) {
                     let substitutePositionsAvailable = ["goalkeeper"];
