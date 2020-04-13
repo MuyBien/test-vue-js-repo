@@ -23,15 +23,25 @@
 
         <div class="result">
             <div class="score-probs" v-if="home.bonus.id === 5 || away.bonus.id === 5">
-                <p>Pour obtenir les scores probables en appliquand le bonus Chapron Rouge à chacun des joueurs possibles, parametrez les équipes puis cliquez sur le bouton de calcul</p>
-                <button @click="applyChapronBonus(undefined)">Calculer les probabilités</button>
+                <div class="chapron-help">
+                    <p>Pour obtenir les scores possibles, paramétrez les équipes puis cliquez sur le bouton de calcul.</p>
+                    <p>Les probabilités doivent être recalculées à chaque changement !</p>
+                </div>
+                <button v-if="home.bonus.id === 5 && away.bonus.id === 5"  @click="applyMultipleChapronBonus(undefined)">Calculer les probabilités</button>
+                <button v-else @click="applyChapronBonus(undefined)">Calculer les probabilités</button>
                 <div class="score-prob" v-if="possibleResults">
-                    <p v-for="(resultProb, index) in possibleResults" :key="index">
-                        <span>{{resultProb.homeGoals}} - {{resultProb.awayGoals}} ({{resultProb.probability}}%)</span>
-                        <span v-for="playerTarget in resultProb.chapronTarget" :key="playerTarget">
-                            {{home.team[playerTarget].name}}
-                        </span>
-                    </p>
+                    <div class="score most-probable" v-if="mostProbResult">
+                        <p class="team-score" :class="{winner: mostProbResult.homeGoals > mostProbResult.awayGoals}">{{mostProbResult.homeGoals}}</p>
+                        <p class="team-score" :class="{winner: mostProbResult.awayGoals > mostProbResult.homeGoals}">{{mostProbResult.awayGoals}}</p>
+                        <p class="score-probability" :title="mostProbResult.chapronTarget.join(', ')">{{getScoreProbability(mostProbResult.score)}}%</p>
+                    </div>
+                    <div class="other-scores">
+                        <div class="score" v-for="(resultProb, index) in otherPossibleResults" :key="index">
+                            <p class="team-score" :class="{winner: resultProb.homeGoals > resultProb.awayGoals}">{{resultProb.homeGoals}}</p>
+                            <p class="team-score" :class="{winner: resultProb.awayGoals > resultProb.homeGoals}">{{resultProb.awayGoals}}</p>
+                            <p class="score-probability" :title="resultProb.chapronTarget.join(', ')">{{getScoreProbability(resultProb.score)}}%</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="score" v-else>
@@ -113,6 +123,23 @@ export default {
         },
         awayWinner: function () {
             return this.homeGoals < this.awayGoals;
+        },
+        orderedPossibleResults: function () {
+            return Object.values(this.possibleResults).sort(function (a, b) {
+                return b.chapronTarget.length - a.chapronTarget.length;
+            });
+        },
+        mostProbResult: function () {
+            if (this.orderedPossibleResults.length) {
+                return this.orderedPossibleResults[0];
+            }
+            return;
+        },
+        otherPossibleResults: function () {
+            if (this.orderedPossibleResults.length) {
+                return this.orderedPossibleResults.slice(1, this.orderedPossibleResults.length);
+            }
+            return;
         },
     },
     methods: {
@@ -197,19 +224,15 @@ export default {
                 teamTarget = "home";
                 chapronIndex = 1;
             }
-            let self = this;
-            if (teamTarget === "home") {
-                this.home.chapronIndex = [chapronIndex];
-            } else {
-                this.away.chapronIndex = [chapronIndex];
-            }
 
+            this[teamTarget].chapronIndex = [chapronIndex];
             let isRotaldo = false;
-            let playerTarget = self[teamTarget].team[chapronIndex];
+            let playerTarget = this[teamTarget].team[chapronIndex];
             if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
                 isRotaldo = true;
             }
 
+            let self = this;
             this.$nextTick().then(function () {
                 if (!isRotaldo) {
                     let score = self.homeGoals + "-" + self.awayGoals;
@@ -237,6 +260,71 @@ export default {
                 }
             });
         },
+        applyMultipleChapronBonus: function (chapronIndex, teamTarget, chapronIndex2, teamTarget2) {
+            if (!chapronIndex) {
+                this.possibleResults = {};
+                teamTarget = "home";
+                chapronIndex = 1;
+                teamTarget2 = "home";
+                chapronIndex2 = 2;
+            }
+
+            this[teamTarget].chapronIndex = [chapronIndex];
+            if (teamTarget === teamTarget2) {
+                this[teamTarget2].chapronIndex.push(chapronIndex2);
+            } else {
+                this[teamTarget2].chapronIndex = [chapronIndex2];
+            }
+            let isRotaldo = false;
+            let playerTarget = this[teamTarget].team[chapronIndex];
+            let playerTarget2 = this[teamTarget2].team[chapronIndex2];
+            if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
+                isRotaldo = true;
+            }
+            if (playerTarget2.name === "Rotaldo" || (typeof playerTarget2.substitution !== "undefined" && playerTarget2.substitution.name === "Rotaldo")) {
+                isRotaldo = true;
+            }
+
+            let self = this;
+            this.$nextTick().then(function () {
+                if (!isRotaldo) {
+                    let score = self.homeGoals + "-" + self.awayGoals;
+                    if (self.possibleResults[score]) {
+                        self.possibleResults[score].chapronTarget.push([playerTarget.name, playerTarget2.name].join(" et "));
+                    } else {
+                        self.$set(self.possibleResults, score, {
+                            homeGoals: self.homeGoals,
+                            awayGoals: self.awayGoals,
+                            score: score,
+                            chapronTarget: [[playerTarget.name, playerTarget2.name].join(" et ")],
+                        });
+                    }
+                }
+
+                self.home.chapronIndex = [];
+                self.away.chapronIndex = [];
+                self.$nextTick().then(function () {
+                    if (chapronIndex2 < 10) {
+                        chapronIndex2 ++;
+                        self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, teamTarget2);
+                    } else if (chapronIndex2 === 10 && teamTarget2 === "home") {
+                        chapronIndex2 = 1;
+                        self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, "away");
+                    } else {
+                        if (chapronIndex < 10) {
+                            chapronIndex ++;
+                            self.applyMultipleChapronBonus(chapronIndex, teamTarget, 1, "home");
+                        } else if (chapronIndex === 10 && teamTarget === "home") {
+                            chapronIndex = 1;
+                            self.applyMultipleChapronBonus(chapronIndex, "away", 1, "home");
+                        } else {
+                            self.home.chapronIndex = [];
+                            self.away.chapronIndex = [];
+                        }
+                    }
+                });
+            });
+        },
         getScoreProbability: function (score) {
             let scoreOccurences = this.possibleResults[score].chapronTarget.length;
             let scoreTotal = 0;
@@ -259,14 +347,31 @@ export default {
         justify-content: space-around;
         align-items: flex-start;
     }
+
+    button {
+        margin: 0 5px;
+        border: none;
+        background-color: #4054cc;
+        padding: 5px 10px;
+        outline: none;
+        border-radius: 3px;
+        color: #fff;
+        font-size: .8rem;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #4460a0;
+    }
+
     .score {
+        position: relative;
         display: flex;
         justify-content: center;
         .team-score {
             border: 1px solid #333;
             display: inline-block;
             padding: 20px 25px;
-            margin-right: 5px;
+            margin: 15px 5px 15px 0px;
             border-radius: 5px;
             font-size: 2em;
             font-weight: bold;
@@ -274,7 +379,57 @@ export default {
                 border-bottom: 10px solid #45c945;
             }
         }
+
+        p.score-probability {
+            position: absolute;
+            bottom: calc(50% - 20px);
+            margin: 0;
+            padding: 5px;
+            border-radius: 50%;
+            font-size: .8em;
+            text-align: center;
+            line-height: 20px;
+            background-color: #4054cb;
+            color: #fff;
+            font-weight: bold;
+            cursor: help;
+        }
     }
+
+    .other-scores {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .score {
+            margin: 0 20px;
+            p.team-score {
+                font-size: 1em;
+                padding: 15px 18px;
+            }
+            p.score-probability {
+                font-size: 0.6em;
+                bottom: calc(50% - 15px);
+                line-height: 15px;
+            }
+        }
+    }
+
+    .chapron-help {
+        width: 60%;
+        margin: 5px auto;
+        background-color: #4054cc78;
+        color: #fff;
+        border-radius: 5px;
+        padding: 5px 2px;
+        font-size: .8em;
+        line-height: .6em;
+        p:last-child {
+            font-weight: bold;
+        }
+    }
+
     .final-teams {
         display: flex;
         justify-content: space-around;
