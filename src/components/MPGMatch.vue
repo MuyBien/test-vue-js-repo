@@ -81,6 +81,7 @@ export default {
                 chapronIndex: [],
             },
             possibleResults: {},
+            chapronPromiseResolve: undefined,
         };
     },
     components: {
@@ -181,109 +182,116 @@ export default {
             return bonus;
         },
         applyChapronBonus: function (chapronIndex, teamTarget) {
-            if (!chapronIndex) {
-                this.possibleResults = {};
-                teamTarget = "home";
-                chapronIndex = 1;
-            }
-
-            this[teamTarget].chapronIndex = [chapronIndex];
-            let isRotaldo = false;
-            let playerTarget = this[teamTarget].team[chapronIndex];
-            if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
-                isRotaldo = true;
-            }
-
-            let self = this;
-            this.$nextTick().then(function () {
-                if (!isRotaldo) {
-                    let score = self.homeGoals + "-" + self.awayGoals;
-                    if (self.possibleResults[score]) {
-                        self.possibleResults[score].chapronTarget.push(playerTarget.name);
-                    } else {
-                        self.$set(self.possibleResults, score, {
-                            homeGoals: self.homeGoals,
-                            awayGoals: self.awayGoals,
-                            score: score,
-                            chapronTarget: [playerTarget.name],
-                        });
-                    }
-                }
-                if (chapronIndex < 10) {
-                    chapronIndex ++;
-                    self.applyChapronBonus(chapronIndex, teamTarget);
-                } else if (chapronIndex === 10 && teamTarget === "home") {
-                    self.home.chapronIndex = [];
+            return new Promise((resolve) => {
+                if (!chapronIndex) {
+                    this.possibleResults = {};
+                    teamTarget = "home";
                     chapronIndex = 1;
-                    self.applyChapronBonus(chapronIndex, "away");
-                } else {
-                    self.home.chapronIndex = [];
-                    self.away.chapronIndex = [];
+                    this.chapronPromiseResolve = resolve;
                 }
+
+                this[teamTarget].chapronIndex = [chapronIndex];
+                let isRotaldo = false;
+                let playerTarget = this[teamTarget].team[chapronIndex];
+                if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
+                    isRotaldo = true;
+                }
+
+                let self = this;
+                this.$nextTick().then(function () {
+                    if (!isRotaldo) {
+                        let score = self.homeGoals + "-" + self.awayGoals;
+                        if (self.possibleResults[score]) {
+                            self.possibleResults[score].chapronTarget.push(playerTarget.name);
+                        } else {
+                            self.$set(self.possibleResults, score, {
+                                homeGoals: self.homeGoals,
+                                awayGoals: self.awayGoals,
+                                score: score,
+                                chapronTarget: [playerTarget.name],
+                            });
+                        }
+                    }
+                    if (chapronIndex < 10) {
+                        chapronIndex ++;
+                        self.applyChapronBonus(chapronIndex, teamTarget);
+                    } else if (chapronIndex === 10 && teamTarget === "home") {
+                        self.home.chapronIndex = [];
+                        chapronIndex = 1;
+                        self.applyChapronBonus(chapronIndex, "away");
+                    } else {
+                        self.home.chapronIndex = [];
+                        self.away.chapronIndex = [];
+                        self.chapronPromiseResolve();
+                    }
+                });
             });
         },
         applyMultipleChapronBonus: function (chapronIndex, teamTarget, chapronIndex2, teamTarget2) {
-            if (!chapronIndex) {
-                this.possibleResults = {};
-                teamTarget = "home";
-                chapronIndex = 1;
-                teamTarget2 = "home";
-                chapronIndex2 = 2;
-            }
-
-            this[teamTarget].chapronIndex = [chapronIndex];
-            if (teamTarget === teamTarget2) {
-                this[teamTarget2].chapronIndex.push(chapronIndex2);
-            } else {
-                this[teamTarget2].chapronIndex = [chapronIndex2];
-            }
-            let isRotaldo = false;
-            let playerTarget = this[teamTarget].team[chapronIndex];
-            let playerTarget2 = this[teamTarget2].team[chapronIndex2];
-            if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
-                isRotaldo = true;
-            }
-            if (playerTarget2.name === "Rotaldo" || (typeof playerTarget2.substitution !== "undefined" && playerTarget2.substitution.name === "Rotaldo")) {
-                isRotaldo = true;
-            }
-
-            let self = this;
-            this.$nextTick().then(function () {
-                if (!isRotaldo) {
-                    let score = self.homeGoals + "-" + self.awayGoals;
-                    if (self.possibleResults[score]) {
-                        self.possibleResults[score].chapronTarget.push([playerTarget.name, playerTarget2.name].join(" et "));
-                    } else {
-                        self.$set(self.possibleResults, score, {
-                            homeGoals: self.homeGoals,
-                            awayGoals: self.awayGoals,
-                            score: score,
-                            chapronTarget: [[playerTarget.name, playerTarget2.name].join(" et ")],
-                        });
-                    }
+            return new Promise((resolve) => {
+                if (!chapronIndex) {
+                    this.possibleResults = {};
+                    teamTarget = "home";
+                    chapronIndex = 1;
+                    teamTarget2 = "home";
+                    chapronIndex2 = 2;
+                    this.chapronPromiseResolve = resolve;
+                }
+                this[teamTarget].chapronIndex = [chapronIndex];
+                if (teamTarget === teamTarget2) {
+                    this[teamTarget2].chapronIndex.push(chapronIndex2);
+                } else {
+                    this[teamTarget2].chapronIndex = [chapronIndex2];
+                }
+                let isRotaldo = false;
+                let playerTarget = this[teamTarget].team[chapronIndex];
+                let playerTarget2 = this[teamTarget2].team[chapronIndex2];
+                if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
+                    isRotaldo = true;
+                }
+                if (playerTarget2.name === "Rotaldo" || (typeof playerTarget2.substitution !== "undefined" && playerTarget2.substitution.name === "Rotaldo")) {
+                    isRotaldo = true;
                 }
 
-                self.home.chapronIndex = [];
-                self.away.chapronIndex = [];
-                self.$nextTick().then(function () {
-                    if (chapronIndex2 < 10) {
-                        chapronIndex2 ++;
-                        self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, teamTarget2);
-                    } else if (chapronIndex2 === 10 && teamTarget2 === "home") {
-                        chapronIndex2 = 1;
-                        self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, "away");
-                    } else {
-                        if (chapronIndex < 10) {
-                            chapronIndex ++;
-                            self.applyMultipleChapronBonus(chapronIndex, teamTarget, 1, "home");
-                        } else if (chapronIndex === 10 && teamTarget === "home") {
-                            chapronIndex = 1;
-                            self.applyMultipleChapronBonus(chapronIndex, "away", 1, "home");
+                let self = this;
+                this.$nextTick().then(function () {
+                    if (!isRotaldo) {
+                        let score = self.homeGoals + "-" + self.awayGoals;
+                        if (self.possibleResults[score]) {
+                            self.possibleResults[score].chapronTarget.push([playerTarget.name, playerTarget2.name].join(" et "));
                         } else {
-                            self.home.chapronIndex = [];
-                            self.away.chapronIndex = [];
+                            self.$set(self.possibleResults, score, {
+                                homeGoals: self.homeGoals,
+                                awayGoals: self.awayGoals,
+                                score: score,
+                                chapronTarget: [[playerTarget.name, playerTarget2.name].join(" et ")],
+                            });
                         }
                     }
+
+                    self.home.chapronIndex = [];
+                    self.away.chapronIndex = [];
+                    self.$nextTick().then(function () {
+                        if (chapronIndex2 < 10) {
+                            chapronIndex2 ++;
+                            self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, teamTarget2);
+                        } else if (chapronIndex2 === 10 && teamTarget2 === "home") {
+                            chapronIndex2 = 1;
+                            self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, "away");
+                        } else {
+                            if (chapronIndex < 10) {
+                                chapronIndex ++;
+                                self.applyMultipleChapronBonus(chapronIndex, teamTarget, 1, "home");
+                            } else if (chapronIndex === 10 && teamTarget === "home") {
+                                chapronIndex = 1;
+                                self.applyMultipleChapronBonus(chapronIndex, "away", 1, "home");
+                            } else {
+                                self.home.chapronIndex = [];
+                                self.away.chapronIndex = [];
+                                self.chapronPromiseResolve();
+                            }
+                        }
+                    });
                 });
             });
         },
