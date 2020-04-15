@@ -243,19 +243,23 @@ export default {
                 } else {
                     this[teamTarget2].chapronIndex = [chapronIndex2];
                 }
-                let isRotaldo = false;
+                
+                let impossibleState = false;
                 let playerTarget = this[teamTarget].team[chapronIndex];
                 let playerTarget2 = this[teamTarget2].team[chapronIndex2];
                 if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
-                    isRotaldo = true;
+                    impossibleState = true;
                 }
                 if (playerTarget2.name === "Rotaldo" || (typeof playerTarget2.substitution !== "undefined" && playerTarget2.substitution.name === "Rotaldo")) {
-                    isRotaldo = true;
+                    impossibleState = true;
+                }
+                if (playerTarget === playerTarget2) {
+                    impossibleState = true;
                 }
 
                 let self = this;
                 this.$nextTick().then(function () {
-                    if (!isRotaldo) {
+                    if (!impossibleState) {
                         let score = self.homeGoals + "-" + self.awayGoals;
                         if (self.possibleResults[score]) {
                             self.possibleResults[score].chapronTarget.push([playerTarget.name, playerTarget2.name].join(" et "));
