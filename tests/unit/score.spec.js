@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { shallowMount } from "@vue/test-utils";
 import MPGTeam from "@/components/MPGTeam.vue";
 import MPGMatch from "@/components/MPGMatch.vue";
+import MPGScore from "@/components/MPGScore.vue";
 
 describe("Score", () => {
     let componentWrapper;
@@ -110,4 +111,74 @@ describe("Score", () => {
         });
         expect(matchWrapper.vm.homeGoals).to.be.equals(1);
     });
+});
+
+describe("Affichage du score", () => {
+    let scoreWrapper;
+
+    beforeEach(() => {
+        scoreWrapper = shallowMount(MPGScore);
+    });
+
+    it("Tri les résultats possibles par ordre décroissant", () => {
+        scoreWrapper.setProps({
+            possibleResults : {
+                "2-2":{ homeGoals:2, awayGoals:2, score:"2-2", chapronTarget:["Djiku Alexander"]},
+                "4-2":{ homeGoals:4, awayGoals:2, score:"4-2", chapronTarget:["González Álvaro","Hilton ","Foket Thomas","Bobichon Antonin","Bourigeaud Benjamin","Mama Baldé ","Júlio Tavares ","Maripán Guillermo","Aguilar Ruben","Pedro Mendes ","Claude Maurice Alexis","Bakayoko Tiemoué","Payet Dimitri","Thauvin Florian","Germain Valère","Ganago Ignatius"]},
+                "3-2":{ homeGoals:3, awayGoals:2, score:"3-2", chapronTarget:["Jovetic Stevan","Ajorque Ludovic"]},
+                "4-0":{ homeGoals:4, awayGoals:0, score:"4-0", chapronTarget:["Benedetto Darío"]},
+            },
+        });
+        expect(scoreWrapper.vm.orderedPossibleResults.length).to.be.equals(4);
+        expect(scoreWrapper.vm.orderedPossibleResults[0].score).to.be.equals("4-2");
+        expect(scoreWrapper.vm.orderedPossibleResults[1].score).to.be.equals("3-2");
+    });
+
+    it("Peut calculer la probabilité d'un score", () => {
+        scoreWrapper.setProps({
+            possibleResults : {
+                "2-2":{ homeGoals:2, awayGoals:2, score:"2-2", chapronTarget:["Djiku Alexander"]},
+                "4-2":{ homeGoals:4, awayGoals:2, score:"4-2", chapronTarget:["González Álvaro","Hilton ","Foket Thomas","Bobichon Antonin","Bourigeaud Benjamin","Mama Baldé ","Júlio Tavares ","Maripán Guillermo","Aguilar Ruben","Pedro Mendes ","Claude Maurice Alexis","Bakayoko Tiemoué","Payet Dimitri","Thauvin Florian","Germain Valère","Ganago Ignatius"]},
+                "3-2":{ homeGoals:3, awayGoals:2, score:"3-2", chapronTarget:["Jovetic Stevan","Ajorque Ludovic"]},
+                "4-0":{ homeGoals:4, awayGoals:0, score:"4-0", chapronTarget:["Benedetto Darío"]},
+            },
+        });
+        const prob = scoreWrapper.vm.getScoreProbability("4-2");
+        expect(prob).to.be.equals(80);
+    });
+
+    it("Affiche un bouton pour lancer le calcul des probabilités de score si un des joueurs utilise un Chapron Rouge", () => {
+        scoreWrapper.setProps({
+            awayBonus: undefined,
+            awayGoals: 2,
+            homeBonus: 5,
+            homeGoals: 4,
+        });
+        expect(scoreWrapper.find(".chapron-help").exists()).to.be.true;
+        expect(scoreWrapper.find(".score-probs button").exists()).to.be.true;
+    });
+
+    it("Affiche des probabilités de score si un des joueurs utilise un Chapron Rouge", () => {
+        scoreWrapper.setProps({
+            awayBonus: undefined,
+            awayGoals: 2,
+            homeBonus: 5,
+            homeGoals: 4,
+            possibleResults : {
+                "4-0":{ homeGoals:4, awayGoals:0, score:"4-0", chapronTarget:["Benedetto Darío"]},
+            },
+        });
+        expect(scoreWrapper.find(".score-prob").exists()).to.be.true;
+    });
+
+    it("Affiche le score si aucun des joueurs n'utilise un Chapron Rouge", () => {
+        scoreWrapper.setProps({
+            awayBonus: undefined,
+            awayGoals: 2,
+            homeBonus: undefined,
+            homeGoals: 4,
+        });
+        expect(scoreWrapper.findAll(".score").length).to.be.equals(1);
+    });
+
 });
