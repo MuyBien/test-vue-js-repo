@@ -313,7 +313,7 @@ export default {
                 });
             }
 
-            if (this.opponentBonus.id !== 3) {
+            if (!((this.opponentBonus.id === 3 && this.bonus.id !== 6) || (this.bonus.id === 3 && this.opponentBonus.id === 6))) {
                 this.substitutions.forEach(function (substitution) {
                     if (substitution.note) {
                         let starter = finals.find(function (starter) {

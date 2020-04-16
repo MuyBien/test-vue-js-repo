@@ -412,4 +412,26 @@ describe("Bonus : Miroir", () => {
         });
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(5);
     });
+
+    it("Retourne le Tonton Pat' de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: 3 }],
+            substitutes: [{ index: 0, position: "backer", note: 5 }],
+            substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
+            bonus: { id: 3 }, // Tonton Pat'
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Miroir
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].substitution).to.be.undefined;
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(3);
+
+        teamWrapper.setData({
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 3 }, // Tonton Pat'
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].substitution).not.to.be.undefined;
+    });
 });
