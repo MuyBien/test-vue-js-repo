@@ -59,6 +59,19 @@ describe("Définition de remplacement", () => {
         expect(componentWrapper.vm.availableSubstitutes.length).to.be.equal(2);
     });
 
+    it("Peut récupérer le nom des titulaires et remplaçants", () => {
+        componentWrapper.setProps({
+            starters: [
+                { id: 1, name: "Boli", position: "backer" },
+            ],
+            substitutes: [
+                { id: 0, name: "Di Meco", position: "backer" },
+            ],
+        });
+        expect(componentWrapper.vm.getStarterName(0)).to.be.equal("Boli");
+        expect(componentWrapper.vm.getSubstituteName(0)).to.be.equal("Di Meco");
+    });
+
     it("Filtre les titulaires en fonction du remplacant à remplacer", () => {
         componentWrapper.setProps({
             starters: [
@@ -93,4 +106,21 @@ describe("Définition de remplacement", () => {
         expect(componentWrapper.vm.availableSubstitutes[0].position).to.be.equal("backer");
     });
 
+    it("Permet de définir un remplacement", () => {
+        componentWrapper.setProps({
+            starters: [
+                { id: 1, name: "Boli", position: "backer" },
+            ],
+            substitutes: [
+                { id: 0, name: "Di Meco", position: "backer" },
+            ],
+            substitution: {
+                starter: 0,
+                substitute: 0,
+                note: 5,
+            },
+        });
+        componentWrapper.vm.defineSubstitution();
+        expect(componentWrapper.emitted("select").length).to.be.equals(1);
+    });
 });

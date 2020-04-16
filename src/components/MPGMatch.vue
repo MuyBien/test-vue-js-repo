@@ -8,7 +8,8 @@
                 @averages="updateHomeAverages"
                 @goal-stop="updateHomeGoalStop"
                 @team-bonus="updateHomeBonus"
-                :opponent-bonus="home.opponentBonus"></MPGTeam>
+                :opponent-bonus="home.opponentBonus"
+                :chapron-index="home.chapronIndex"></MPGTeam>
             <MPGTeam :home="false"
                 @team-change="updateAwayTeam"
                 @score="updateAwayGoals"
@@ -16,14 +17,20 @@
                 @averages="updateAwayAverages"
                 @goal-stop="updateAwayGoalStop"
                 @team-bonus="updateAwayBonus"
-                :opponent-bonus="away.opponentBonus"></MPGTeam>
+                :opponent-bonus="away.opponentBonus"
+                :chapron-index="away.chapronIndex"></MPGTeam>
         </section>
 
         <div class="result">
-            <div class="score">
-                <p class="team-score" :class="{winner: homeWinner}">{{homeGoals}}</p>
-                <p class="team-score" :class="{winner: awayWinner}">{{awayGoals}}</p>
-            </div>
+            <MPGScore
+                :home-goals="homeGoals"
+                :away-goals="awayGoals"
+                :home-bonus="home.bonus.id"
+                :away-bonus="away.bonus.id"
+                :possible-results="possibleResults"
+                @computeChapron="applyChapronBonus"
+                @computeMultipleChapron="applyMultipleChapronBonus">
+            </MPGScore>
             <div class="final-teams">
                 <MPGResultTeam :final-team="home.team" :team-goals="home.goals" :opponent-csc="away.csc" :mpg-goals="mpgGoals.home"></MPGResultTeam>
                 <MPGResultTeam :final-team="away.team" :team-goals="away.goals" :opponent-csc="home.csc" :mpg-goals="mpgGoals.away"></MPGResultTeam>
@@ -35,6 +42,7 @@
 <script>
 import MPGTeam from "../components/MPGTeam.vue";
 import MPGResultTeam from "../components/MPGResultTeam.vue";
+import MPGScore from "../components/MPGScore.vue";
 
 export default {
     name: "MPGMatch",
@@ -54,6 +62,7 @@ export default {
                     id: undefined,
                     target: undefined,
                 },
+                chapronIndex: [],
             },
             away: {
                 team: [],
@@ -69,12 +78,16 @@ export default {
                     id: undefined,
                     target: undefined,
                 },
+                chapronIndex: [],
             },
+            possibleResults: {},
+            chapronPromiseResolve: undefined,
         };
     },
     components: {
         MPGTeam,
         MPGResultTeam,
+        MPGScore,
     },
     computed: {
         mpgGoals: function () {
@@ -90,12 +103,6 @@ export default {
         awayGoals: function () {
             const valise = this.home.bonus.id === 0 ? 1 : 0;
             return Math.max(0, (this.away.goals - this.home.goalStop - valise)) + this.home.csc + this.mpgGoals.away.length;
-        },
-        homeWinner: function () {
-            return this.homeGoals > this.awayGoals;
-        },
-        awayWinner: function () {
-            return this.homeGoals < this.awayGoals;
         },
     },
     methods: {
@@ -150,7 +157,7 @@ export default {
                 const finalPlayer = player.substitution ? player.substitution : player;
                 if (finalPlayer.position && finalPlayer.note >= 5 && finalPlayer.position !== "goalkeeper" && finalPlayer.goals < 1) {
                     mpgGoal = linesToPass[finalPlayer.position].every(function (lineToPass, index) {
-                        const bonus = this.getBonus(index);
+                        const bonus = this.getDribbleMalus(index);
                         const playerNote = finalPlayer.note + bonus;
                         if (isHome) {
                             return playerNote >= averages[lineToPass];
@@ -165,7 +172,7 @@ export default {
             }, this);
             return mpgGoals;
         },
-        getBonus: function (index) {
+        getDribbleMalus: function (index) {
             let bonus = 0;
             if (index === 1) {
                 bonus = -1;
@@ -173,6 +180,124 @@ export default {
                 bonus = -((index + 1) * parseFloat(0.5));
             }
             return bonus;
+        },
+        applyChapronBonus: function (chapronIndex, teamTarget) {
+            return new Promise((resolve) => {
+                if (!chapronIndex) {
+                    this.possibleResults = {};
+                    teamTarget = "home";
+                    chapronIndex = 1;
+                    this.chapronPromiseResolve = resolve;
+                }
+
+                this[teamTarget].chapronIndex = [chapronIndex];
+                let isRotaldo = false;
+                let playerTarget = this[teamTarget].team[chapronIndex];
+                if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
+                    isRotaldo = true;
+                }
+
+                let self = this;
+                this.$nextTick().then(function () {
+                    if (!isRotaldo) {
+                        let score = self.homeGoals + "-" + self.awayGoals;
+                        if (self.possibleResults[score]) {
+                            self.possibleResults[score].chapronTarget.push(playerTarget.name);
+                        } else {
+                            self.$set(self.possibleResults, score, {
+                                homeGoals: self.homeGoals,
+                                awayGoals: self.awayGoals,
+                                score: score,
+                                chapronTarget: [playerTarget.name],
+                            });
+                        }
+                    }
+                    if (chapronIndex < 10) {
+                        chapronIndex ++;
+                        self.applyChapronBonus(chapronIndex, teamTarget);
+                    } else if (chapronIndex === 10 && teamTarget === "home") {
+                        self.home.chapronIndex = [];
+                        chapronIndex = 1;
+                        self.applyChapronBonus(chapronIndex, "away");
+                    } else {
+                        self.home.chapronIndex = [];
+                        self.away.chapronIndex = [];
+                        self.chapronPromiseResolve();
+                    }
+                });
+            });
+        },
+        applyMultipleChapronBonus: function (chapronIndex, teamTarget, chapronIndex2, teamTarget2) {
+            return new Promise((resolve) => {
+                if (!chapronIndex) {
+                    this.possibleResults = {};
+                    teamTarget = "home";
+                    chapronIndex = 1;
+                    teamTarget2 = "home";
+                    chapronIndex2 = 2;
+                    this.chapronPromiseResolve = resolve;
+                }
+                this[teamTarget].chapronIndex = [chapronIndex];
+                if (teamTarget === teamTarget2) {
+                    this[teamTarget2].chapronIndex.push(chapronIndex2);
+                } else {
+                    this[teamTarget2].chapronIndex = [chapronIndex2];
+                }
+                
+                let impossibleState = false;
+                let playerTarget = this[teamTarget].team[chapronIndex];
+                let playerTarget2 = this[teamTarget2].team[chapronIndex2];
+                if (playerTarget.name === "Rotaldo" || (typeof playerTarget.substitution !== "undefined" && playerTarget.substitution.name === "Rotaldo")) {
+                    impossibleState = true;
+                }
+                if (playerTarget2.name === "Rotaldo" || (typeof playerTarget2.substitution !== "undefined" && playerTarget2.substitution.name === "Rotaldo")) {
+                    impossibleState = true;
+                }
+                if (playerTarget === playerTarget2) {
+                    impossibleState = true;
+                }
+
+                let self = this;
+                this.$nextTick().then(function () {
+                    if (!impossibleState) {
+                        let score = self.homeGoals + "-" + self.awayGoals;
+                        if (self.possibleResults[score]) {
+                            self.possibleResults[score].chapronTarget.push([playerTarget.name, playerTarget2.name].join(" et "));
+                        } else {
+                            self.$set(self.possibleResults, score, {
+                                homeGoals: self.homeGoals,
+                                awayGoals: self.awayGoals,
+                                score: score,
+                                chapronTarget: [[playerTarget.name, playerTarget2.name].join(" et ")],
+                            });
+                        }
+                    }
+
+                    self.home.chapronIndex = [];
+                    self.away.chapronIndex = [];
+                    self.$nextTick().then(function () {
+                        if (chapronIndex2 < 10) {
+                            chapronIndex2 ++;
+                            self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, teamTarget2);
+                        } else if (chapronIndex2 === 10 && teamTarget2 === "home") {
+                            chapronIndex2 = 1;
+                            self.applyMultipleChapronBonus(chapronIndex, teamTarget, chapronIndex2, "away");
+                        } else {
+                            if (chapronIndex < 10) {
+                                chapronIndex ++;
+                                self.applyMultipleChapronBonus(chapronIndex, teamTarget, 1, "home");
+                            } else if (chapronIndex === 10 && teamTarget === "home") {
+                                chapronIndex = 1;
+                                self.applyMultipleChapronBonus(chapronIndex, "away", 1, "home");
+                            } else {
+                                self.home.chapronIndex = [];
+                                self.away.chapronIndex = [];
+                                self.chapronPromiseResolve();
+                            }
+                        }
+                    });
+                });
+            });
         },
     },
 };
@@ -187,22 +312,6 @@ export default {
         display: flex;
         justify-content: space-around;
         align-items: flex-start;
-    }
-    .score {
-        display: flex;
-        justify-content: center;
-        .team-score {
-            border: 1px solid #333;
-            display: inline-block;
-            padding: 20px 25px;
-            margin-right: 5px;
-            border-radius: 5px;
-            font-size: 2em;
-            font-weight: bold;
-            &.winner {
-                border-bottom: 10px solid #45c945;
-            }
-        }
     }
     .final-teams {
         display: flex;
