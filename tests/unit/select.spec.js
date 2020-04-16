@@ -74,4 +74,14 @@ describe("Selecteur de joueur", () => {
         let optionLabel = componentWrapper.vm.getOptionLabel(componentWrapper.vm.options[0]);
         expect(optionLabel).to.be.equal("label1");
     });
+
+    it("Emet un event si la valeur fait partie des valeurs possibles", () => {
+        componentWrapper.vm.updateValue("value1");
+        expect(componentWrapper.emitted("input").length).to.be.equals(1);
+    });
+
+    it("N'emet pas un event si la valeur ne fait pas partie des valeurs possibles", () => {
+        componentWrapper.vm.updateValue("notavalue");
+        expect(componentWrapper.emitted("input")).to.be.undefined;
+    });
 });

@@ -78,6 +78,12 @@ export default {
                 };
             },
         },
+        chapronIndex: {
+            type: Array,
+            default: function () {
+                return [];
+            },
+        },
     },
     data: function () {
         let starters = [];
@@ -298,6 +304,15 @@ export default {
             finals = this.bonus.id === 1 ? this.setZahiaBonus(finals) : finals;
             finals = this.bonus.id === 4 ? this.setRedbullBonus(finals) : finals;
 
+            if (this.chapronIndex.length) {
+                this.chapronIndex.forEach(function (chapron) {
+                    finals[chapron].name = "Rotaldo";
+                    finals[chapron].note = 2.5;
+                    finals[chapron].goals = 0;
+                    finals[chapron].csc = 0;
+                });
+            }
+
             if (this.opponentBonus.id !== 3) {
                 this.substitutions.forEach(function (substitution) {
                     if (substitution.note) {
@@ -305,7 +320,7 @@ export default {
                             return starter.index === substitution.starter;
                         });
                         let substitute = this.substitutes[substitution.substitute];
-                        if (starter && starter.note && starter.note < substitution.note && substitute.note) {
+                        if (starter && starter.note && starter.note < substitution.note && substitute.note && starter.name !== "Rotaldo") {
                             starter.substitution = substitute;
                             availableSubstitutes = availableSubstitutes.filter(function (availableSubstitute) {
                                 return availableSubstitute.index !== substitution.substitute;
@@ -315,7 +330,7 @@ export default {
                 }, this);
             }
 
-            let rotaldos = 0;
+            let rotaldos = this.chapronIndex.length ? 1 : 0;
             finals.forEach(function (starter) {
                 if (!starter.note && !starter.substitution) {
                     let substitutePositionsAvailable = ["goalkeeper"];
