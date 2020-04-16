@@ -390,4 +390,26 @@ describe("Bonus : Miroir", () => {
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6);
         expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6);
     });
+
+    it("Retourne le Suarez de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: 5 }],
+            substitutes: [],
+            substitutions: [],
+            bonus: { id: 2 }, // Suarez
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Miroir
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-1);
+
+        teamWrapper.setData({
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 2 }, // Suarez
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(5);
+    });
 });

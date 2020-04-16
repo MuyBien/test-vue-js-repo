@@ -373,7 +373,7 @@ export default {
                 }
             });
 
-            if (this.opponentBonus.id === 2) {
+            if ((this.opponentBonus.id === 2 && this.bonus.id !== 6) || (this.bonus.id === 2 && this.opponentBonus.id === 6)) {
                 finals = this.setSuarezBonus(finals);
             }
 
