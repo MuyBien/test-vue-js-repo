@@ -158,6 +158,13 @@ describe("Affichage du score", () => {
         expect(scoreWrapper.find(".score-probs button").exists()).to.be.true;
     });
 
+    it("Lance le calcul des probabilités différemment selon si un ou deux chaprons sont utilisés", () => {
+        scoreWrapper.vm.computeChapron();
+        expect(scoreWrapper.emitted("computeChapron").length).to.be.equals(1);
+        scoreWrapper.vm.computeChapron(true);
+        expect(scoreWrapper.emitted("computeMultipleChapron").length).to.be.equals(1);
+    });
+
     it("Affiche des probabilités de score si un des joueurs utilise un Chapron Rouge", () => {
         scoreWrapper.setProps({
             awayBonus: undefined,
@@ -179,6 +186,8 @@ describe("Affichage du score", () => {
             homeGoals: 4,
         });
         expect(scoreWrapper.findAll(".score").length).to.be.equals(1);
+        expect(scoreWrapper.vm.mostProbResult).to.be.undefined;
+        expect(scoreWrapper.vm.otherPossibleResults).to.be.undefined;
     });
 
 });

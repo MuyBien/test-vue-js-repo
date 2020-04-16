@@ -58,9 +58,13 @@ export default {
     },
     computed: {
         orderedPossibleResults: function () {
-            return Object.values(this.possibleResults).sort(function (a, b) {
-                return b.chapronTarget.length - a.chapronTarget.length;
-            });
+            if (this.possibleResults) {
+                let allPossibleResults = Object.values(this.possibleResults);
+                return allPossibleResults.sort(function (a, b) {
+                    return b.chapronTarget.length - a.chapronTarget.length;
+                });
+            }
+            return [];
         },
         mostProbResult: function () {
             if (this.orderedPossibleResults.length) {

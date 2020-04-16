@@ -11,11 +11,23 @@ describe("Bonus", () => {
         bonusWrapper = shallowMount(MPGBonus);
     });
 
-    it("Propose tous les bonus possibles", () => {
+    it("Permet de sélectionner un bonus", () => {
         bonusWrapper.setProps({
             bonus: 0,
         });
         expect(bonusWrapper.vm.selected).to.equals(0);
+        expect(bonusWrapper.vm.bonusSelected.id).to.equals(0);
+        bonusWrapper.vm.selectBonus();
+        expect(bonusWrapper.emitted("select").length).to.be.equals(1);
+    });
+
+    it("Permet de sélectionner un bonus avec un joueur cible", () => {
+        bonusWrapper.setProps({
+            bonus: 4,
+            target: 1,
+        });
+        expect(bonusWrapper.vm.bonusSelected.id).to.equals(4);
+        expect(bonusWrapper.vm.bonusTarget).to.equals(1);
     });
 });
 

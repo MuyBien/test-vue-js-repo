@@ -45,8 +45,10 @@ export default {
         };
     },
     async created() {
-        this.db = await this.getDb();
-        this.teams = await this.getTeamsFromDb();
+        if (this.dbSupported) {
+            this.db = await this.getDb();
+            this.teams = await this.getTeamsFromDb();
+        }
     },
     computed: {
         dbSupported: function () {
