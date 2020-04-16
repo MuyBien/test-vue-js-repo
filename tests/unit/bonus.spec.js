@@ -347,5 +347,23 @@ describe("Bonus : Chapron Rouge", () => {
             expect(scoreTotal).to.be.equals(19*18);
         });
     }).timeout(3000);
+});
 
+describe("Bonus : Miroir", () => {
+    let matchWrapper;
+    let teamWrapper;
+
+    beforeEach(() => {
+        matchWrapper = shallowMount(MPGMatch);
+        teamWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Retourne la valise de l'adversaire contre lui", () => {
+        matchWrapper.setData({
+            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: { id: 0 } }, // Valise
+            away: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: { id: 6 } }, // Miroir
+        });
+        expect(matchWrapper.vm.awayGoals).to.be.equals(2);
+        expect(matchWrapper.vm.homeGoals).to.be.equals(1);
+    });
 });
