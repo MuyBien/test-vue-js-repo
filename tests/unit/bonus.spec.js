@@ -366,4 +366,28 @@ describe("Bonus : Miroir", () => {
         expect(matchWrapper.vm.awayGoals).to.be.equals(2);
         expect(matchWrapper.vm.homeGoals).to.be.equals(1);
     });
+
+    it("Retourne la Zahia de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 1 }, // Zahia
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6.5);
+        expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6.5);
+
+        teamWrapper.setData({
+            bonus: { id: 1 }, // Zahia
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Miroir
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6);
+        expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6);
+    });
 });

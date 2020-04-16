@@ -301,7 +301,7 @@ export default {
             let positions = ["forward", "middle", "backer"];
 
             finals = this.setDefenseBonus(finals);
-            finals = this.bonus.id === 1 ? this.setZahiaBonus(finals) : finals;
+            finals = (this.bonus.id === 1 && this.opponentBonus.id !== 6) || (this.bonus.id === 6 && this.opponentBonus.id === 1) ? this.setZahiaBonus(finals) : finals;
             finals = this.bonus.id === 4 ? this.setRedbullBonus(finals) : finals;
 
             if (this.chapronIndex.length) {
