@@ -2,6 +2,45 @@ import { expect } from "chai";
 import { shallowMount } from "@vue/test-utils";
 import MPGTeam from "@/components/MPGTeam.vue";
 
+describe("Paramétrage d'équipe", () => {
+    let componentWrapper;
+
+    beforeEach(() => {
+        componentWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Permet de sélectionner un joueur", () => {
+        componentWrapper.vm.selectStarter(0, {
+            position: "backer",
+            name: "Basile Boli",
+            note: 10,
+            goals: 1,
+            csc: 0,
+        });
+        expect(componentWrapper.vm.starters[0].position).to.be.equals("backer");
+        expect(componentWrapper.vm.starters[0].name).to.be.equals("Basile Boli");
+        expect(componentWrapper.vm.starters[0].note).to.be.equals(10);
+        expect(componentWrapper.vm.starters[0].csc).to.be.equals(0);
+        expect(componentWrapper.vm.starters[0].goals).to.be.equals(1);
+    });
+
+    it("Permet de définir un remplacement", () => {
+        componentWrapper.vm.defineSubstitution(0, {
+            starter: 0,
+            substitute: 0,
+            note: 6,
+        });
+        expect(componentWrapper.vm.substitutions[0].starter).to.be.equals(0);
+        expect(componentWrapper.vm.substitutions[0].substitute).to.be.equals(0);
+        expect(componentWrapper.vm.substitutions[0].note).to.be.equals(6);
+    });
+
+    it("Permet de sélectionner un bonus", () => {
+        componentWrapper.vm.selectBonus(0);
+        expect(componentWrapper.vm.bonus).to.be.equals(0);
+    });
+});
+
 describe("Modifications en lot", () => {
     let componentWrapper;
 
