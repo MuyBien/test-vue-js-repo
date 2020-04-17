@@ -243,7 +243,7 @@ export default {
         },
         setRedbullBonus: function (finalTeam) {
             const redbullBonus = 1;
-            const playerIndex = this.bonus.target;
+            const playerIndex = typeof this.bonus.target !== "undefined" ? this.bonus.target : this.opponentBonus.target;
             if (playerIndex !== undefined) {
                 finalTeam[playerIndex].note = finalTeam[playerIndex].note ? finalTeam[playerIndex].note + redbullBonus : undefined;
                 finalTeam[playerIndex].bonus = finalTeam[playerIndex].bonus ? finalTeam[playerIndex].bonus + redbullBonus : redbullBonus;
@@ -302,7 +302,7 @@ export default {
 
             finals = this.setDefenseBonus(finals);
             finals = (this.bonus.id === 1 && this.opponentBonus.id !== 6) || (this.bonus.id === 6 && this.opponentBonus.id === 1) ? this.setZahiaBonus(finals) : finals;
-            finals = this.bonus.id === 4 ? this.setRedbullBonus(finals) : finals;
+            finals = (this.bonus.id === 4 && this.opponentBonus.id !== 6) || (this.bonus.id === 6 && this.opponentBonus.id === 4) ? this.setRedbullBonus(finals) : finals;
 
             if (this.chapronIndex.length) {
                 this.chapronIndex.forEach(function (chapron) {

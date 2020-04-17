@@ -434,4 +434,30 @@ describe("Bonus : Miroir", () => {
         });
         expect(teamWrapper.vm.finalTeam.team[0].substitution).not.to.be.undefined;
     });
+
+    it("Retourne le RedBull de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: 5 }],
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: {
+                id: 4,
+                target: 0,
+            }, // RedBull
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(1);
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6);
+
+        teamWrapper.setData({
+            bonus: {
+                id: 4,
+                target: 0,
+            }, // RedBull
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Tonton Pat'
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(5);
+    });
 });
