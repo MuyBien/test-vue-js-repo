@@ -128,6 +128,19 @@ describe("Bonus : Suarez", () => {
         expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-1);
     });
 
+    it("Enlève 1 pt au gardien adverse même si il a un bonus", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: 5, bonus: 0.5 }],
+            substitutes: [],
+            substitutions: [],
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 2 },
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-0.5);
+    });
+
     it("Enlève 1 pt au gardien adverse même si c'est un Rotaldo", () => {
         teamWrapper.setData({
             starters: [{ index: 0, position: "goalkeeper", note: undefined }],

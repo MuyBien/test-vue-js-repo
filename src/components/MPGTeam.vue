@@ -235,7 +235,7 @@ export default {
             let suarezBonus = -1;
             if (finalTeam[0].substitution) {
                 finalTeam[0].substitution.note += suarezBonus;
-                finalTeam[0].substitution.bonus = finalTeam[0].substitution.bonus ? finalTeam[0].substitution.bonus + suarezBonus : suarezBonus;
+                finalTeam[0].substitution.bonus = suarezBonus;
             } else {
                 finalTeam[0].note += suarezBonus;
                 finalTeam[0].bonus = finalTeam[0].bonus ? finalTeam[0].bonus + suarezBonus : suarezBonus;
