@@ -76,6 +76,17 @@ describe("Bonus : Zahia", () => {
         expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6.5);
     });
 
+    it("Rajoute 0.5 supplémentaire à un joueur qui a déjà un bonus défensif", () => {
+        teamWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6.5, goals: 1, csc: 0, bonus: 0.5 },
+            ],
+            bonus: { id: 1 },
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(7);
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(1);
+    });
+
     it("Ne rajoute pas 0.5 au remplaçant", () => {
         teamWrapper.setData({
             starters: [{ index: 0, position: "backer", note: 4 }],
