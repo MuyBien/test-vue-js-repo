@@ -183,3 +183,29 @@ describe("Modifications en lot", () => {
         });
     });
 });
+
+describe("Prise en compte des Rotaldo imposés par un Chapron Rouge", () => {
+    let componentWrapper;
+
+    beforeEach(() => {
+        componentWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Remplace un joueur par un Rotaldo si il est visé par un Chapron Rouge", () => {
+        componentWrapper.vm.selectStarter(0, {
+            position: "backer",
+            name: "Basile Boli",
+            note: 10,
+            goals: 1,
+            csc: 0,
+        });
+        componentWrapper.setProps({
+            chapronIndex: [0],
+        });
+        expect(componentWrapper.vm.finalTeam.team[0].position).to.be.equals("backer");
+        expect(componentWrapper.vm.finalTeam.team[0].name).to.be.equals("Rotaldo");
+        expect(componentWrapper.vm.finalTeam.team[0].note).to.be.equals(2.5);
+        expect(componentWrapper.vm.finalTeam.team[0].csc).to.be.equals(0);
+        expect(componentWrapper.vm.finalTeam.team[0].goals).to.be.equals(0);
+    });
+});
