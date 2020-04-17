@@ -76,6 +76,17 @@ describe("Bonus : Zahia", () => {
         expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6.5);
     });
 
+    it("Rajoute 0.5 supplémentaire à un joueur qui a déjà un bonus défensif", () => {
+        teamWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6.5, goals: 1, csc: 0, bonus: 0.5 },
+            ],
+            bonus: { id: 1 },
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(7);
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(1);
+    });
+
     it("Ne rajoute pas 0.5 au remplaçant", () => {
         teamWrapper.setData({
             starters: [{ index: 0, position: "backer", note: 4 }],
@@ -115,6 +126,19 @@ describe("Bonus : Suarez", () => {
         });
         expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
         expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-1);
+    });
+
+    it("Enlève 1 pt au gardien adverse même si il a un bonus", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: 5, bonus: 0.5 }],
+            substitutes: [],
+            substitutions: [],
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 2 },
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-0.5);
     });
 
     it("Enlève 1 pt au gardien adverse même si c'est un Rotaldo", () => {
@@ -347,5 +371,117 @@ describe("Bonus : Chapron Rouge", () => {
             expect(scoreTotal).to.be.equals(19*18);
         });
     }).timeout(3000);
+});
 
+describe("Bonus : Miroir", () => {
+    let matchWrapper;
+    let teamWrapper;
+
+    beforeEach(() => {
+        matchWrapper = shallowMount(MPGMatch);
+        teamWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Retourne la valise de l'adversaire contre lui", () => {
+        matchWrapper.setData({
+            home: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: { id: 0 } }, // Valise
+            away: { team: [], goals: 2, csc: 0, goalStop: 0, averages: [], bonus: { id: 6 } }, // Miroir
+        });
+        expect(matchWrapper.vm.awayGoals).to.be.equals(2);
+        expect(matchWrapper.vm.homeGoals).to.be.equals(1);
+    });
+
+    it("Retourne la Zahia de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 1 }, // Zahia
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6.5);
+        expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6.5);
+
+        teamWrapper.setData({
+            bonus: { id: 1 }, // Zahia
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Miroir
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6);
+        expect(teamWrapper.vm.finalTeam.team[1].note).to.be.equals(6);
+    });
+
+    it("Retourne le Suarez de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "goalkeeper", note: 5 }],
+            substitutes: [],
+            substitutions: [],
+            bonus: { id: 2 }, // Suarez
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Miroir
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(4);
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(-1);
+
+        teamWrapper.setData({
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 2 }, // Suarez
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(5);
+    });
+
+    it("Retourne le Tonton Pat' de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: 3 }],
+            substitutes: [{ index: 0, position: "backer", note: 5 }],
+            substitutions: [{ index: 0, starter: 0, substitute: 0, note: 5 }],
+            bonus: { id: 3 }, // Tonton Pat'
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Miroir
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].substitution).to.be.undefined;
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(3);
+
+        teamWrapper.setData({
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 3 }, // Tonton Pat'
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].substitution).not.to.be.undefined;
+    });
+
+    it("Retourne le RedBull de l'adversaire contre lui", () => {
+        teamWrapper.setData({
+            starters: [{ index: 0, position: "backer", note: 5 }],
+            bonus: { id: 6 }, // Miroir
+        });
+        teamWrapper.setProps({
+            opponentBonus: {
+                id: 4,
+                target: 0,
+            }, // RedBull
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].bonus).to.be.equals(1);
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(6);
+
+        teamWrapper.setData({
+            bonus: {
+                id: 4,
+                target: 0,
+            }, // RedBull
+        });
+        teamWrapper.setProps({
+            opponentBonus: { id: 6 }, // Tonton Pat'
+        });
+        expect(teamWrapper.vm.finalTeam.team[0].note).to.be.equals(5);
+    });
 });

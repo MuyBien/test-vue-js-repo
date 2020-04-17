@@ -2,6 +2,45 @@ import { expect } from "chai";
 import { shallowMount } from "@vue/test-utils";
 import MPGTeam from "@/components/MPGTeam.vue";
 
+describe("Paramétrage d'équipe", () => {
+    let componentWrapper;
+
+    beforeEach(() => {
+        componentWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Permet de sélectionner un joueur", () => {
+        componentWrapper.vm.selectStarter(0, {
+            position: "backer",
+            name: "Basile Boli",
+            note: 10,
+            goals: 1,
+            csc: 0,
+        });
+        expect(componentWrapper.vm.starters[0].position).to.be.equals("backer");
+        expect(componentWrapper.vm.starters[0].name).to.be.equals("Basile Boli");
+        expect(componentWrapper.vm.starters[0].note).to.be.equals(10);
+        expect(componentWrapper.vm.starters[0].csc).to.be.equals(0);
+        expect(componentWrapper.vm.starters[0].goals).to.be.equals(1);
+    });
+
+    it("Permet de définir un remplacement", () => {
+        componentWrapper.vm.defineSubstitution(0, {
+            starter: 0,
+            substitute: 0,
+            note: 6,
+        });
+        expect(componentWrapper.vm.substitutions[0].starter).to.be.equals(0);
+        expect(componentWrapper.vm.substitutions[0].substitute).to.be.equals(0);
+        expect(componentWrapper.vm.substitutions[0].note).to.be.equals(6);
+    });
+
+    it("Permet de sélectionner un bonus", () => {
+        componentWrapper.vm.selectBonus(0);
+        expect(componentWrapper.vm.bonus).to.be.equals(0);
+    });
+});
+
 describe("Modifications en lot", () => {
     let componentWrapper;
 
@@ -20,6 +59,7 @@ describe("Modifications en lot", () => {
             substitutions: [
                 { index: 0, starter: 2, substitute: 1, note: 8 },
             ],
+            bonus: { id: 2, target: undefined },
         };
         componentWrapper.vm.loadTeam(team);
         expect(componentWrapper.vm.$data.starters[0].position).to.be.equals("backer");
@@ -37,6 +77,27 @@ describe("Modifications en lot", () => {
         expect(componentWrapper.vm.$data.substitutions[0].starter).to.be.equals(2);
         expect(componentWrapper.vm.$data.substitutions[0].note).to.be.equals(8);
         expect(componentWrapper.vm.$data.substitutions[0].substitute).to.be.equals(1);
+
+        expect(componentWrapper.vm.bonus.id).to.be.equals(2);
+    });
+
+    it("Charge une équipe sans bonus", () => {
+        let team = {
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+            ],
+            substitutes: [
+                { index: 0, position: "forward", name: "Didier Drogba", note: 8, goals: 3, csc: 1 },
+            ],
+            substitutions: [
+                { index: 0, starter: 2, substitute: 1, note: 8 },
+            ],
+        };
+        componentWrapper.vm.loadTeam(team);
+        expect(componentWrapper.vm.$data.starters[0].name).to.be.equals("Basile Boli");
+        expect(componentWrapper.vm.$data.substitutes[0].name).to.be.equals("Didier Drogba");
+        expect(componentWrapper.vm.$data.substitutions[0].note).to.be.equals(8);
+        expect(componentWrapper.vm.bonus.id).to.be.undefined;
     });
 
     it("Réinitialise les titulaires", () => {
@@ -120,5 +181,31 @@ describe("Modifications en lot", () => {
             expect(substitution.substitute).to.be.undefined;
             expect(substitution.note).to.be.undefined;
         });
+    });
+});
+
+describe("Prise en compte des Rotaldo imposés par un Chapron Rouge", () => {
+    let componentWrapper;
+
+    beforeEach(() => {
+        componentWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Remplace un joueur par un Rotaldo si il est visé par un Chapron Rouge", () => {
+        componentWrapper.vm.selectStarter(0, {
+            position: "backer",
+            name: "Basile Boli",
+            note: 10,
+            goals: 1,
+            csc: 0,
+        });
+        componentWrapper.setProps({
+            chapronIndex: [0],
+        });
+        expect(componentWrapper.vm.finalTeam.team[0].position).to.be.equals("backer");
+        expect(componentWrapper.vm.finalTeam.team[0].name).to.be.equals("Rotaldo");
+        expect(componentWrapper.vm.finalTeam.team[0].note).to.be.equals(2.5);
+        expect(componentWrapper.vm.finalTeam.team[0].csc).to.be.equals(0);
+        expect(componentWrapper.vm.finalTeam.team[0].goals).to.be.equals(0);
     });
 });

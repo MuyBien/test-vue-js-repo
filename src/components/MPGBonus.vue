@@ -72,6 +72,11 @@ export default {
                 name: "Chapron rouge",
                 image: "chapron",
                 needTarget: false,
+            },{
+                id: 6,
+                name: "Miroir",
+                image: "miroir",
+                needTarget: false,
             }],
             selected: undefined,
             bonusTarget: undefined,
