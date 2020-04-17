@@ -202,6 +202,7 @@ export default {
             this.starters = team.starters;
             this.substitutes = team.substitutes;
             this.substitutions = team.substitutions;
+            this.bonus = team.bonus ? team.bonus : { id: undefined, target: undefined };
         },
         setDefenseBonus: function (finalTeam) {
             const backers = finalTeam.filter(function (player) {
@@ -286,6 +287,7 @@ export default {
                 starters: this.starters,
                 substitutes: this.substitutes,
                 substitutions: this.substitutions,
+                bonus: this.bonus,
             };
         },
         fieldStarters: function () {

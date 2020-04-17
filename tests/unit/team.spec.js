@@ -59,6 +59,7 @@ describe("Modifications en lot", () => {
             substitutions: [
                 { index: 0, starter: 2, substitute: 1, note: 8 },
             ],
+            bonus: { id: 2, target: undefined },
         };
         componentWrapper.vm.loadTeam(team);
         expect(componentWrapper.vm.$data.starters[0].position).to.be.equals("backer");
@@ -76,6 +77,27 @@ describe("Modifications en lot", () => {
         expect(componentWrapper.vm.$data.substitutions[0].starter).to.be.equals(2);
         expect(componentWrapper.vm.$data.substitutions[0].note).to.be.equals(8);
         expect(componentWrapper.vm.$data.substitutions[0].substitute).to.be.equals(1);
+
+        expect(componentWrapper.vm.bonus.id).to.be.equals(2);
+    });
+
+    it("Charge une équipe sans bonus", () => {
+        let team = {
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+            ],
+            substitutes: [
+                { index: 0, position: "forward", name: "Didier Drogba", note: 8, goals: 3, csc: 1 },
+            ],
+            substitutions: [
+                { index: 0, starter: 2, substitute: 1, note: 8 },
+            ],
+        };
+        componentWrapper.vm.loadTeam(team);
+        expect(componentWrapper.vm.$data.starters[0].name).to.be.equals("Basile Boli");
+        expect(componentWrapper.vm.$data.substitutes[0].name).to.be.equals("Didier Drogba");
+        expect(componentWrapper.vm.$data.substitutions[0].note).to.be.equals(8);
+        expect(componentWrapper.vm.bonus.id).to.be.undefined;
     });
 
     it("Réinitialise les titulaires", () => {
