@@ -202,6 +202,7 @@ export default {
             this.starters = team.starters;
             this.substitutes = team.substitutes;
             this.substitutions = team.substitutions;
+            this.bonus = team.bonus ? team.bonus : { id: undefined, target: undefined };
         },
         setDefenseBonus: function (finalTeam) {
             const backers = finalTeam.filter(function (player) {
@@ -234,7 +235,7 @@ export default {
             let suarezBonus = -1;
             if (finalTeam[0].substitution) {
                 finalTeam[0].substitution.note += suarezBonus;
-                finalTeam[0].substitution.bonus = finalTeam[0].substitution.bonus ? finalTeam[0].substitution.bonus + suarezBonus : suarezBonus;
+                finalTeam[0].substitution.bonus = suarezBonus;
             } else {
                 finalTeam[0].note += suarezBonus;
                 finalTeam[0].bonus = finalTeam[0].bonus ? finalTeam[0].bonus + suarezBonus : suarezBonus;
@@ -243,7 +244,7 @@ export default {
         },
         setRedbullBonus: function (finalTeam) {
             const redbullBonus = 1;
-            const playerIndex = this.bonus.target;
+            const playerIndex = typeof this.bonus.target !== "undefined" ? this.bonus.target : this.opponentBonus.target;
             if (playerIndex !== undefined) {
                 finalTeam[playerIndex].note = finalTeam[playerIndex].note ? finalTeam[playerIndex].note + redbullBonus : undefined;
                 finalTeam[playerIndex].bonus = finalTeam[playerIndex].bonus ? finalTeam[playerIndex].bonus + redbullBonus : redbullBonus;
@@ -286,6 +287,7 @@ export default {
                 starters: this.starters,
                 substitutes: this.substitutes,
                 substitutions: this.substitutions,
+                bonus: this.bonus,
             };
         },
         fieldStarters: function () {
@@ -301,8 +303,8 @@ export default {
             let positions = ["forward", "middle", "backer"];
 
             finals = this.setDefenseBonus(finals);
-            finals = this.bonus.id === 1 ? this.setZahiaBonus(finals) : finals;
-            finals = this.bonus.id === 4 ? this.setRedbullBonus(finals) : finals;
+            finals = (this.bonus.id === 1 && this.opponentBonus.id !== 6) || (this.bonus.id === 6 && this.opponentBonus.id === 1) ? this.setZahiaBonus(finals) : finals;
+            finals = (this.bonus.id === 4 && this.opponentBonus.id !== 6) || (this.bonus.id === 6 && this.opponentBonus.id === 4) ? this.setRedbullBonus(finals) : finals;
 
             if (this.chapronIndex.length) {
                 this.chapronIndex.forEach(function (chapron) {
@@ -313,7 +315,7 @@ export default {
                 });
             }
 
-            if (this.opponentBonus.id !== 3) {
+            if (!((this.opponentBonus.id === 3 && this.bonus.id !== 6) || (this.bonus.id === 3 && this.opponentBonus.id === 6))) {
                 this.substitutions.forEach(function (substitution) {
                     if (substitution.note) {
                         let starter = finals.find(function (starter) {
@@ -373,7 +375,7 @@ export default {
                 }
             });
 
-            if (this.opponentBonus.id === 2) {
+            if ((this.opponentBonus.id === 2 && this.bonus.id !== 6) || (this.bonus.id === 2 && this.opponentBonus.id === 6)) {
                 finals = this.setSuarezBonus(finals);
             }
 

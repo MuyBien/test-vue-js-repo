@@ -97,11 +97,11 @@ export default {
             };
         },
         homeGoals: function () {
-            const valise = this.away.bonus.id === 0 ? 1 : 0;
+            const valise = (this.away.bonus.id === 6 && this.home.bonus.id === 0) || (this.away.bonus.id === 0 && this.home.bonus.id !== 6) ? 1 : 0;
             return Math.max(0, (this.home.goals - this.away.goalStop - valise)) + this.away.csc + this.mpgGoals.home.length;
         },
         awayGoals: function () {
-            const valise = this.home.bonus.id === 0 ? 1 : 0;
+            const valise = (this.home.bonus.id === 6 && this.away.bonus.id === 0) || (this.home.bonus.id === 0 && this.away.bonus.id !== 6) ? 1 : 0;
             return Math.max(0, (this.away.goals - this.home.goalStop - valise)) + this.home.csc + this.mpgGoals.away.length;
         },
     },
@@ -243,7 +243,7 @@ export default {
                 } else {
                     this[teamTarget2].chapronIndex = [chapronIndex2];
                 }
-                
+
                 let impossibleState = false;
                 let playerTarget = this[teamTarget].team[chapronIndex];
                 let playerTarget2 = this[teamTarget2].team[chapronIndex2];

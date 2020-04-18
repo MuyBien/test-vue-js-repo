@@ -9,11 +9,32 @@ describe("Input Number", () => {
         componentWrapper = shallowMount(InputNumber);
     });
 
+    it("Prend en compte une valeur valide", () => {
+        componentWrapper.setProps({
+            value: 5,
+        });
+        expect(componentWrapper.vm.inputValue).to.be.equals(5);
+        componentWrapper.vm.updateValue(6);
+        expect(componentWrapper.emitted("input")[0][0]).to.be.equals(6);
+    });
+
+    it("Ne prend pas en compte une valeur invalide", () => {
+        componentWrapper.setProps({
+            value: "test",
+        });
+        expect(componentWrapper.vm.inputValue).to.be.undefined;
+        componentWrapper.vm.updateValue("test");
+        expect(componentWrapper.emitted("input")[0][0]).to.be.undefined;
+    });
+
     it("Permer d'incrementer la valeur d'un step", () => {
         componentWrapper.setProps({
             value: 5.5,
             step: 0.5,
+            max: 6,
         });
+        componentWrapper.vm.increment();
+        expect(componentWrapper.vm.inputValue).to.be.equals(6);
         componentWrapper.vm.increment();
         expect(componentWrapper.vm.inputValue).to.be.equals(6);
     });
@@ -22,7 +43,10 @@ describe("Input Number", () => {
         componentWrapper.setProps({
             value: 5.5,
             step: 0.5,
+            min: 5,
         });
+        componentWrapper.vm.decrement();
+        expect(componentWrapper.vm.inputValue).to.be.equals(5);
         componentWrapper.vm.decrement();
         expect(componentWrapper.vm.inputValue).to.be.equals(5);
     });
