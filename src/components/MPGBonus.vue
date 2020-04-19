@@ -112,6 +112,7 @@ export default {
 <style scoped lang="scss">
     .bonuses {
         display: flex;
+        flex-wrap: wrap;
         margin: 10px 0;
         input {
             margin: 0;
@@ -121,7 +122,7 @@ export default {
     }
     .bonus {
         display: flex;
-        margin: 0 5px;
+        margin: 5px;
         label {
             cursor: pointer;
             background-size: contain;

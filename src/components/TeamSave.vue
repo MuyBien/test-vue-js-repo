@@ -1,7 +1,7 @@
 <template>
     <section>
         <div v-if="dbSupported">
-            <input type="text" placeholder="Team name" v-model="name" />
+            <input type="text" placeholder="Nom de l'équipe" :value="name" @input="$emit('update:name', $event.target.value)"/>
             <button @click="saveTeam" title="Garder une copie des joueurs pramétrés dans le navigateur pour la réutiliser plus tard">Sauvegarder</button>
             <button @click="showSavedTeams=true" title="Afficher la liste des équipes sauvegardées">Charger une équipe</button>
 
@@ -61,14 +61,14 @@ export default {
     methods: {
         saveTeam: async function () {
             let team = {
-                name: this.name,
+                name: this.team.name,
                 team: this.team,
             };
             await this.addTeamToDb(team);
             this.teams = await this.getTeamsFromDb();
         },
         loadTeam: function (name) {
-            this.name = name;
+            // this.name = name;
             let team = this.teams.filter(function (team) {
                 return team.name === name;
             })[0].team;
