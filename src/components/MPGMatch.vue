@@ -334,5 +334,9 @@ export default {
             flex-direction: column;
             align-items: center;
         }
+        .final-teams {
+            flex-direction: column;
+            align-items: center;
+        }
     }
 </style>
