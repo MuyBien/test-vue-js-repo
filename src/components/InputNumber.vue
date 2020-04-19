@@ -1,7 +1,7 @@
 <template>
     <div class="input-wrapper">
         <span class="input-addon before" @click="decrement">-</span>
-        <input type="number"
+        <input type="text" inputmode="decimal"
             :class="{invalid: invalid}"
             :step="step"
             :value="inputValue"
@@ -128,16 +128,11 @@ export default {
         input {
             height: $input-height;
             box-sizing: border-box;
-            -moz-appearance: textfield;
             padding: 0 5px;
             width: 40px;
             border: 1px solid $primary-color;
             &.invalid {
                 border-color: $color-error;
-            }
-            &::-webkit-outer-spin-button,
-            &::-webkit-inner-spin-button {
-                -webkit-appearance: none;
             }
             &::placeholder {
                 font-size: .7em;
@@ -177,15 +172,6 @@ export default {
         }
 
         @media screen and (max-width: 540px) {
-            .input-wrapper {
-                input {
-                    -moz-appearance: initial;
-                    &::-webkit-outer-spin-button,
-                    &::-webkit-inner-spin-button {
-                        -webkit-appearance: initial;
-                    }
-                }
-            }
             .input-addon {
                 display: none;
             }

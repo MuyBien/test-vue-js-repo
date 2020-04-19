@@ -5,7 +5,7 @@
           <span v-else>🛫 Équipe à l'extérieur</span>
       </h2>
 
-      <TeamSave :team="completeTeam" @team-loaded="loadTeam"></TeamSave>
+      <TeamSave :name.sync="name" :team="completeTeam" @team-loaded="loadTeam"></TeamSave>
 
       <MPGFormations @formation="setFormation"></MPGFormations>
 
@@ -118,6 +118,7 @@ export default {
             });
         }
         return {
+            name: "",
             starters: starters,
             substitutes: substitutes,
             substitutions: substitutions,
@@ -199,6 +200,7 @@ export default {
             this.starters = players;
         },
         loadTeam: function (team) {
+            this.name = team.name;
             this.starters = team.starters;
             this.substitutes = team.substitutes;
             this.substitutions = team.substitutions;
@@ -284,6 +286,7 @@ export default {
     computed: {
         completeTeam: function () {
             return {
+                name: this.name,
                 starters: this.starters,
                 substitutes: this.substitutes,
                 substitutions: this.substitutions,
@@ -379,6 +382,7 @@ export default {
                 finals = this.setSuarezBonus(finals);
             }
 
+            teamInfos.name = this.name;
             teamInfos.team = finals;
             teamInfos.csc = this.getCsc(finals);
             teamInfos.goals = this.getGoals(finals);
@@ -409,6 +413,7 @@ export default {
         finalTeam: {
             deep: true,
             handler: function () {
+                this.$emit("name-change", this.finalTeam.name);
                 this.$emit("team-change", this.finalTeam.team);
                 this.$emit("own-score", this.finalTeam.csc);
                 this.$emit("score", this.finalTeam.goals);

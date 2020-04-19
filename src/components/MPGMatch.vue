@@ -2,6 +2,7 @@
     <div class="main">
         <section class="match">
             <MPGTeam :home="true"
+                @name-change="updateHomeTeamName"
                 @team-change="updateHomeTeam"
                 @score="updateHomeGoals"
                 @own-score="updateHomeCSC"
@@ -11,6 +12,7 @@
                 :opponent-bonus="home.opponentBonus"
                 :chapron-index="home.chapronIndex"></MPGTeam>
             <MPGTeam :home="false"
+                @name-change="updateAwayTeamName"
                 @team-change="updateAwayTeam"
                 @score="updateAwayGoals"
                 @own-score="updateAwayCSC"
@@ -32,8 +34,8 @@
                 @computeMultipleChapron="applyMultipleChapronBonus">
             </MPGScore>
             <div class="final-teams">
-                <MPGResultTeam :final-team="home.team" :team-goals="home.goals" :opponent-csc="away.csc" :mpg-goals="mpgGoals.home"></MPGResultTeam>
-                <MPGResultTeam :final-team="away.team" :team-goals="away.goals" :opponent-csc="home.csc" :mpg-goals="mpgGoals.away"></MPGResultTeam>
+                <MPGResultTeam :team-name="home.name" :final-team="home.team" :team-goals="home.goals" :opponent-csc="away.csc" :mpg-goals="mpgGoals.home"></MPGResultTeam>
+                <MPGResultTeam :team-name="away.name" :final-team="away.team" :team-goals="away.goals" :opponent-csc="home.csc" :mpg-goals="mpgGoals.away"></MPGResultTeam>
             </div>
         </div>
     </div>
@@ -49,6 +51,7 @@ export default {
     data: function () {
         return {
             home: {
+                name: "",
                 team: [],
                 goals: 0,
                 csc: 0,
@@ -65,6 +68,7 @@ export default {
                 chapronIndex: [],
             },
             away: {
+                name: "",
                 team: [],
                 goals: 0,
                 csc: 0,
@@ -106,6 +110,12 @@ export default {
         },
     },
     methods: {
+        updateHomeTeamName: function (name) {
+            this.home.name = name;
+        },
+        updateAwayTeamName: function (name) {
+            this.away.name = name;
+        },
         updateHomeTeam: function (team) {
             this.home.team = team;
         },
@@ -321,6 +331,10 @@ export default {
 
     @media screen and (max-width: 1300px) {
         .match {
+            flex-direction: column;
+            align-items: center;
+        }
+        .final-teams {
             flex-direction: column;
             align-items: center;
         }

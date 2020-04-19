@@ -1,6 +1,7 @@
 <template>
     <section class="final-team" v-if="finalTeam.length">
-        <h3>Equipe Finale</h3>
+        <h3 v-if="!teamName">Equipe Finale</h3>
+        <h3 v-else>{{teamName}}</h3>
             <table>
                 <thead>
                     <tr>
@@ -75,6 +76,9 @@ export default {
         return {};
     },
     props: {
+        teamName: {
+            type: String,
+        },
         finalTeam: {
             type: Array,
             required: true,
