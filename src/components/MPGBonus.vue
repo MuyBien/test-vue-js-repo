@@ -8,8 +8,8 @@
                 </label>
             </div>
             <div v-for="bonus in bonuses" :key="bonus.id" class="bonus">
-                <input type="radio" :id="`bonus-${bonus.id}scopedId`" v-model="selected" :value="bonus.id" @change="selectBonus" />
-                <label :style="`background-image:url(${publicPath}img/bonus/${bonus.image}.png)`" :for="`bonus-${bonus.id}scopedId`" :title="bonus.name"></label>
+                <input type="radio" :id="`bonus-${bonus.id}${scopedId}`" v-model="selected" :value="bonus.id" @change="selectBonus" />
+                <label :style="`background-image:url(${publicPath}img/bonus/${bonus.image}.png)`" :for="`bonus-${bonus.id}${scopedId}`" :title="bonus.name"></label>
             </div>
         </div>
         <transition name="fade">
