@@ -79,7 +79,7 @@ Review Image:
     IMAGE_TAG: "$CI_COMMIT_REF_SLUG"
   script:
     - docker build --cache-from registry.gitlab.com/mpg-calculator:master -t registry.gitlab.com/mpg-calculator:IMAGE_TAG .
-    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_VERSION
+    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_TAG
   except:
     - tags
 
@@ -89,7 +89,7 @@ Stable Image:
     IMAGE_TAG: "$CI_COMMIT_REF_NAME"
   script:
     - docker build --cache-from registry.gitlab.com/mpg-calculator:master -t registry.gitlab.com/mpg-calculator:latest -t registry.gitlab.com/mpg-calculator:IMAGE_TAG .
-    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_VERSION
+    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_TAG
   only:
     - tags
 
