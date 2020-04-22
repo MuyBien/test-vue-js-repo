@@ -3,6 +3,7 @@ stages:
   - quality
   - test
   - security
+  - docker
   - deploy
 
 include:
@@ -57,6 +58,39 @@ license_scanning:
   stage: security
   coverage: '/Do not get coverage: \d+\.\d+/'
   except:
+    - tags
+
+.docker:
+  image: docker:18.09.7
+  stage: docker
+  cache: {}
+  dependencies: []
+  services:
+    - docker:18.09.7-dind
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER registry.gitlab.com --password-stdin
+    - docker pull registry.gitlab.com/mpg-calculator:master || true
+  allow_failure: true
+  timeout: 15m
+
+Review Image:
+  extends: .docker
+  variables:
+    IMAGE_TAG: "$CI_COMMIT_REF_SLUG"
+  script:
+    - docker build --cache-from registry.gitlab.com/mpg-calculator:master -t registry.gitlab.com/mpg-calculator:IMAGE_TAG .
+    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_VERSION
+  except:
+    - tags
+
+Stable Image:
+  extends: .docker
+  variables:
+    IMAGE_TAG: "$CI_COMMIT_REF_NAME"
+  script:
+    - docker build --cache-from registry.gitlab.com/mpg-calculator:master -t registry.gitlab.com/mpg-calculator:latest -t registry.gitlab.com/mpg-calculator:IMAGE_TAG .
+    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_VERSION
+  only:
     - tags
 
 pages: # the job must be named pages
