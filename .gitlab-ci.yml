@@ -32,6 +32,8 @@ Test:
   artifacts:
     paths:
     - coverage/lcov-report
+  except:
+    - tags
 
 code_quality:
   stage: quality
@@ -40,13 +42,22 @@ code_quality:
 
 sast:
   stage: security
+  except:
+    - tags
 
 dependency_scanning:
   stage: security
+  only:
+    refs:
+      - master
+    changes:
+      - package*.json
 
 license_scanning:
   stage: security
   coverage: '/Do not get coverage: \d+\.\d+/'
+  except:
+    - tags
 
 pages: # the job must be named pages
   image: node:latest
