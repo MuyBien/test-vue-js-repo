@@ -2,14 +2,14 @@
     <section>
         <div class="bonuses">
             <div class="bonus">
-                <input type="radio" :id="'no-bonus-' + scopedId" v-model="selected" :value="undefined" @change="selectBonus" />
+                <input type="radio" :id="`no-bonus-${scopedId}`" v-model="selected" :value="undefined" @change="selectBonus" />
                 <label class="no-bonus" :for="'no-bonus-' + scopedId">
                     <span>Aucun</span>
                 </label>
             </div>
             <div v-for="bonus in bonuses" :key="bonus.id" class="bonus">
-                <input type="radio" :id="'bonus-' + bonus.id + scopedId" v-model="selected" :value="bonus.id" @change="selectBonus" />
-                <label :style="'background-image:url(/img/bonus/' + bonus.image + '.png)'" :for="'bonus-' + bonus.id + scopedId" :title="bonus.name"></label>
+                <input type="radio" :id="`bonus-${bonus.id}scopedId`" v-model="selected" :value="bonus.id" @change="selectBonus" />
+                <label :style="`background-image:url(${publicPath}img/bonus/${bonus.image}.png)`" :for="`bonus-${bonus.id}scopedId`" :title="bonus.name"></label>
             </div>
         </div>
         <transition name="fade">
@@ -42,6 +42,7 @@ export default {
     },
     data: function () {
         return {
+            publicPath: process.env.BASE_URL,
             bonuses: [{
                 id: 0,
                 name: "La valise à Nanard",
