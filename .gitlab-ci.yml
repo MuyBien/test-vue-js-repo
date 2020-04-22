@@ -69,7 +69,7 @@ license_scanning:
     - docker:18.09.7-dind
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER registry.gitlab.com --password-stdin
-    - docker pull registry.gitlab.com/mpg-calculator:master || true
+    - docker pull registry.gitlab.com/muybien/mpg-calculator:master || true
   allow_failure: true
   timeout: 15m
 
@@ -78,8 +78,9 @@ Review Image:
   variables:
     IMAGE_TAG: "$CI_COMMIT_REF_SLUG"
   script:
-    - docker build --cache-from registry.gitlab.com/mpg-calculator:master -t registry.gitlab.com/mpg-calculator:$IMAGE_TAG .
-    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_TAG
+    - docker build -t registry.gitlab.com/muybien/mpg-calculator .
+    - docker build --cache-from registry.gitlab.com/muybien/mpg-calculator:master -t registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG .
+    - docker push registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG
   except:
     - tags
 
@@ -88,8 +89,8 @@ Stable Image:
   variables:
     IMAGE_TAG: "$CI_COMMIT_REF_NAME"
   script:
-    - docker build --cache-from registry.gitlab.com/mpg-calculator:master -t registry.gitlab.com/mpg-calculator:latest -t registry.gitlab.com/mpg-calculator:$IMAGE_TAG .
-    - docker push registry.gitlab.com/mpg-calculator:$IMAGE_TAG
+    - docker build --cache-from registry.gitlab.com/muybien/mpg-calculator:master -t registry.gitlab.com/muybien/mpg-calculator:latest -t registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG .
+    - docker push registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG
   only:
     - tags
 
