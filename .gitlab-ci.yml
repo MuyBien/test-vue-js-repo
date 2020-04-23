@@ -51,6 +51,7 @@ dependency_scanning:
   only:
     refs:
       - master
+      - branches
     changes:
       - package*.json
 
