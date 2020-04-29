@@ -35,6 +35,23 @@ describe("Remplacements", () => {
         expect(componentWrapper.vm.finalTeam.team[1].substitution).to.be.undefined;
     });
 
+    it("remplace un joueur si il n'a pas joué par son remplacant", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", note: 4 },
+                { index: 1, position: "backer", note: undefined },
+            ],
+            substitutes: [
+                { index: 0, position: "backer", note: 5 },
+                { index: 1, position: "backer", note: 8 },
+            ],
+            substitutions: [{ index: 0, starter: 1, substitute: 1, note: 5 }],
+        });
+        expectStarterSubstitued();
+        expect(componentWrapper.vm.finalTeam.team[1].substitution).not.to.be.undefined;
+        expect(componentWrapper.vm.finalTeam.team[1].substitution.note).to.be.equals(8);
+    });
+
     it("remplace un joueur si il a une note insuffisante", () => {
         componentWrapper.setData({
             starters: [{ index: 0, position: "backer", note: 3 }],

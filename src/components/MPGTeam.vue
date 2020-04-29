@@ -325,7 +325,7 @@ export default {
                             return starter.index === substitution.starter;
                         });
                         let substitute = this.substitutes[substitution.substitute];
-                        if (starter && starter.note && starter.note < substitution.note && substitute.note && starter.name !== "Rotaldo") {
+                        if (starter && (!starter.note || starter.note < substitution.note) && substitute.note && starter.name !== "Rotaldo") {
                             starter.substitution = substitute;
                             availableSubstitutes = availableSubstitutes.filter(function (availableSubstitute) {
                                 return availableSubstitute.index !== substitution.substitute;
