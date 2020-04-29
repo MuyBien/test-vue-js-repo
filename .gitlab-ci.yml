@@ -91,6 +91,7 @@ Stable Image:
   script:
     - docker build --cache-from registry.gitlab.com/muybien/mpg-calculator:master -t registry.gitlab.com/muybien/mpg-calculator:latest -t registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG .
     - docker push registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG
+    - docker push registry.gitlab.com/muybien/mpg-calculator:latest
   only:
     - tags
 
