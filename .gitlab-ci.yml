@@ -53,7 +53,8 @@ dependency_scanning:
       - master
       - branches
     changes:
-      - package*.json
+      - package.json
+      - package-lock.json
 
 license_scanning:
   stage: security
