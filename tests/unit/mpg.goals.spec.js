@@ -9,10 +9,18 @@ describe("Buts MPG", () => {
         componentWrapper = shallowMount(MPGMatch);
     });
 
-    it("attribue un but MPG si sa note lui permet", () => {
+    it("attribue un but MPG si sa note lui permet et qu'il n'a pas déjà marqué", () => {
         let team = [{index:10, position:"forward", note:7, goals:0, csc:0}];
         let averages = {forward:"", middle:"", backer:4.5, goalkeeper:5};
         let mpgs = componentWrapper.vm.getTeamMpgGoals(team, averages, true);
+        expect(mpgs.length).to.be.equals(1);
+
+        team = [{index:10, position:"forward", note:7, goals: undefined, csc:0}];
+        mpgs = componentWrapper.vm.getTeamMpgGoals(team, averages, true);
+        expect(mpgs.length).to.be.equals(1);
+
+        team = [{index:10, position:"forward", note:7, goals: NaN, csc:0}];
+        mpgs = componentWrapper.vm.getTeamMpgGoals(team, averages, true);
         expect(mpgs.length).to.be.equals(1);
     });
 
