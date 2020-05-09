@@ -6,6 +6,12 @@ stages:
   - docker
   - deploy
 
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: never
+    - when: always
+
 include:
   - template: Code-Quality.gitlab-ci.yml
   - template: Dependency-Scanning.gitlab-ci.yml
