@@ -1,7 +1,6 @@
 {
   "name": "mpg-calculator",
   "version": "2.5.5",
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
