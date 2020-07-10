@@ -89,6 +89,7 @@ license_scanning:
 
 Review Image:
   extends: .docker
+  needs: [Test]
   variables:
     IMAGE_TAG: "$CI_COMMIT_REF_SLUG"
   script:
