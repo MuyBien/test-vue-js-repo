@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "TeamSave",
+    name: "Feedback",
     data: function () {
         return {
             mail: "incoming+muybien-mpg-calculator-15624779-issue-@incoming.gitlab.com",
