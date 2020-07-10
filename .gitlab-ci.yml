@@ -18,7 +18,7 @@ include:
   - template: SAST.gitlab-ci.yml
   - template: License-Scanning.gitlab-ci.yml
 
-Build:
+build:app:
   image: node:latest
   stage: build
   script:
@@ -30,7 +30,7 @@ Build:
       - ./dist
     expire_in: 1 day
 
-Test:
+test:unit:
   image: node:latest
   stage: test
   script:
@@ -87,9 +87,9 @@ license_scanning:
   allow_failure: true
   timeout: 15m
 
-Review Image:
+review:image:
   extends: .docker
-  needs: [Test]
+  needs: ["test:unit"]
   variables:
     IMAGE_TAG: "$CI_COMMIT_REF_SLUG"
   script:
@@ -100,7 +100,7 @@ Review Image:
       when: never
     - when: on_success
 
-Stable Image:
+stable:image:
   extends: .docker
   variables:
     IMAGE_TAG: "$CI_COMMIT_REF_NAME"
@@ -115,7 +115,7 @@ pages: # the job must be named pages
   image: node:latest
   stage: deploy
   dependencies:
-    - Build
+    - build:app
   script:
     - mv public public-vue # GitLab Pages hooks on the public folder
     - mv dist public # rename the dist folder (result of npm run build)
