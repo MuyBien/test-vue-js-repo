@@ -58,6 +58,11 @@ sast:
       when: never
     - when: on_success
 
+nodejs-scan-sast:
+    stage: security
+    rules:
+      - when: never
+
 dependency_scanning:
   stage: security
   rules:
