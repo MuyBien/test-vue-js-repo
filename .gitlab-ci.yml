@@ -88,7 +88,6 @@ Review Image:
   variables:
     IMAGE_TAG: "$CI_COMMIT_REF_SLUG"
   script:
-    - docker build -t registry.gitlab.com/muybien/mpg-calculator .
     - docker build --cache-from registry.gitlab.com/muybien/mpg-calculator:master -t registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG .
     - docker push registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG
   rules:
