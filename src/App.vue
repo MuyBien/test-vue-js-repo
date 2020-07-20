@@ -8,18 +8,21 @@
     <MPGMatch></MPGMatch>
 
     <Feedback></Feedback>
+    <Help></Help>
   </div>
 </template>
 
 <script>
 import MPGMatch from "./components/MPGMatch.vue";
 import Feedback from "./components/Feedback.vue";
+import Help from "./components/Help.vue";
 
 export default {
     name: "App",
     components: {
         MPGMatch,
         Feedback,
+        Help,
     },
 };
 </script>
