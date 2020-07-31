@@ -1,5 +1,5 @@
 <template>
-    <div class="formations">
+    <div class="formations" data-tour-step="2">
         <div class="formation" :class="{selected: isSelected('541')}" role="button" @click="setFormation({'backer': 5, 'middle': 4, 'forward': 1})">
           <svg width="45" height="45" viewBox="745 422 45 42">
             <text fill="none" style="font-size: 10px; font-weight: bold;">

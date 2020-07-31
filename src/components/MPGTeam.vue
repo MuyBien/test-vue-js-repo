@@ -25,7 +25,7 @@
           <button @click="resetSubstitutes(true)">Réinitaliser les remplaçants</button>
           <button @click="resetSubstitutes(false)">Réinitaliser seulement leur notes</button>
       </div>
-      <ul>
+      <ul data-tour-step="7">
         <li v-for="substitute in substitutes" :key="'sub' + substitute.index">
             <MPGPlayer :index="substitute.index" :player="substitute" @select="selectSubstitute"></MPGPlayer>
         </li>
@@ -35,14 +35,14 @@
       <div class="actions">
           <button @click="resetsubstitutions">Réinitaliser les remplacements</button>
       </div>
-      <ul>
+      <ul data-tour-step="8">
         <li v-for="substitution in substitutions" :key="'substitution' + substitution.index">
             <MPGSubstitution :index="substitution.index" :substitution="substitution" :starters="starters" :substitutes="substitutes" @select="defineSubstitution"></MPGSubstitution>
         </li>
       </ul>
 
       <h3>Bonus</h3>
-      <MPGBonus :bonus="bonus.id" :target="bonus.target" :targets="fieldStarters" @select="selectBonus"></MPGBonus>
+      <MPGBonus :bonus="bonus.id" :target="bonus.target" :targets="fieldStarters" @select="selectBonus" data-tour-step="9"></MPGBonus>
 
   </div>
 </template>

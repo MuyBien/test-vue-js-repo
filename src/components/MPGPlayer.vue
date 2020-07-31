@@ -8,15 +8,16 @@
             :options="players"
             track-by="name"
             :label="getOptionLabel"
-            :placeholder="placeholder"></SelectList>
+            :placeholder="placeholder"
+            data-tour-step="3"></SelectList>
 
-          <div class="note-wrapper">
+          <div class="note-wrapper" data-tour-step="4">
               <input-number :step="0.5" :min="0" :max="10" v-model="playerNote" placeholder="Note" @input="selectPlayer"></input-number>
           </div>
-          <div class="goals-wrapper">
+          <div class="goals-wrapper" data-tour-step="5">
               <input-number :min="0" v-model="playerGoals" placeholder="Buts" @input="selectPlayer"></input-number>
           </div>
-          <div class="csc-wrapper">
+          <div class="csc-wrapper" data-tour-step="6">
               <input-number :min="0" v-model="playerCsc" placeholder="CSC" @input="selectPlayer"></input-number>
           </div>
       </section>

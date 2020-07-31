@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main" data-tour-step="11">
         <div class="score-probs" v-if="homeBonus === 5 || awayBonus === 5">
             <div class="chapron-help">
                 <p>Pour obtenir les scores possibles, paramétrez les équipes puis cliquez sur le bouton de calcul.</p>
