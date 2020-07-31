@@ -13,6 +13,7 @@ export default {
     data: function () {
         return {
             options: {
+                highlight: true,
                 useKeyboardNavigation: true,
                 labels: {
                     buttonSkip: "Arrêter",
@@ -149,5 +150,18 @@ export default {
                 background-color: hsla(120, 55%, 65%, 1);
             }
         }
+    }
+</style>
+<style lang="scss">
+    .v-step {
+        background: hsla(120, 55%, 45%, 1) !important;
+    }
+    .v-step__header {
+        background-color: #135a33 !important;
+    }
+    .v-tour__target--highlighted {
+        -webkit-box-shadow: 0 0 0 4px rgba(0,0,0,.4) !important;
+        box-shadow: 0 0 100px 10px #34b234 !important;
+        border-radius: 3px !important;
     }
 </style>
