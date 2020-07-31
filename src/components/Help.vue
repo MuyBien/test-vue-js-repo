@@ -106,7 +106,10 @@ export default {
         };
     },
     mounted: function () {
+        let helpShowed = localStorage.getItem("help-showed");
+        if (!helpShowed) {
             this.startTour();
+        }
     },
     methods: {
         startTour: function () {
@@ -115,6 +118,7 @@ export default {
         },
         saveTourEnd: function () {
             document.querySelector(".topbar").style.position = "sticky";
+            localStorage.setItem("help-showed", "true");
         },
     },
 };
