@@ -110,9 +110,11 @@ export default {
     },
     methods: {
         startTour: function () {
+            document.querySelector(".topbar").style.position = "relative";
             this.$tours["help"].start();
         },
         saveTourEnd: function () {
+            document.querySelector(".topbar").style.position = "sticky";
         },
     },
 };
