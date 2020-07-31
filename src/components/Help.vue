@@ -1,8 +1,10 @@
 <template>
-    <section class="help-wrapper">
+    <div>
         <v-tour name="help" :steps="steps" :options="options" :callbacks="callbacks"></v-tour>
-        <a @click="startTour">Aide</a>
-    </section>
+        <section class="help-wrapper">
+            <a @click="startTour">Aide</a>
+        </section>
+    </div>
 </template>
 
 <script>
