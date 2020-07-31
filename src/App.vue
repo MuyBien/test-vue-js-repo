@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <nav class="topbar">
+    <nav class="topbar" data-tour-step="1">
       <img alt="Logo MPG" src="./assets/logo.png">
-      <h1 data-tour-step="1">Calculateur de résultat de match MPG</h1>
+      <h1>Calculateur de résultat de match MPG</h1>
     </nav>
 
     <MPGMatch></MPGMatch>
