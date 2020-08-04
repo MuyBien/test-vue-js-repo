@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div v-if="dbSupported">
+        <div v-if="dbSupported" data-tour-step="10">
             <input type="text" placeholder="Nom de l'équipe" :value="name" @input="$emit('update:name', $event.target.value)"/>
             <button @click="saveTeam" title="Garder une copie des joueurs pramétrés dans le navigateur pour la réutiliser plus tard">Sauvegarder</button>
             <button @click="showSavedTeams=true" title="Afficher la liste des équipes sauvegardées">Charger une équipe</button>

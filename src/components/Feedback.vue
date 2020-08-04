@@ -1,12 +1,12 @@
 <template>
-    <section class="feedback-wrapper">
+    <section class="feedback-wrapper" data-tour-step="12">
         <a target="_blank" :href="href">Feedback ?</a>
     </section>
 </template>
 
 <script>
 export default {
-    name: "TeamSave",
+    name: "Feedback",
     data: function () {
         return {
             mail: "incoming+muybien-mpg-calculator-15624779-issue-@incoming.gitlab.com",
@@ -44,5 +44,4 @@ export default {
             }
         }
     }
-
 </style>

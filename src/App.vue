@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="topbar">
+    <nav class="topbar" data-tour-step="1">
       <img alt="Logo MPG" src="./assets/logo.png">
       <h1>Calculateur de résultat de match MPG</h1>
     </nav>
@@ -8,18 +8,21 @@
     <MPGMatch></MPGMatch>
 
     <Feedback></Feedback>
+    <Help></Help>
   </div>
 </template>
 
 <script>
 import MPGMatch from "./components/MPGMatch.vue";
 import Feedback from "./components/Feedback.vue";
+import Help from "./components/Help.vue";
 
 export default {
     name: "App",
     components: {
         MPGMatch,
         Feedback,
+        Help,
     },
 };
 </script>
