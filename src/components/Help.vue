@@ -164,4 +164,8 @@ export default {
         box-shadow: 0 0 100px 10px #34b234 !important;
         border-radius: 3px !important;
     }
+    ul.v-tour__target--highlighted {
+        margin-left: -20px !important;
+        padding-left: 20px !important;
+    }
 </style>
