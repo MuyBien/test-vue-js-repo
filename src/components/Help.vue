@@ -33,40 +33,40 @@ export default {
                         title: "",
                     },
                     content: `MPG Calculator vous permet de renseigner les notes des joueurs obtenues et de calculer le résultat de votre match sans attendre le lundi matin
-                    Pour cela, il vous faut avoir accès au <a href="https://mpg.football/shop">notes live MPG`,
+                    Pour cela, il vous faut avoir accès au <a href="https://mpg.football/shop">notes live MPG</a>`,
                 },
                 {
                     target: "[data-tour-step=\"2\"]",
                     header: {
-                        title: "Comment renseigner les équipes",
+                        title: "Choisir une formation",
                     },
                     content: "Choisissez la formation de votre équipe. Cela permettra de ne vous proposer que les joueurs compatibles à chaque poste",
                 },
                 {
                     target: "[data-tour-step=\"3\"]",
                     header: {
-                        title: "Comment renseigner les équipes",
+                        title: "Comment renseigner les joueurs",
                     },
-                    content: "Renseignez les joueurs en respectant leur ordre (pour vérifiez à quel poste correspond quel numéro, rendez-vous dans la partie Entraineur de votre ligue et videz votre équipe. Les numéro de chaque poste s'afficheront)",
+                    content: "Renseignez les joueurs en respectant leur ordre (pour vérifiez à quel poste correspond quel numéro, rendez-vous dans la partie Entraineur de votre ligue et videz votre équipe. Les numéro de chaque poste s'afficheront). Commencez à taper le nom de votre joueur pour filtrer la liste proposée",
                 },
                 {
                     target: "[data-tour-step=\"4\"]",
                     header: {
-                        title: "Comment renseigner les équipes",
+                        title: "Comment renseigner les notes",
                     },
-                    content: "Renseignez les notes sans bonus, c'est à dire comme elles s'affichent dans la partie live de MPG. Le bonus defensif sera ajouté si il est applicable. Si le joueur n'a pas joué, laissez le champ vide",
+                    content: "Renseignez les notes sans bonus, c'est à dire comme elles s'affichent dans la partie live de MPG. Les bonus (defensif ou autre) seront ajoutés si applicable. Si le joueur n'a pas joué, laissez le champ vide",
                 },
                 {
                     target: "[data-tour-step=\"5\"]",
                     header: {
-                        title: "Comment renseigner les équipes",
+                        title: "Comment renseigner les buts",
                     },
                     content: "Renseignez le nombre de but réel du joueur. Si il n'a pas marqué, laissez vide",
                 },
                 {
                     target: "[data-tour-step=\"6\"]",
                     header: {
-                        title: "Comment renseigner les équipes",
+                        title: "Comment renseigner les CSC",
                     },
                     content: "Renseignez le nombre de CSC réel du joueur. Si il n'en a pas marqué, laissez vide",
                 },
@@ -96,14 +96,14 @@ export default {
                     header: {
                         title: "Sauvegarder son équipe",
                     },
-                    content: "Pour éviter de refaire ce processus plusieurs fois, vous pouvez sauvegarder votre équipe et celle de votre adversaire. Donnez leur un nom et cliquer sur Sauvegarder. En revenant la prochain vous n'aurez plus qu'à charger les équipes",
+                    content: "Pour éviter de refaire ce processus plusieurs fois, vous pouvez sauvegarder votre équipe et celle de votre adversaire. Donnez leur un nom et cliquer sur Sauvegarder. En revenant la prochain fois, vous n'aurez plus qu'à charger les équipes",
                 },
                 {
                     target: "[data-tour-step=\"11\"]",
                     header: {
                         title: "Calcul du score",
                     },
-                    content: "Le score et le détail des équipes après remplacements tactiques ou non, s'affichera ici. Vous passerez peut-être une meilleure nuit en connaissant le score de votre match",
+                    content: "Le score et le détail des équipes après remplacements tactiques ou non, s'afficheront ici. Vous passerez peut-être une meilleure nuit en connaissant le score de votre match...",
                 },
             ],
         };
