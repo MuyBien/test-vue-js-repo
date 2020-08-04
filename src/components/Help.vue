@@ -82,7 +82,7 @@ export default {
                     header: {
                         title: "Comment renseigner les remplacements",
                     },
-                    content: "Renseignez les remplacements de la même facon que sur MPG. Renseignez les bien dans le même ordre",
+                    content: "Renseignez les remplacements de la même façon que sur MPG. Renseignez les bien dans le même ordre",
                 },
                 {
                     target: "[data-tour-step=\"9\"]",
