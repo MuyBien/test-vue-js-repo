@@ -105,6 +105,13 @@ export default {
                     },
                     content: "Le score et le détail des équipes après remplacements tactiques ou non, s'afficheront ici. Vous passerez peut-être une meilleure nuit en connaissant le score de votre match...",
                 },
+                {
+                    target: "[data-tour-step=\"12\"]",
+                    header: {
+                        title: "Une idée, un retour ?",
+                    },
+                    content: "Vous pouvez proposer des idées d'amélioration ou remonter des problèmes rencontrés grâce à ce bouton. N'hésitez pas !",
+                },
             ],
         };
     },

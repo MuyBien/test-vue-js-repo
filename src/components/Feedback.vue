@@ -1,5 +1,5 @@
 <template>
-    <section class="feedback-wrapper">
+    <section class="feedback-wrapper" data-tour-step="12">
         <a target="_blank" :href="href">Feedback ?</a>
     </section>
 </template>
