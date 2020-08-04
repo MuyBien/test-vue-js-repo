@@ -138,7 +138,7 @@ export default {
     section.help-wrapper {
         position: fixed;
         bottom: 0;
-        right: 7vw;
+        right: calc(105px + 2vw);
         a {
             padding: 5px 10px;
             background-color: hsla(120, 55%, 45%, 1);
