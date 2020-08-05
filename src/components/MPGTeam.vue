@@ -15,7 +15,7 @@
           <button @click="resetStarters(false)">Réinitaliser seulement leur notes</button>
       </div>
       <ul>
-        <li v-for="starter in starters" :key="'starter' + starter.index">
+        <li v-for="starter in starters" :key="'starter' + starter.index" :data-player-position="starter.position">
             <MPGPlayer :index="starter.index" :player="starter" :position="starter.position" @select="selectStarter"></MPGPlayer>
         </li>
 
@@ -493,6 +493,11 @@ export default {
             padding: 1vw;
             box-sizing: border-box;
         }
+    }
+    li[data-player-position="goalkeeper"] + li[data-player-position="backer"],
+    li[data-player-position="backer"] + li[data-player-position="middle"],
+    li[data-player-position="middle"] + li[data-player-position="forward"] {
+        margin-top: 2vh;
     }
     .substitued {
         color: #ababab;
