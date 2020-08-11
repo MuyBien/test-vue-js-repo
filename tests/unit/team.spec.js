@@ -109,7 +109,6 @@ describe("Modifications en lot", () => {
         });
         componentWrapper.vm.resetStarters(true);
         componentWrapper.vm.$data.starters.forEach(function (starter) {
-            expect(starter.position).to.be.undefined;
             expect(starter.name).to.be.undefined;
             expect(starter.note).to.be.undefined;
             expect(starter.csc).to.be.undefined;
@@ -207,5 +206,46 @@ describe("Prise en compte des Rotaldo imposés par un Chapron Rouge", () => {
         expect(componentWrapper.vm.finalTeam.team[0].note).to.be.equals(2.5);
         expect(componentWrapper.vm.finalTeam.team[0].csc).to.be.equals(0);
         expect(componentWrapper.vm.finalTeam.team[0].goals).to.be.equals(0);
+    });
+});
+
+describe("Validation de l'équipe", () => {
+    let componentWrapper;
+
+    beforeEach(() => {
+        componentWrapper = shallowMount(MPGTeam);
+    });
+
+    it("Une formation est définie quand une des proposées est choisie", () => {
+        expect(componentWrapper.vm.formationSetted).to.be.false;
+        componentWrapper.vm.setFormation({backer: 4, middle: 4, forward: 2});
+        expect(componentWrapper.vm.formationSetted).to.be.true;
+    });
+
+    it("Une formation reste définie après un reset des titulaires", () => {
+        componentWrapper.vm.setFormation({backer: 4, middle: 4, forward: 2});
+        expect(componentWrapper.vm.formationSetted).to.be.true;
+        componentWrapper.vm.resetStarters(true);
+        expect(componentWrapper.vm.formationSetted).to.be.true;
+    });
+
+    it("Une formation est définie quand tous les titulaires ont une position", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: "middle", name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+        });
+        expect(componentWrapper.vm.formationSetted).to.be.true;
+    });
+
+    it("Une formation n'est pas définie quand un des titulaires n'a pas une position", () => {
+        componentWrapper.setData({
+            starters: [
+                { index: 0, position: "backer", name: "Basile Boli", note: 6, goals: 1, csc: 0 },
+                { index: 1, position: undefined, name: "Didier Deschamps", note: 6, goals: 1, csc: 0 },
+            ],
+        });
+        expect(componentWrapper.vm.formationSetted).to.be.false;
     });
 });

@@ -1,6 +1,6 @@
 <template>
       <section>
-          <span>#{{index + 1}}</span>
+          <span class="player-index">#{{index + 1}}</span>
 
           <SelectList class="input-player-name"
             v-model="playerName"
@@ -127,5 +127,8 @@ export default {
         border: 1px solid #ccc;
         box-sizing: border-box;
         height: 30px;
+    }
+    .player-index {
+        min-width: 25px;
     }
 </style>

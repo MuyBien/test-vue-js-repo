@@ -15,8 +15,12 @@
           <button @click="resetStarters(false)">Réinitaliser seulement leur notes</button>
       </div>
       <ul>
-        <li v-for="starter in starters" :key="'starter' + starter.index">
+        <li v-for="starter in starters" :key="'starter' + starter.index" :data-player-position="starter.position">
             <MPGPlayer :index="starter.index" :player="starter" :position="starter.position" @select="selectStarter"></MPGPlayer>
+        </li>
+
+        <li class="no-formation" v-if="!formationSetted">
+            <p>Sélectionnez une formation ou chargez une équipe</p>
         </li>
       </ul>
 
@@ -256,7 +260,6 @@ export default {
         resetStarters: function (resetAll) {
             this.starters.forEach(function (starter) {
                 if (resetAll) {
-                    starter.position = undefined;
                     starter.name = undefined;
                 }
                 starter.note = undefined;
@@ -408,6 +411,11 @@ export default {
             }, this);
             return averages;
         },
+        formationSetted: function () {
+            return this.starters.every(function (player) {
+                return player.position;
+            });
+        },
     },
     watch: {
         finalTeam: {
@@ -462,10 +470,34 @@ export default {
     ul {
         width: 100%;
         padding-left: 0;
+        position: relative;
     }
     li {
         list-style-type: none;
         margin: 5px 0;
+        &.no-formation {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #eee;
+            z-index: 9;
+            opacity: 0.7;
+            list-style: none;
+            margin-left: -30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            border-radius: 3px;
+            padding: 1vw;
+            box-sizing: border-box;
+        }
+    }
+    li[data-player-position="goalkeeper"] + li[data-player-position="backer"],
+    li[data-player-position="backer"] + li[data-player-position="middle"],
+    li[data-player-position="middle"] + li[data-player-position="forward"] {
+        margin-top: 2vh;
     }
     .substitued {
         color: #ababab;
