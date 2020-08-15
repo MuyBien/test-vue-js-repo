@@ -194,7 +194,7 @@ describe("Bonus : Tonton Pat'", () => {
     });
 });
 
-describe("Bonus : RedBull", () => {
+describe("Bonus : UberEat", () => {
     let teamWrapper;
 
     beforeEach(() => {

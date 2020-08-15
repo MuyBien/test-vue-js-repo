@@ -65,8 +65,8 @@ export default {
                 needTarget: false,
             },{
                 id: 4,
-                name: "Redbull",
-                image: "redbull",
+                name: "UberEat",
+                image: "uber-eat",
                 needTarget: true,
             },{
                 id: 5,
