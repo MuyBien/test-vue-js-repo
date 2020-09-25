@@ -51,7 +51,7 @@ code_quality:
       when: never
     - when: on_success
 
-sast:
+eslint-sast:
   stage: security
   rules:
     - if: $CI_COMMIT_TAG
@@ -63,7 +63,7 @@ nodejs-scan-sast:
     rules:
       - when: never
 
-dependency_scanning:
+retire-js-dependency_scanning:
   stage: security
   rules:
     - if: $CI_COMMIT_TAG
