@@ -120,6 +120,23 @@
             <ellipse fill="#959DAF" fill-rule="evenodd" cx="1107.5" cy="441.5" rx="2.5" ry="2.5"></ellipse>
           </svg>
         </div>
+        <div class="formation" :class="{selected: isSelected('424')}" role="button" @click="setFormation({'backer': 4, 'middle': 2, 'forward': 4})">
+          <svg width="45" height="45" viewBox="1014 422 36 42">
+            <text fill="none" style="font-size: 10px; font-weight: bold;">
+              <tspan x="1021" y="433" fill="#959DAF">4 2 4</tspan>
+            </text>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1016.5" cy="441.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1026.5" cy="441.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1036.5" cy="441.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1046.5" cy="441.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1026.5" cy="451.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1036.5" cy="451.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1016.5" cy="461.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1026.5" cy="461.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1036.5" cy="461.5" rx="2.5" ry="2.5"></ellipse>
+            <ellipse fill="#959DAF" fill-rule="evenodd" cx="1046.5" cy="461.5" rx="2.5" ry="2.5"></ellipse>
+          </svg>
+        </div>
     </div>
 </template>
 

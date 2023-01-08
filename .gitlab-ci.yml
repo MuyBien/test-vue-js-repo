@@ -19,7 +19,7 @@ include:
   - template: License-Scanning.gitlab-ci.yml
 
 build:app:
-  image: node:latest
+  image: node:14
   stage: build
   script:
     - npm ci
@@ -31,16 +31,22 @@ build:app:
     expire_in: 1 day
 
 test:unit:
-  image: node:latest
+  image: node:14
   stage: test
   script:
     - npm install --progress=false
     - npm run test:cover
   artifacts:
+    when: always
     paths:
     - coverage/lcov-report
     reports:
-      cobertura: coverage/cobertura-coverage.xml
+      junit:
+        - junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+  coverage: /All files\s*\|\s*([\d\.]+)/
   rules:
     - if: $CI_COMMIT_TAG
       when: never
