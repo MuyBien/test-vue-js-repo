@@ -1,0 +1,742 @@
+{
+    "championships": {
+        "1": {
+            "liveGameWeek": {
+                "endDate": "2023-09-26T19:00:00Z",
+                "gameWeekNumber": 6,
+                "matchesIds": [
+                    "mpg_championship_match_2376833",
+                    "mpg_championship_match_2376836",
+                    "mpg_championship_match_2376840",
+                    "mpg_championship_match_2376838",
+                    "mpg_championship_match_2376837",
+                    "mpg_championship_match_2376835",
+                    "mpg_championship_match_2376839",
+                    "mpg_championship_match_2376832",
+                    "mpg_championship_match_2376834"
+                ],
+                "startDate": "2023-09-22T19:00:00Z",
+                "MXI": {
+                    "opened": "2023-09-19T17:57:03.956Z"
+                },
+                "resultsDate": "2023-09-27T04:15:00.000Z",
+                "startIn": -116
+            },
+            "nextGameWeek": {
+                "endDate": "2023-10-01T18:45:00Z",
+                "gameWeekNumber": 7,
+                "matchesIds": [
+                    "mpg_championship_match_2376841",
+                    "mpg_championship_match_2376847",
+                    "mpg_championship_match_2376845",
+                    "mpg_championship_match_2376848",
+                    "mpg_championship_match_2376849",
+                    "mpg_championship_match_2376846",
+                    "mpg_championship_match_2376843",
+                    "mpg_championship_match_2376844",
+                    "mpg_championship_match_2376842"
+                ],
+                "startDate": "2023-09-29T19:00:00Z",
+                "startIn": 427161
+            }
+        },
+        "2": {
+            "liveGameWeek": {
+                "gameWeekNumber": 6,
+                "matchesIds": [
+                    "mpg_championship_match_2367593",
+                    "mpg_championship_match_2367595",
+                    "mpg_championship_match_2367596",
+                    "mpg_championship_match_2367589",
+                    "mpg_championship_match_2367591",
+                    "mpg_championship_match_2367588",
+                    "mpg_championship_match_2367590",
+                    "mpg_championship_match_2367592",
+                    "mpg_championship_match_2367594",
+                    "mpg_championship_match_2367597"
+                ],
+                "startDate": "2023-09-23T14:00:00Z",
+                "endDate": "2023-09-24T15:30:00Z",
+                "preGameWeekScriptsRanAt": "2023-09-23T14:01:05.525Z",
+                "resultsDate": "2023-09-25T04:15:00.000Z",
+                "startIn": -6507
+            },
+            "nextGameWeek": {
+                "gameWeekNumber": 7,
+                "matchesIds": [
+                    "mpg_championship_match_2367599",
+                    "mpg_championship_match_2367598",
+                    "mpg_championship_match_2367600",
+                    "mpg_championship_match_2367602",
+                    "mpg_championship_match_2367603",
+                    "mpg_championship_match_2367606",
+                    "mpg_championship_match_2367607",
+                    "mpg_championship_match_2367605",
+                    "mpg_championship_match_2367604",
+                    "mpg_championship_match_2367601"
+                ],
+                "startDate": "2023-09-30T11:30:00Z",
+                "endDate": "2023-10-02T19:00:00Z",
+                "startIn": 486561
+            }
+        },
+        "3": {
+            "liveGameWeek": {
+                "gameWeekNumber": 6,
+                "matchesIds": [
+                    "mpg_championship_match_2372279",
+                    "mpg_championship_match_2372276",
+                    "mpg_championship_match_2372277",
+                    "mpg_championship_match_2372274",
+                    "mpg_championship_match_2372272",
+                    "mpg_championship_match_2372280",
+                    "mpg_championship_match_2372278",
+                    "mpg_championship_match_2372281",
+                    "mpg_championship_match_2372275",
+                    "mpg_championship_match_2372273"
+                ],
+                "startDate": "2023-09-22T19:00:00Z",
+                "endDate": "2023-09-24T19:00:00Z",
+                "resultsDate": "2023-09-25T04:15:00.000Z",
+                "startIn": -105
+            },
+            "nextGameWeek": {
+                "gameWeekNumber": 7,
+                "matchesIds": [
+                    "mpg_championship_match_2372284",
+                    "mpg_championship_match_2372286",
+                    "mpg_championship_match_2372282",
+                    "mpg_championship_match_2372290",
+                    "mpg_championship_match_2372288",
+                    "mpg_championship_match_2372283",
+                    "mpg_championship_match_2372289",
+                    "mpg_championship_match_2372291",
+                    "mpg_championship_match_2372287",
+                    "mpg_championship_match_2372285"
+                ],
+                "startDate": "2023-09-26T17:00:00Z",
+                "endDate": "2023-09-28T19:30:00Z",
+                "startIn": 160761
+            }
+        },
+        "4": {
+            "nextGameWeek": {
+                "gameWeekNumber": 8,
+                "matchesIds": [
+                    "mpg_championship_match_2377163",
+                    "mpg_championship_match_2377166",
+                    "mpg_championship_match_2377164",
+                    "mpg_championship_match_2377167",
+                    "mpg_championship_match_2377169",
+                    "mpg_championship_match_2377170",
+                    "mpg_championship_match_2377171",
+                    "mpg_championship_match_2377172",
+                    "mpg_championship_match_2377168",
+                    "mpg_championship_match_2377165"
+                ],
+                "startDate": "2023-09-26T18:45:00Z",
+                "endDate": "2023-09-26T19:00:00Z",
+                "forcedEndDate": "2023-09-26T19:00:00Z",
+                "startIn": 167061
+            }
+        },
+        "5": {
+            "liveGameWeek": {
+                "gameWeekNumber": 5,
+                "matchesIds": [
+                    "mpg_championship_match_2380440",
+                    "mpg_championship_match_2380438",
+                    "mpg_championship_match_2380439",
+                    "mpg_championship_match_2380441",
+                    "mpg_championship_match_2380437",
+                    "mpg_championship_match_2380436",
+                    "mpg_championship_match_2380434",
+                    "mpg_championship_match_2380443",
+                    "mpg_championship_match_2380435",
+                    "mpg_championship_match_2380442"
+                ],
+                "startDate": "2023-09-22T16:30:00Z",
+                "endDate": "2023-09-24T18:45:00Z",
+                "preGameWeekScriptsRanAt": "2023-09-22T16:31:12.651Z",
+                "resultsDate": "2023-09-25T04:15:00.000Z"
+            },
+            "nextGameWeek": {
+                "gameWeekNumber": 6,
+                "matchesIds": [
+                    "mpg_championship_match_2380450",
+                    "mpg_championship_match_2380444",
+                    "mpg_championship_match_2380445",
+                    "mpg_championship_match_2380448",
+                    "mpg_championship_match_2380449",
+                    "mpg_championship_match_2380451",
+                    "mpg_championship_match_2380453",
+                    "mpg_championship_match_2380446",
+                    "mpg_championship_match_2380452",
+                    "mpg_championship_match_2380447"
+                ],
+                "startDate": "2023-09-26T18:45:00Z",
+                "endDate": "2023-09-28T18:45:00Z",
+                "startIn": 167061
+            }
+        },
+        "6": {
+            "nextGameWeek": {
+                "gameWeekNumber": 2,
+                "matchesIds": [
+                    "mpg_championship_match_2408279",
+                    "mpg_championship_match_2408280",
+                    "mpg_championship_match_2408282",
+                    "mpg_championship_match_2408286",
+                    "mpg_championship_match_2408283",
+                    "mpg_championship_match_2408281",
+                    "mpg_championship_match_2408285",
+                    "mpg_championship_match_2408284",
+                    "mpg_championship_match_2408287",
+                    "mpg_championship_match_2408288",
+                    "mpg_championship_match_2408290",
+                    "mpg_championship_match_2408289",
+                    "mpg_championship_match_2408293",
+                    "mpg_championship_match_2408294",
+                    "mpg_championship_match_2408291",
+                    "mpg_championship_match_2408292"
+                ],
+                "startDate": "2023-10-03T16:45:00Z",
+                "endDate": "2023-10-04T19:00:00Z",
+                "startIn": 764661
+            }
+        },
+        "7": {
+            "liveGameWeek": {
+                "gameWeekNumber": 5,
+                "realGameWeekNumbers": {
+                    "1": 6,
+                    "2": 6,
+                    "3": 6,
+                    "5": 5
+                },
+                "startDate": "2023-09-22T16:30:00Z",
+                "endDate": "2023-09-26T19:00:00Z",
+                "matchesIds": [
+                    "mpg_championship_match_2376840",
+                    "mpg_championship_match_2376837",
+                    "mpg_championship_match_2376835",
+                    "mpg_championship_match_2376834",
+                    "mpg_championship_match_2376838",
+                    "mpg_championship_match_2376833",
+                    "mpg_championship_match_2376839",
+                    "mpg_championship_match_2376836",
+                    "mpg_championship_match_2376832",
+                    "mpg_championship_match_2367592",
+                    "mpg_championship_match_2367593",
+                    "mpg_championship_match_2367595",
+                    "mpg_championship_match_2367596",
+                    "mpg_championship_match_2367589",
+                    "mpg_championship_match_2367591",
+                    "mpg_championship_match_2367588",
+                    "mpg_championship_match_2367590",
+                    "mpg_championship_match_2367594",
+                    "mpg_championship_match_2367597",
+                    "mpg_championship_match_2372279",
+                    "mpg_championship_match_2372272",
+                    "mpg_championship_match_2372273",
+                    "mpg_championship_match_2372274",
+                    "mpg_championship_match_2372276",
+                    "mpg_championship_match_2372281",
+                    "mpg_championship_match_2372277",
+                    "mpg_championship_match_2372278",
+                    "mpg_championship_match_2372275",
+                    "mpg_championship_match_2372280",
+                    "mpg_championship_match_2380434",
+                    "mpg_championship_match_2380435",
+                    "mpg_championship_match_2380436",
+                    "mpg_championship_match_2380437",
+                    "mpg_championship_match_2380438",
+                    "mpg_championship_match_2380439",
+                    "mpg_championship_match_2380440",
+                    "mpg_championship_match_2380441",
+                    "mpg_championship_match_2380442",
+                    "mpg_championship_match_2380443"
+                ],
+                "preGameWeekScriptsRanAt": "2023-09-22T16:30:54.415Z",
+                "resultsDate": "2023-09-27T04:15:00.000Z"
+            },
+            "nextGameWeek": {
+                "gameWeekNumber": 6,
+                "realGameWeekNumbers": {
+                    "1": 7,
+                    "2": 7,
+                    "3": 8,
+                    "5": 7
+                },
+                "startDate": "2023-09-29T19:00:00Z",
+                "endDate": "2023-10-02T19:00:00Z",
+                "matchesIds": [
+                    "mpg_championship_match_2376847",
+                    "mpg_championship_match_2376849",
+                    "mpg_championship_match_2376844",
+                    "mpg_championship_match_2376845",
+                    "mpg_championship_match_2376846",
+                    "mpg_championship_match_2376848",
+                    "mpg_championship_match_2376842",
+                    "mpg_championship_match_2376841",
+                    "mpg_championship_match_2376843",
+                    "mpg_championship_match_2367599",
+                    "mpg_championship_match_2367598",
+                    "mpg_championship_match_2367600",
+                    "mpg_championship_match_2367602",
+                    "mpg_championship_match_2367603",
+                    "mpg_championship_match_2367606",
+                    "mpg_championship_match_2367607",
+                    "mpg_championship_match_2367605",
+                    "mpg_championship_match_2367604",
+                    "mpg_championship_match_2367601",
+                    "mpg_championship_match_2372298",
+                    "mpg_championship_match_2372292",
+                    "mpg_championship_match_2372293",
+                    "mpg_championship_match_2372294",
+                    "mpg_championship_match_2372296",
+                    "mpg_championship_match_2372297",
+                    "mpg_championship_match_2372300",
+                    "mpg_championship_match_2372301",
+                    "mpg_championship_match_2372295",
+                    "mpg_championship_match_2372299",
+                    "mpg_championship_match_2380454",
+                    "mpg_championship_match_2380455",
+                    "mpg_championship_match_2380456",
+                    "mpg_championship_match_2380457",
+                    "mpg_championship_match_2380458",
+                    "mpg_championship_match_2380459",
+                    "mpg_championship_match_2380460",
+                    "mpg_championship_match_2380461",
+                    "mpg_championship_match_2380462",
+                    "mpg_championship_match_2380463"
+                ],
+                "startIn": 427161
+            }
+        }
+    },
+    "orderedLeagueDivisionItems": [
+        {
+            "userTeamId": "mpg_team_LJELCG6E_9_1_0",
+            "leagueId": "mpg_league_LJELCG6E",
+            "divisionId": "mpg_division_LJELCG6E_9_1",
+            "divisionNumber": 1,
+            "championshipId": 1,
+            "mode": 2,
+            "totalDivisions": 1,
+            "currentUserTeamId": "mpg_team_LJELCG6E_9_1_0",
+            "liveDivisionGameWeek": {
+                "gameWeek": 6,
+                "realGameWeek": 6,
+                "matchesIds": [
+                    "mpg_division_match_LJELCG6E_9_1_6_1_0_6",
+                    "mpg_division_match_LJELCG6E_9_1_6_2_8_1",
+                    "mpg_division_match_LJELCG6E_9_1_6_3_4_2",
+                    "mpg_division_match_LJELCG6E_9_1_6_4_3_7",
+                    "mpg_division_match_LJELCG6E_9_1_6_5_5_9"
+                ],
+                "previousTargetMan": "mpg_team_LJELCG6E_9_1_0"
+            },
+            "nextDivisionGameWeek": {
+                "gameWeek": 7,
+                "realGameWeek": 7,
+                "matchesIds": [
+                    "mpg_division_match_LJELCG6E_9_1_7_1_9_2",
+                    "mpg_division_match_LJELCG6E_9_1_7_2_7_8",
+                    "mpg_division_match_LJELCG6E_9_1_7_3_6_5",
+                    "mpg_division_match_LJELCG6E_9_1_7_4_1_0",
+                    "mpg_division_match_LJELCG6E_9_1_7_5_3_4"
+                ]
+            },
+            "name": "MBioLigue",
+            "imageUrl": "https://s3.eu-west-1.amazonaws.com/image.mpg/15a73fed-3f98-46f7-bd12-da0580b70852.png",
+            "liveState": {
+                "liveMatches": {
+                    "mpg_division_match_LJELCG6E_9_1_6_1_0_6": {
+                        "id": "mpg_division_match_LJELCG6E_9_1_6_1_0_6",
+                        "type": "mpg_division_match",
+                        "divisionId": "mpg_division_LJELCG6E_9_1",
+                        "home": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_0",
+                            "goals": [],
+                            "score": 0,
+                            "name": "Amunt MuyBien",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/prod/mpg_jersey_702592_1564952797394.png"
+                        },
+                        "away": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_6",
+                            "goals": [],
+                            "score": 0,
+                            "name": "Vietnam Régale",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/prod/mpg_jersey_backup_0_a9b9cf68e1fb8587ff3cf9bc62107024.png"
+                        },
+                        "userLiveSubstitutesEnabled": false
+                    },
+                    "mpg_division_match_LJELCG6E_9_1_6_2_8_1": {
+                        "id": "mpg_division_match_LJELCG6E_9_1_6_2_8_1",
+                        "type": "mpg_division_match",
+                        "divisionId": "mpg_division_LJELCG6E_9_1",
+                        "home": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_8",
+                            "goals": [
+                                {
+                                    "lastName": "Mostafa Mohamed",
+                                    "eventId": "2593733329",
+                                    "scorerId": "mpg_championship_player_431245",
+                                    "type": "goal",
+                                    "time": "55'",
+                                    "timestamp": 1695485505000
+                                },
+                                {
+                                    "lastName": "Alioui",
+                                    "eventId": "2594409581",
+                                    "scorerId": "mpg_championship_player_243998",
+                                    "assistProviderId": "mpg_championship_player_509284",
+                                    "type": "goal",
+                                    "time": "4'",
+                                    "timestamp": 1695560608000
+                                }
+                            ],
+                            "score": 2,
+                            "name": "Raja du Sahara ",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/back/jersey_0_1562598725887_temp.png"
+                        },
+                        "away": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_1",
+                            "goals": [],
+                            "score": 0,
+                            "name": "Réal Axe",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/prod/mpg_jersey_backup_1_7caaa7d028177ea8aefbedf21b7b5889.png"
+                        }
+                    },
+                    "mpg_division_match_LJELCG6E_9_1_6_3_4_2": {
+                        "id": "mpg_division_match_LJELCG6E_9_1_6_3_4_2",
+                        "type": "mpg_division_match",
+                        "divisionId": "mpg_division_LJELCG6E_9_1",
+                        "home": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_4",
+                            "goals": [
+                                {
+                                    "lastName": "Faivre",
+                                    "eventId": "2593754637",
+                                    "scorerId": "mpg_championship_player_441240",
+                                    "assistProviderId": "mpg_championship_player_511296",
+                                    "type": "goal",
+                                    "time": "75'",
+                                    "timestamp": 1695486752000
+                                },
+                                {
+                                    "lastName": "Bayo",
+                                    "eventId": "2594413749",
+                                    "scorerId": "mpg_championship_player_439777",
+                                    "assistProviderId": "mpg_championship_player_509284",
+                                    "type": "goal",
+                                    "time": "7'",
+                                    "timestamp": 1695560792000
+                                }
+                            ],
+                            "score": 2,
+                            "name": "FC Savoie",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/prod/mpg_jersey_backup_0_7208882e73a72b6bb64ee340a452c51c.png"
+                        },
+                        "away": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_2",
+                            "goals": [],
+                            "score": 0,
+                            "name": "Vladivostok Sputnik ",
+                            "jerseyUrl": "https://s3.eu-west-3.amazonaws.com/jersey.mpg.football/prod/8da067d4-0c2c-4abd-8b87-987c02210afe.png"
+                        }
+                    },
+                    "mpg_division_match_LJELCG6E_9_1_6_4_3_7": {
+                        "id": "mpg_division_match_LJELCG6E_9_1_6_4_3_7",
+                        "type": "mpg_division_match",
+                        "divisionId": "mpg_division_LJELCG6E_9_1",
+                        "home": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_3",
+                            "goals": [],
+                            "score": 0,
+                            "name": "FC Happiness",
+                            "jerseyUrl": "https://s3.eu-west-1.amazonaws.com/image.mpg/prod/891c3fc6-f79b-4244-96ca-9ed10e19d895.png"
+                        },
+                        "away": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_7",
+                            "goals": [],
+                            "score": 0,
+                            "name": "HSDep74 ",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/prod/mpg_jersey_backup_0_dae90d4f92125ad84557b54d25862bfc.png"
+                        }
+                    },
+                    "mpg_division_match_LJELCG6E_9_1_6_5_5_9": {
+                        "id": "mpg_division_match_LJELCG6E_9_1_6_5_5_9",
+                        "type": "mpg_division_match",
+                        "divisionId": "mpg_division_LJELCG6E_9_1",
+                        "home": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_5",
+                            "goals": [
+                                {
+                                    "lastName": "Simon",
+                                    "eventId": "2593778991",
+                                    "scorerId": "mpg_championship_player_181441",
+                                    "type": "penalty",
+                                    "time": "90' +9",
+                                    "timestamp": 1695488152000
+                                },
+                                {
+                                    "lastName": "Kolo Muani",
+                                    "eventId": "2594819063",
+                                    "scorerId": "mpg_championship_player_247693",
+                                    "time": "37'",
+                                    "timestamp": 1695583297000,
+                                    "type": "goal"
+                                }
+                            ],
+                            "score": 2,
+                            "name": "KB Jdidaa ",
+                            "jerseyUrl": "https://s3.eu-west-3.amazonaws.com/jersey.mpg.football/prod/e1a693e5-72a3-4d77-b46c-78c16cd015c8.png"
+                        },
+                        "away": {
+                            "teamId": "mpg_team_LJELCG6E_9_1_9",
+                            "goals": [
+                                {
+                                    "lastName": "Hakimi",
+                                    "eventId": "2594798723",
+                                    "scorerId": "mpg_championship_player_223760",
+                                    "time": "8'",
+                                    "timestamp": 1695581525000,
+                                    "type": "goal"
+                                },
+                                {
+                                    "lastName": "Tosin",
+                                    "eventId": "2593765653",
+                                    "scorerId": "mpg_championship_player_250182",
+                                    "assistProviderId": "mpg_championship_player_441240",
+                                    "type": "goal",
+                                    "time": "85'",
+                                    "timestamp": 1695487331000
+                                }
+                            ],
+                            "score": 2,
+                            "name": "NomDiDjou FC",
+                            "jerseyUrl": "https://s3.eu-west-3.amazonaws.com/jersey.mpg.football/prod/e0142c0a-98bf-4cf6-95b0-b7c9c338e011.png"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "userTeamId": "mpg_team_NJNK2AAJ_5_3_1",
+            "leagueId": "mpg_league_NJNK2AAJ",
+            "divisionId": "mpg_division_NJNK2AAJ_5_3",
+            "divisionNumber": 3,
+            "championshipId": 2,
+            "mode": 1,
+            "totalDivisions": 5,
+            "currentUserTeamId": "mpg_team_NJNK2AAJ_5_3_1",
+            "liveDivisionGameWeek": {
+                "gameWeek": 2,
+                "realGameWeek": 6,
+                "matchesIds": [
+                    "mpg_division_match_NJNK2AAJ_5_3_2_1_0_1"
+                ]
+            },
+            "name": "MBioCUP (qualifs)",
+            "imageUrl": "https://s3.eu-west-1.amazonaws.com/image.mpg/3a7321d9-406f-411d-9eb3-b499d5644be8.png",
+            "liveState": {
+                "liveMatches": {
+                    "mpg_division_match_NJNK2AAJ_5_3_2_1_0_1": {
+                        "id": "mpg_division_match_NJNK2AAJ_5_3_2_1_0_1",
+                        "type": "mpg_division_match",
+                        "divisionId": "mpg_division_NJNK2AAJ_5_3",
+                        "home": {
+                            "teamId": "mpg_team_NJNK2AAJ_5_3_0",
+                            "goals": [
+                                {
+                                    "lastName": "Son Heung-Min",
+                                    "eventId": "2594494103",
+                                    "scorerId": "mpg_championship_player_85971",
+                                    "assistProviderId": "mpg_championship_player_172780",
+                                    "type": "goal",
+                                    "time": "55'",
+                                    "timestamp": 1695564936000
+                                },
+                                {
+                                    "lastName": "Son Heung-Min",
+                                    "eventId": "2594458487",
+                                    "scorerId": "mpg_championship_player_85971",
+                                    "assistProviderId": "mpg_championship_player_172780",
+                                    "type": "goal",
+                                    "time": "42'",
+                                    "timestamp": 1695562920000
+                                },
+                                {
+                                    "lastName": "Bowen",
+                                    "eventId": "2594461683",
+                                    "scorerId": "mpg_championship_player_178186",
+                                    "assistProviderId": "mpg_championship_player_164555",
+                                    "type": "goal",
+                                    "time": "42'",
+                                    "timestamp": 1695563088000
+                                }
+                            ],
+                            "score": 3,
+                            "name": "FC Savoie",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/prod/mpg_jersey_backup_0_7208882e73a72b6bb64ee340a452c51c.png"
+                        },
+                        "away": {
+                            "teamId": "mpg_team_NJNK2AAJ_5_3_1",
+                            "goals": [
+                                {
+                                    "lastName": "Romero",
+                                    "eventId": "2594439121",
+                                    "scorerId": "mpg_championship_player_221632",
+                                    "type": "own",
+                                    "time": "26'",
+                                    "timestamp": 1695561944000
+                                },
+                                {
+                                    "lastName": "Mitoma",
+                                    "eventId": "2594521791",
+                                    "scorerId": "mpg_championship_player_451340",
+                                    "assistProviderId": "mpg_championship_player_204214",
+                                    "type": "goal",
+                                    "time": "77'",
+                                    "timestamp": 1695566173000
+                                },
+                                {
+                                    "lastName": "Mitoma",
+                                    "eventId": "2594480171",
+                                    "scorerId": "mpg_championship_player_451340",
+                                    "assistProviderId": "mpg_championship_player_168090",
+                                    "type": "goal",
+                                    "time": "46'",
+                                    "timestamp": 1695564323000
+                                },
+                                {
+                                    "lastName": "Pedro Neto",
+                                    "eventId": "2593612955",
+                                    "scorerId": "mpg_championship_player_247632",
+                                    "type": "goal",
+                                    "time": "50'",
+                                    "timestamp": 1695481773000
+                                },
+                                {
+                                    "lastName": "Bruno Fernandes",
+                                    "eventId": "2593956555",
+                                    "scorerId": "mpg_championship_player_141746",
+                                    "assistProviderId": "mpg_championship_player_37642",
+                                    "type": "goal",
+                                    "time": "45'",
+                                    "timestamp": 1695498309000
+                                },
+                                {
+                                    "lastName": "Foden",
+                                    "eventId": "2593489117",
+                                    "scorerId": "mpg_championship_player_209244",
+                                    "assistProviderId": "mpg_championship_player_58621",
+                                    "type": "goal",
+                                    "time": "7'",
+                                    "timestamp": 1695478055000
+                                },
+                                {
+                                    "lastName": "Haaland",
+                                    "eventId": "2593506601",
+                                    "scorerId": "mpg_championship_player_223094",
+                                    "assistProviderId": "mpg_championship_player_465351",
+                                    "type": "goal",
+                                    "time": "14'",
+                                    "timestamp": 1695478494000
+                                },
+                                {
+                                    "lastName": "Mohamed Salah",
+                                    "eventId": "2594430807",
+                                    "scorerId": "mpg_championship_player_118748",
+                                    "type": "penalty",
+                                    "time": "16'",
+                                    "timestamp": 1695561546000
+                                }
+                            ],
+                            "score": 8,
+                            "name": "Amunt MuyBien",
+                            "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/prod/mpg_jersey_702592_1564952797394.png"
+                        },
+                        "userLiveSubstitutesEnabled": false
+                    }
+                }
+            }
+        }
+    ],
+    "orderedTournamentItems": [
+        {
+            "tournamentId": "mpg_tournament_GROSTOURNOI2023",
+            "name": "Le Gros Tournoi 2023",
+            "imageUrl": "https://s3.eu-west-1.amazonaws.com/image.mpg/image_tournoi_2.png",
+            "championshipId": 1,
+            "currentUserTeamId": "mpg_tournament_team_GROSTOURNOI2023_702592",
+            "roundsQuantity": 15,
+            "hasPreliminaryRound": true,
+            "liveRound": {
+                "realGameWeekNumber": 6,
+                "roundNumber": 1,
+                "isPreliminaryRound": true,
+                "matchNumber": 6488,
+                "currentUserTournamentMatchId": "mpg_tournament_match_GROSTOURNOI2023_1_6488",
+                "matchShortUsersIds": [
+                    2536695,
+                    702592
+                ]
+            },
+            "liveState": {
+                "tournamentMatch": {
+                    "id": "mpg_tournament_match_GROSTOURNOI2023_1_6488",
+                    "type": "mpg_tournament_match",
+                    "home": {
+                        "teamId": "mpg_tournament_team_GROSTOURNOI2023_2536695",
+                        "userId": "user_2536695",
+                        "username": "IziGalsen",
+                        "abbreviation": "OM",
+                        "jerseyUrl": "https://s3.eu-west-1.amazonaws.com/image.mpg/prod/891c3fc6-f79b-4244-96ca-9ed10e19d895.png",
+                        "goals": [],
+                        "score": 0
+                    },
+                    "away": {
+                        "teamId": "mpg_tournament_team_GROSTOURNOI2023_702592",
+                        "userId": "user_702592",
+                        "username": "MuyBien",
+                        "abbreviation": "AMB",
+                        "jerseyUrl": "https://s3-eu-west-3.amazonaws.com/jersey.mpg.football/back/jersey_0_1563551489936_temp.png",
+                        "goals": [
+                            {
+                                "lastName": "Simon",
+                                "eventId": "2593778991",
+                                "scorerId": "mpg_championship_player_181441",
+                                "type": "penalty",
+                                "time": "90' +9",
+                                "timestamp": 1695488152000
+                            }
+                        ],
+                        "score": 1
+                    }
+                }
+            }
+        },
+        {
+            "tournamentId": "mpg_tournament_RMR9MVK1",
+            "name": "Tournoi des Champions 🇪🇺",
+            "imageUrl": "https://s3.eu-west-1.amazonaws.com/image.mpg/974f2039-4ce5-4cd6-8483-95238a04e2f5.png",
+            "championshipId": 6,
+            "currentUserTeamId": "mpg_tournament_team_RMR9MVK1_702592",
+            "roundsQuantity": 10,
+            "hasPreliminaryRound": false,
+            "nextRound": {
+                "realGameWeekNumber": 2,
+                "roundNumber": 2,
+                "currentUserTournamentMatchId": "mpg_tournament_match_RMR9MVK1_2_117",
+                "matchNumber": 117,
+                "matchShortUsersIds": [
+                    702592,
+                    4987309
+                ]
+            }
+        }
+    ]
+}

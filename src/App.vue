@@ -1,75 +1,101 @@
 <template>
-  <div id="app">
-    <nav class="topbar" data-tour-step="1">
-      <img alt="Logo MPG" src="./assets/logo.png">
-      <h1>Calculateur de résultat de match MPG</h1>
-    </nav>
+  <nav class="topbar">
+    <img alt="Logo MPG" src="./assets/logo.png">
+    <h1>Calculateur de résultat de match MPG</h1>
+    <p class="user-infos" v-if="isConnected">Connecté en tant que {{ user.username }}</p>
+  </nav>
 
-    <MPGMatch></MPGMatch>
+  <main>
+    <transition mode="out-in">
+      <section v-if="!isConnected" class="connection">
+        <mpg-connection-form></mpg-connection-form>
+      </section>
+      <section v-else class="content">
+        <live-rating-disclaimer v-if="!haveLiveRating" />
+        <matches-list v-else />
+      </section>
+    </transition>
+  </main>
 
-    <Feedback></Feedback>
-    <Help></Help>
-  </div>
 </template>
 
-<script>
-import MPGMatch from "./components/MPGMatch.vue";
-import Feedback from "./components/Feedback.vue";
-import Help from "./components/Help.vue";
+<script setup lang="ts">
+import LiveRatingDisclaimer from "@/components/LiveRatingDisclaimer.vue";
+import MatchesList from "@/components/MatchesList.vue";
+import MpgConnectionForm from "@/components/MpgConnectionForm.vue";
+import { useMPG } from "@/use/useMPG";
 
-export default {
-    name: "App",
-    components: {
-        MPGMatch,
-        Feedback,
-        Help,
-    },
-};
+const { isConnected, user, haveLiveRating } = useMPG();
 </script>
 
-<style lang="scss">
-    body {
-        margin: 0;
-    }
-    #app {
-      font-family: 'Roboto', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-align: center;
-      color: #2c3e50;
-    }
-    nav.topbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        height: 10vh;
-        min-height: 60px;
-        background-color: #45c945;
-        overflow: visible;
-        display: flex;
-        padding: 0 3vw 0 10px;
-        align-items: center;
-        color: #fff;
-        justify-content: flex-end;
-        box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0), 0px 1px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.12);
+<style scoped lang="scss">
+body {
+  margin: 0;
+}
+#app {
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+nav.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 10vh;
+  min-height: 60px;
+  background-color: #45c945;
+  overflow: visible;
+  display: flex;
+  padding: 0 3vw 0 10px;
+  align-items: center;
+  color: #fff;
+  justify-content: flex-end;
+  box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0), 0px 1px 4px 0px rgba(0, 0, 0, 0.14), 0px 3px 3px -2px rgba(0, 0, 0, 0.12);
 
-        img {
-            height: 100%;
-            position: absolute;
-            bottom: -50%;
-            left: 10px;
-        }
-        h1 {
-            font-size: 1rem;
-        }
-    }
+  img {
+    height: 100%;
+    position: absolute;
+    bottom: -50%;
+    left: 10px;
+  }
+  h1 {
+    font-size: 1rem;
+  }
+  .user-infos {
+    position: absolute;
+    bottom: 0;
+  }
+}
 
-    @media screen and (max-width: 900px) {
-        nav.topbar {
-            img {
-                height: 6vh;
-                bottom: 2vh;
-            }
-        }
+main {
+  padding: 10vh;
+
+  .connection, .content {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/**
+ * Transitions
+ */
+ .v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+@media screen and (max-width: 900px) {
+  nav.topbar {
+    img {
+      height: 6vh;
+      bottom: 2vh;
     }
+  }
+}
 </style>
