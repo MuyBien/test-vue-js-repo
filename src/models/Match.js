@@ -1,3 +1,5 @@
+import { Team } from "./Team";
+
 export class Match {
 
   homeTeam;
@@ -5,10 +7,12 @@ export class Match {
   score;
 
   constructor(match) {
-    this.homeTeam = match.home;
-    this.awayTeam = match.away;
+    this.homeTeam = new Team(match.home);
+    this.awayTeam = new Team(match.away);
   }
 
-  getScore = () => {};
+  getScore = () => {
+    return [this.homeTeam.score, this.awayTeam.score];
+  };
 
 }

@@ -3,12 +3,14 @@ import { Player } from "./Player";
 export class Team {
 
   composition;
+  score;
   starters = [];
   substitutes = [];
   substitutions = [];
 
   constructor(team) {
     this.composition = team.composition;
+    this.score = team.score;
 
     const playersData = Object.values(team.players);
 
@@ -57,7 +59,7 @@ export class Team {
     // Rotaldo substitutions
     finalPlayers = finalPlayers.map((player) => {
       if (! player.rating) {
-        return {
+        return new Player({
           lastName: "Rotaldo",
           position: player.position,
           compositionStatus: 1,
@@ -65,12 +67,24 @@ export class Team {
           rating: 2.5,
           goals: 0,
           ownGoals: 0,
-        };
+        });
       }
       return player;
     });
 
     return finalPlayers;
   };
+
+  getFinalScore = () => {
+    const finalPlayers = this.getFinalPlayers();
+    const goals = finalPlayers.reduce((player, goals) => { return goals + player.goals}, 0);
+    const ownGoals = finalPlayers.reduce((player, ownGoals) => { return ownGoals + player.ownGoals}, 0);
+    const rotaldoOwnGoals = Math.floor(finalPlayers.filter(player => player.lastName === "Rotaldo").length / 3);
+
+    return {
+      goals,
+      ownGoals: ownGoals + rotaldoOwnGoals,
+    }
+  }
 
 }
