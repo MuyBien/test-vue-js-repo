@@ -1,46 +1,93 @@
 <template>
-  <div class="accordion" id="accordionPanelsStayOpenExample">
+
+  <div class="accordion">
+
     <div class="accordion-item">
-      <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-        <button
-            class="accordion-button match"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#panelsStayOpen-collapseOne"
-            aria-expanded="true"
-            aria-controls="panelsStayOpen-collapseOne"
-          >
-            <span>Résultat en live :</span>
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <span>Résultat en live :</span>
             <span class="team home">
-              {{ match.home.name }}
+              {{ liveMatch.home.name }}
             </span>
             <span class="score">
-              {{ match.home.score }}
+              {{ liveMatch.home.score }}
               -
-              {{ match.away.score }}
+              {{ liveMatch.away.score }}
             </span>
-            <span class="team home">{{ match.away.name }}</span>
+            <span class="team home">{{ liveMatch.away.name }}</span>
         </button>
       </h2>
-      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-        <div class="accordion-body">
-          <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body row">
+          <div class="col-6">
+            <ul>
+              <li v-for="player in match.homeTeam.starters">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
+            </ul>
+          </div>
+          <div class="col-6">
+            <ul>
+              <li v-for="player in match.awayTeam.starters">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <span>Résultat après RT et calcul des buts MPG :</span>
+          <span class="team home">
+            {{ liveMatch.home.name }}
+          </span>
+          <span class="score">
+            {{ match.getFinalScore().join(" - ") }}
+          </span>
+          <span class="team home">{{ liveMatch.away.name }}</span>
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body row">
+          <div class="col-6">
+            <ul>
+              <li v-for="player in match.homeTeam.getFinalPlayers()">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
+            </ul>
+          </div>
+          <div class="col-6">
+            <ul>
+              <li v-for="player in match.awayTeam.getFinalPlayers()">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-defineProps({
-  match: {
+import { useMPG } from "@/use/useMPG";
+import { ref } from "vue";
+
+const props = defineProps({
+  liveMatch: {
     type: Object,
     required: true,
   },
 });
+
+const { getMatchData } = useMPG();
+
+const match = ref("");
+match.value = await getMatchData(props.liveMatch.id);
+
 </script>
 
 <style lang="scss" scoped>
+li {
+  list-style: none;
+}
+
 .match {
   display: flex;
   width: 100%;

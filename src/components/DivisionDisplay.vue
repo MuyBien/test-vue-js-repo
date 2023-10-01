@@ -3,7 +3,9 @@
     <h2>{{ division.name }}</h2>
     <ul>
       <li class="match">
-        <match-display :match="userMatch" />
+        <suspense>
+          <match-display :live-match="userMatch" />
+        </suspense>
       </li>
     </ul>
   </div>
@@ -35,5 +37,9 @@ const userMatch = computed(() => {
 <style lang="scss" scoped>
 ul {
   padding: 0;
+
+  li {
+    list-style: none;
+  }
 }
 </style>

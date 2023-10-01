@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
 
-import { Match } from "../Match";
 import matchMock from "@/assets/mocks/match/response.js";
 import { Player } from "../Player";
 

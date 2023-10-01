@@ -252,6 +252,47 @@ describe("Le modèle d'une équipe", () => {
 
     });
 
+    describe("Calcule les buts d'une équipe", () => {
+
+      it("Une fois les RT effectués", () => {
+        team = new Team(matchMock.home);
+
+        team.starters.map(player => player.goals = 0);
+        team.substitutes.map(player => player.goals = 0);
+
+        team.starters[10].rating = 5;
+        team.starters[10].lastName = "Satriano";
+        team.starters[10].goals = 1;
+
+        team.substitutes[2].rating = 6;
+        team.substitutes[2].lastName = "Emegha";
+        team.substitutes[2].goals = 2;
+
+        team.substitutions[0] = {
+          rating: 6,
+          subId: team.substitutes[2].playerId,
+          starterId: team.starters[10].playerId,
+        };
+
+        const teamGoals = team.getFinalTeamGoals();
+        expect(teamGoals.goals).toBe(2);
+        expect(teamGoals.ownGoals).toBe(0);
+      });
+
+      it("En ajoutant un CSC tous les 3 Rotaldo", () => {
+        team = new Team(matchMock.home);
+
+        team.starters.map(player => player.rating = undefined);
+        team.substitutes.map(player => player.rating = undefined);
+        team.substitutions= [];
+
+        const teamGoals = team.getFinalTeamGoals();
+        expect(teamGoals.goals).toBe(0);
+        expect(teamGoals.ownGoals).toBe(3);
+      });
+
+    });
+
   });
 
 });

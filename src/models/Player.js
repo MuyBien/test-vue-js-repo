@@ -17,11 +17,11 @@ export class Player {
     this.firstName = playerData.firstName;
     this.position = playerData.position;
     this.compositionStatus = playerData.compositionStatus;
-    this.bonusRating = playerData.bonusRating;
     this.hasMatchPostponed = playerData.hasMatchPostponed;
-    this.rating = playerData.rating;
-    this.goals = playerData.goals;
-    this.ownGoals = playerData.ownGoals;
+    this.bonusRating = playerData.bonusRating || 0;
+    this.rating = playerData.rating || 0;
+    this.goals = playerData.goals || 0;
+    this.ownGoals = playerData.ownGoals || 0;
   }
 
   /**

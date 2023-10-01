@@ -20,7 +20,8 @@ export class Team {
   }
 
   getFinalPlayers = () => {
-    let finalPlayers = this.starters;
+    let finalPlayers = [...this.starters];
+    let substitutesCopy = [...this.substitutes];
 
     /** Tactical substitutions */
     this.substitutions.forEach((substitution, index) => {
@@ -29,11 +30,11 @@ export class Team {
       const finalPlayerCompleteRating = finalPlayers[substitutionStarterIndex].getTotalScore();
       if (! finalPlayers[substitutionStarterIndex].rating || finalPlayerCompleteRating < substitution.rating) {
         
-        const substituteIndex = this.substitutes.findIndex(substitute => substitute.playerId === substitution.subId);
-
-        if (substituteIndex >= 0 && this.substitutes[substituteIndex].rating) {
-          finalPlayers[substitutionStarterIndex] = this.substitutes[substituteIndex];
-          this.substitutes.splice(substituteIndex, 1);
+        const substituteIndex = substitutesCopy.findIndex(substitute => substitute.playerId === substitution.subId);
+        
+        if (substituteIndex >= 0 && substitutesCopy[substituteIndex].rating) {
+          finalPlayers[substitutionStarterIndex] = substitutesCopy[substituteIndex];
+          substitutesCopy.splice(substituteIndex, 1);
         }
       }
     });
@@ -41,16 +42,16 @@ export class Team {
     /** Classic substitutions */
     finalPlayers.forEach((player, index) => {
       if (! player.rating) {
-        const substituteIndex = this.substitutes.findIndex((substitute) => substitute.rating && substitute.position === player.position);
+        const substituteIndex = substitutesCopy.findIndex((substitute) => substitute.rating && substitute.position === player.position);
         if (substituteIndex >= 0) {
-          finalPlayers[index] = this.substitutes[substituteIndex];
-          this.substitutes.splice(substituteIndex, 1);
+          finalPlayers[index] = substitutesCopy[substituteIndex];
+          substitutesCopy.splice(substituteIndex, 1);
         } else {
-          const substituteIndex = this.substitutes.findIndex((substitute) => substitute.rating && substitute.position + 1 === player.position);
+          const substituteIndex = substitutesCopy.findIndex((substitute) => substitute.rating && substitute.position + 1 === player.position);
           if (substituteIndex >= 0) {
-            finalPlayers[index] = this.substitutes[substituteIndex];
+            finalPlayers[index] = substitutesCopy[substituteIndex];
             finalPlayers[index].rating -= 1;
-            this.substitutes.splice(substituteIndex, 1);
+            substitutesCopy.splice(substituteIndex, 1);
           }
         }
       }
@@ -75,10 +76,10 @@ export class Team {
     return finalPlayers;
   };
 
-  getFinalScore = () => {
+  getFinalTeamGoals = () => {
     const finalPlayers = this.getFinalPlayers();
-    const goals = finalPlayers.reduce((player, goals) => { return goals + player.goals}, 0);
-    const ownGoals = finalPlayers.reduce((player, ownGoals) => { return ownGoals + player.ownGoals}, 0);
+    const goals = finalPlayers.reduce((goals, player) => { return player.goals ? goals + player.goals : goals }, 0);
+    const ownGoals = finalPlayers.reduce((ownGoals, player) => { return player.ownGoals ? ownGoals + player.ownGoals : ownGoals }, 0);
     const rotaldoOwnGoals = Math.floor(finalPlayers.filter(player => player.lastName === "Rotaldo").length / 3);
 
     return {

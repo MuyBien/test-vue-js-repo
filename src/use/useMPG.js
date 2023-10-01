@@ -1,4 +1,5 @@
 import { computed, ref, watch } from "vue";
+import { Match } from "@/models/Match";
 
 const token = ref("");
 const user = ref({});
@@ -55,7 +56,6 @@ export function useMPG() {
    * Infos des équipes (bonus restant, etc)
    */
   const getTeamInfos = async(teamId) => {
-    // exemple de teamId : mpg_team_LJELCG6E_9_1_0
     const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
       method: "GET",
       headers: {
@@ -77,24 +77,38 @@ export function useMPG() {
   });
 
   const getLiveData = async() => {
-    // const response = await fetch("https://api.mpg.football/live", {
-    //   method: "GET",
-    //   headers: {
-    //     accept: "application/json, text/plain, */*",
-    //     authorization: token.value,
-    //   },
-    //   body: null,
-    // });
-    // const data = await response.json();
-    // liveData.value = data;
+    const response = await fetch("https://api.mpg.football/live", {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    liveData.value = data;
 
-    const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
-    liveData.value = await mockedResponse.json();
+    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
+    // liveData.value = await mockedResponse.json();
   };
 
   const liveDivisions = computed(() => {
-    return Object.values(liveData.value.orderedLeagueDivisionItems);
+    return Object.values(liveData.value?.orderedLeagueDivisionItems) || [];
   });
+
+  const getMatchData = async (matchId) => {
+    const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    return new Match(data);
+
+  };
 
   return {
     signIn,
@@ -102,5 +116,6 @@ export function useMPG() {
     isConnected,
     haveLiveRating,
     liveDivisions,
+    getMatchData,
   };
 }
