@@ -1,3 +1,5 @@
+import { Player } from "./Player";
+
 export class Team {
 
   composition;
@@ -10,8 +12,8 @@ export class Team {
 
     const playersData = Object.values(team.players);
 
-    this.starters = playersData.slice(0, 11);
-    this.substitutes = playersData.slice(11);
+    this.starters = playersData.slice(0, 11).map(playerData => new Player(playerData));
+    this.substitutes = playersData.slice(11).map(playerData => new Player(playerData));
     this.substitutions = team.tacticalSubs;
   }
 
@@ -21,9 +23,8 @@ export class Team {
     /** Tactical substitutions */
     this.substitutions.forEach((substitution, index) => {
 
-      
       const substitutionStarterIndex = finalPlayers.findIndex(starter => starter.playerId === substitution.starterId);
-      const finalPlayerCompleteRating = finalPlayers[substitutionStarterIndex].rating + finalPlayers[substitutionStarterIndex].bonusRating; // TODO to a Player model
+      const finalPlayerCompleteRating = finalPlayers[substitutionStarterIndex].getTotalScore();
       if (! finalPlayers[substitutionStarterIndex].rating || finalPlayerCompleteRating < substitution.rating) {
         
         const substituteIndex = this.substitutes.findIndex(substitute => substitute.playerId === substitution.subId);
