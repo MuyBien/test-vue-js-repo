@@ -48,11 +48,11 @@ export function useMPG() {
     user.value = await response.json();
   };
   const haveLiveRating = computed(() => {
-    return user.value?.applicationsData.mpg.gameOptions.liveRatingAvailable;
+    return user.value?.applicationsData?.mpg.gameOptions.liveRatingAvailable;
   });
 
   /**
-   * Infos des équipes
+   * Infos des équipes (bonus restant, etc)
    */
   const getTeamInfos = async(teamId) => {
     // exemple de teamId : mpg_team_LJELCG6E_9_1_0
