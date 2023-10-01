@@ -25,7 +25,7 @@ const props = defineProps({
 
 const userMatch = computed(() => {
   const userTeamId = props.division.userTeamId;
-  const liveMatches = Object.values(props.division.liveState.liveMatches);
+  const liveMatches = Object.values(props.division.liveState?.liveMatches || []);
   return liveMatches.find((match) => {
     return match.home.teamId === userTeamId || match.away.teamId === userTeamId;
   });
