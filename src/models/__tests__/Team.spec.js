@@ -185,14 +185,14 @@ describe("Le modèle d'une équipe", () => {
         team = new Team(matchMock.home);
 
         team.starters.map(player => player.rating = 5);
-        delete team.starters[10].rating;
         team.starters[10].lastName = "Zaire Emery";
-        team.starters[10].position = 2;
+        team.starters[10].position = 3;
+        delete team.starters[10].rating;
 
         team.substitutes.map(player => player.position = 4);
         team.substitutes[1].rating = 6;
         team.substitutes[1].lastName = "Theate";
-        team.substitutes[1].position = 1;
+        team.substitutes[1].position = 2;
 
         team.substitutions = [];
 
@@ -217,9 +217,27 @@ describe("Le modèle d'une équipe", () => {
         team.substitutions = [];
 
         const finalPlayers = team.getFinalPlayers();
-        console.log("🚀 ~ file: Team.spec.js:221 ~ it.only ~ finalPlayers[10]:", finalPlayers[10])
         expect(finalPlayers[10].lastName).toBe("Theate");
         expect(finalPlayers[10].rating).toBe(4); // 6 - 2
+      });
+
+      it("En ne remplacant pas un défenseur par un gardien si aucun défenseur n'est disponible", () => {
+        team = new Team(matchMock.home);
+
+        team.starters.map(player => player.rating = 5);
+        team.starters[1].lastName = "Theate";
+        team.starters[1].position = 2;
+        delete team.starters[1].rating;
+
+        team.substitutes.map(player => player.position = 1);
+        team.substitutes[0].rating = 6;
+        team.substitutes[0].lastName = "Mandanda";
+
+        team.substitutions = [];
+
+        const finalPlayers = team.getFinalPlayers();
+        expect(finalPlayers[1].lastName).toBe("Rotaldo");
+        expect(finalPlayers[1].rating).toBe(2.5);
       });
 
 
