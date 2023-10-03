@@ -53,57 +53,68 @@ describe("Le modèle d'une équipe", () => {
           starterId: team.starters[10].playerId,
         };
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Emegha");
-        expect(finalPlayers[10].rating).toBe(6);
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Emegha");
+        expect(team.getFinalPlayers()[10].rating).toBe(6);
       });
 
       it("Si le joueur titulaire n'a pas joué", () => {
         team = new Team(matchMock.home);
-        delete team.starters[10].rating;
+
         team.starters[10].lastName = "Satriano";
+        delete team.starters[10].rating;
+
         team.substitutes[2].rating = 6;
         team.substitutes[2].lastName = "Emegha";
+        
         team.substitutions[0] = {
           rating: 6,
           subId: team.substitutes[2].playerId,
           starterId: team.starters[10].playerId,
         };
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Emegha");
-        expect(finalPlayers[10].rating).toBe(6);
+        
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Emegha");
+        expect(team.getFinalPlayers()[10].rating).toBe(6);
       });
 
       it("Sauf si le joueur remplaçant n'a pas joué", () => {
         team = new Team(matchMock.home);
-        team.starters[10].rating = 5.5;
+
         team.starters[10].lastName = "Satriano";
-        delete team.substitutes[2].rating;
+        team.starters[10].rating = 5.5;
+        
         team.substitutes[2].lastName = "Emegha";
+        delete team.substitutes[2].rating;
+        
         team.substitutions[0] = {
           rating: 6,
           subId: team.substitutes[2].playerId,
           starterId: team.starters[10].playerId,
         };
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Satriano");
-        expect(finalPlayers[10].rating).toBe(5.5);
+        
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Satriano");
+        expect(team.getFinalPlayers()[10].rating).toBe(5.5);
       });
 
       it("Sauf si le joueur titulaire a eu la note requise", () => {
         team = new Team(matchMock.home);
-        team.starters[10].rating = 6;
+
         team.starters[10].lastName = "Satriano";
-        delete team.substitutes[2].rating;
+        team.starters[10].rating = 6;
         team.substitutes[2].lastName = "Emegha";
+        delete team.substitutes[2].rating;
+        
         team.substitutions[0] = {
           rating: 6,
           subId: team.substitutes[2].playerId,
           starterId: team.starters[10].playerId,
         };
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Satriano");
-        expect(finalPlayers[10].rating).toBe(6);
+        
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Satriano");
+        expect(team.getFinalPlayers()[10].rating).toBe(6);
       });
 
       it("En prenant en compte les bonus", () => {
@@ -122,9 +133,9 @@ describe("Le modèle d'une équipe", () => {
           starterId: team.starters[10].playerId,
         };
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Satriano");
-        expect(finalPlayers[10].rating).toBe(5);
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Satriano");
+        expect(team.getFinalPlayers()[10].rating).toBe(5);
       });
 
     });
@@ -156,9 +167,9 @@ describe("Le modèle d'une équipe", () => {
           starterId: team.starters[9].playerId, // Balogun
         }];
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Emegha");
-        expect(finalPlayers[10].rating).toBe(6);
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Emegha");
+        expect(team.getFinalPlayers()[10].rating).toBe(6);
       });
 
       it("Par un milieu (avec malus) si aucun attaquant n'est disponible", () => {
@@ -176,15 +187,16 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Zaire Emery");
-        expect(finalPlayers[10].rating).toBe(5); // 6 - 1
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Zaire Emery");
+        expect(team.getFinalPlayers()[10].rating).toBe(5); // 6 - 1
       });
 
       it("Par un defenseur (avec malus) si aucun milieu n'est disponible", () => {
         team = new Team(matchMock.home);
 
         team.starters.map(player => player.rating = 5);
+
         team.starters[10].lastName = "Zaire Emery";
         team.starters[10].position = 3;
         delete team.starters[10].rating;
@@ -196,9 +208,9 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Theate");
-        expect(finalPlayers[10].rating).toBe(5); // 6 - 1
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Theate");
+        expect(team.getFinalPlayers()[10].rating).toBe(5); // 6 - 1
       });
 
       it("Par un defenseur (avec double malus) si aucun attaquant ou milieu ne sont disponible", () => {
@@ -216,9 +228,9 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Theate");
-        expect(finalPlayers[10].rating).toBe(4); // 6 - 2
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Theate");
+        expect(team.getFinalPlayers()[10].rating).toBe(4); // 6 - 2
       });
 
       it("En ne remplacant pas un défenseur par un gardien si aucun défenseur n'est disponible", () => {
@@ -235,9 +247,9 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[1].lastName).toBe("Rotaldo");
-        expect(finalPlayers[1].rating).toBe(2.5);
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[1].lastName).toBe("Rotaldo");
+        expect(team.getFinalPlayers()[1].rating).toBe(2.5);
       });
 
 
@@ -253,9 +265,9 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Rotaldo");
-        expect(finalPlayers[10].rating).toBe(2.5); // 6 - 1
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Rotaldo");
+        expect(team.getFinalPlayers()[10].rating).toBe(2.5); // 6 - 1
       });
 
       it("Par Rotaldo si plus aucun joueur n'est disponible", () => {
@@ -269,9 +281,9 @@ describe("Le modèle d'une équipe", () => {
         team.substitutes = [];
         team.substitutions = [];
 
-        const finalPlayers = team.getFinalPlayers();
-        expect(finalPlayers[10].lastName).toBe("Rotaldo");
-        expect(finalPlayers[10].rating).toBe(2.5);
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].lastName).toBe("Rotaldo");
+        expect(team.getFinalPlayers()[10].rating).toBe(2.5);
       });
 
     });
@@ -298,6 +310,7 @@ describe("Le modèle d'une équipe", () => {
           starterId: team.starters[10].playerId,
         };
 
+        team.calculateFinalPlayers();
         const teamGoals = team.getFinalTeamGoals();
         expect(teamGoals.goals).toBe(2);
         expect(teamGoals.ownGoals).toBe(0);
@@ -310,6 +323,7 @@ describe("Le modèle d'une équipe", () => {
         team.substitutes.map(player => player.rating = undefined);
         team.substitutions= [];
 
+        team.calculateFinalPlayers();
         const teamGoals = team.getFinalTeamGoals();
         expect(teamGoals.goals).toBe(0);
         expect(teamGoals.ownGoals).toBe(3);

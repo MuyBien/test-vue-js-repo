@@ -11,6 +11,7 @@ export class Team {
   starters = [];
   substitutes = [];
   substitutions = [];
+  finalPlayers = [];
 
   constructor(team) {
     this.composition = team.composition;
@@ -21,29 +22,49 @@ export class Team {
     this.starters = playersData.slice(0, 11).map(playerData => new Player(playerData));
     this.substitutes = playersData.slice(11).map(playerData => new Player(playerData));
     this.substitutions = team.tacticalSubs;
+
+    this.calculateFinalPlayers();
   }
 
-  getFinalPlayers = () => {
+  /**
+   * Effectue les RT, les remplacements obligatoires et les rentrées de Rotaldo
+   */
+  calculateFinalPlayers() {
     let finalPlayers = [...this.starters];
     let substitutesCopy = [...this.substitutes];
 
-    /** Tactical substitutions */
+    finalPlayers = this.applyTacticalSubstitutions(finalPlayers, substitutesCopy);
+    finalPlayers = this.applyClassicSubstitutions(finalPlayers, substitutesCopy);
+    finalPlayers = this.applyRotaldoSubstitutions(finalPlayers);
+
+    this.finalPlayers = finalPlayers;
+  }
+
+  /**
+   * Effectue les RT
+   */
+  applyTacticalSubstitutions(finalPlayers, substitutesCopy) {
     this.substitutions.forEach(substitution => {
       const { starterId, subId, rating } = substitution;
       const substitutionStarterIndex = finalPlayers.findIndex(starter => starter.playerId === starterId);
       const finalPlayerCompleteRating = finalPlayers[substitutionStarterIndex].getTotalScore();
-        
+
       if (!finalPlayers[substitutionStarterIndex].rating || finalPlayerCompleteRating < rating) {
         const substituteIndex = substitutesCopy.findIndex(substitute => substitute.playerId === subId);
-        
+
         if (substituteIndex >= 0 && substitutesCopy[substituteIndex].rating) {
           finalPlayers[substitutionStarterIndex] = substitutesCopy[substituteIndex];
           substitutesCopy.splice(substituteIndex, 1);
         }
       }
     });
+    return finalPlayers;
+  }
 
-    /** Classic substitutions */
+  /**
+   * Effectue les remplacements obligatoires
+   */
+  applyClassicSubstitutions(finalPlayers, substitutesCopy) {
     finalPlayers.forEach((player, index) => {
       if (! player.rating) {
         const substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position === player.position);
@@ -66,31 +87,38 @@ export class Team {
         }
       }
     });
-
-    // Rotaldo substitutions
-    finalPlayers = finalPlayers.map((player) => {
-      if (! player.rating) {
-        return new Player({
-          lastName: "Rotaldo",
-          position: player.position,
-          compositionStatus: 1,
-          bonusRating: 0,
-          rating: 2.5,
-          goals: 0,
-          ownGoals: 0,
-        });
-      }
-      return player;
-    });
-
     return finalPlayers;
+  }
+/**
+   * Effectue les rentrées de Rotaldo
+   */
+  applyRotaldoSubstitutions(finalPlayers) {
+    return finalPlayers.map(player => (!player.rating)
+      ? new Player({
+        lastName: "Rotaldo",
+        position: player.position,
+        compositionStatus: 1,
+        bonusRating: 0,
+        rating: 2.5,
+        goals: 0,
+        ownGoals: 0,
+      })
+      : player
+    );
+  }
+  
+  getFinalPlayers = () => {
+    return this.finalPlayers;
   };
 
+  findSubstitute(substitutes, targetPosition, offset = 0) {
+    return substitutes.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER + offset && substitute.position + 1 === targetPosition);
+  }
+
   getFinalTeamGoals = () => {
-    const finalPlayers = this.getFinalPlayers();
-    const goals = finalPlayers.reduce((total, { goals }) => goals ? total + goals : total, 0);
-    const ownGoals = finalPlayers.reduce((total, { ownGoals }) => ownGoals ? total + ownGoals : total, 0);
-    const rotaldoOwnGoals = Math.floor(finalPlayers.filter(player => player.lastName === "Rotaldo").length / 3);
+    const goals = this.finalPlayers.reduce((total, { goals }) => goals ? total + goals : total, 0);
+    const ownGoals = this.finalPlayers.reduce((total, { ownGoals }) => ownGoals ? total + ownGoals : total, 0);
+    const rotaldoOwnGoals = Math.floor(this.finalPlayers.filter(player => player.lastName === "Rotaldo").length / 3);
 
     return {
       goals,
@@ -99,7 +127,7 @@ export class Team {
   };
 
   getAverages = () => {
-    const finalPlayers = this.getFinalPlayers();
+    const finalPlayers = this.finalPlayers;
 
     const calculatePositionAverage = position => {
       const players = finalPlayers.filter(player => player.position === position);
