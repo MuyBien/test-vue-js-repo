@@ -85,7 +85,21 @@ export class Team {
     return {
       goals,
       ownGoals: ownGoals + rotaldoOwnGoals,
-    }
-  }
+    };
+  };
 
+  getAverages = () => {
+    const finalPlayers = this.getFinalPlayers();
+
+    const calculatePositionAverage = position => {
+      const players = finalPlayers.filter(player => player.position === position);
+      return players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
+    };
+
+    const forwardAverage = calculatePositionAverage(POSITION_FORWARD);
+    const middleAverage = calculatePositionAverage(POSITION_MIDDLE);
+    const backerAverage = calculatePositionAverage(POSITION_BACKER);
+
+    return [finalPlayers[0].getTotalScore(), backerAverage, middleAverage, forwardAverage];
+  };
 }

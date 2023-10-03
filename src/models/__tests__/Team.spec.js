@@ -39,15 +39,20 @@ describe("Le modèle d'une équipe", () => {
 
       it("D'un joueur qui a eu une note inférieure à la note requise", () => {
         team = new Team(matchMock.home);
+
         team.starters[10].rating = 5.5;
+        team.starters[10].bonusRating = 0;
         team.starters[10].lastName = "Satriano";
+
         team.substitutes[2].rating = 6;
         team.substitutes[2].lastName = "Emegha";
+
         team.substitutions[0] = {
           rating: 6,
           subId: team.substitutes[2].playerId,
           starterId: team.starters[10].playerId,
         };
+
         const finalPlayers = team.getFinalPlayers();
         expect(finalPlayers[10].lastName).toBe("Emegha");
         expect(finalPlayers[10].rating).toBe(6);
@@ -101,7 +106,7 @@ describe("Le modèle d'une équipe", () => {
         expect(finalPlayers[10].rating).toBe(6);
       });
 
-      it.only("En prenant en compte les bonus", () => {
+      it("En prenant en compte les bonus", () => {
         team = new Team(matchMock.home);
 
         team.starters[10].rating = 5;
@@ -151,7 +156,7 @@ describe("Le modèle d'une équipe", () => {
           starterId: team.starters[9].playerId, // Balogun
         }];
 
-        finalPlayers = team.getFinalPlayers();
+        const finalPlayers = team.getFinalPlayers();
         expect(finalPlayers[10].lastName).toBe("Emegha");
         expect(finalPlayers[10].rating).toBe(6);
       });
@@ -171,7 +176,7 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        finalPlayers = team.getFinalPlayers();
+        const finalPlayers = team.getFinalPlayers();
         expect(finalPlayers[10].lastName).toBe("Zaire Emery");
         expect(finalPlayers[10].rating).toBe(5); // 6 - 1
       });
@@ -191,7 +196,7 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        finalPlayers = team.getFinalPlayers();
+        const finalPlayers = team.getFinalPlayers();
         expect(finalPlayers[10].lastName).toBe("Theate");
         expect(finalPlayers[10].rating).toBe(5); // 6 - 1
       });
@@ -200,9 +205,9 @@ describe("Le modèle d'une équipe", () => {
         team = new Team(matchMock.home);
 
         team.starters.map(player => player.rating = 5);
-        delete team.starters[10].rating;
         team.starters[10].lastName = "Satriano";
         team.starters[10].position = 4;
+        delete team.starters[10].rating;
 
         team.substitutes.map(player => player.position = 2);
         team.substitutes[0].rating = 6;
@@ -211,7 +216,8 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        finalPlayers = team.getFinalPlayers();
+        const finalPlayers = team.getFinalPlayers();
+        console.log("🚀 ~ file: Team.spec.js:221 ~ it.only ~ finalPlayers[10]:", finalPlayers[10])
         expect(finalPlayers[10].lastName).toBe("Theate");
         expect(finalPlayers[10].rating).toBe(4); // 6 - 2
       });
@@ -229,7 +235,7 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutions = [];
 
-        finalPlayers = team.getFinalPlayers();
+        const finalPlayers = team.getFinalPlayers();
         expect(finalPlayers[10].lastName).toBe("Rotaldo");
         expect(finalPlayers[10].rating).toBe(2.5); // 6 - 1
       });
@@ -245,14 +251,14 @@ describe("Le modèle d'une équipe", () => {
         team.substitutes = [];
         team.substitutions = [];
 
-        finalPlayers = team.getFinalPlayers();
+        const finalPlayers = team.getFinalPlayers();
         expect(finalPlayers[10].lastName).toBe("Rotaldo");
         expect(finalPlayers[10].rating).toBe(2.5);
       });
 
     });
 
-    describe("Calcule les buts d'une équipe", () => {
+    describe("En calculant les buts d'une équipe", () => {
 
       it("Une fois les RT effectués", () => {
         team = new Team(matchMock.home);
@@ -293,6 +299,25 @@ describe("Le modèle d'une équipe", () => {
 
     });
 
+  });
+
+  describe("Calcule les moyennes", () => {
+
+    it("Des attaquants", () => {
+      expect(team.getAverages()[3]).toBe(3.25);
+    });
+
+    it("Des milieux", () => {
+      expect(team.getAverages()[2]).toBe(4.875);
+    });
+
+    it("Des défenseurs", () => {
+      expect(team.getAverages()[1]).toBe(6.375);
+    });
+
+    it("Du gardien", () => {
+      expect(team.getAverages()[0]).toBe(7);
+    });
   });
 
 });
