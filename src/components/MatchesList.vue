@@ -22,7 +22,7 @@ import { useMPG } from "@/use/useMPG";
 const { liveDivisions } = useMPG();
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 h2 {
   text-align: center;
 }

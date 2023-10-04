@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h2>{{ division.name }}</h2>
+    <h2 class="division">
+      <span class="division__logo" :style="{ 'backgroundImage': `url(${division.imageUrl}`}"></span>
+      <span class="division__name">{{ division.name }}</span>
+    </h2>
     <ul>
       <li class="match">
         <suspense>
@@ -35,6 +38,20 @@ const userMatch = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.division {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  &__logo {
+    width: 50px;
+    height: 50px;
+    display: block;
+    background-size: cover;
+  }
+}
+
 ul {
   padding: 0;
 
