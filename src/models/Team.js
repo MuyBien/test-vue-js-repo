@@ -23,6 +23,9 @@ export class Team {
     this.substitutes = playersData.slice(11).map(playerData => new Player(playerData));
     this.substitutions = team.tacticalSubs;
 
+    const captainIndex = this.starters.findIndex(player => player.playerId === team.captain);
+    this.starters[captainIndex].isCaptain = true;
+
     this.calculateFinalPlayers();
   }
 

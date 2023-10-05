@@ -33,6 +33,13 @@ describe("Le modèle d'une équipe", () => {
 
   });
 
+  it("Donne l'attribut isCaptain au joueur capitaine", () => {
+    const captainId = matchMock.home.captain;
+    const captainIndex = team.starters.findIndex(({ playerId }) => playerId === captainId);
+    expect(team.starters[captainIndex].isCaptain).toBeTruthy();
+    expect(team.starters[0].isCaptain).toBeFalsy(); // le gardien ne peut pas être capitaine
+  });
+
   describe("Calcule l'équipe finale", () => {
 
     describe("En faisant les remplacements tactiques", () => {

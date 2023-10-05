@@ -10,6 +10,7 @@ export class Player {
   rating;
   goals;
   ownGoals;
+  isCaptain = false;
 
   constructor(playerData) {
     this.playerId = playerData.playerId;
