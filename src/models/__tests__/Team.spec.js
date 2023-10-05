@@ -145,6 +145,26 @@ describe("Le modèle d'une équipe", () => {
         expect(team.getFinalPlayers()[10].rating).toBe(5);
       });
 
+      it("En marquant le joueur entrant comme remplaçant", () => {
+        team = new Team(matchMock.home);
+
+        team.starters[10].rating = 5.5;
+        team.starters[10].bonusRating = 0;
+        team.starters[10].lastName = "Satriano";
+
+        team.substitutes[2].rating = 6;
+        team.substitutes[2].lastName = "Emegha";
+
+        team.substitutions[0] = {
+          rating: 6,
+          subId: team.substitutes[2].playerId,
+          starterId: team.starters[10].playerId,
+        };
+
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].isSubstitute).toBeTruthy();
+      });
+
     });
 
     describe("En remplaçant les joueurs qui n'ont pas joué", () => {
@@ -291,6 +311,23 @@ describe("Le modèle d'une équipe", () => {
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].lastName).toBe("Rotaldo");
         expect(team.getFinalPlayers()[10].rating).toBe(2.5);
+      });
+
+      it("En marquant le joueur entrant comme remplaçant", () => {
+        team = new Team(matchMock.home);
+
+        delete team.starters[10].rating;
+        team.starters[10].lastName = "Satriano";
+        team.starters[10].position = 4;
+
+        team.substitutes[2].rating = 6;
+        team.substitutes[2].lastName = "Emegha";
+        team.substitutes[2].position = 4;
+
+        team.substitutions = [];
+
+        team.calculateFinalPlayers();
+        expect(team.getFinalPlayers()[10].isSubstitute).toBeTruthy();
       });
 
     });

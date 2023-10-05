@@ -57,6 +57,7 @@ export class Team {
 
         if (substituteIndex >= 0 && substitutesCopy[substituteIndex].rating) {
           finalPlayers[substitutionStarterIndex] = substitutesCopy[substituteIndex];
+          finalPlayers[substitutionStarterIndex].isSubstitute = true;
           substitutesCopy.splice(substituteIndex, 1);
         }
       }
@@ -73,18 +74,21 @@ export class Team {
         const substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position === player.position);
         if (substituteIndex >= 0) {
           finalPlayers[index] = substitutesCopy[substituteIndex];
+          finalPlayers[index].isSubstitute = true;
           substitutesCopy.splice(substituteIndex, 1);
         } else {
           let substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 1 === player.position);
           if (substituteIndex >= 0) {
             finalPlayers[index] = substitutesCopy[substituteIndex];
             finalPlayers[index].rating -= 1;
+            finalPlayers[index].isSubstitute = true;
             substitutesCopy.splice(substituteIndex, 1);
           }
           substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 2 === player.position);
           if (substituteIndex >= 0) {
             finalPlayers[index] = substitutesCopy[substituteIndex];
             finalPlayers[index].rating -= 2;
+            finalPlayers[index].isSubstitute = true;
             substitutesCopy.splice(substituteIndex, 1);
           }
         }
@@ -105,6 +109,7 @@ export class Team {
         rating: 2.5,
         goals: 0,
         ownGoals: 0,
+        isSubstitute: true,
       })
       : player
     );

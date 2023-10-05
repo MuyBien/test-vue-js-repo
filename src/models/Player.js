@@ -11,6 +11,7 @@ export class Player {
   goals;
   ownGoals;
   isCaptain = false;
+  isSubstitute = false;
 
   constructor(playerData) {
     this.playerId = playerData.playerId;
@@ -23,6 +24,7 @@ export class Player {
     this.rating = playerData.rating || 0;
     this.goals = playerData.goals || 0;
     this.ownGoals = playerData.ownGoals || 0;
+    this.isSubstitute = playerData.isSubstitute || false;
   }
 
   /**
