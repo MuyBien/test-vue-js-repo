@@ -53,8 +53,8 @@ import { ref } from "vue";
 /**
  * Login
  */
-const login = ref("***REMOVED***");
-const password = ref("***REMOVED***");
+const login = ref("");
+const password = ref("");
 const { signIn } = useMPG();
 
 </script>
