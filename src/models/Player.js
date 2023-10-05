@@ -1,9 +1,19 @@
+const PRECISE_POSITIONS = {
+  10: "G",
+  20: "DC",
+  21: "DL",
+  30: "MD",
+  31: "MO",
+  40: "A",
+}
+
 export class Player {
 
   playerId;
   lastName;
   firstName;
   position; // 1 gardien, 2 defenseur, 3 milieu, 4 attaquant
+  precisePosition; // 10 G, 20 DC, 21 DL, 30 MD, 31 MO, 40 ATT
   compositionStatus; // 1 ?
   bonusRating;
   hasMatchPostponed;
@@ -18,6 +28,7 @@ export class Player {
     this.lastName = playerData.lastName;
     this.firstName = playerData.firstName;
     this.position = playerData.position;
+    this.precisePosition = PRECISE_POSITIONS[playerData.ultraPosition];
     this.compositionStatus = playerData.compositionStatus;
     this.hasMatchPostponed = playerData.hasMatchPostponed;
     this.bonusRating = playerData.bonusRating || 0;

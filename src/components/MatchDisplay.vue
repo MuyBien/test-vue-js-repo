@@ -20,14 +20,10 @@
       <div :id="`${match.id}-live-players`" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
         <div class="accordion-body row">
           <div class="col-6">
-            <ul>
-              <li v-for="player in match.homeTeam.starters">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
-            </ul>
+            <team-display :players="match.homeTeam.starters" />
           </div>
           <div class="col-6">
-            <ul>
-              <li v-for="player in match.awayTeam.starters">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
-            </ul>
+            <team-display :players="match.awayTeam.starters" />
           </div>
         </div>
       </div>
@@ -49,14 +45,10 @@
       <div :id="`${match.id}-calculated-players`" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
         <div class="accordion-body row">
           <div class="col-6">
-            <ul>
-              <li v-for="player in match.homeTeam.getFinalPlayers()">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
-            </ul>
+            <team-display :players="match.homeTeam.getFinalPlayers()" />
           </div>
           <div class="col-6">
-            <ul>
-              <li v-for="player in match.awayTeam.getFinalPlayers()">{{ player.lastName }} - {{ player.getTotalScore() }} - {{ player.goals }}</li>
-            </ul>
+            <team-display :players="match.awayTeam.getFinalPlayers()" />
           </div>
         </div>
       </div>
@@ -69,6 +61,8 @@
 import { useMPG } from "@/use/useMPG";
 import { ref } from "vue";
 
+import TeamDisplay from "@/components/TeamDisplay.vue";
+
 const props = defineProps({
   liveMatch: {
     type: Object,
@@ -80,7 +74,6 @@ const { getMatchData } = useMPG();
 
 const match = ref("");
 match.value = await getMatchData(props.liveMatch.id);
-
 </script>
 
 <style lang="scss" scoped>
