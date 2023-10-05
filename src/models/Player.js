@@ -32,7 +32,7 @@ export class Player {
     this.compositionStatus = playerData.compositionStatus;
     this.hasMatchPostponed = playerData.hasMatchPostponed;
     this.bonusRating = playerData.bonusRating || 0;
-    this.rating = playerData.rating || 0;
+    this.rating = playerData.rating || undefined;
     this.goals = playerData.goals || 0;
     this.ownGoals = playerData.ownGoals || 0;
     this.isSubstitute = playerData.isSubstitute || false;

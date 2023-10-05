@@ -15,9 +15,9 @@
       </div>
     </td>
     <td class="player__position">{{ player.precisePosition }}</td>
-    <td class="player__rating">{{ player.rating }}</td>
+    <td class="player__rating">{{ player.rating || "-" }}</td>
     <td class="player__bonus_rating">{{ player.bonusRating }}</td>
-    <td class="player__total_rating" :class="ratingClass">{{ player.getTotalScore() }}</td>
+    <td class="player__total_rating" :class="ratingClass">{{ player.rating ? player.getTotalScore() : "-" }}</td>
   </tr>
 </template>
 
@@ -37,6 +37,10 @@ const props = defineProps({
 });
 
 const ratingClass = computed(() => {
+  if (! props.player.rating) {
+    return "not-played";
+  }
+
   const playerScore = props.player.getTotalScore();
   switch (true) {
     case playerScore > 6.5:
@@ -119,6 +123,9 @@ const ratingClass = computed(() => {
     padding: 0;
     color: #fff;
     
+    &.not-played {
+      background-color: #959daf;
+    }
     &.very-good {
       background-color: rgb(120, 199, 61);
     }
