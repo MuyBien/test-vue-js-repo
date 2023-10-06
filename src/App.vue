@@ -19,7 +19,7 @@
 
 </template>
 
-<script setup lang="ts">
+<script setup>
 import LiveRatingDisclaimer from "@/components/LiveRatingDisclaimer.vue";
 import MatchesList from "@/components/MatchesList.vue";
 import MpgConnectionForm from "@/components/MpgConnectionForm.vue";

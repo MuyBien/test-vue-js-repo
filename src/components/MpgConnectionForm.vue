@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useMPG } from "@/use/useMPG";
 import { ref } from "vue";
 

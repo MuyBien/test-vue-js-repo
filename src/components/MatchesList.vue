@@ -12,7 +12,7 @@
   </section>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import DivisionDisplay from "@/components/DivisionDisplay.vue";
 import { useMPG } from "@/use/useMPG";
 
