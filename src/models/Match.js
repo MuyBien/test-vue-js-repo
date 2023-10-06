@@ -11,11 +11,14 @@ export class Match {
   id;
   homeTeam;
   awayTeams;
+  mpgGoals;
 
   constructor (match) {
     this.id = match.id;
     this.homeTeam = new Team(match.home);
     this.awayTeam = new Team(match.away);
+
+    this.mpgGoals = this.getMpgGoals();
   }
 
   getScore = () => {
@@ -26,8 +29,10 @@ export class Match {
     const homeTeamGoals = this.homeTeam.getFinalTeamGoals();
     const awayTeamGoals = this.awayTeam.getFinalTeamGoals();
 
-    const homeTeamMpgGoals = this.getMpgGoals();
-    return [homeTeamGoals.goals + awayTeamGoals.ownGoals, awayTeamGoals.goals + homeTeamGoals.ownGoals];
+    return [
+      homeTeamGoals.goals + this.mpgGoals.homeTeam.length + awayTeamGoals.ownGoals,
+      awayTeamGoals.goals + this.mpgGoals.awayTeam.length + homeTeamGoals.ownGoals,
+    ];
   };
 
   /**

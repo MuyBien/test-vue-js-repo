@@ -67,10 +67,10 @@
       >
         <div class="accordion-body row">
           <div class="col-6">
-            <team-display :players="match.homeTeam.getFinalPlayers()" />
+            <team-display :players="match.homeTeam.getFinalPlayers()" :mpg-goals="match.mpgGoals.homeTeam" />
           </div>
           <div class="col-6">
-            <team-display :players="match.awayTeam.getFinalPlayers()" />
+            <team-display :players="match.awayTeam.getFinalPlayers()" :mpg-goals="match.mpgGoals.awayTeam" />
           </div>
         </div>
       </div>

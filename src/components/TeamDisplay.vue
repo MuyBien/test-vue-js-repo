@@ -8,7 +8,13 @@
       <th>Final</th>
     </thead>
     <tbody>
-      <player-display v-for="(player, index) in players" :player="player" :player-index="index" />
+      <player-display
+        v-for="(player, index) in players"
+        :key="player.playerId"
+        :player="player"
+        :player-index="index"
+        :scores-mpg="mpgGoals.includes(player.playerId)"
+      />
     </tbody>
   </table>
 </template>
@@ -20,6 +26,12 @@ defineProps({
   players: {
     type: Array,
     required: true,
+  },
+  mpgGoals: {
+    type: Array,
+    default () {
+      return [];
+    },
   },
 });
 </script>
