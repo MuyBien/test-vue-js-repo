@@ -1,6 +1,6 @@
 test:unit:
-  image: node:20
   stage: test
+  need: ['build:app']
   script:
     - npm run test:unit:ci
   coverage: /All files\s*\|\s*([\d\.]+)/
@@ -12,6 +12,7 @@ test:unit:
 
 test:dependencies:
   stage: test
+  need: ['build:app']
   cache: 
     key: $CI_COMMIT_REF_SLUG
     paths:

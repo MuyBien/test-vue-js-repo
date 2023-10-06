@@ -1,5 +1,4 @@
 build:app:
-  image: node:20
   stage: build
   script:
     - npm run build
