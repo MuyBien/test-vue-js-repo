@@ -5,7 +5,7 @@
   "scripts": {
     "build": "run-p type-check \"build-only {@}\" --",
     "test:unit": "vitest",
-    "test:unit:ci": "vitest run --reporter=junit --coverage.enabled --coverage.provider=istanbul --coverage.all",
+    "test:unit:ci": "vitest run --reporter=junit --outputFile=junit.xml --coverage.enabled --coverage.provider=istanbul --coverage.all",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "lint:ci": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore --format gitlab",
     "build-only": "vite build",
