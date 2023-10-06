@@ -73,13 +73,13 @@ describe("Le modèle d'une équipe", () => {
 
         team.substitutes[2].rating = 6;
         team.substitutes[2].lastName = "Emegha";
-        
+
         team.substitutions[0] = {
           rating: 6,
           subId: team.substitutes[2].playerId,
           starterId: team.starters[10].playerId,
         };
-        
+
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].lastName).toBe("Emegha");
         expect(team.getFinalPlayers()[10].rating).toBe(6);
@@ -90,16 +90,16 @@ describe("Le modèle d'une équipe", () => {
 
         team.starters[10].lastName = "Satriano";
         team.starters[10].rating = 5.5;
-        
+
         team.substitutes[2].lastName = "Emegha";
         delete team.substitutes[2].rating;
-        
+
         team.substitutions[0] = {
           rating: 6,
           subId: team.substitutes[2].playerId,
           starterId: team.starters[10].playerId,
         };
-        
+
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].lastName).toBe("Satriano");
         expect(team.getFinalPlayers()[10].rating).toBe(5.5);
@@ -112,13 +112,13 @@ describe("Le modèle d'une équipe", () => {
         team.starters[10].rating = 6;
         team.substitutes[2].lastName = "Emegha";
         delete team.substitutes[2].rating;
-        
+
         team.substitutions[0] = {
           rating: 6,
           subId: team.substitutes[2].playerId,
           starterId: team.starters[10].playerId,
         };
-        
+
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].lastName).toBe("Satriano");
         expect(team.getFinalPlayers()[10].rating).toBe(6);
@@ -279,7 +279,6 @@ describe("Le modèle d'une équipe", () => {
         expect(team.getFinalPlayers()[1].rating).toBe(2.5);
       });
 
-
       it("Par un Rotaldo si aucun defenseur n'est disponible", () => {
         team = new Team(matchMock.home);
 
@@ -365,7 +364,7 @@ describe("Le modèle d'une équipe", () => {
 
         team.starters.map(player => player.rating = undefined);
         team.substitutes.map(player => player.rating = undefined);
-        team.substitutions= [];
+        team.substitutions = [];
 
         team.calculateFinalPlayers();
         const teamGoals = team.getFinalTeamGoals();

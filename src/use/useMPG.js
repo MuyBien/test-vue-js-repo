@@ -5,7 +5,7 @@ const token = ref("");
 const user = ref({});
 const liveData = ref({});
 
-export function useMPG() {
+export function useMPG () {
 
   /**
    * Méthode de connexion à MPG
@@ -13,7 +13,7 @@ export function useMPG() {
   const isConnected = computed(() => {
     return Boolean(token.value);
   });
-  const signIn = async(login, password) => {
+  const signIn = async (login, password) => {
     const response = await fetch("https://api.mpg.football/user/sign-in", {
       method: "POST",
       headers: {
@@ -37,7 +37,7 @@ export function useMPG() {
     }
   });
 
-  const getUser = async() => {
+  const getUser = async () => {
     const response = await fetch("https://api.mpg.football/user", {
       method: "GET",
       headers: {
@@ -55,7 +55,7 @@ export function useMPG() {
   /**
    * Infos des équipes (bonus restant, etc)
    */
-  const getTeamInfos = async(teamId) => {
+  const getTeamInfos = async (teamId) => {
     const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
       method: "GET",
       headers: {
@@ -76,7 +76,7 @@ export function useMPG() {
     }
   });
 
-  const getLiveData = async() => {
+  const getLiveData = async () => {
     const response = await fetch("https://api.mpg.football/live", {
       method: "GET",
       headers: {

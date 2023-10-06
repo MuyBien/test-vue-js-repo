@@ -13,7 +13,7 @@ export class Team {
   substitutions = [];
   finalPlayers = [];
 
-  constructor(team) {
+  constructor (team) {
     this.composition = team.composition;
     this.score = team.score;
 
@@ -32,9 +32,9 @@ export class Team {
   /**
    * Effectue les RT, les remplacements obligatoires et les rentrées de Rotaldo
    */
-  calculateFinalPlayers() {
+  calculateFinalPlayers () {
     let finalPlayers = [...this.starters];
-    let substitutesCopy = [...this.substitutes];
+    const substitutesCopy = [...this.substitutes];
 
     finalPlayers = this.applyTacticalSubstitutions(finalPlayers, substitutesCopy);
     finalPlayers = this.applyClassicSubstitutions(finalPlayers, substitutesCopy);
@@ -46,13 +46,13 @@ export class Team {
   /**
    * Effectue les RT
    */
-  applyTacticalSubstitutions(finalPlayers, substitutesCopy) {
+  applyTacticalSubstitutions (finalPlayers, substitutesCopy) {
     this.substitutions.forEach(substitution => {
       const { starterId, subId, rating } = substitution;
       const substitutionStarterIndex = finalPlayers.findIndex(starter => starter.playerId === starterId);
       const finalPlayerCompleteRating = finalPlayers[substitutionStarterIndex].getTotalScore();
 
-      if (!finalPlayers[substitutionStarterIndex].rating || finalPlayerCompleteRating < rating) {
+      if (! finalPlayers[substitutionStarterIndex].rating || finalPlayerCompleteRating < rating) {
         const substituteIndex = substitutesCopy.findIndex(substitute => substitute.playerId === subId);
 
         if (substituteIndex >= 0 && substitutesCopy[substituteIndex].rating) {
@@ -68,7 +68,7 @@ export class Team {
   /**
    * Effectue les remplacements obligatoires
    */
-  applyClassicSubstitutions(finalPlayers, substitutesCopy) {
+  applyClassicSubstitutions (finalPlayers, substitutesCopy) {
     finalPlayers.forEach((player, index) => {
       if (! player.rating) {
         const substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position === player.position);
@@ -96,11 +96,11 @@ export class Team {
     });
     return finalPlayers;
   }
-/**
+  /**
    * Effectue les rentrées de Rotaldo
    */
-  applyRotaldoSubstitutions(finalPlayers) {
-    return finalPlayers.map(player => (!player.rating)
+  applyRotaldoSubstitutions (finalPlayers) {
+    return finalPlayers.map(player => (! player.rating)
       ? new Player({
         lastName: "Rotaldo",
         position: player.position,
@@ -111,15 +111,15 @@ export class Team {
         ownGoals: 0,
         isSubstitute: true,
       })
-      : player
+      : player,
     );
   }
-  
+
   getFinalPlayers = () => {
     return this.finalPlayers;
   };
 
-  findSubstitute(substitutes, targetPosition, offset = 0) {
+  findSubstitute (substitutes, targetPosition, offset = 0) {
     return substitutes.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER + offset && substitute.position + 1 === targetPosition);
   }
 

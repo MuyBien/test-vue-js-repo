@@ -1,23 +1,33 @@
 <template>
-
   <div class="accordion">
-
     <div class="accordion-item">
-      <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" :data-bs-target="`#${match.id}-live-players`" aria-expanded="true" aria-controls="collapseOne">
+      <h2 id="headingOne" class="accordion-header">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          :data-bs-target="`#${match.id}-live-players`"
+          aria-expanded="true"
+          aria-controls="collapseOne"
+        >
           <span>Résultat en live :</span>
-            <span class="team home">
-              {{ liveMatch.home.name }}
-            </span>
-            <span class="score">
-              {{ liveMatch.home.score }}
-              -
-              {{ liveMatch.away.score }}
-            </span>
-            <span class="team home">{{ liveMatch.away.name }}</span>
+          <span class="team home">
+            {{ liveMatch.home.name }}
+          </span>
+          <span class="score">
+            {{ liveMatch.home.score }}
+            -
+            {{ liveMatch.away.score }}
+          </span>
+          <span class="team home">{{ liveMatch.away.name }}</span>
         </button>
       </h2>
-      <div :id="`${match.id}-live-players`" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div
+        :id="`${match.id}-live-players`"
+        class="accordion-collapse collapse show"
+        aria-labelledby="headingOne"
+        data-bs-parent="#accordionExample"
+      >
         <div class="accordion-body row">
           <div class="col-6">
             <team-display :players="match.homeTeam.starters" />
@@ -30,8 +40,15 @@
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="headingTwo">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="`#${match.id}-calculated-players`" aria-expanded="false" aria-controls="collapseTwo">
+      <h2 id="headingTwo" class="accordion-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          :data-bs-target="`#${match.id}-calculated-players`"
+          aria-expanded="false"
+          aria-controls="collapseTwo"
+        >
           <span>Résultat après RT et calcul des buts MPG :</span>
           <span class="team home">
             {{ liveMatch.home.name }}
@@ -42,7 +59,12 @@
           <span class="team home">{{ liveMatch.away.name }}</span>
         </button>
       </h2>
-      <div :id="`${match.id}-calculated-players`" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+      <div
+        :id="`${match.id}-calculated-players`"
+        class="accordion-collapse collapse"
+        aria-labelledby="headingTwo"
+        data-bs-parent="#accordionExample"
+      >
         <div class="accordion-body row">
           <div class="col-6">
             <team-display :players="match.homeTeam.getFinalPlayers()" />
@@ -53,7 +75,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 

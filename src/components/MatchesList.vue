@@ -2,7 +2,9 @@
   <section class="matches-live">
     <h2>Matchs en live</h2>
     <section v-if="!liveDivisions.length">
-      <p class="no-live-disclaimer">Aucun match live</p>
+      <p class="no-live-disclaimer">
+        Aucun match live
+      </p>
     </section>
     <ul>
       <li v-for="liveDivision in liveDivisions" :key="liveDivision.leagueId" class="division">

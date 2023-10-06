@@ -5,7 +5,7 @@ const PRECISE_POSITIONS = {
   30: "MD",
   31: "MO",
   40: "A",
-}
+};
 
 export class Player {
 
@@ -23,7 +23,7 @@ export class Player {
   isCaptain = false;
   isSubstitute = false;
 
-  constructor(playerData) {
+  constructor (playerData) {
     this.playerId = playerData.playerId;
     this.lastName = playerData.lastName;
     this.firstName = playerData.firstName;
@@ -44,6 +44,5 @@ export class Player {
    */
   getTotalScore = () => {
     return this.rating + this.bonusRating;
-  }
+  };
 }
-

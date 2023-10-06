@@ -6,7 +6,7 @@ import { Player } from "../Player";
 describe("Le modèle de joueur", () => {
 
   let player;
-  let playerMock = matchMock.home.players[1];
+  const playerMock = matchMock.home.players[1];
 
   it("Renvoi le score du joueur en comptant les bonus", () => {
     player = new Player({

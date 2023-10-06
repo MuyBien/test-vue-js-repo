@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="division">
-      <span class="division__logo" :style="{ 'backgroundImage': `url(${division.imageUrl}`}"></span>
+      <span class="division__logo" :style="{ 'backgroundImage': `url(${division.imageUrl}`}" />
       <span class="division__name">{{ division.name }}</span>
     </h2>
     <ul>

@@ -2,11 +2,13 @@
   <div class="card mb-3" style="max-width: 80vw; min-height: 50vh;">
     <div class="row g-0">
       <div class="col-md-4">
-        <img src="@/assets/mpg_login_banner.jpg" class="img-fluid rounded-start" alt="Bannière MPG" />
+        <img src="@/assets/mpg_login_banner.jpg" class="img-fluid rounded-start" alt="Bannière MPG">
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">Connexion à MPG</h5>
+          <h5 class="card-title">
+            Connexion à MPG
+          </h5>
           <div class="card-text">
             <p class="disclamer">
               Ce site n'est pas affilié à MPG. Nous ne conservons pas vos login et mot de passe.
@@ -15,20 +17,20 @@
             <form @submit="signIn(login, password)">
               <div class="form-floating mb-3">
                 <input
-                  type="email"
-                  v-model="login"
-                  class="form-control"
                   id="mpg-login"
+                  v-model="login"
+                  type="email"
+                  class="form-control"
                   placeholder="name@example.com"
                 >
                 <label for="mpg-login" class="form-label">Adresse e-mail</label>
               </div>
               <div class="form-floating mb-3">
                 <input
-                  type="password"
-                  v-model="password"
-                  class="form-control"
                   id="mpg-pwd"
+                  v-model="password"
+                  type="password"
+                  class="form-control"
                   placeholder="name@example.com"
                 >
                 <label for="mpg-pwd" class="form-label">Mot de passe</label>
@@ -37,7 +39,9 @@
           </div>
           <div class="card-footer">
             <footer>
-              <button class="btn btn-success" @click="signIn(login, password)">Connexion</button>
+              <button class="btn btn-success" @click="signIn(login, password)">
+                Connexion
+              </button>
             </footer>
           </div>
         </div>

@@ -8,7 +8,7 @@
       <th>Final</th>
     </thead>
     <tbody>
-      <player-display v-for="(player, index) in players" :player="player" :player-index="index"/>
+      <player-display v-for="(player, index) in players" :player="player" :player-index="index" />
     </tbody>
   </table>
 </template>

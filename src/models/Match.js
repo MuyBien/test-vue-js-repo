@@ -6,13 +6,13 @@ const LINES_TO_PASS = {
   2: [4, 3, 2, 1],
 };
 
-    export class Match {
+export class Match {
 
   id;
   homeTeam;
   awayTeams;
 
-  constructor(match) {
+  constructor (match) {
     this.id = match.id;
     this.homeTeam = new Team(match.home);
     this.awayTeam = new Team(match.away);
@@ -84,7 +84,7 @@ const LINES_TO_PASS = {
   };
 
   /**
-   * 
+   *
    * @param {Number} lineIndex le nombre de ligne déjà passée
    * @returns le malus à appliquer à la note pour calculer la suite du but MPG (0 = 0, 1 = 1, 2 = 1.5, 3 = 2)
    */

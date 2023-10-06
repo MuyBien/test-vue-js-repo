@@ -2,13 +2,15 @@
   <nav class="topbar">
     <img alt="Logo MPG" src="./assets/logo.png">
     <h1>Calculateur de résultat de match MPG</h1>
-    <p class="user-infos" v-if="isConnected">Connecté en tant que {{ user.username }}</p>
+    <p v-if="isConnected" class="user-infos">
+      Connecté en tant que {{ user.username }}
+    </p>
   </nav>
 
   <main>
     <transition mode="out-in">
       <section v-if="!isConnected" class="connection">
-        <mpg-connection-form></mpg-connection-form>
+        <mpg-connection-form />
       </section>
       <section v-else class="content">
         <live-rating-disclaimer v-if="!haveLiveRating" />
@@ -16,7 +18,6 @@
       </section>
     </transition>
   </main>
-
 </template>
 
 <script setup>
