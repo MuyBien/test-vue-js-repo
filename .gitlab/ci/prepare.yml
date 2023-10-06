@@ -12,4 +12,4 @@ update:dependencies:
   rules:
     - changes:
       - package-lock.json
-  timeout: 15m
+  timeout: 5m

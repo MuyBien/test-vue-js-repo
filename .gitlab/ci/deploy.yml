@@ -16,3 +16,4 @@ pages: # the job must be named pages
     url: https://muybien.gitlab.io/mpg-calculator
   rules:
     - if: $CI_COMMIT_TAG
+  timeout: 5m

@@ -8,3 +8,4 @@ build:app:
     paths:
       - ./dist
     expire_in: 1 day
+  timeout: 5m
