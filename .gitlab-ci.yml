@@ -4,7 +4,6 @@ stages:
   - build
   - quality
   - test
-  - docker
   - deploy
 
 workflow:
@@ -47,5 +46,4 @@ include:
  - '.gitlab/ci/prepare.yml'
  - '.gitlab/ci/build.yml'
  - '.gitlab/ci/test.yml'
- - '.gitlab/ci/docker.yml'
  - '.gitlab/ci/deploy.yml'
