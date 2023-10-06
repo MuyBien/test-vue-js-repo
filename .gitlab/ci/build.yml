@@ -1,0 +1,10 @@
+build:app:
+  image: node:20
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    name: "MPG-CALCULATOR-BUILD-${CI_COMMIT_REF_SLUG}"
+    paths:
+      - ./dist
+    expire_in: 1 day

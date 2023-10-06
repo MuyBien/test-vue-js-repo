@@ -1,0 +1,15 @@
+update:dependencies:
+  stage: prepare
+  cache: 
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+    policy: push
+  before_script:
+    - date
+  script:
+    - npm ci
+  rules:
+    - changes:
+      - package-lock.json
+  timeout: 15m
