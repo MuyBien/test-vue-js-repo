@@ -6,7 +6,7 @@ const POSITION_MIDDLE = 3;
 const POSITION_FORWARD = 4;
 
 export class Team {
-  composition;
+  // composition;
   score;
   starters = [];
   substitutes = [];
@@ -14,7 +14,7 @@ export class Team {
   finalPlayers = [];
 
   constructor (team) {
-    this.composition = team.composition;
+    // this.composition = team.composition;
     this.score = team.score;
 
     const playersData = Object.values(team.players);
@@ -132,6 +132,10 @@ export class Team {
       goals,
       ownGoals: ownGoals + rotaldoOwnGoals,
     };
+  };
+
+  canSaveGoal = () => {
+    return this.getFinalPlayers()[0].getTotalScore() >= 8;
   };
 
   getAverages = () => {

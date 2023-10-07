@@ -14,6 +14,7 @@
         :player="player"
         :player-index="index"
         :scores-mpg="mpgGoals.includes(player.playerId)"
+        :goal-saved="goalkeeperSaves.includes(player.playerId)"
       />
     </tbody>
   </table>
@@ -28,6 +29,12 @@ defineProps({
     required: true,
   },
   mpgGoals: {
+    type: Array,
+    default () {
+      return [];
+    },
+  },
+  goalkeeperSaves: {
     type: Array,
     default () {
       return [];

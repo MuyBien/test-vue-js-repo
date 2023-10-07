@@ -12,6 +12,7 @@ export class Match {
   homeTeam;
   awayTeams;
   mpgGoals;
+  goalkeeperSaves;
 
   constructor (match) {
     this.id = match.id;
@@ -19,6 +20,7 @@ export class Match {
     this.awayTeam = new Team(match.away);
 
     this.mpgGoals = this.getMpgGoals();
+    this.goalkeeperSaves = this.getGoalkeeperSaves();
   }
 
   getScore = () => {
@@ -30,8 +32,8 @@ export class Match {
     const awayTeamGoals = this.awayTeam.getFinalTeamGoals();
 
     return [
-      homeTeamGoals.goals + this.mpgGoals.homeTeam.length + awayTeamGoals.ownGoals,
-      awayTeamGoals.goals + this.mpgGoals.awayTeam.length + homeTeamGoals.ownGoals,
+      homeTeamGoals.goals + this.mpgGoals.homeTeam.length + awayTeamGoals.ownGoals - this.goalkeeperSaves.homeTeam.length,
+      awayTeamGoals.goals + this.mpgGoals.awayTeam.length + homeTeamGoals.ownGoals - this.goalkeeperSaves.awayTeam.length,
     ];
   };
 
@@ -62,6 +64,26 @@ export class Match {
       .map(player => player.playerId);
 
     return teamGoals;
+  };
+
+  /**
+   * Renvoi la liste du et des buts arretés par les gardiens
+   * @returns Array
+   */
+  getGoalkeeperSaves = () => {
+    const saves = {
+      homeTeam: [],
+      awayTeam: [],
+    };
+
+    if (this.homeTeam.canSaveGoal()) {
+      saves.awayTeam.push(this.awayTeam.getFinalPlayers().find(player => player.goals > 0).playerId);
+    }
+    if (this.awayTeam.canSaveGoal()) {
+      saves.homeTeam.push(this.homeTeam.getFinalPlayers().find(player => player.goals > 0).playerId);
+    }
+
+    return saves;
   };
 
   /**

@@ -73,4 +73,36 @@ describe("Le modèle de match", () => {
 
   });
 
+  describe("Calcule les arrêts d'un gardien à 8", () => {
+
+    beforeEach(() => {
+      match.homeTeam.starters.map(player => player.rating = 5);
+      match.homeTeam.starters.map(player => player.bonusRating = 0);
+      match.homeTeam.substitutions = [];
+
+      match.awayTeam.starters.map(player => player.rating = 5);
+      match.awayTeam.starters.map(player => player.bonusRating = 0);
+      match.awayTeam.substitutions = [];
+    });
+
+    it("De l'équipe à domicile", () => {
+      match.homeTeam.starters[0].rating = 8; // MPG Save
+      match.homeTeam.score = 0;
+      match.awayTeam.starters[10].goals = 2;
+      match.awayTeam.score = 2;
+
+      const saves = match.getGoalkeeperSaves();
+      expect(saves.awayTeam).toHaveLength(1);
+    });
+
+    it("De l'équipe à l'extérieur", () => {
+      match.awayTeam.starters[0].rating = 8; // MPG Save
+      match.homeTeam.starters[10].goals = 2;
+
+      const saves = match.getGoalkeeperSaves();
+      expect(saves.homeTeam).toHaveLength(1);
+    });
+
+  });
+
 });
