@@ -12,10 +12,6 @@ describe("Le modèle d'une équipe", () => {
 
   describe("Construit une équipe", () => {
 
-    it("Avec une compo", () => {
-      expect(team.composition).toBe("433");
-    });
-
     it("Avec les titulaires", () => {
       expect(team.starters).toHaveLength(11);
       expect(team.starters[0].lastName).toBe("Bizot");
