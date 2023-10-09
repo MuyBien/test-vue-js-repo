@@ -20,6 +20,7 @@ export class Player {
   rating;
   goals;
   ownGoals;
+  canceledGoals;
   isCaptain = false;
   isSubstitute = false;
 
@@ -34,7 +35,9 @@ export class Player {
     this.bonusRating = playerData.bonusRating || 0;
     this.rating = playerData.rating || undefined;
     this.goals = playerData.goals || 0;
+    this.mpgGoals = playerData.mpgGoals || 0;
     this.ownGoals = playerData.ownGoals || 0;
+    this.canceledGoals = playerData.canceledGoals || 0;
     this.isSubstitute = playerData.isSubstitute || false;
   }
 
@@ -44,5 +47,12 @@ export class Player {
    */
   getTotalScore = () => {
     return this.rating + this.bonusRating;
+  };
+
+  /**
+   * Permet d'annuler un but via la valise
+   */
+  cancelGoal = () => {
+    this.canceledGoals += 1;
   };
 }

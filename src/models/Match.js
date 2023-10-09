@@ -11,7 +11,6 @@ export class Match {
   id;
   homeTeam;
   awayTeams;
-  mpgGoals;
   goalkeeperSaves;
 
   constructor (match) {
@@ -19,8 +18,10 @@ export class Match {
     this.homeTeam = new Team(match.home);
     this.awayTeam = new Team(match.away);
 
-    this.mpgGoals = this.getMpgGoals();
+    this.setMpgGoals();
     this.goalkeeperSaves = this.getGoalkeeperSaves();
+
+    this.applyBonus();
   }
 
   getScore = () => {
@@ -32,42 +33,55 @@ export class Match {
     const awayTeamGoals = this.awayTeam.getFinalTeamGoals();
 
     return [
-      homeTeamGoals.goals + this.mpgGoals.homeTeam.length + awayTeamGoals.ownGoals - this.goalkeeperSaves.homeTeam.length,
-      awayTeamGoals.goals + this.mpgGoals.awayTeam.length + homeTeamGoals.ownGoals - this.goalkeeperSaves.awayTeam.length,
+      homeTeamGoals.goals + awayTeamGoals.ownGoals - this.goalkeeperSaves.homeTeam.length,
+      awayTeamGoals.goals + homeTeamGoals.ownGoals - this.goalkeeperSaves.awayTeam.length,
     ];
   };
 
-  /**
-   * Renvoi les ID des joueurs marquant des buts MPG dans les 2 équipes du match
-   * @returns Object avec un tableau de playerId mettant un but MPG à domicile et à l'extérieur
-   */
-  getMpgGoals = () => {
-    const mpgGoals = {
-      homeTeam: this.getTeamMpgGoals(true),
-      awayTeam: this.getTeamMpgGoals(false),
-    };
-    return mpgGoals;
+  applyBonus = () => {
+    if (this.homeTeam.bonus?.value === "removeGoal") {
+      this.removeGoal(this.awayTeam);
+    }
   };
 
   /**
-   * Renvoi la liste des IDs de joueur qui marquent un but MPG
-   * @param {Boolean} isHome Si le jueur joue à domicile ou non
-   * @returns Array
+   * Enlève un but au 1er joueur qui a marqué dans l'équipe
+   * @param {Team} team équipe sur laquelle appliquer le bonus
    */
-  getTeamMpgGoals = (isHome) => {
+  removeGoal = (team) => {
+    const firstScorerIndex = team.getFinalPlayers().findIndex(player => player.goals >= 1 || player.mpgGoals >= 1);
+    team.finalPlayers[firstScorerIndex].cancelGoal();
+  };
+
+  /**
+   * Donne les buts MPG marquant des buts MPG dans les 2 équipes du match
+   */
+  setMpgGoals = () => {
+    this.setTeamMpgGoals(true);
+    this.setTeamMpgGoals(false);
+  };
+
+  /**
+   * Donne un but MPG aux joueurs qui le peuvent
+   * @param {Boolean} isHome Si le joueur joue à domicile ou non
+   */
+  setTeamMpgGoals = (isHome) => {
     const teamAverages = isHome ? this.awayTeam.getAverages() : this.homeTeam.getAverages();
     const potentialScorers = this.#getPotentialScorers(isHome);
 
-    const teamGoals = potentialScorers
-      .filter(player => player.getTotalScore() >= 5 && player.goals === 0 && player.position > 1)
+    const scorers = potentialScorers
       .filter(player => this.#isScoringMpgGoal(player, teamAverages, isHome))
       .map(player => player.playerId);
 
-    return teamGoals;
+    const players = isHome ? this.homeTeam.getFinalPlayers() : this.awayTeam.getFinalPlayers();
+    scorers.forEach((scorerId) => {
+      const scorerIndex = players.findIndex(player => player.playerId === scorerId);
+      isHome ? this.homeTeam.finalPlayers[scorerIndex].mpgGoals = 1 : this.awayTeam.finalPlayers[scorerIndex].mpgGoals = 1;
+    });
   };
 
   /**
-   * Renvoi la liste du et des buts arretés par les gardiens
+   * Renvoi la liste des buts arretés par les gardiens
    * @returns Array
    */
   getGoalkeeperSaves = () => {
@@ -92,7 +106,8 @@ export class Match {
    * @returns la liste des joueurs pouvant marquer un but MPG
    */
   #getPotentialScorers = (isHome) => {
-    return isHome ? this.homeTeam.getFinalPlayers() : this.awayTeam.getFinalPlayers();
+    const players = isHome ? this.homeTeam.getFinalPlayers() : this.awayTeam.getFinalPlayers();
+    return players.filter(player => player.getTotalScore() >= 5 && player.goals === 0 && player.position > 1);
   };
 
   /**

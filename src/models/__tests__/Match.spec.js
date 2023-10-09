@@ -55,9 +55,10 @@ describe("Le modèle de match", () => {
 
       match.homeTeam.calculateFinalPlayers();
       match.awayTeam.calculateFinalPlayers();
+      match.setMpgGoals();
 
-      expect(match.getMpgGoals().homeTeam).toHaveLength(1);
-      expect(match.getMpgGoals().homeTeam).toStrictEqual([match.homeTeam.starters[10].playerId]);
+      expect(match.homeTeam.getFinalPlayers()[10].mpgGoals).toBe(1);
+      expect(match.homeTeam.getFinalPlayers()[9].mpgGoals).toBe(0);
     });
 
     it("De l'équipe à l'extérieur", () => {
@@ -66,9 +67,21 @@ describe("Le modèle de match", () => {
 
       match.homeTeam.calculateFinalPlayers();
       match.awayTeam.calculateFinalPlayers();
+      match.setMpgGoals();
 
-      expect(match.getMpgGoals().awayTeam).toHaveLength(1);
-      expect(match.getMpgGoals().awayTeam).toStrictEqual([match.awayTeam.starters[10].playerId]);
+      expect(match.awayTeam.getFinalPlayers()[10].mpgGoals).toBe(1);
+      expect(match.awayTeam.getFinalPlayers()[9].mpgGoals).toBe(0);
+    });
+
+    it("En ne permettant pas à un joueur qui a un but réel annulé de marquer en MPG", () => {
+      match.awayTeam.starters[10].rating = 6; // Goal MPG
+      match.awayTeam.starters[10].goals = 1;
+      match.awayTeam.starters[10].canceledGoals = 1; // Bonus valise
+
+      match.awayTeam.calculateFinalPlayers();
+      match.setMpgGoals();
+
+      expect(match.awayTeam.getFinalPlayers()[10].mpgGoals).toBe(0);
     });
 
   });
@@ -103,6 +116,49 @@ describe("Le modèle de match", () => {
       expect(saves.homeTeam).toHaveLength(1);
     });
 
+  });
+
+  describe("Applique le bonus", () => {
+
+    beforeEach(() => {
+      match.homeTeam.starters.map(player => player.rating = 5);
+      match.homeTeam.starters.map(player => player.bonusRating = 0);
+      match.homeTeam.substitutions = [];
+
+      match.awayTeam.starters.map(player => player.rating = 5);
+      match.awayTeam.starters.map(player => player.bonusRating = 0);
+      match.awayTeam.substitutions = [];
+    });
+
+    describe("De la valise à Nanard", () => {
+
+      beforeEach(() => {
+        match.homeTeam.bonus = {
+          name: "La valise à Nanard",
+          value: "removeGoal",
+        };
+      });
+
+      it("En enlevant un but réel à l'adversaire", () => {
+        match.awayTeam.starters[10].goals = 2;
+        match.applyBonus();
+        expect(match.getFinalScore()).toStrictEqual([0, 1]);
+        expect(match.awayTeam.getFinalPlayers()[10].goals).toBe(2);
+        expect(match.awayTeam.getFinalPlayers()[10].canceledGoals).toBe(1);
+      });
+
+      it("En enlevant un but MPG à l'adversaire", () => {
+        match.awayTeam.starters[10].rating = 8;
+
+        match.awayTeam.calculateFinalPlayers();
+        match.setMpgGoals();
+
+        match.applyBonus();
+        expect(match.getFinalScore()).toStrictEqual([0, 0]);
+        expect(match.awayTeam.getFinalPlayers()[10].mpgGoals).toBe(1);
+        expect(match.awayTeam.getFinalPlayers()[10].canceledGoals).toBe(1);
+      });
+    });
   });
 
 });

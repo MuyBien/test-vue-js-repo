@@ -17,4 +17,14 @@ describe("Le modèle de joueur", () => {
     expect(player.getTotalScore()).toBe(6);
   });
 
+  it("Permet d'annuler un but via la valise", () => {
+    player = new Player({
+      ...playerMock,
+      goals: 2,
+    });
+    player.cancelGoal();
+    expect(player.goals).toBe(2);
+    expect(player.canceledGoals).toBe(1);
+  });
+
 });

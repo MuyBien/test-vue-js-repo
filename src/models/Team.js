@@ -1,4 +1,5 @@
 import { Player } from "./Player";
+import { BONUSES } from "@/constants/bonus";
 
 const POSITION_GOALKEEPER = 1;
 const POSITION_BACKER = 2;
@@ -11,9 +12,11 @@ export class Team {
   substitutes = [];
   substitutions = [];
   finalPlayers = [];
+  bonus = undefined;
 
   constructor (team) {
     this.score = team.score;
+    this.bonus = this.setBonus(team.bonuses);
 
     const playersData = Object.values(team.players);
 
@@ -26,6 +29,12 @@ export class Team {
 
     this.calculateFinalPlayers();
   }
+
+  setBonus = (allBonuses) => {
+    if (allBonuses.removeGoal) {
+      return BONUSES["removeGoal"];
+    }
+  };
 
   /**
    * Effectue les RT, les remplacements obligatoires et les rentrées de Rotaldo
@@ -106,7 +115,7 @@ export class Team {
         bonusRating: 0,
         rating: 2.5,
         goals: 0,
-        ownGoals: 0,
+        ownGoals: (finalPlayers.filter(player => player.lastName === "Rotaldo").length + 1) % 3 ? 0 : 1,
         isSubstitute: true,
       })
       : player,
@@ -122,7 +131,7 @@ export class Team {
   }
 
   getFinalTeamGoals = () => {
-    const goals = this.finalPlayers.reduce((total, { goals }) => goals ? total + goals : total, 0);
+    const goals = this.finalPlayers.reduce((total, player) => total + player.goals + player.mpgGoals - player.canceledGoals, 0);
     const ownGoals = this.finalPlayers.reduce((total, { ownGoals }) => ownGoals ? total + ownGoals : total, 0);
     const rotaldoOwnGoals = Math.floor(this.finalPlayers.filter(player => player.lastName === "Rotaldo").length / 3);
 

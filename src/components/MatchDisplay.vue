@@ -67,10 +67,12 @@
       >
         <div class="accordion-body row">
           <div class="col-6">
-            <team-display :players="match.homeTeam.getFinalPlayers()" :mpg-goals="match.mpgGoals.homeTeam" :goalkeeper-saves="match.goalkeeperSaves.homeTeam" />
+            <bonus-display :bonus="match.homeTeam.bonus" class="mb-3" />
+            <team-display :players="match.homeTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.homeTeam" />
           </div>
           <div class="col-6">
-            <team-display :players="match.awayTeam.getFinalPlayers()" :mpg-goals="match.mpgGoals.awayTeam" :goalkeeper-saves="match.goalkeeperSaves.awayTeam" />
+            <bonus-display :bonus="match.awayTeam.bonus" class="mb-3" />
+            <team-display :players="match.awayTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.awayTeam" />
           </div>
         </div>
       </div>
@@ -83,6 +85,7 @@ import { useMPG } from "@/use/useMPG";
 import { ref } from "vue";
 
 import TeamDisplay from "@/components/TeamDisplay.vue";
+import BonusDisplay from "@/components/BonusDisplay.vue";
 
 const props = defineProps({
   liveMatch: {
