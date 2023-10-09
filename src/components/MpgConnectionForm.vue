@@ -31,6 +31,7 @@
                   v-model="password"
                   type="password"
                   class="form-control"
+                  autocomplete="mpg-password"
                   placeholder="name@example.com"
                 >
                 <label for="mpg-pwd" class="form-label">Mot de passe</label>
