@@ -53,21 +53,6 @@ export function useMPG () {
   });
 
   /**
-   * Infos des équipes (bonus restant, etc)
-   */
-  const getTeamInfos = async (teamId) => {
-    const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
-      method: "GET",
-      headers: {
-        accept: "application/json, text/plain, */*",
-        authorization: token.value,
-      },
-    });
-    const team = await response.json();
-    return team;
-  };
-
-  /**
    * Matches Live
    */
   watch(token, () => {
