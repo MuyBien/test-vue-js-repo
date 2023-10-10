@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import matchMock from "@/assets/mocks/match/response.js";
 import { Match } from "../Match";
 import { Team } from "../Team";
+import { BONUSES } from "@/constants/bonus";
 
 describe("Le modèle de match", () => {
 
@@ -133,10 +134,7 @@ describe("Le modèle de match", () => {
     describe("De la valise à Nanard", () => {
 
       beforeEach(() => {
-        match.homeTeam.bonus = {
-          name: "La valise à Nanard",
-          value: "removeGoal",
-        };
+        match.homeTeam.bonus = BONUSES.removeGoal;
       });
 
       it("En enlevant un but réel à l'adversaire", () => {
@@ -159,6 +157,7 @@ describe("Le modèle de match", () => {
         expect(match.awayTeam.getFinalPlayers()[10].canceledGoals).toBe(1);
       });
     });
+
   });
 
 });

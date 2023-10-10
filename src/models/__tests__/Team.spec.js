@@ -397,4 +397,17 @@ describe("Le modèle d'une équipe", () => {
     });
   });
 
+  describe("Applique le bonus de Tonton Pat", () => {
+
+    beforeEach(() => {
+      team = new Team(matchMock.home, true);
+    });
+
+    // TODO : Test risqué car si le mock change il faut le refaire...
+    it("En empêchant les RT à l'adversaire", () => {
+      expect(team.getFinalPlayers()[9].lastName).toBe("Balogun");
+    });
+
+  });
+
 });

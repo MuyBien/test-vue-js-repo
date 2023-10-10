@@ -12,9 +12,9 @@ export class Team {
   substitutes = [];
   substitutions = [];
   finalPlayers = [];
-  bonus = undefined;
+  bonus;
 
-  constructor (team) {
+  constructor (team, blockTacticalSubs = false) {
     this.score = team.score;
     this.bonus = this.setBonus(team.bonuses);
 
@@ -27,23 +27,28 @@ export class Team {
     const captainIndex = this.starters.findIndex(player => player.playerId === team.captain);
     this.starters[captainIndex].isCaptain = true;
 
-    this.calculateFinalPlayers();
+    this.calculateFinalPlayers({ blockTacticalSubs });
   }
 
   setBonus = (allBonuses) => {
     if (allBonuses.removeGoal) {
       return BONUSES["removeGoal"];
+    } else if (allBonuses.blockTacticalSubs) {
+      return BONUSES["blockTacticalSubs"];
     }
+    return BONUSES["none"];
   };
 
   /**
    * Effectue les RT, les remplacements obligatoires et les rentrées de Rotaldo
    */
-  calculateFinalPlayers () {
+  calculateFinalPlayers ({ blockTacticalSubs } = { blockTacticalSubs: false }) {
     let finalPlayers = [...this.starters];
     const substitutesCopy = [...this.substitutes];
 
-    finalPlayers = this.applyTacticalSubstitutions(finalPlayers, substitutesCopy);
+    if (! blockTacticalSubs) {
+      finalPlayers = this.applyTacticalSubstitutions(finalPlayers, substitutesCopy);
+    }
     finalPlayers = this.applyClassicSubstitutions(finalPlayers, substitutesCopy);
     finalPlayers = this.applyRotaldoSubstitutions(finalPlayers);
 

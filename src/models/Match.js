@@ -15,8 +15,9 @@ export class Match {
 
   constructor (match) {
     this.id = match.id;
-    this.homeTeam = new Team(match.home);
-    this.awayTeam = new Team(match.away);
+
+    this.homeTeam = new Team(match.home, match.away.bonuses.blockTacticalSubs);
+    this.awayTeam = new Team(match.away, match.home.bonuses.blockTacticalSubs);
 
     this.setMpgGoals();
     this.goalkeeperSaves = this.getGoalkeeperSaves();
