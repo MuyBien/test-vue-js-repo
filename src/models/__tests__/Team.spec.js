@@ -212,7 +212,9 @@ describe("Le modèle d'une équipe", () => {
 
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].lastName).toBe("Zaire Emery");
-        expect(team.getFinalPlayers()[10].rating).toBe(5); // 6 - 1
+        expect(team.getFinalPlayers()[10].getTotalScore()).toBe(5); // 6 - 1
+        expect(team.getFinalPlayers()[10].rating).toBe(6);
+        expect(team.getFinalPlayers()[10].bonusRating).toBe(- 1);
       });
 
       it("Par un defenseur (avec malus) si aucun milieu n'est disponible", () => {
@@ -233,7 +235,9 @@ describe("Le modèle d'une équipe", () => {
 
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].lastName).toBe("Theate");
-        expect(team.getFinalPlayers()[10].rating).toBe(5); // 6 - 1
+        expect(team.getFinalPlayers()[10].getTotalScore()).toBe(5); // 6 - 1
+        expect(team.getFinalPlayers()[10].rating).toBe(6);
+        expect(team.getFinalPlayers()[10].bonusRating).toBe(- 1);
       });
 
       it("Par un defenseur (avec double malus) si aucun attaquant ou milieu ne sont disponible", () => {
@@ -253,7 +257,9 @@ describe("Le modèle d'une équipe", () => {
 
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].lastName).toBe("Theate");
-        expect(team.getFinalPlayers()[10].rating).toBe(4); // 6 - 2
+        expect(team.getFinalPlayers()[10].getTotalScore()).toBe(4); // 6 - 2
+        expect(team.getFinalPlayers()[10].rating).toBe(6);
+        expect(team.getFinalPlayers()[10].bonusRating).toBe(- 2);
       });
 
       it("En ne remplacant pas un défenseur par un gardien si aucun défenseur n'est disponible", () => {

@@ -87,14 +87,14 @@ export class Team {
           let substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 1 === player.position);
           if (substituteIndex >= 0) {
             finalPlayers[index] = substitutesCopy[substituteIndex];
-            finalPlayers[index].rating -= 1;
+            finalPlayers[index].bonusRating -= 1;
             finalPlayers[index].isSubstitute = true;
             substitutesCopy.splice(substituteIndex, 1);
           }
           substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 2 === player.position);
           if (substituteIndex >= 0) {
             finalPlayers[index] = substitutesCopy[substituteIndex];
-            finalPlayers[index].rating -= 2;
+            finalPlayers[index].bonusRating -= 2;
             finalPlayers[index].isSubstitute = true;
             substitutesCopy.splice(substituteIndex, 1);
           }
