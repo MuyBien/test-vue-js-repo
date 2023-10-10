@@ -40,8 +40,12 @@ export class Match {
   };
 
   applyBonus = () => {
-    if (this.homeTeam.bonus?.value === "removeGoal") {
-      this.removeGoal(this.awayTeam);
+    const homeBonus = this.homeTeam.bonus?.value;
+    const awayBonus = this.awayTeam.bonus?.value;
+
+    if (homeBonus === "removeGoal" || awayBonus === "removeGoal") {
+      const targetTeam = homeBonus === "removeGoal" ? this.awayTeam : this.homeTeam;
+      this.removeGoal(targetTeam);
     }
   };
 
