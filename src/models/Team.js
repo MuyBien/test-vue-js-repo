@@ -112,20 +112,25 @@ export class Team {
    * Effectue les rentrées de Rotaldo
    */
   applyRotaldoSubstitutions (finalPlayers) {
-    return finalPlayers.map(player => (! player.rating)
-      ? new Player({
+    let rotaldoAmount = this.finalPlayers.filter(player => player.lastName === "Rotaldo").length;
+    return finalPlayers.map(player => {
+      if (! player.rating) {
+        rotaldoAmount ++;
+        return new Player({
         lastName: "Rotaldo",
         position: player.position,
         compositionStatus: 1,
         bonusRating: 0,
         rating: 2.5,
         goals: 0,
-        ownGoals: (finalPlayers.filter(player => player.lastName === "Rotaldo").length + 1) % 3 ? 0 : 1,
+          ownGoals: rotaldoAmount % 3 ? 0 : 1,
         isSubstitute: true,
-      })
-      : player,
-    );
+        });
+      }
+      return player;
+    });
   }
+
 
   getFinalPlayers = () => {
     return this.finalPlayers;
@@ -138,11 +143,10 @@ export class Team {
   getFinalTeamGoals = () => {
     const goals = this.finalPlayers.reduce((total, player) => total + player.goals + player.mpgGoals - player.canceledGoals, 0);
     const ownGoals = this.finalPlayers.reduce((total, { ownGoals }) => ownGoals ? total + ownGoals : total, 0);
-    const rotaldoOwnGoals = Math.floor(this.finalPlayers.filter(player => player.lastName === "Rotaldo").length / 3);
 
     return {
       goals,
-      ownGoals: ownGoals + rotaldoOwnGoals,
+      ownGoals,
     };
   };
 
