@@ -43,14 +43,12 @@ export class Team {
    * Effectue les RT, les remplacements obligatoires et les rentrées de Rotaldo
    */
   calculateFinalPlayers ({ blockTacticalSubs } = { blockTacticalSubs: false }) {
-    let finalPlayers = [...this.starters];
+    const startersCopy = [...this.starters];
     const substitutesCopy = [...this.substitutes];
 
-    if (! blockTacticalSubs) {
-      finalPlayers = this.applyTacticalSubstitutions(finalPlayers, substitutesCopy);
-    }
-    finalPlayers = this.applyClassicSubstitutions(finalPlayers, substitutesCopy);
-    finalPlayers = this.applyRotaldoSubstitutions(finalPlayers);
+    const playersAfterRT = this.applyTacticalSubstitutions(startersCopy, substitutesCopy, blockTacticalSubs ? [] : this.substitutions);
+    const playersAfterSub = this.applyClassicSubstitutions(playersAfterRT, substitutesCopy);
+    const finalPlayers = this.applyRotaldoSubstitutions(playersAfterSub);
 
     this.finalPlayers = finalPlayers;
   }
@@ -58,8 +56,8 @@ export class Team {
   /**
    * Effectue les RT
    */
-  applyTacticalSubstitutions (finalPlayers, substitutesCopy) {
-    this.substitutions.forEach(substitution => {
+  applyTacticalSubstitutions (finalPlayers, substitutesCopy, substitutions) {
+    substitutions.forEach(substitution => {
       const { starterId, subId, rating } = substitution;
       const substitutionStarterIndex = finalPlayers.findIndex(starter => starter.playerId === starterId);
       const finalPlayerCompleteRating = finalPlayers[substitutionStarterIndex].getTotalScore();
