@@ -1,5 +1,6 @@
 import { Player } from "./Player";
 import { BONUSES } from "@/constants/bonus";
+import { Rotaldo } from "./Rotaldo";
 
 const POSITION_GOALKEEPER = 1;
 const POSITION_BACKER = 2;
@@ -114,13 +115,8 @@ export class Team {
     return finalPlayers.map(player => {
       if (! player.rating) {
         rotaldoAmount ++;
-        return new Player({
-          lastName: "Rotaldo",
-          position: player.position,
-          compositionStatus: 1,
-          bonusRating: 0,
-          rating: 2.5,
-          goals: 0,
+        return new Rotaldo({
+          ...player,
           ownGoals: rotaldoAmount % 3 ? 0 : 1,
           isSubstitute: true,
         });
@@ -136,12 +132,9 @@ export class Team {
   applyRotaldoSubstitution = (playerIndex) => {
     const rotaldoAmount = this.finalPlayers.filter(player => player.lastName === "Rotaldo").length;
     const playerToSubstitute = this.finalPlayers[playerIndex];
-    this.finalPlayers[playerIndex] = new Player({
-      lastName: "Rotaldo",
-      position: playerToSubstitute.position,
-      compositionStatus: 1,
+    this.finalPlayers[playerIndex] = new Rotaldo({
+      ...playerToSubstitute,
       bonusRating: 0,
-      rating: 2.5,
       goals: 0,
       ownGoals: (rotaldoAmount + 1) % 3 ? 0 : 1,
       isSubstitute: true,
