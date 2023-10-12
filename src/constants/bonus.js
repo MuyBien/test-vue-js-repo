@@ -17,4 +17,10 @@ export const BONUSES = {
     icon: "/img/bonus-images/tonton-pat.png",
     description: "Aucun remplacement TACTIQUE adverse possible.",
   },
+  removeRandomPlayer: {
+    name: "Chapron Rouge",
+    value: "removeRandomPlayer",
+    icon: "/img/bonus-images/chapron-rouge.png",
+    description: "Remplace un joueur de champ final (après les remplacements) par un Rotaldo.",
+  },
 };

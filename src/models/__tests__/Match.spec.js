@@ -4,6 +4,7 @@ import matchMock from "@/assets/mocks/match/response.js";
 import { Match } from "../Match";
 import { Team } from "../Team";
 import { BONUSES } from "@/constants/bonus";
+import { Player } from "../Player";
 
 describe("Le modèle de match", () => {
 
@@ -156,6 +157,67 @@ describe("Le modèle de match", () => {
         expect(match.awayTeam.getFinalPlayers()[10].mpgGoals).toBe(1);
         expect(match.awayTeam.getFinalPlayers()[10].canceledGoals).toBe(1);
       });
+    });
+
+    describe.only("Du Chapron Rouge", () => {
+
+      beforeEach(() => {
+        match.homeTeam.bonus = BONUSES.removeRandomPlayer;
+        match.homeTeam.starters[10].goals = 2;
+        match.awayTeam.starters[9].goals = 1;
+        match.homeTeam.calculateFinalPlayers();
+        match.awayTeam.calculateFinalPlayers();
+      });
+
+      it("En enlevant tour à tour un joueur de champ et en calculant une probabilité des scores", () => {
+        const scores = match.getScoreProbabilities();
+        expect(scores).toHaveLength(3);
+        expect(scores[0].score).toStrictEqual([2, 1]);
+        expect(scores[0].pourcentage).toBe(90);
+        expect(scores[1].score).toStrictEqual([0, 1]);
+        expect(scores[1].pourcentage).toBe(5);
+        expect(scores[2].score).toStrictEqual([2, 0]);
+        expect(scores[2].pourcentage).toBe(5);
+      });
+
+      it("Sans remplacer un Rotaldo par un autre Rotaldo (trop facile ;))", () => {
+        match.homeTeam.starters[5] = new Player({
+          lastName: "Rotaldo",
+          position: 3,
+          compositionStatus: 1,
+          bonusRating: 0,
+          rating: 2.5,
+          goals: 0,
+          ownGoals: 0,
+          isSubstitute: true,
+        });
+        match.homeTeam.calculateFinalPlayers();
+
+        const scores = match.getScoreProbabilities();
+        expect(scores).toHaveLength(3);
+        expect(scores[0].score).toStrictEqual([2, 1]);
+        expect(scores[0].pourcentage).toBeLessThan(90);
+        expect(scores[1].score).toStrictEqual([0, 1]);
+        expect(scores[1].pourcentage).toBeGreaterThan(5);
+        expect(scores[2].score).toStrictEqual([2, 0]);
+        expect(scores[2].pourcentage).toBeGreaterThan(5);
+      });
+
+      it("En enlevant tour à tour 2 joueurs de champ et en calculant une probabilité des scores si chaque équipe à mis le bonus", () => {
+        match.awayTeam.bonus = BONUSES.removeRandomPlayer;
+        const scores = match.getScoreProbabilities();
+
+        expect(scores).toHaveLength(4);
+        expect(scores[0].score).toStrictEqual([2, 1]);
+        expect(scores[0].pourcentage).toBeCloseTo(80.5, 0);
+        expect(scores[1].score).toStrictEqual([0, 1]);
+        expect(scores[1].pourcentage).toBeCloseTo(9.5, 1);
+        expect(scores[2].score).toStrictEqual([2, 0]);
+        expect(scores[2].pourcentage).toBeCloseTo(9.5, 1);
+        expect(scores[3].score).toStrictEqual([0, 0]);
+        expect(scores[3].pourcentage).toBeCloseTo(0.5, 1);
+      });
+
     });
 
   });

@@ -27,7 +27,7 @@ export class Team {
     const captainIndex = this.starters.findIndex(player => player.playerId === team.captain);
     this.starters[captainIndex].isCaptain = true;
 
-    this.calculateFinalPlayers({ blockTacticalSubs });
+    this.calculateFinalPlayers(blockTacticalSubs);
   }
 
   setBonus = (allBonuses) => {
@@ -42,7 +42,7 @@ export class Team {
   /**
    * Effectue les RT, les remplacements obligatoires et les rentrées de Rotaldo
    */
-  calculateFinalPlayers ({ blockTacticalSubs } = { blockTacticalSubs: false }) {
+  calculateFinalPlayers (blockTacticalSubs = false) {
     const startersCopy = [...this.starters];
     const substitutesCopy = [...this.substitutes];
 
@@ -115,20 +115,38 @@ export class Team {
       if (! player.rating) {
         rotaldoAmount ++;
         return new Player({
-        lastName: "Rotaldo",
-        position: player.position,
-        compositionStatus: 1,
-        bonusRating: 0,
-        rating: 2.5,
-        goals: 0,
+          lastName: "Rotaldo",
+          position: player.position,
+          compositionStatus: 1,
+          bonusRating: 0,
+          rating: 2.5,
+          goals: 0,
           ownGoals: rotaldoAmount % 3 ? 0 : 1,
-        isSubstitute: true,
+          isSubstitute: true,
         });
       }
       return player;
     });
   }
 
+  /**
+   * Remplace un joueur par un Rotaldo à une position indiquée
+   * @param {Number} playerIndex La position du joueur à remplacer
+   */
+  applyRotaldoSubstitution = (playerIndex) => {
+    const rotaldoAmount = this.finalPlayers.filter(player => player.lastName === "Rotaldo").length;
+    const playerToSubstitute = this.finalPlayers[playerIndex];
+    this.finalPlayers[playerIndex] = new Player({
+      lastName: "Rotaldo",
+      position: playerToSubstitute.position,
+      compositionStatus: 1,
+      bonusRating: 0,
+      rating: 2.5,
+      goals: 0,
+      ownGoals: (rotaldoAmount + 1) % 3 ? 0 : 1,
+      isSubstitute: true,
+    });
+  };
 
   getFinalPlayers = () => {
     return this.finalPlayers;
@@ -140,7 +158,7 @@ export class Team {
 
   getFinalTeamGoals = () => {
     const goals = this.finalPlayers.reduce((total, player) => total + player.goals + player.mpgGoals - player.canceledGoals, 0);
-    const ownGoals = this.finalPlayers.reduce((total, { ownGoals }) => ownGoals ? total + ownGoals : total, 0);
+    const ownGoals = this.finalPlayers.reduce((total, player) => total + player.ownGoals, 0);
 
     return {
       goals,

@@ -168,21 +168,21 @@ describe("Le modèle d'une équipe", () => {
       it("Par un joueur du même poste disponible sur le banc après RT", () => {
         team = new Team(matchMock.home);
 
-        team.starters[9].rating = 4;
         team.starters[9].lastName = "Balogun";
         team.starters[9].position = 4;
+        team.starters[9].rating = 4;
 
-        delete team.starters[10].rating;
         team.starters[10].lastName = "Satriano";
         team.starters[10].position = 4;
+        delete team.starters[10].rating;
 
-        team.substitutes[1].rating = 5;
         team.substitutes[1].lastName = "RKM";
         team.substitutes[1].position = 4;
+        team.substitutes[1].rating = 5;
 
-        team.substitutes[2].rating = 6;
         team.substitutes[2].lastName = "Emegha";
         team.substitutes[2].position = 4;
+        team.substitutes[2].rating = 6;
 
         team.substitutions = [{
           rating: 6,

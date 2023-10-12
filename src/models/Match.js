@@ -39,6 +39,95 @@ export class Match {
     ];
   };
 
+  getScoreProbabilities = () => {
+    const bonusNumber = Number(this.homeTeam.bonus.value === "removeRandomPlayer") + Number(this.awayTeam.bonus.value === "removeRandomPlayer");
+    if (bonusNumber > 0) {
+      const scores = [];
+      for (let index = 1; index < 11; index ++) {
+        if (this.homeTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
+          continue;
+        }
+        if (bonusNumber > 1) {
+          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
+            this.homeTeam.applyRotaldoSubstitution(index);
+            if (this.homeTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
+              this.homeTeam.calculateFinalPlayers(false);
+              continue;
+            }
+            this.homeTeam.applyRotaldoSubstitution(secondIndex);
+            const score = this.getFinalScore();
+            scores.push(score);
+            this.homeTeam.calculateFinalPlayers(false);
+          }
+          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
+            this.homeTeam.applyRotaldoSubstitution(index);
+            if (this.awayTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
+              this.awayTeam.calculateFinalPlayers(false);
+              continue;
+            }
+            this.awayTeam.applyRotaldoSubstitution(secondIndex);
+            const score = this.getFinalScore();
+            scores.push(score);
+            this.homeTeam.calculateFinalPlayers(false);
+            this.awayTeam.calculateFinalPlayers(false);
+          }
+        } else {
+          this.homeTeam.applyRotaldoSubstitution(index);
+          const score = this.getFinalScore();
+          scores.push(score);
+          this.homeTeam.calculateFinalPlayers(this.awayTeam.bonuses?.value.blockTacticalSubs);
+        }
+      }
+      for (let index = 1; index < 11; index ++) {
+        if (this.awayTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
+          continue;
+        }
+        if (bonusNumber > 1) {
+          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
+            this.awayTeam.applyRotaldoSubstitution(index);
+            if (this.homeTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
+              this.awayTeam.calculateFinalPlayers(false);
+              continue;
+            }
+            this.homeTeam.applyRotaldoSubstitution(secondIndex);
+            const score = this.getFinalScore();
+            scores.push(score);
+            this.homeTeam.calculateFinalPlayers(false);
+            this.awayTeam.calculateFinalPlayers(false);
+          }
+          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
+            this.awayTeam.applyRotaldoSubstitution(index);
+            if (this.awayTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
+              this.awayTeam.calculateFinalPlayers(false);
+              continue;
+            }
+            this.awayTeam.applyRotaldoSubstitution(secondIndex);
+            const score = this.getFinalScore();
+            scores.push(score);
+            this.awayTeam.calculateFinalPlayers(false);
+          }
+        } else {
+          this.awayTeam.applyRotaldoSubstitution(index);
+          const score = this.getFinalScore();
+          scores.push(score);
+          this.awayTeam.calculateFinalPlayers(this.homeTeam.bonuses?.value.blockTacticalSubs);
+        }
+      }
+
+      const uniqueScores = Array.from(new Set(scores.map(JSON.stringify)), JSON.parse);
+      const pourcentages = uniqueScores.map(uniqueScore => {
+        const occurences = scores.filter(score => JSON.stringify(score) === JSON.stringify(uniqueScore)).length;
+        const pourcentage = (occurences / scores.length) * 100;
+        return {
+          score: uniqueScore,
+          pourcentage,
+        };
+      });
+      pourcentages.sort((a, b) => b.pourcentage - a.pourcentage);
+      return pourcentages;
+    }
+  };
+
   applyBonus = () => {
     const homeBonus = this.homeTeam.bonus?.value;
     const awayBonus = this.awayTeam.bonus?.value;
