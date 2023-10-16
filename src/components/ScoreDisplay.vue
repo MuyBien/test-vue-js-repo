@@ -47,9 +47,14 @@ const scoreToDisplay = computed(() => {
   &__team {
     display: flex;
     align-items: center;
+    width: 40%;
     margin: 0 10px;
     white-space: pre-wrap;
     font-size: 15px;
+
+    &:first-child {
+      justify-content: end;
+    }
 
     &__jersey {
       width: 32px;
