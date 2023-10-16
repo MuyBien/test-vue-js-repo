@@ -4,6 +4,7 @@ stages:
   - build
   - quality
   - test
+  - security
   - deploy
 
 workflow:
@@ -46,4 +47,5 @@ include:
  - '.gitlab/ci/prepare.yml'
  - '.gitlab/ci/build.yml'
  - '.gitlab/ci/test.yml'
+ - '.gitlab/ci/security.yml'
  - '.gitlab/ci/deploy.yml'
