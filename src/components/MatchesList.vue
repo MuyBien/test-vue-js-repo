@@ -55,6 +55,10 @@ ul {
   padding: 0;
   text-align: center;
 }
+.matches-live {
+  width: 95%;
+  max-width: 800px;
+}
 .division {
   list-style: none;
   margin: 5vh;
