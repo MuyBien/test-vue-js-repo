@@ -1,27 +1,22 @@
 <template>
-  <div class="accordion">
+  <div :id="`${match.id}-parent`" class="accordion">
     <div class="accordion-item">
-      <h2 id="headingOne" class="accordion-header">
+      <h2 class="accordion-header">
         <button
           class="accordion-button"
           type="button"
           data-bs-toggle="collapse"
-          :data-bs-target="`#${match.id}-live-players`"
+          :data-bs-target="`#${match.id}-more-infos`"
           aria-expanded="true"
-          aria-controls="collapseOne"
+          :aria-controls="`${match.id}-more-infos`"
         >
           <score-display :match="liveMatch" />
         </button>
       </h2>
-      <div
-        :id="`${match.id}-live-players`"
-        class="accordion-collapse collapse show"
-        aria-labelledby="headingOne"
-        data-bs-parent="#accordionExample"
-      >
+      <div :id="`${match.id}-more-infos`" class="accordion-collapse collapse" :data-bs-parent="`#${match.id}-parent`">
         <div class="accordion-body row">
           <h3>Résultat après RT et calcul des buts MPG :</h3>
-          <div class="score-display" @click="showMatchDetails = true">
+          <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
             <score-display :match="liveMatch" :score="match.getFinalScore()" />
             <button type="button" class="btn btn-link score-display__action">
               <svg
@@ -37,24 +32,28 @@
               </svg>
             </button>
           </div>
+          <div v-else>
+            <score-probabilities-display :scores-probabilities="match.getScoreProbabilities()" />
+          </div>
         </div>
       </div>
     </div>
-
-    <match-details-display :match="match" :show="showMatchDetails" @close="showMatchDetails = false">
-      <template #title>
-        <score-display :match="liveMatch" :score="match.getFinalScore()" @click="showMatchDetails = true" />
-      </template>
-    </match-details-display>
   </div>
+
+  <match-details-display :match="match" :show="showMatchDetails" @close="showMatchDetails = false">
+    <template #title>
+      <score-display :match="liveMatch" :score="match.getFinalScore()" @click="showMatchDetails = true" />
+    </template>
+  </match-details-display>
 </template>
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import ScoreDisplay from "@/components/ScoreDisplay.vue";
 import MatchDetailsDisplay from "@/components/MatchDetailsDisplay.vue";
+import ScoreProbabilitiesDisplay from "@/components/ScoreProbabilitiesDisplay.vue";
 
 const props = defineProps({
   liveMatch: {
@@ -63,12 +62,25 @@ const props = defineProps({
   },
 });
 
+/**
+ * Match
+ */
 const { getMatchData } = useMPG();
 
 const match = ref("");
 match.value = await getMatchData(props.liveMatch.id);
 
+/**
+ * Gestion de la modale des détails du match
+ */
 const showMatchDetails = ref(false);
+
+/**
+ * Propriétés du score
+ */
+const isResultProbabilities = computed(() => {
+  return match.value.homeTeam.bonus.value === "removeRandomPlayer" || match.value.awayTeam.bonus.value === "removeRandomPlayer";
+});
 </script>
 
 <style lang="scss" scoped>
@@ -80,6 +92,8 @@ h3 {
   text-align: left;
 }
 .score-display {
+  display: flex;
+
   &__action {
     padding: 0;
   }
