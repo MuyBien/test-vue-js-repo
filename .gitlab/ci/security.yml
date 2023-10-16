@@ -7,6 +7,7 @@ code:scan:
     SEMGREP_TIMEOUT: 300
     # Upload findings to GitLab SAST Dashboard
     SEMGREP_GITLAB_JSON: "1"
+    GITLAB_TOKEN: $SEMGREP_API_TOKEN
   before_script:
     - date
   script:
