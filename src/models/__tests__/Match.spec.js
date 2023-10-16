@@ -159,7 +159,7 @@ describe("Le modèle de match", () => {
       });
     });
 
-    describe.only("Du Chapron Rouge", () => {
+    describe("Du Chapron Rouge", () => {
 
       beforeEach(() => {
         match.homeTeam.bonus = BONUSES.removeRandomPlayer;

@@ -68,11 +68,14 @@
         <div class="accordion-body row">
           <div class="col-6">
             <bonus-display :bonus="match.homeTeam.bonus" class="mb-3" />
-            <team-display :players="match.homeTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.homeTeam" />
+            <team-display v-if="!isResultProbabilities" :players="match.homeTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.homeTeam" />
           </div>
           <div class="col-6">
             <bonus-display :bonus="match.awayTeam.bonus" class="mb-3" />
-            <team-display :players="match.awayTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.awayTeam" />
+            <team-display v-if="!isResultProbabilities" :players="match.awayTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.awayTeam" />
+          </div>
+          <div v-if="isResultProbabilities">
+            <score-probabilities-display :scores-probabilities="match.getScoreProbabilities()" />
           </div>
         </div>
       </div>
@@ -86,6 +89,7 @@ import { ref } from "vue";
 
 import TeamDisplay from "@/components/TeamDisplay.vue";
 import BonusDisplay from "@/components/BonusDisplay.vue";
+import ScoreProbabilitiesDisplay from "@/components/ScoreProbabilitiesDisplay.vue";
 
 const props = defineProps({
   liveMatch: {
@@ -98,6 +102,8 @@ const { getMatchData } = useMPG();
 
 const match = ref("");
 match.value = await getMatchData(props.liveMatch.id);
+const isResultProbabilities = ref("");
+isResultProbabilities.value = match.value.homeTeam.bonus.value === "removeRandomPlayer" || match.value.awayTeam.bonus.value === "removeRandomPlayer";
 </script>
 
 <style lang="scss" scoped>

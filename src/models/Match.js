@@ -39,92 +39,106 @@ export class Match {
     ];
   };
 
+  /**
+   * Renvoi les scores possibles si on remplace un à un les joueurs d'une équipe par Rotaldo (sauf si déjà Rotaldo)
+   * @param { Team } team l'équipe à tester
+   * @param { Boolean } isTacticalSubsBlocked la façon doit être recalculer l'équipe initiale (si bonus  = pas de RT)
+   * @param { Number } additionalRotaldoIndex l'index d'un joueur qui est déjà Rotaldo (suite à un autre bonus)
+   * @returns { Array } tous les scores possibles
+   */
+  #getScoresForAllPossibleRotaldoInTeam = (team, isTacticalSubsBlocked, additionalRotaldoIndex) => {
+    const scores = [];
+    for (let index = 1; index < 11; index ++) {
+      if (additionalRotaldoIndex) {
+        team.applyRotaldoSubstitution(additionalRotaldoIndex);
+      }
+      if (team.getFinalPlayers()[index].lastName === "Rotaldo") {
+        continue;
+      }
+      team.applyRotaldoSubstitution(index);
+      const score = this.getFinalScore();
+      scores.push(score);
+      team.calculateFinalPlayers(isTacticalSubsBlocked);
+    }
+    return scores;
+  };
+
+  /**
+   * Renvoi les scores possibles si on remplace un à un les joueurs des 2 équipes du match par Rotaldo (sauf si déjà Rotaldo)
+   * @returns { Array } tous les scores possibles
+   */
+  #getScoresForAllPossibleRotaldoAllTeams = () => {
+    const scores = [];
+    for (let index = 1; index < 11; index ++) { // 2 Rotaldo for homeTeam
+      if (this.homeTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
+        continue;
+      }
+      this.homeTeam.applyRotaldoSubstitution(index);
+      scores.push(...this.#getScoresForAllPossibleRotaldoInTeam(this.homeTeam, this.awayTeam.bonuses?.value.blockTacticalSubs, index));
+      this.homeTeam.calculateFinalPlayers(this.awayTeam.bonuses?.value.blockTacticalSubs);
+    }
+    for (let index = 1; index < 11; index ++) { // 1 Rotaldo for homeTeam, 1 for awayTeam
+      if (this.homeTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
+        continue;
+      }
+      this.homeTeam.applyRotaldoSubstitution(index);
+      scores.push(...this.#getScoresForAllPossibleRotaldoInTeam(this.awayTeam, this.homeTeam.bonuses?.value.blockTacticalSubs));
+      this.homeTeam.calculateFinalPlayers(this.awayTeam.bonuses?.value.blockTacticalSubs);
+    }
+    for (let index = 1; index < 11; index ++) { // 2 Rotaldo for awayTeam
+      if (this.awayTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
+        continue;
+      }
+      this.awayTeam.applyRotaldoSubstitution(index);
+      scores.push(...this.#getScoresForAllPossibleRotaldoInTeam(this.awayTeam, this.homeTeam.bonuses?.value.blockTacticalSubs, index));
+      this.awayTeam.calculateFinalPlayers(this.homeTeam.bonuses?.value.blockTacticalSubs);
+    }
+    for (let index = 1; index < 11; index ++) { // 1 Rotaldo for awayTeam, 1 for homeTeam
+      if (this.awayTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
+        continue;
+      }
+      this.awayTeam.applyRotaldoSubstitution(index);
+      scores.push(...this.#getScoresForAllPossibleRotaldoInTeam(this.homeTeam, this.awayTeam.bonuses?.value.blockTacticalSubs));
+      this.awayTeam.calculateFinalPlayers(this.homeTeam.bonuses?.value.blockTacticalSubs);
+    }
+    return scores;
+  };
+
+  /**
+   * Renvoi la probabilité d'un score unqiue dans une liste de scores
+   * @param { Array } scores les scores à calculer
+   * @returns { Obkect } tous les scores uniques et leurs pourcentages
+   */
+  #getScoresPoucentages = (scores) => {
+    const uniqueScores = Array.from(new Set(scores.map(JSON.stringify)), JSON.parse);
+    const pourcentages = uniqueScores.map(uniqueScore => {
+      const occurences = scores.filter(score => JSON.stringify(score) === JSON.stringify(uniqueScore)).length;
+      const pourcentage = (occurences / scores.length) * 100;
+      return {
+        score: uniqueScore,
+        pourcentage,
+      };
+    });
+    pourcentages.sort((a, b) => b.pourcentage - a.pourcentage);
+    return pourcentages;
+  };
+
+  /**
+ * Renvoi les scores probables selon le nombre de bonus Chapron Rouge
+ * @returns { Object } La liste des scores uniques ainsi que leur probabilité
+ */
   getScoreProbabilities = () => {
     const bonusNumber = Number(this.homeTeam.bonus.value === "removeRandomPlayer") + Number(this.awayTeam.bonus.value === "removeRandomPlayer");
     if (bonusNumber > 0) {
       const scores = [];
-      for (let index = 1; index < 11; index ++) {
-        if (this.homeTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
-          continue;
-        }
-        if (bonusNumber > 1) {
-          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
-            this.homeTeam.applyRotaldoSubstitution(index);
-            if (this.homeTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
-              this.homeTeam.calculateFinalPlayers(false);
-              continue;
-            }
-            this.homeTeam.applyRotaldoSubstitution(secondIndex);
-            const score = this.getFinalScore();
-            scores.push(score);
-            this.homeTeam.calculateFinalPlayers(false);
-          }
-          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
-            this.homeTeam.applyRotaldoSubstitution(index);
-            if (this.awayTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
-              this.awayTeam.calculateFinalPlayers(false);
-              continue;
-            }
-            this.awayTeam.applyRotaldoSubstitution(secondIndex);
-            const score = this.getFinalScore();
-            scores.push(score);
-            this.homeTeam.calculateFinalPlayers(false);
-            this.awayTeam.calculateFinalPlayers(false);
-          }
-        } else {
-          this.homeTeam.applyRotaldoSubstitution(index);
-          const score = this.getFinalScore();
-          scores.push(score);
-          this.homeTeam.calculateFinalPlayers(this.awayTeam.bonuses?.value.blockTacticalSubs);
-        }
-      }
-      for (let index = 1; index < 11; index ++) {
-        if (this.awayTeam.getFinalPlayers()[index].lastName === "Rotaldo") {
-          continue;
-        }
-        if (bonusNumber > 1) {
-          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
-            this.awayTeam.applyRotaldoSubstitution(index);
-            if (this.homeTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
-              this.awayTeam.calculateFinalPlayers(false);
-              continue;
-            }
-            this.homeTeam.applyRotaldoSubstitution(secondIndex);
-            const score = this.getFinalScore();
-            scores.push(score);
-            this.homeTeam.calculateFinalPlayers(false);
-            this.awayTeam.calculateFinalPlayers(false);
-          }
-          for (let secondIndex = 1; secondIndex < 11; secondIndex ++) {
-            this.awayTeam.applyRotaldoSubstitution(index);
-            if (this.awayTeam.getFinalPlayers()[secondIndex].lastName === "Rotaldo") {
-              this.awayTeam.calculateFinalPlayers(false);
-              continue;
-            }
-            this.awayTeam.applyRotaldoSubstitution(secondIndex);
-            const score = this.getFinalScore();
-            scores.push(score);
-            this.awayTeam.calculateFinalPlayers(false);
-          }
-        } else {
-          this.awayTeam.applyRotaldoSubstitution(index);
-          const score = this.getFinalScore();
-          scores.push(score);
-          this.awayTeam.calculateFinalPlayers(this.homeTeam.bonuses?.value.blockTacticalSubs);
-        }
+      if (bonusNumber < 2) {
+        scores.push(...this.#getScoresForAllPossibleRotaldoInTeam(this.homeTeam, this.awayTeam.bonuses?.value.blockTacticalSubs));
+        scores.push(...this.#getScoresForAllPossibleRotaldoInTeam(this.awayTeam, this.homeTeam.bonuses?.value.blockTacticalSubs));
+      } else {
+        scores.push(...this.#getScoresForAllPossibleRotaldoAllTeams());
       }
 
-      const uniqueScores = Array.from(new Set(scores.map(JSON.stringify)), JSON.parse);
-      const pourcentages = uniqueScores.map(uniqueScore => {
-        const occurences = scores.filter(score => JSON.stringify(score) === JSON.stringify(uniqueScore)).length;
-        const pourcentage = (occurences / scores.length) * 100;
-        return {
-          score: uniqueScore,
-          pourcentage,
-        };
-      });
-      pourcentages.sort((a, b) => b.pourcentage - a.pourcentage);
-      return pourcentages;
+      return this.#getScoresPoucentages(scores);
     }
   };
 

@@ -36,6 +36,8 @@ export class Team {
       return BONUSES["removeGoal"];
     } else if (allBonuses.blockTacticalSubs) {
       return BONUSES["blockTacticalSubs"];
+    } else if (allBonuses.removeRandomPlayer) {
+      return BONUSES["removeRandomPlayer"];
     }
     return BONUSES["none"];
   };
