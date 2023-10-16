@@ -5,9 +5,9 @@
       <span class="division__name">{{ division.name }}</span>
     </h2>
     <ul>
-      <li class="match">
+      <li v-for="match in matchesToDisplay" :key="match.id">
         <suspense>
-          <match-display :live-match="userMatch" />
+          <match-display :live-match="match" />
         </suspense>
       </li>
     </ul>
@@ -26,6 +26,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  showAll: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const userMatch = computed(() => {
@@ -34,6 +38,12 @@ const userMatch = computed(() => {
   return liveMatches.find((match) => {
     return match.home.teamId === userTeamId || match.away.teamId === userTeamId;
   });
+});
+const matchesToDisplay = computed(() => {
+  if (props.showAll) {
+    return Object.values(props.division.liveState?.liveMatches || []);
+  }
+  return [userMatch.value];
 });
 </script>
 
@@ -57,6 +67,7 @@ ul {
 
   li {
     list-style: none;
+    margin-bottom: 10px;
   }
 }
 </style>
