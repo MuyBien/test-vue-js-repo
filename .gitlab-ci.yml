@@ -1,9 +1,10 @@
+# Global Configuration
 stages:
+  - prepare
   - build
   - quality
   - test
   - security
-  - docker
   - deploy
 
 workflow:
@@ -12,139 +13,39 @@ workflow:
       when: never
     - when: always
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
-  - template: Dependency-Scanning.gitlab-ci.yml
-  - template: SAST.gitlab-ci.yml
-  - template: License-Scanning.gitlab-ci.yml
-
-build:app:
-  image: node:14
-  stage: build
-  script:
-    - npm ci
-    - npm run build
-  artifacts:
-    name: "MPG-CALCULATOR-BUILD-${CI_COMMIT_REF_SLUG}"
+default:
+  image: node:20
+  cache: 
+    key: $CI_COMMIT_REF_SLUG
     paths:
-      - ./dist
-    expire_in: 1 day
-
-test:unit:
-  image: node:14
-  stage: test
-  script:
-    - npm install --progress=false
-    - npm run test:cover
-  artifacts:
-    when: always
-    paths:
-    - coverage/lcov-report
-    reports:
-      junit:
-        - junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
-  coverage: /All files\s*\|\s*([\d\.]+)/
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
-
-code_quality:
-  stage: quality
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
-
-eslint-sast:
-  stage: security
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
-
-nodejs-scan-sast:
-  stage: security
-  rules:
-    - when: never
-
-gemnasium-dependency_scanning:
-  stage: security
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - changes:
-      - package*.json
-
-retire-js-dependency_scanning:
-  stage: security
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - changes:
-      - package*.json
-
-license_scanning:
-  stage: security
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
-
-.docker:
-  image: docker:18.09.7
-  stage: docker
-  cache: {}
-  dependencies: []
-  services:
-    - docker:18.09.7-dind
+      - node_modules/
+    policy: pull
   before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u $CI_REGISTRY_USER registry.gitlab.com --password-stdin
-    - docker pull registry.gitlab.com/muybien/mpg-calculator:master || true
+    - date
+    - npm install --progress=false
+    - date
+  after_script:
+    - date
+
+# Ce job devra être externalisé dans un fichier quand le bug sera fixé
+# https://gitlab.com/remcohaszing/eslint-formatter-gitlab/-/issues/13
+code:quality:
+  stage: quality
+  script:
+    - npm run lint:ci
   allow_failure: true
+  artifacts:
+    reports:
+      codequality: gl-codequality.json
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: on_success
   timeout: 15m
 
-review:image:
-  extends: .docker
-  needs: ["test:unit"]
-  variables:
-    IMAGE_TAG: "$CI_COMMIT_REF_SLUG"
-  script:
-    - docker build --cache-from registry.gitlab.com/muybien/mpg-calculator:master -t registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG .
-    - docker push registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - when: on_success
-
-stable:image:
-  extends: .docker
-  variables:
-    IMAGE_TAG: "$CI_COMMIT_REF_NAME"
-  script:
-    - docker build --cache-from registry.gitlab.com/muybien/mpg-calculator:master -t registry.gitlab.com/muybien/mpg-calculator:latest -t registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG .
-    - docker push registry.gitlab.com/muybien/mpg-calculator:$IMAGE_TAG
-    - docker push registry.gitlab.com/muybien/mpg-calculator:latest
-  rules:
-    - if: $CI_COMMIT_TAG
-
-pages: # the job must be named pages
-  image: node:latest
-  stage: deploy
-  dependencies:
-    - build:app
-  script:
-    - mv public public-vue # GitLab Pages hooks on the public folder
-    - mv dist public # rename the dist folder (result of npm run build)
-    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \; # active gzip
-  artifacts:
-    paths:
-      - public # artifact path must be /public for GitLab Pages to pick it up
-  environment:
-    name: production
-    url: https://muybien.gitlab.io/mpg-calculator
-  rules:
-    - if: $CI_COMMIT_TAG
+include:
+ - '.gitlab/ci/prepare.yml'
+ - '.gitlab/ci/build.yml'
+ - '.gitlab/ci/test.yml'
+ - '.gitlab/ci/security.yml'
+ - '.gitlab/ci/deploy.yml'

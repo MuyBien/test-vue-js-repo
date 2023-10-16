@@ -1,0 +1,19 @@
+
+pages: # the job must be named pages
+  image: node:latest
+  stage: deploy
+  dependencies:
+    - build:app
+  script:
+    - mv public public-vue # GitLab Pages hooks on the public folder
+    - mv dist public # rename the dist folder (result of npm run build)
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \; # active gzip
+  artifacts:
+    paths:
+      - public # artifact path must be /public for GitLab Pages to pick it up
+  environment:
+    name: production
+    url: https://muybien.gitlab.io/mpg-calculator
+  rules:
+    - if: $CI_COMMIT_TAG
+  timeout: 5m
