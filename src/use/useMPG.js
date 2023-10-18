@@ -96,6 +96,8 @@ export function useMPG () {
     return Object.values(liveData.value?.orderedLeagueDivisionItems).filter(league => league.liveState) || [];
   });
 
+  const liveTournaments = computed(() => {
+    return Object.values(liveData.value?.orderedTournamentItems).filter(tournament => tournament.liveState) || [];
   });
 
   const getMatchData = async (matchId) => {
@@ -121,6 +123,7 @@ export function useMPG () {
     isConnected,
     haveLiveRating,
     liveDivisions,
+    liveTournaments,
     getMatchData,
   };
 }
