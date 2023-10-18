@@ -1,11 +1,5 @@
 import { Team } from "./Team";
 
-const LINES_TO_PASS = {
-  4: [2, 1],
-  3: [3, 2, 1],
-  2: [4, 3, 2, 1],
-};
-
 export class Match {
 
   id;
@@ -178,7 +172,7 @@ export class Match {
     const potentialScorers = this.#getPotentialScorers(isHome);
 
     const scorers = potentialScorers
-      .filter(player => this.#isScoringMpgGoal(player, teamAverages, isHome))
+      .filter(player => this.isScoringMpgGoal(player, teamAverages, isHome))
       .map(player => player.playerId);
 
     const players = isHome ? this.homeTeam.getFinalPlayers() : this.awayTeam.getFinalPlayers();
@@ -225,9 +219,14 @@ export class Match {
    * @param {Boolean} isHome Le joueur joue à domicile ou non
    * @returns Boolean true si le joueur marque en MPG
    */
-  #isScoringMpgGoal = (player, teamAverages, isHome) => {
+  isScoringMpgGoal = (player, teamAverages, isHome) => {
+    const LINES_TO_PASS = {
+      4: [2, 1],
+      3: [3, 2, 1],
+      2: [4, 3, 2, 1],
+    };
     return LINES_TO_PASS[player.position].every((lineToPass, index) => {
-      const dribbleMalus = this.#getDribbleMalus(index);
+      const dribbleMalus = this.getDribbleMalus(index);
       const playerNote = player.getTotalScore() - dribbleMalus;
       return isHome ? playerNote >= teamAverages[lineToPass - 1] : playerNote > teamAverages[lineToPass - 1];
     });
@@ -238,7 +237,7 @@ export class Match {
    * @param {Number} lineIndex le nombre de ligne déjà passée
    * @returns le malus à appliquer à la note pour calculer la suite du but MPG (0 = 0, 1 = 1, 2 = 1.5, 3 = 2)
    */
-  #getDribbleMalus = (lineIndex) => {
+  getDribbleMalus = (lineIndex) => {
     const DRIBBLE_MALUS_BASE = 0;
     const DRIBBLE_MALUS_INCREMENT = 0.5;
 

@@ -1,5 +1,6 @@
 import { computed, ref, watch } from "vue";
 import { Match } from "@/models/Match";
+import { TournamentMatch } from "@/models/TournamentMatch";
 
 const token = ref("");
 const user = ref({});
@@ -117,6 +118,19 @@ export function useMPG () {
     // return new Match(data);
   };
 
+  const getTournamentMatch = async (matchId) => {
+    const response = await fetch(`https://api.mpg.football/tournament-match/${matchId}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    return new TournamentMatch(data);
+  };
+
   return {
     signIn,
     user,
@@ -125,5 +139,6 @@ export function useMPG () {
     liveDivisions,
     liveTournaments,
     getMatchData,
+    getTournamentMatch,
   };
 }

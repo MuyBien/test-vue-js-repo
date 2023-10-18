@@ -26,7 +26,7 @@
       </ul>
       <ul>
         <li v-for="liveTournament in liveTournaments" :key="liveTournament.tournamentId" class="division">
-          <tournament-display :division="liveTournament" />
+          <tournament-display :tournament="liveTournament" />
         </li>
       </ul>
     </section>

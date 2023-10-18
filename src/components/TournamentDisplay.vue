@@ -1,13 +1,13 @@
 <template>
   <div>
     <h2 class="tournament">
-      <span class="tournament__logo" :style="{ 'backgroundImage': `url(${tournament.imageUrl}`}" />
+      <!-- <span class="tournament__logo" :style="{ 'backgroundImage': `url(${tournament.imageUrl}`}" /> -->
       <span class="tournament__name">{{ tournament.name }}</span>
     </h2>
     <ul>
       <li>
         <suspense>
-          <match-display :live-match="match" />
+          <match-display :live-match="match" is-tournament />
         </suspense>
       </li>
     </ul>
