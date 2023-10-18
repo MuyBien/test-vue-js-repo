@@ -77,19 +77,19 @@ export function useMPG () {
   });
 
   const getLiveData = async () => {
-    // const response = await fetch("https://api.mpg.football/live", {
-    //   method: "GET",
-    //   headers: {
-    //     accept: "application/json, text/plain, */*",
-    //     authorization: token.value,
-    //   },
-    //   body: null,
-    // });
-    // const data = await response.json();
-    // liveData.value = data;
+    const response = await fetch("https://api.mpg.football/live", {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    liveData.value = data;
 
-    const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
-    liveData.value = await mockedResponse.json();
+    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
+    // liveData.value = await mockedResponse.json();
   };
 
   const liveDivisions = computed(() => {
