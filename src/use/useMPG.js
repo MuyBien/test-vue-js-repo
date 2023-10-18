@@ -93,7 +93,9 @@ export function useMPG () {
   };
 
   const liveDivisions = computed(() => {
-    return Object.values(liveData.value?.orderedLeagueDivisionItems) || [];
+    return Object.values(liveData.value?.orderedLeagueDivisionItems).filter(league => league.liveState) || [];
+  });
+
   });
 
   const getMatchData = async (matchId) => {
