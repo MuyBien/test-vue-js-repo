@@ -19,11 +19,11 @@
           Mes matchs
         </button>
       </header>
-      <ul>
+      <!-- <ul>
         <li v-for="liveDivision in liveDivisions" :key="liveDivision.leagueId" class="division">
           <division-display :division="liveDivision" :show-all="showAllMatches" />
         </li>
-      </ul>
+      </ul> -->
       <ul>
         <li v-for="liveTournament in liveTournaments" :key="liveTournament.tournamentId" class="division">
           <tournament-display :tournament="liveTournament" />
@@ -35,7 +35,7 @@
 
 <script setup>
 import { ref } from "vue";
-import DivisionDisplay from "@/components/DivisionDisplay.vue";
+// import DivisionDisplay from "@/components/DivisionDisplay.vue";
 import TournamentDisplay from "@/components/TournamentDisplay.vue";
 import { useMPG } from "@/use/useMPG";
 
