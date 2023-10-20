@@ -1,7 +1,7 @@
 <template>
   <section class="result">
     <p class="result__team">
-      <span class="result__team__name">{{ match.home.name }}</span>
+      <span class="result__team__name">{{ match.home.name || match.home.abbreviation }}</span>
       <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${match.home.jerseyUrl}`}" />
     </p>
     <p class="result__score">
@@ -9,7 +9,7 @@
     </p>
     <p class="result__team">
       <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${match.away.jerseyUrl}`}" />
-      <span class="result__team__name">{{ match.away.name }}</span>
+      <span class="result__team__name">{{ match.away.name || match.away.abbreviation }}</span>
     </p>
   </section>
 </template>
