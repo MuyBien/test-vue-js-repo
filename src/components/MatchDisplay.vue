@@ -60,15 +60,19 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isTournament: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 /**
  * Match
  */
-const { getMatchData } = useMPG();
+const { getMatchData, getTournamentMatch } = useMPG();
 
 const match = ref("");
-match.value = await getMatchData(props.liveMatch.id);
+match.value = props.isTournament ? await getTournamentMatch(props.liveMatch.id) : await getMatchData(props.liveMatch.id);
 
 /**
  * Gestion de la modale des détails du match

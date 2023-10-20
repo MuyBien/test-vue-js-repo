@@ -1,7 +1,7 @@
 <template>
   <section class="matches-live">
     <h2>Matchs en live</h2>
-    <section v-if="!liveDivisions.length">
+    <section v-if="!liveDivisions.length && !liveTournaments.length">
       <p class="no-live-disclaimer">
         Aucun match live
       </p>
@@ -19,9 +19,14 @@
           Mes matchs
         </button>
       </header>
-      <ul>
+      <!-- <ul>
         <li v-for="liveDivision in liveDivisions" :key="liveDivision.leagueId" class="division">
           <division-display :division="liveDivision" :show-all="showAllMatches" />
+        </li>
+      </ul> -->
+      <ul>
+        <li v-for="liveTournament in liveTournaments" :key="liveTournament.tournamentId" class="division">
+          <tournament-display :tournament="liveTournament" />
         </li>
       </ul>
     </section>
@@ -30,13 +35,14 @@
 
 <script setup>
 import { ref } from "vue";
-import DivisionDisplay from "@/components/DivisionDisplay.vue";
+// import DivisionDisplay from "@/components/DivisionDisplay.vue";
+import TournamentDisplay from "@/components/TournamentDisplay.vue";
 import { useMPG } from "@/use/useMPG";
 
 /**
  * Matches
  */
-const { liveDivisions } = useMPG();
+const { liveDivisions, liveTournaments } = useMPG();
 
 /**
  * Options
