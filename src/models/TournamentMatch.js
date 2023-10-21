@@ -26,4 +26,15 @@ export class TournamentMatch extends Match {
     });
   };
 
+  /**
+   * Renvoi l'équipe qualifiée de ce match de tournoi
+   */
+  getQualified = () => {
+    const finalScore = this.getFinalScore();
+    if (finalScore[0] === finalScore[1]) {
+      return undefined;
+    }
+    return finalScore[0] - finalScore[1] > 0 ? this.homeTeam : this.awayTeam;
+  };
+
 }

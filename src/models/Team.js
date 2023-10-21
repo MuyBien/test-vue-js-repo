@@ -8,6 +8,7 @@ const POSITION_MIDDLE = 3;
 const POSITION_FORWARD = 4;
 
 export class Team {
+  name;
   score;
   starters = [];
   substitutes = [];
@@ -16,6 +17,7 @@ export class Team {
   bonus;
 
   constructor (team, blockTacticalSubs = false) {
+    this.name = team.name || team.abbreviation;
     this.score = team.score;
     this.bonus = this.setBonus(team.bonuses);
 
