@@ -395,6 +395,10 @@ describe("Le modèle d'une équipe", () => {
     it("Du gardien", () => {
       expect(team.getAverages()[0]).toBe(7);
     });
+
+    it("De l'équipe (pour un tournoi) sans prendre ne compte les bonus défensifs", () => {
+      expect(team.getTeamAverage()).toBeCloseTo(4.77, 0);
+    });
   });
 
   describe("Applique le bonus de Tonton Pat", () => {

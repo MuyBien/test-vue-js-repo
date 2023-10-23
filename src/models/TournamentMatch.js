@@ -32,7 +32,9 @@ export class TournamentMatch extends Match {
   getQualified = () => {
     const finalScore = this.getFinalScore();
     if (finalScore[0] === finalScore[1]) {
-      return undefined;
+      const homeTeamAverage = this.homeTeam.getTeamAverage();
+      const awayTeamAverage = this.awayTeam.getTeamAverage();
+      return homeTeamAverage - awayTeamAverage > 0 ? this.homeTeam : this.awayTeam;
     }
     return finalScore[0] - finalScore[1] > 0 ? this.homeTeam : this.awayTeam;
   };

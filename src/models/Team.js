@@ -111,6 +111,7 @@ export class Team {
     });
     return finalPlayers;
   }
+
   /**
    * Effectue les rentrées de Rotaldo
    */
@@ -167,6 +168,10 @@ export class Team {
     return this.getFinalPlayers()[0].getTotalScore() >= 8;
   };
 
+  /**
+   * Calcule les moyennes lignes par lignes de l'équipe
+   * @returns { Array } les moyennes ligne par ligne
+   */
   getAverages = () => {
     const finalPlayers = this.finalPlayers;
 
@@ -180,5 +185,17 @@ export class Team {
     const backerAverage = calculatePositionAverage(POSITION_BACKER);
 
     return [finalPlayers[0].getTotalScore(), backerAverage, middleAverage, forwardAverage];
+  };
+
+  /**
+   * Renvoi la moyenne de l'équipe (sans bonus défensif)
+   * @returns { Number } la moyenne de l'équipe
+   */
+  getTeamAverage = () => { // TODO basculer dans un TournamentTeam
+    const teamAverage = this.finalPlayers.reduce((total, player) => {
+      player.bonusRating = 0;
+      return total + player.getTotalScore();
+    }, 0) / this.finalPlayers.length;
+    return teamAverage;
   };
 }

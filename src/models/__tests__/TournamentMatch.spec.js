@@ -53,22 +53,36 @@ describe("Le modèle de match de tournoi", () => {
 
     describe("En se basant sur le score", () => {
 
-      it("Si l'équipe à domicile marque plus de but que l'équipe à l'extérieur", () => {
+      it("Quand l'équipe à domicile marque plus de but que l'équipe à l'extérieur", () => {
         match.homeTeam.starters[10].goals = 2;
         match.awayTeam.starters[10].rating = 7;
         expect(match.getQualified()).toBe(match.homeTeam);
       });
 
-      it("Si l'équipe à l'extérieur marque plus de but que l'équipe à domicile", () => {
+      it("Quand l'équipe à l'extérieur marque plus de but que l'équipe à domicile", () => {
         match.homeTeam.starters[10].rating = 7;
         match.awayTeam.starters[10].goals = 2;
         expect(match.getQualified()).toBe(match.awayTeam);
       });
 
-      it("Sauf si les 2 équipes marquent autant de but", () => {
-        match.homeTeam.starters[10].goals = 2;
-        match.awayTeam.starters[10].goals = 2;
-        expect(match.getQualified()).toBeUndefined();
+    });
+
+    describe("En se basant sur la moyenne générale", () => {
+
+      it("Quand une équipe a une moyenne générale supérieure à l'autre", () => {
+        match.homeTeam.starters[10].rating = 7;
+        expect(match.getQualified()).toBe(match.homeTeam);
+      });
+
+      it("Sans prendre en compte les bonus défensifs", () => {
+        match.homeTeam.starters.map(player => player.isBacker() ? player.bonusRating = 1 : player.bonusRating = 0);
+        match.awayTeam.starters[10].rating = 5.5;
+        match.homeTeam.calculateFinalPlayers();
+        match.awayTeam.calculateFinalPlayers();
+
+        expect(match.getQualified()).toBe(match.awayTeam);
+      });
+
       });
 
     });
