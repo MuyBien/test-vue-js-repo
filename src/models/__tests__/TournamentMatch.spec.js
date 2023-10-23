@@ -83,6 +83,23 @@ describe("Le modèle de match de tournoi", () => {
         expect(match.getQualified()).toBe(match.awayTeam);
       });
 
+      it.only("En prenant en compte le bonus du capitaine", () => {
+        match.homeTeam.starters.map(player => {
+          player.isBacker() ? player.bonusRating = 1 : player.bonusRating = 0;
+          player.isCaptain = false;
+          return player;
+        });
+        match.homeTeam.starters[4].isCaptain = true;
+        match.homeTeam.starters[4].bonusRating += 0.5;
+
+        match.awayTeam.starters.map(player => {
+          player.isBacker() ? player.bonusRating = 1 : player.bonusRating = 0;
+          player.isCaptain = false;
+          return player;
+        });
+
+        match.homeTeam.calculateFinalPlayers();
+        expect(match.getQualified()).toBe(match.homeTeam);
       });
 
     });

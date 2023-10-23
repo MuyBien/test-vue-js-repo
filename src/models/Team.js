@@ -193,7 +193,7 @@ export class Team {
    */
   getTeamAverage = () => { // TODO basculer dans un TournamentTeam
     const teamAverage = this.finalPlayers.reduce((total, player) => {
-      player.bonusRating = 0;
+      player.bonusRating = player.isCaptain ? 0.5 : 0;
       return total + player.getTotalScore();
     }, 0) / this.finalPlayers.length;
     return teamAverage;
