@@ -6,7 +6,7 @@
     </p>
     <section class="teams-averages">
       <p class="teams-averages__description">
-        En cas de match nul, l’équipe avec la meilleure moyenne remporte le match
+        En cas de match nul, l’équipe avec la meilleure moyenne remporte le match (les bonus défensifs ne sont pas pris en compte dans ce calcul).
       </p>
       <div class="teams-averages__team" :class="getRatingClass(homeTeamAverage)">
         {{ homeTeamAverage }}
@@ -15,6 +15,27 @@
       <div class="teams-averages__team" :class="getRatingClass(awayTeamAverage)">
         {{ awayTeamAverage }}
       </div>
+    </section>
+    <section v-if="! needLineAverageComparaison">
+      <p class="teams-averages__description mb-3">
+        En cas d'égalité à la moyenne générale, les moyennes ligne par ligne sont comparées depuis l'attaque jusqu'au gardien.
+      </p>
+      <ul class="averages-list">
+        <li v-for="(average, index) in homeTeamLinesAverages" :key="average" class="teams-averages">
+          <template v-if="averageNeeded(index)">
+            <p class="teams-averages__description">
+              Moyenne {{ lines[index] }}
+            </p>
+            <div class="teams-averages__team" :class="getRatingClass(average)">
+              {{ average }}
+            </div>
+            <hr>
+            <div class="teams-averages__team" :class="getRatingClass(awayTeamLinesAverages[index])">
+              {{ awayTeamLinesAverages[index] }}
+            </div>
+          </template>
+        </li>
+      </ul>
     </section>
   </section>
 </template>
@@ -29,8 +50,29 @@ const props = defineProps({
   },
 });
 
+/**
+ * Global average comparaison
+ */
 const homeTeamAverage = props.match.homeTeam.getTeamAverage();
 const awayTeamAverage = props.match.awayTeam.getTeamAverage();
+
+/**
+ * Line to line average comparaison
+ */
+const lines = ["de l'attaque", "du milieu", "de la défense", "du gardien"];
+const needLineAverageComparaison = homeTeamAverage === awayTeamAverage;
+const homeTeamLinesAverages = props.match.homeTeam.getAverages().reverse();
+const awayTeamLinesAverages = props.match.awayTeam.getAverages().reverse();
+const averageNeeded = (index) => {
+  if (index) {
+    return homeTeamLinesAverages[index - 1] === awayTeamLinesAverages[index - 1]
+  }
+  return true;
+};
+
+/**
+ * Average colors
+ */
 const getRatingClass = (average) => {
   switch (true) {
   case average > 6.5:
@@ -57,14 +99,20 @@ const getRatingClass = (average) => {
     font-size: 2em;
   }
 
+  .averages-list {
+    padding: 0;
+  }
+
   .teams-averages {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin-bottom: 3vh;
     --dot-size: 80px;
 
   &__description {
+    margin-bottom: 0;
     width: 100%;
     font-size: .8em;
   }

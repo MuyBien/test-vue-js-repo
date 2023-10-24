@@ -67,7 +67,7 @@ describe("Le modèle de match de tournoi", () => {
 
     });
 
-    describe("En se basant sur la moyenne générale", () => {
+    describe("En se basant sur la moyenne générale si le score est nul", () => {
 
       it("Quand une équipe a une moyenne générale supérieure à l'autre", () => {
         match.homeTeam.starters[10].rating = 7;
@@ -101,6 +101,48 @@ describe("Le modèle de match de tournoi", () => {
         match.homeTeam.calculateFinalPlayers();
         expect(match.getQualified()).toBe(match.homeTeam);
       });
+
+    });
+
+    describe("En se basant sur la moyenne de chaque ligne, si la moyenne générale est la même", () => {
+
+      it("De l'attaque", () => {
+        match.awayTeam.starters[2].rating = 4.5; // Défenseur
+        match.awayTeam.calculateFinalPlayers();
+        match.homeTeam.starters[10].rating = 4.5; // Attaquant
+        match.homeTeam.calculateFinalPlayers();
+
+        expect(match.getQualified()).toBe(match.homeTeam);
+      })
+
+      it("Du milieu", () => {
+        match.awayTeam.starters[2].rating = 4.5; // Défenseur
+        match.awayTeam.calculateFinalPlayers();
+        match.homeTeam.starters[6].rating = 4.5; // Milieu
+        match.homeTeam.calculateFinalPlayers();
+
+        expect(match.getQualified()).toBe(match.homeTeam);
+      })
+
+      it("De la défense", () => {
+        match.awayTeam.starters[1].rating = 3.5; // Défenseur
+        match.awayTeam.calculateFinalPlayers();
+        match.homeTeam.starters[0].rating = 3.5; // Gardien
+        match.homeTeam.calculateFinalPlayers();
+
+        expect(match.getQualified()).toBe(match.homeTeam);
+      })
+
+      // it("Du gardien", () => {
+      //   match.homeTeam.starters[0].rating = 4.5; // Gardien
+      //   match.homeTeam.calculateFinalPlayers();
+
+      //   expect(match.getQualified()).toBe(match.awayTeam);
+      // })
+
+      it("En renvoyant undefined si tout est égal", () => {
+        expect(match.getQualified()).toBeUndefined();
+      })
 
     });
 
