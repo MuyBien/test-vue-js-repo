@@ -4,7 +4,7 @@
     <p class="team">
       <span class="team__name">{{ match.getQualified()?.name || "Par tirage au sort" }}</span>
     </p>
-    <section class="teams-averages">
+    <section class="teams-averages" v-if="needTeamAverageComparaison">
       <p class="teams-averages__description">
         En cas de match nul, l’équipe avec la meilleure moyenne remporte le match (les bonus défensifs ne sont pas pris en compte dans ce calcul).
       </p>
@@ -16,7 +16,7 @@
         {{ awayTeamAverage }}
       </div>
     </section>
-    <section v-if="! needLineAverageComparaison">
+    <section v-if="needLineAverageComparaison">
       <p class="teams-averages__description mb-3">
         En cas d'égalité à la moyenne générale, les moyennes ligne par ligne sont comparées depuis l'attaque jusqu'au gardien.
       </p>
@@ -55,6 +55,7 @@ const props = defineProps({
  */
 const homeTeamAverage = props.match.homeTeam.getTeamAverage();
 const awayTeamAverage = props.match.awayTeam.getTeamAverage();
+const needTeamAverageComparaison = props.match.getFinalScore()[0] === props.match.getFinalScore()[1];
 
 /**
  * Line to line average comparaison
