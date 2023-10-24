@@ -177,7 +177,8 @@ export class Team {
 
     const calculatePositionAverage = position => {
       const players = finalPlayers.filter(player => player.position === position);
-      return players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
+      const average = players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
+      return Math.round((average + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
     };
 
     const forwardAverage = calculatePositionAverage(POSITION_FORWARD);

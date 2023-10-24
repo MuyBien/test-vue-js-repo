@@ -385,11 +385,11 @@ describe("Le modèle d'une équipe", () => {
     });
 
     it("Des milieux", () => {
-      expect(team.getAverages()[2]).toBe(4.875);
+      expect(team.getAverages()[2]).toBe(4.88);
     });
 
     it("Des défenseurs", () => {
-      expect(team.getAverages()[1]).toBe(6.375);
+      expect(team.getAverages()[1]).toBe(6.38);
     });
 
     it("Du gardien", () => {
