@@ -196,6 +196,6 @@ export class Team {
       player.bonusRating = player.isCaptain ? 0.5 : 0;
       return total + player.getTotalScore();
     }, 0) / this.finalPlayers.length;
-    return teamAverage;
+    return Math.round((teamAverage + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
   };
 }
