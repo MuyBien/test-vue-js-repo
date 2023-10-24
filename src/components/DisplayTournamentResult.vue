@@ -2,7 +2,7 @@
   <section class="tournament-match-winner">
     <h3>Équipe qualifiée pour le tour suivant :</h3>
     <p class="team">
-      <span class="team__name">{{ match.getQualified().name }}</span>
+      <span class="team__name">{{ match.getQualified()?.name || "Par tirage au sort" }}</span>
     </p>
     <section class="teams-averages">
       <p class="teams-averages__description">
