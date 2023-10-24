@@ -133,12 +133,7 @@ describe("Le modèle de match de tournoi", () => {
         expect(match.getQualified()).toBe(match.homeTeam);
       })
 
-      // it("Du gardien", () => {
-      //   match.homeTeam.starters[0].rating = 4.5; // Gardien
-      //   match.homeTeam.calculateFinalPlayers();
-
-      //   expect(match.getQualified()).toBe(match.awayTeam);
-      // })
+      // Pas trouvé comment tout le reste peut être égal sauf la note des gardiens...
 
       it("En renvoyant undefined si tout est égal", () => {
         expect(match.getQualified()).toBeUndefined();
