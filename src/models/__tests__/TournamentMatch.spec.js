@@ -83,7 +83,7 @@ describe("Le modèle de match de tournoi", () => {
         expect(match.getQualified()).toBe(match.awayTeam);
       });
 
-      it.only("En prenant en compte le bonus du capitaine", () => {
+      it("En prenant en compte le bonus du capitaine", () => {
         match.homeTeam.starters.map(player => {
           player.isBacker() ? player.bonusRating = 1 : player.bonusRating = 0;
           player.isCaptain = false;
