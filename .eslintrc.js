@@ -6,8 +6,9 @@ module.exports = {
     "plugin:vue/vue3-recommended",
     "plugin:vue/vue3-strongly-recommended", // This option imposes formatting rules on your code to improve readability
     "eslint:recommended",
+    "plugin:vitest/recommended",
   ],
-  // plugins: ["jest"],
+  plugins: ["vitest"],
   rules: {
     // General
     "no-empty": ["error", { allowEmptyCatch: true }],
@@ -83,13 +84,6 @@ module.exports = {
     "array-bracket-spacing": ["warn", "never"],
     "object-curly-spacing": ["warn", "always"],
     "eol-last": ["warn", "never"],
-    //jest
-  //   "jest/no-mocks-import": "warn",
-  //   "jest/prefer-to-have-length": "warn",
-  //   "jest/prefer-to-be": "warn",
-  //   "jest/valid-title": "warn",
-  //   "jest/no-conditional-expect": "warn",
-  //   "jest/no-standalone-expect": "warn",
   },
   overrides: [
     {

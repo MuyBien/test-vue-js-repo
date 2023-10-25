@@ -385,15 +385,19 @@ describe("Le modèle d'une équipe", () => {
     });
 
     it("Des milieux", () => {
-      expect(team.getAverages()[2]).toBe(4.875);
+      expect(team.getAverages()[2]).toBe(4.88);
     });
 
     it("Des défenseurs", () => {
-      expect(team.getAverages()[1]).toBe(6.375);
+      expect(team.getAverages()[1]).toBe(6.38);
     });
 
     it("Du gardien", () => {
       expect(team.getAverages()[0]).toBe(7);
+    });
+
+    it("De l'équipe (pour un tournoi) sans prendre ne compte les bonus défensifs", () => {
+      expect(team.getTeamAverage()).toBeCloseTo(4.77, 0);
     });
   });
 

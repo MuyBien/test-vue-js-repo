@@ -26,4 +26,37 @@ export class TournamentMatch extends Match {
     });
   };
 
+  /**
+   * Renvoi l'équipe qualifiée de ce match de tournoi
+   */
+  getQualified = () => {
+    const finalScore = this.getFinalScore();
+
+    if (finalScore[0] === finalScore[1]) {
+      const homeTeamAverage = this.homeTeam.getTeamAverage();
+      const awayTeamAverage = this.awayTeam.getTeamAverage();
+
+      if (homeTeamAverage > awayTeamAverage) {
+        return this.homeTeam;
+      } else if (awayTeamAverage > homeTeamAverage) {
+        return this.awayTeam;
+      }
+
+      // Compare par lignes (Forward, Middle, Backer, Goalkeeper)
+      const homeTeamLinesAverages = this.homeTeam.getAverages();
+      const awayTeamLinesAverages = this.awayTeam.getAverages();
+
+      for (let line = 3; line >= 0; line--) {
+        const lineAverageDiff = homeTeamLinesAverages[line] - awayTeamLinesAverages[line];
+        if (lineAverageDiff !== 0) {
+          return lineAverageDiff > 0 ? this.homeTeam : this.awayTeam;
+        }
+      }
+
+      return undefined; // Aucune équipe n'est qualifiée
+    } else {
+      return finalScore[0] - finalScore[1] > 0 ? this.homeTeam : this.awayTeam;
+    }
+  };
+
 }

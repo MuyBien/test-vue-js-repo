@@ -8,6 +8,7 @@ const POSITION_MIDDLE = 3;
 const POSITION_FORWARD = 4;
 
 export class Team {
+  name;
   score;
   starters = [];
   substitutes = [];
@@ -16,6 +17,7 @@ export class Team {
   bonus;
 
   constructor (team, blockTacticalSubs = false) {
+    this.name = team.name || team.abbreviation;
     this.score = team.score;
     this.bonus = this.setBonus(team.bonuses);
 
@@ -109,6 +111,7 @@ export class Team {
     });
     return finalPlayers;
   }
+
   /**
    * Effectue les rentrées de Rotaldo
    */
@@ -165,12 +168,17 @@ export class Team {
     return this.getFinalPlayers()[0].getTotalScore() >= 8;
   };
 
+  /**
+   * Calcule les moyennes lignes par lignes de l'équipe
+   * @returns { Array } les moyennes ligne par ligne
+   */
   getAverages = () => {
     const finalPlayers = this.finalPlayers;
 
     const calculatePositionAverage = position => {
       const players = finalPlayers.filter(player => player.position === position);
-      return players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
+      const average = players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
+      return Math.round((average + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
     };
 
     const forwardAverage = calculatePositionAverage(POSITION_FORWARD);
@@ -178,5 +186,17 @@ export class Team {
     const backerAverage = calculatePositionAverage(POSITION_BACKER);
 
     return [finalPlayers[0].getTotalScore(), backerAverage, middleAverage, forwardAverage];
+  };
+
+  /**
+   * Renvoi la moyenne de l'équipe (sans bonus défensif)
+   * @returns { Number } la moyenne de l'équipe
+   */
+  getTeamAverage = () => { // TODO basculer dans un TournamentTeam
+    const teamAverage = this.finalPlayers.reduce((total, player) => {
+      player.bonusRating = player.isCaptain ? 0.5 : 0;
+      return total + player.getTotalScore();
+    }, 0) / this.finalPlayers.length;
+    return Math.round((teamAverage + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
   };
 }

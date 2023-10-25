@@ -8,6 +8,54 @@ describe("Le modèle de joueur", () => {
   let player;
   const playerMock = matchMock.home.players[1];
 
+  describe("Permet de connaitre la position du joueur", () => {
+
+    it("Qui est gardien", () => {
+      player = new Player({
+        ...playerMock,
+        position: 1,
+      });
+      expect(player.isGoalkeeper()).toBeTruthy();
+      expect(player.isBacker()).toBeFalsy();
+      expect(player.isMiddle()).toBeFalsy();
+      expect(player.isForward()).toBeFalsy();
+    });
+
+    it("Qui est défenseur", () => {
+      player = new Player({
+        ...playerMock,
+        position: 2,
+      });
+      expect(player.isGoalkeeper()).toBeFalsy();
+      expect(player.isBacker()).toBeTruthy();
+      expect(player.isMiddle()).toBeFalsy();
+      expect(player.isForward()).toBeFalsy();
+    });
+
+    it("Qui est milieu", () => {
+      player = new Player({
+        ...playerMock,
+        position: 3,
+      });
+      expect(player.isGoalkeeper()).toBeFalsy();
+      expect(player.isBacker()).toBeFalsy();
+      expect(player.isMiddle()).toBeTruthy();
+      expect(player.isForward()).toBeFalsy();
+    });
+
+    it("Qui est attaquant", () => {
+      player = new Player({
+        ...playerMock,
+        position: 4,
+      });
+      expect(player.isGoalkeeper()).toBeFalsy();
+      expect(player.isBacker()).toBeFalsy();
+      expect(player.isMiddle()).toBeFalsy();
+      expect(player.isForward()).toBeTruthy();
+    });
+
+  });
+
   it("Renvoi le score du joueur en comptant les bonus", () => {
     player = new Player({
       ...playerMock,

@@ -68,7 +68,7 @@ const { signIn } = useMPG();
     height: 100%;
   }
   .banner {
-    background-image: url(/src/assets/ideogram.jpeg);
+    background-image: url(/img/login-banner.jpeg);
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: var(--bs-card-border-radius);
