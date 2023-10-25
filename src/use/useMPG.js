@@ -100,11 +100,13 @@ export function useMPG () {
   };
 
   const liveDivisions = computed(() => {
-    return Object.values(liveData.value?.orderedLeagueDivisionItems).filter(league => league.liveState) || [];
+    const liveDivisions = liveData.value?.orderedLeagueDivisionItems;
+    return liveDivisions ? Object.values(liveDivisions).filter(league => league.liveState) : [];
   });
 
   const liveTournaments = computed(() => {
-    return Object.values(liveData.value?.orderedTournamentItems).filter(tournament => tournament.liveState) || [];
+    const liveTournaments = liveData.value?.orderedTournamentItems;
+    return liveTournaments ? Object.values(liveTournaments).filter(tournament => tournament.liveState) : [];
   });
 
   const getMatchData = async (matchId) => {
