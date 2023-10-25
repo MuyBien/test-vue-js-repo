@@ -57,30 +57,16 @@ export function useMPG () {
       body: null,
     });
     if (response.status === 200) {
-    user.value = await response.json();
-    loginEnded.value = true;
+      user.value = await response.json();
+      loginEnded.value = true;
     } else {
       resetToken();
     }
   };
+
   const haveLiveRating = computed(() => {
     return user.value?.applicationsData?.mpg.gameOptions.liveRatingAvailable;
   });
-
-  /**
-   * Infos des équipes (bonus restant, etc)
-   */
-  // const getTeamInfos = async (teamId) => {
-  //   const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
-  //     method: "GET",
-  //     headers: {
-  //       accept: "application/json, text/plain, */*",
-  //       authorization: token.value,
-  //     },
-  //   });
-  //   const team = await response.json();
-  //   return team;
-  // };
 
   /**
    * Matches Live
@@ -102,9 +88,6 @@ export function useMPG () {
     });
     const data = await response.json();
     liveData.value = data;
-
-    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
-    // liveData.value = await mockedResponse.json();
   };
 
   const liveDivisions = computed(() => {
@@ -117,6 +100,9 @@ export function useMPG () {
     return liveTournaments ? Object.values(liveTournaments).filter(tournament => tournament.liveState) : [];
   });
 
+  /**
+   * Données des matchs
+   */
   const getMatchData = async (matchId) => {
     const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
       method: "GET",
@@ -128,10 +114,6 @@ export function useMPG () {
     });
     const data = await response.json();
     return new Match(data);
-
-    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/match/response.json");
-    // const data = await mockedResponse.json();
-    // return new Match(data);
   };
 
   const getTournamentMatch = async (matchId) => {
