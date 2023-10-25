@@ -7,7 +7,7 @@
       </p>
     </section>
     <section v-else>
-      <header>
+      <!-- <header>
         <button
           type="button"
           class="btn"
@@ -18,7 +18,7 @@
         >
           Mes matchs
         </button>
-      </header>
+      </header> -->
       <!-- <ul>
         <li v-for="liveDivision in liveDivisions" :key="liveDivision.leagueId" class="division">
           <division-display :division="liveDivision" :show-all="showAllMatches" />
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+// import { ref } from "vue";
 // import DivisionDisplay from "@/components/DivisionDisplay.vue";
 import TournamentDisplay from "@/components/TournamentDisplay.vue";
 import { useMPG } from "@/use/useMPG";
@@ -47,10 +47,10 @@ const { liveDivisions, liveTournaments } = useMPG();
 /**
  * Options
  */
-const showAllMatches = ref(true);
-const toggleDisplayMode = () => {
-  showAllMatches.value = ! showAllMatches.value;
-};
+// const showAllMatches = ref(true);
+// const toggleDisplayMode = () => {
+//   showAllMatches.value = ! showAllMatches.value;
+// };
 </script>
 
 <style lang="scss" scoped>
