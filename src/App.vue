@@ -12,7 +12,7 @@
       <section v-if="!isConnected" class="connection">
         <mpg-connection-form />
       </section>
-      <section v-else class="content">
+      <section v-else-if="loginEnded" class="content">
         <live-rating-disclaimer v-if="!haveLiveRating" />
         <matches-list v-else />
       </section>
@@ -26,7 +26,7 @@ import MatchesList from "@/components/MatchesList.vue";
 import MpgConnectionForm from "@/components/MpgConnectionForm.vue";
 import { useMPG } from "@/use/useMPG";
 
-const { isConnected, user, haveLiveRating } = useMPG();
+const { isConnected, user, loginEnded, haveLiveRating } = useMPG();
 </script>
 
 <style scoped lang="scss">

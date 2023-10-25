@@ -1,9 +1,10 @@
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, onBeforeMount } from "vue";
 import { Match } from "@/models/Match";
 import { TournamentMatch } from "@/models/TournamentMatch";
 
 const token = ref("");
 const user = ref({});
+const loginEnded = ref(false);
 const liveData = ref({});
 
 export function useMPG () {
@@ -11,6 +12,9 @@ export function useMPG () {
   /**
    * Méthode de connexion à MPG
    */
+  onBeforeMount(() => {
+    token.value = localStorage.getItem("mpg-token");
+  });
   const isConnected = computed(() => {
     return Boolean(token.value);
   });
@@ -26,6 +30,7 @@ export function useMPG () {
     const json = await response.json();
     if (json.token) {
       token.value = json.token;
+      localStorage.setItem("mpg-token", json.token);
     }
   };
 
@@ -48,6 +53,7 @@ export function useMPG () {
       body: null,
     });
     user.value = await response.json();
+    loginEnded.value = true;
   };
   const haveLiveRating = computed(() => {
     return user.value?.applicationsData?.mpg.gameOptions.liveRatingAvailable;
@@ -135,6 +141,7 @@ export function useMPG () {
     signIn,
     user,
     isConnected,
+    loginEnded,
     haveLiveRating,
     liveDivisions,
     liveTournaments,
