@@ -13,8 +13,8 @@
 </template>
 
 <script setup>
-import TournamentDisplay from "@/components/TournamentDisplay.vue";
-import NoLiveDisclaimer from "@/components/NoLiveDisclaimer.vue";
+import TournamentDisplay from "@/components/tournaments/TournamentDisplay.vue";
+import NoLiveDisclaimer from "@/components/disclaimers/NoLiveDisclaimer.vue";
 import { useMPG } from "@/use/useMPG";
 
 /**

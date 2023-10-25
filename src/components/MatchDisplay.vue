@@ -54,7 +54,7 @@ import { computed, ref } from "vue";
 
 import ScoreDisplay from "@/components/ScoreDisplay.vue";
 import MatchDetailsDisplay from "@/components/MatchDetailsDisplay.vue";
-import DisplayTournamentResult from "@/components/DisplayTournamentResult.vue";
+import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 import ScoreProbabilitiesDisplay from "@/components/ScoreProbabilitiesDisplay.vue";
 
 const props = defineProps({
