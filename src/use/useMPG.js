@@ -1,9 +1,10 @@
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, onBeforeMount } from "vue";
 import { Match } from "@/models/Match";
 import { TournamentMatch } from "@/models/TournamentMatch";
 
 const token = ref("");
 const user = ref({});
+const loginEnded = ref(false);
 const liveData = ref({});
 
 export function useMPG () {
@@ -11,6 +12,9 @@ export function useMPG () {
   /**
    * Méthode de connexion à MPG
    */
+  onBeforeMount(() => {
+    token.value = localStorage.getItem("mpg-token");
+  });
   const isConnected = computed(() => {
     return Boolean(token.value);
   });
@@ -26,8 +30,13 @@ export function useMPG () {
     const json = await response.json();
     if (json.token) {
       token.value = json.token;
+      localStorage.setItem("mpg-token", json.token);
     }
   };
+  const resetToken = () => {
+    token.value = undefined;
+    localStorage.removeItem("mpg-token");
+  }
 
   /**
    * Récupération des infos de l'utilisateur
@@ -47,26 +56,17 @@ export function useMPG () {
       },
       body: null,
     });
-    user.value = await response.json();
+    if (response.status === 200) {
+      user.value = await response.json();
+      loginEnded.value = true;
+    } else {
+      resetToken();
+    }
   };
+
   const haveLiveRating = computed(() => {
     return user.value?.applicationsData?.mpg.gameOptions.liveRatingAvailable;
   });
-
-  /**
-   * Infos des équipes (bonus restant, etc)
-   */
-  // const getTeamInfos = async (teamId) => {
-  //   const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
-  //     method: "GET",
-  //     headers: {
-  //       accept: "application/json, text/plain, */*",
-  //       authorization: token.value,
-  //     },
-  //   });
-  //   const team = await response.json();
-  //   return team;
-  // };
 
   /**
    * Matches Live
@@ -88,19 +88,21 @@ export function useMPG () {
     });
     const data = await response.json();
     liveData.value = data;
-
-    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
-    // liveData.value = await mockedResponse.json();
   };
 
   const liveDivisions = computed(() => {
-    return Object.values(liveData.value?.orderedLeagueDivisionItems).filter(league => league.liveState) || [];
+    const liveDivisions = liveData.value?.orderedLeagueDivisionItems;
+    return liveDivisions ? Object.values(liveDivisions).filter(league => league.liveState) : [];
   });
 
   const liveTournaments = computed(() => {
-    return Object.values(liveData.value?.orderedTournamentItems).filter(tournament => tournament.liveState) || [];
+    const liveTournaments = liveData.value?.orderedTournamentItems;
+    return liveTournaments ? Object.values(liveTournaments).filter(tournament => tournament.liveState) : [];
   });
 
+  /**
+   * Données des matchs
+   */
   const getMatchData = async (matchId) => {
     const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
       method: "GET",
@@ -112,10 +114,6 @@ export function useMPG () {
     });
     const data = await response.json();
     return new Match(data);
-
-    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/match/response.json");
-    // const data = await mockedResponse.json();
-    // return new Match(data);
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -135,6 +133,7 @@ export function useMPG () {
     signIn,
     user,
     isConnected,
+    loginEnded,
     haveLiveRating,
     liveDivisions,
     liveTournaments,

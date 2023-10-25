@@ -3,23 +3,6 @@
     <no-live-disclaimer v-if="!liveDivisions.length && !liveTournaments.length" />
     <section v-else>
       <h2>Matchs en live</h2>
-      <!-- <header>
-        <button
-          type="button"
-          class="btn"
-          :class="{ active: !showAllMatches }"
-          data-bs-toggle="button"
-          aria-pressed="true"
-          @click="toggleDisplayMode"
-        >
-          Mes matchs
-        </button>
-      </header> -->
-      <!-- <ul>
-        <li v-for="liveDivision in liveDivisions" :key="liveDivision.leagueId" class="division">
-          <division-display :division="liveDivision" :show-all="showAllMatches" />
-        </li>
-      </ul> -->
       <ul>
         <li v-for="liveTournament in liveTournaments" :key="liveTournament.tournamentId" class="division">
           <tournament-display :tournament="liveTournament" />
@@ -30,8 +13,6 @@
 </template>
 
 <script setup>
-// import { ref } from "vue";
-// import DivisionDisplay from "@/components/DivisionDisplay.vue";
 import TournamentDisplay from "@/components/TournamentDisplay.vue";
 import NoLiveDisclaimer from "@/components/NoLiveDisclaimer.vue";
 import { useMPG } from "@/use/useMPG";
@@ -40,14 +21,6 @@ import { useMPG } from "@/use/useMPG";
  * Matches
  */
 const { liveDivisions, liveTournaments } = useMPG();
-
-/**
- * Options
- */
-// const showAllMatches = ref(true);
-// const toggleDisplayMode = () => {
-//   showAllMatches.value = ! showAllMatches.value;
-// };
 </script>
 
 <style lang="scss" scoped>
