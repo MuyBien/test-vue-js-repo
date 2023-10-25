@@ -33,6 +33,10 @@ export function useMPG () {
       localStorage.setItem("mpg-token", json.token);
     }
   };
+  const resetToken = () => {
+    token.value = undefined;
+    localStorage.removeItem("mpg-token");
+  }
 
   /**
    * Récupération des infos de l'utilisateur
@@ -52,8 +56,12 @@ export function useMPG () {
       },
       body: null,
     });
+    if (response.status === 200) {
     user.value = await response.json();
     loginEnded.value = true;
+    } else {
+      resetToken();
+    }
   };
   const haveLiveRating = computed(() => {
     return user.value?.applicationsData?.mpg.gameOptions.liveRatingAvailable;
