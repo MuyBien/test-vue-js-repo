@@ -13,7 +13,12 @@
           <score-display :match="liveMatch" />
         </button>
       </h2>
-      <div :id="`${match.id}-more-infos`" class="accordion-collapse collapse" :data-bs-parent="`#${match.id}-parent`">
+      <div
+        :id="`${match.id}-more-infos`"
+        ref="collapseElement"
+        class="accordion-collapse collapse"
+        :data-bs-parent="`#${match.id}-parent`"
+      >
         <div class="accordion-body row">
           <h3>Résultat après RT et calcul des buts MPG :</h3>
           <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
@@ -38,7 +43,8 @@
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
+import { Collapse } from "bootstrap";
 
 import ScoreDisplay from "@/components/ScoreDisplay.vue";
 import MatchDetailsDisplay from "@/components/MatchDetailsDisplay.vue";
@@ -55,6 +61,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+});
+
+/**
+ * Gestion du toggle
+ */
+const collapseElement = ref(null);
+onMounted(() => {
+  Collapse.getOrCreateInstance(collapseElement.value, { toggle: false });
 });
 
 /**
