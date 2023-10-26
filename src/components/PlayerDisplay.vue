@@ -44,8 +44,8 @@
 <script setup>
 import { computed } from "vue";
 import { Player } from "@/models/Player";
-import GoalIcon from "@/components/GoalIcon.vue";
-import SubstitutionIcon from "@/components/SubstitutionIcon.vue";
+import GoalIcon from "@/components/icons/GoalIcon.vue";
+import SubstitutionIcon from "@/components/icons/SubstitutionIcon.vue";
 
 const props = defineProps({
   player: {

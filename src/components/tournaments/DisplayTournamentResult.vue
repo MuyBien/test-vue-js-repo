@@ -2,9 +2,11 @@
   <section class="tournament-match-winner">
     <h3>Équipe qualifiée pour le tour suivant :</h3>
     <p class="team">
+      <span class="team__emoji--left">🎉</span>
       <span class="team__name">{{ match.getQualified()?.name || "Par tirage au sort" }}</span>
+      <span class="team__emoji--right">🎉</span>
     </p>
-    <section class="teams-averages" v-if="needTeamAverageComparaison">
+    <section v-if="needTeamAverageComparaison" class="teams-averages">
       <p class="teams-averages__description">
         En cas de match nul, l’équipe avec la meilleure moyenne remporte le match (les bonus défensifs ne sont pas pris en compte dans ce calcul).
       </p>
@@ -66,7 +68,7 @@ const homeTeamLinesAverages = props.match.homeTeam.getAverages().reverse();
 const awayTeamLinesAverages = props.match.awayTeam.getAverages().reverse();
 const averageNeeded = (index) => {
   if (index) {
-    return homeTeamLinesAverages[index - 1] === awayTeamLinesAverages[index - 1]
+    return homeTeamLinesAverages[index - 1] === awayTeamLinesAverages[index - 1];
   }
   return true;
 };
@@ -98,6 +100,15 @@ const getRatingClass = (average) => {
   }
   .team {
     font-size: 2em;
+    &__name {
+      margin: 0 10px;
+    }
+    &__emoji {
+      &--right {
+        display: inline-block;
+        transform: scale(-1, 1);
+      }
+    }
   }
 
   .averages-list {

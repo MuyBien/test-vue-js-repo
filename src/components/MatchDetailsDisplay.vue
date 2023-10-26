@@ -62,7 +62,12 @@ const emits = defineEmits(["close"]);
 const modal = ref();
 onMounted(() => {
   modal.value = Modal.getOrCreateInstance(`#${props.match.id}-details`);
+  const myModalEl = document.getElementById(`${props.match.id}-details`);
+  myModalEl.addEventListener("hidden.bs.modal", () => {
+    emits("close");
+  });
 });
+
 watch(() => props.show, (show) => {
   if (show) {
     modal.value.show();
@@ -70,6 +75,7 @@ watch(() => props.show, (show) => {
     modal.value.hide();
   }
 });
+
 const closeModal = () => {
   emits("close");
 };
