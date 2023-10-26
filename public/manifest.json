@@ -41,6 +41,18 @@
             "purpose": "any"
         }
     ],
+    "screenshots": [
+        {
+            "src": "/img/screenshots/screenshot-2.png",
+            "type": "image/png",
+            "sizes": "636x778",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/img/screenshots/screenshot-1.png",
+            "type": "image/jpg",
+            "sizes": "1210x705",
+            "form_factor": "wide"
         }
-    ]
+  ]
 }
