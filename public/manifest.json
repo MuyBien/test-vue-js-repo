@@ -4,38 +4,38 @@
     "display": "standalone",
     "scope": "/",
     "id": "/",
-    "start_url": "/",
+    "start_url": "/mpg-calculator/",
     "orientation": "portrait",
     "name": "MPG Calculator",
     "short_name": "MPG Calculator",
-    "description": "Pour calculer le score final d'un match MPG en se basant sur les notes des joueurs, le bonus utilis\u00e9 et les bonus restant \u00e0 l'adversaire.",
+    "description": "Pour calculer le score final d'un match MPG en se basant sur les notes des joueurs, le bonus utilis\u00e9 et les bonus restants \u00e0 l'adversaire.",
     "icons": [
         {
-            "src": "/img/icons/icon-144x144.png",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/icons/icon-144x144.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "/img/icons/icon-144x144-maskable.png",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/icons/icon-144x144-maskable.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "/img/icons/icon-256x256.png",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/icons/icon-256x256.png",
             "sizes": "256x256",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "/img/icons/icon-384x384.png",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/icons/icon-384x384.png",
             "sizes": "384x384",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "/img/icons/icon-512x512.png",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
@@ -43,13 +43,13 @@
     ],
     "screenshots": [
         {
-            "src": "/img/screenshots/screenshot-2.png",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/screenshots/screenshot-2.png",
             "type": "image/png",
             "sizes": "636x778",
             "form_factor": "narrow"
         },
         {
-            "src": "/img/screenshots/screenshot-1.png",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/screenshots/screenshot-1.png",
             "type": "image/jpg",
             "sizes": "1210x705",
             "form_factor": "wide"
