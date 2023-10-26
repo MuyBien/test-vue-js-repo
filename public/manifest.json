@@ -17,8 +17,8 @@
             "purpose": "any"
         },
         {
-            "src": "https://muybien.gitlab.io/mpg-calculator/img/icons/icon-128x128-maskable.png",
-            "sizes": "128x128",
+            "src": "https://muybien.gitlab.io/mpg-calculator/img/icons/icon-512x512-maskable.png",
+            "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
         },
