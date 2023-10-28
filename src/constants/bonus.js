@@ -29,4 +29,10 @@ export const BONUSES = {
     icon: "/img/bonus-images/zahia.png",
     description: "Ajoute un bonus de 0.5 à tous les joueurs titulaires (pas les remplaçants).",
   },
+  fourStrikers: {
+    name: "4 - Decat'",
+    value: "fourStrikers",
+    icon: "/img/bonus-images/4-decat.png",
+    description: "Passe en 4-2-4 et aligne 4 attaquants.",
+  },
 };
