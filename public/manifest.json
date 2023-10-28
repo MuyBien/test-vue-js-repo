@@ -11,31 +11,31 @@
     "description": "Pour calculer le score final d'un match MPG en se basant sur les notes des joueurs, le bonus utilis\u00e9 et les bonus restants \u00e0 l'adversaire.",
     "icons": [
         {
-            "src": "https:/mpg-calculator.fr/img/icons/icon-144x144.png",
+            "src": "img/icons/icon-144x144.png",
             "sizes": "144x144",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "https:/mpg-calculator.fr/img/icons/icon-512x512-maskable.png",
+            "src": "img/icons/icon-512x512-maskable.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "https:/mpg-calculator.fr/img/icons/icon-256x256.png",
+            "src": "img/icons/icon-256x256.png",
             "sizes": "256x256",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "https:/mpg-calculator.fr/img/icons/icon-384x384.png",
+            "src": "img/icons/icon-384x384.png",
             "sizes": "384x384",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "https:/mpg-calculator.fr/img/icons/icon-512x512.png",
+            "src": "img/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
@@ -43,13 +43,13 @@
     ],
     "screenshots": [
         {
-            "src": "https:/mpg-calculator.fr/img/screenshots/screenshot-2.png",
+            "src": "img/screenshots/screenshot-2.png",
             "type": "image/png",
             "sizes": "636x778",
             "form_factor": "narrow"
         },
         {
-            "src": "https:/mpg-calculator.fr/img/screenshots/screenshot-1.png",
+            "src": "img/screenshots/screenshot-1.png",
             "type": "image/jpg",
             "sizes": "1210x705",
             "form_factor": "wide"
