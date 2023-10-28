@@ -29,6 +29,10 @@
             <score-probabilities-display :scores-probabilities="match.getScoreProbabilities()" />
           </div>
           <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
+
+          <p class="alert alert-warning" role="alert">
+            Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
+          </p>
         </div>
       </div>
     </div>
