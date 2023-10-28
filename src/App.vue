@@ -17,6 +17,8 @@
         <matches-list v-else />
       </section>
     </transition>
+
+    <feedback-button />
   </main>
 </template>
 
@@ -24,6 +26,8 @@
 import LiveRatingDisclaimer from "@/components/disclaimers/LiveRatingDisclaimer.vue";
 import MatchesList from "@/components/MatchesList.vue";
 import MpgConnectionForm from "@/components/login/MpgConnectionForm.vue";
+import FeedbackButton from "@/components/feedback/FeedbackButton.vue";
+
 import { useMPG } from "@/use/useMPG";
 
 const { isConnected, user, loginEnded, haveLiveRating } = useMPG();
