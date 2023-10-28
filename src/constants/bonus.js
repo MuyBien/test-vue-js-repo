@@ -23,4 +23,10 @@ export const BONUSES = {
     icon: "/img/bonus-images/chapron-rouge.png",
     description: "Remplace un joueur de champ final (après les remplacements) par un Rotaldo.",
   },
+  boostAllPlayers: {
+    name: "Zahia",
+    value: "boostAllPlayers",
+    icon: "/img/bonus-images/zahia.png",
+    description: "Ajoute un bonus de 0.5 à tous les joueurs titulaires (pas les remplaçants).",
+  },
 };
