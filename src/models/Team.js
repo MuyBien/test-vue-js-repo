@@ -34,13 +34,17 @@ export class Team {
   }
 
   setBonus = (allBonuses) => {
-    if (allBonuses.removeGoal) {
-      return BONUSES["removeGoal"];
-    } else if (allBonuses.blockTacticalSubs) {
-      return BONUSES["blockTacticalSubs"];
-    } else if (allBonuses.removeRandomPlayer) {
-      return BONUSES["removeRandomPlayer"];
+    const bonusMap = {};
+    for (const bonusName in BONUSES) {
+      bonusMap[bonusName] = bonusName;
     }
+
+    for (const bonusName in bonusMap) {
+      if (allBonuses[bonusName]) {
+        return bonusMap[bonusName];
+      }
+    }
+
     return BONUSES["none"];
   };
 
