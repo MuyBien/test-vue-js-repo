@@ -41,4 +41,10 @@ export const BONUSES = {
     icon: "/img/bonus-images/suarez.png",
     description: "-1pt pour le gardien adverse.",
   },
+  boostOnePlayer: {
+    name: "UberEats",
+    value: "boostOnePlayer",
+    icon: "/img/bonus-images/uber-eats.png",
+    description: "+1pt sur le joueur de votre choix.",
+  },
 };
