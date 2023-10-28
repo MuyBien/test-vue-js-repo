@@ -65,6 +65,7 @@ const scoreToDisplay = computed(() => {
   }
 
   &__score {
+    flex-grow: 1;
     min-width: 50px;
     display: flex;
     align-items: center;
