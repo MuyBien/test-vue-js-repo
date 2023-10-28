@@ -35,4 +35,10 @@ export const BONUSES = {
     icon: "/img/bonus-images/4-decat.png",
     description: "Passe en 4-2-4 et aligne 4 attaquants.",
   },
+  nerfGoalkeeper: {
+    name: "Suarez",
+    value: "nerfGoalkeeper",
+    icon: "/img/bonus-images/suarez.png",
+    description: "-1pt pour le gardien adverse.",
+  },
 };
