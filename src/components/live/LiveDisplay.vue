@@ -4,20 +4,11 @@
     <section v-else>
       <h2>Matchs en live</h2>
       <header>
-        <button
-          type="button"
-          class="btn"
-          :class="{ active: !showAllMatches }"
-          data-bs-toggle="button"
-          aria-pressed="true"
-          @click="toggleDisplayMode"
-        >
-          Mes matchs
-        </button>
+        <live-options v-model:options="options" />
       </header>
       <ul>
         <li v-for="liveLeague in liveLeagues" :key="liveLeague.leagueId" class="division">
-          <league-display :league="liveLeague" :show-all="showAllMatches" />
+          <league-display :league="liveLeague" :show-all="options.showAllMatches" />
         </li>
       </ul>
       <ul>
@@ -32,6 +23,7 @@
 <script setup>
 import { ref } from "vue";
 
+import LiveOptions from "@/components/live/LiveOptions.vue";
 import TournamentDisplay from "@/components/tournaments/TournamentDisplay.vue";
 import NoLiveDisclaimer from "@/components/disclaimers/NoLiveDisclaimer.vue";
 import LeagueDisplay from "@/components/leagues/LeagueDisplay.vue";
@@ -46,10 +38,7 @@ const { liveLeagues, liveTournaments } = useMPG();
 /**
  * Options
  */
-const showAllMatches = ref(true);
-const toggleDisplayMode = () => {
-  showAllMatches.value = ! showAllMatches.value;
-};
+const options = ref({ showAllMatches: true });
 </script>
 
 <style lang="scss" scoped>
