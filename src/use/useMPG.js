@@ -36,7 +36,7 @@ export function useMPG () {
   const resetToken = () => {
     token.value = undefined;
     localStorage.removeItem("mpg-token");
-  }
+  };
 
   /**
    * Récupération des infos de l'utilisateur
@@ -63,7 +63,6 @@ export function useMPG () {
       resetToken();
     }
   };
-
   const haveLiveRating = computed(() => {
     return user.value?.applicationsData?.mpg.gameOptions.liveRatingAvailable;
   });
@@ -90,9 +89,9 @@ export function useMPG () {
     liveData.value = data;
   };
 
-  const liveDivisions = computed(() => {
-    const liveDivisions = liveData.value?.orderedLeagueDivisionItems;
-    return liveDivisions ? Object.values(liveDivisions).filter(league => league.liveState) : [];
+  const liveLeagues = computed(() => {
+    const liveLeagues = liveData.value?.orderedLeagueDivisionItems;
+    return liveLeagues ? Object.values(liveLeagues).filter(league => league.liveState) : [];
   });
 
   const liveTournaments = computed(() => {
@@ -100,9 +99,6 @@ export function useMPG () {
     return liveTournaments ? Object.values(liveTournaments).filter(tournament => tournament.liveState) : [];
   });
 
-  /**
-   * Données des matchs
-   */
   const getMatchData = async (matchId) => {
     const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
       method: "GET",
@@ -135,7 +131,7 @@ export function useMPG () {
     isConnected,
     loginEnded,
     haveLiveRating,
-    liveDivisions,
+    liveLeagues,
     liveTournaments,
     getMatchData,
     getTournamentMatch,

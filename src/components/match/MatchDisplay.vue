@@ -50,10 +50,10 @@ import { useMPG } from "@/use/useMPG";
 import { computed, ref, onMounted } from "vue";
 import { Collapse } from "bootstrap";
 
-import ScoreDisplay from "@/components/ScoreDisplay.vue";
-import MatchDetailsDisplay from "@/components/MatchDetailsDisplay.vue";
+import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
+import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
-import ScoreProbabilitiesDisplay from "@/components/ScoreProbabilitiesDisplay.vue";
+import ScoreProbabilitiesDisplay from "@/components/score/ScoreProbabilitiesDisplay.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
 
 const props = defineProps({
