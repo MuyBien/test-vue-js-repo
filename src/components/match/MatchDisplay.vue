@@ -20,7 +20,12 @@
         :data-bs-parent="`#${match.id}-parent`"
       >
         <div class="accordion-body row">
-          <h3>Résultat après RT et calcul des buts MPG :</h3>
+          <h3 class="title">
+            Résultat calculé :
+          </h3>
+          <h6 class="subtitle">
+            Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application du bonus.
+          </h6>
           <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
             <score-display :match="liveMatch" :score="match.getFinalScore()" is-clickable />
             <info-icon />
@@ -30,7 +35,7 @@
           </div>
           <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
 
-          <p class="alert alert-warning" role="alert">
+          <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
             Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
           </p>
         </div>
@@ -100,9 +105,17 @@ const isResultProbabilities = computed(() => {
 li {
   list-style: none;
 }
-h3 {
-  font-size: medium;
+.title {
+  font-size: 14px;
   text-align: left;
+  margin-bottom: 0;
+}
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 2vh;
+  font-size: 13px;
+  text-align: left;
+  color: var(--bs-gray);
 }
 .score-display {
   display: flex;
@@ -110,5 +123,9 @@ h3 {
   &__action {
     padding: 0;
   }
+}
+
+.rating-disclaimer {
+  font-size: 13px;
 }
 </style>
