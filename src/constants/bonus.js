@@ -47,4 +47,10 @@ export const BONUSES = {
     icon: "/img/bonus-images/uber-eats.png",
     description: "+1pt sur le joueur de votre choix.",
   },
+  mirror: {
+    name: "Miroir",
+    value: "mirror",
+    icon: "/img/bonus-images/mirror.png",
+    description: "Le bonus de ton adversaire se retourne contre lui. MPG Calculator pourra bientôt calculer ce bonus selon les bonus restants à l'adversaire",
+  },
 };
