@@ -10,6 +10,7 @@ const POSITION_FORWARD = 4;
 export class Team {
   name;
   score;
+  isLiveSubstitutesEnabled = false;
   starters = [];
   substitutes = [];
   substitutions = [];
@@ -19,6 +20,7 @@ export class Team {
   constructor (team, blockTacticalSubs = false) {
     this.name = team.name || team.abbreviation;
     this.score = team.score;
+    this.isLiveSubstitutesEnabled = team.isLiveSubstitutesEnabled;
     this.bonus = this.setBonus(team.bonuses);
 
     const playersData = Object.values(team.players);
@@ -34,13 +36,17 @@ export class Team {
   }
 
   setBonus = (allBonuses) => {
-    if (allBonuses.removeGoal) {
-      return BONUSES["removeGoal"];
-    } else if (allBonuses.blockTacticalSubs) {
-      return BONUSES["blockTacticalSubs"];
-    } else if (allBonuses.removeRandomPlayer) {
-      return BONUSES["removeRandomPlayer"];
+    const bonusMap = {};
+    for (const bonusName in BONUSES) {
+      bonusMap[bonusName] = bonusName;
     }
+
+    for (const bonusName in bonusMap) {
+      if (allBonuses[bonusName]) {
+        return bonusMap[bonusName];
+      }
+    }
+
     return BONUSES["none"];
   };
 
@@ -51,11 +57,14 @@ export class Team {
     const startersCopy = [...this.starters];
     const substitutesCopy = [...this.substitutes];
 
-    const playersAfterRT = this.applyTacticalSubstitutions(startersCopy, substitutesCopy, blockTacticalSubs ? [] : this.substitutions);
-    const playersAfterSub = this.applyClassicSubstitutions(playersAfterRT, substitutesCopy);
-    const finalPlayers = this.applyRotaldoSubstitutions(playersAfterSub);
-
-    this.finalPlayers = finalPlayers;
+    if (! this.isLiveSubstitutesEnabled) {
+      const playersAfterRT = this.applyTacticalSubstitutions(startersCopy, substitutesCopy, blockTacticalSubs ? [] : this.substitutions);
+      const playersAfterSub = this.applyClassicSubstitutions(playersAfterRT, substitutesCopy);
+      const finalPlayers = this.applyRotaldoSubstitutions(playersAfterSub);
+      this.finalPlayers = finalPlayers;
+    } else {
+      this.finalPlayers = startersCopy;
+    }
   }
 
   /**

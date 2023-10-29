@@ -24,4 +24,13 @@ describe("Le modèle de Rotaldo", () => {
     expect(player.getTotalScore()).toBe(2.5);
   });
 
+  it("Créé un joueur sans bonus", () => {
+    player = new Rotaldo({
+      ...playerMock,
+      bonusRating: 0.5,
+      rating: 5,
+    });
+    expect(player.getTotalScore()).toBe(2.5);
+  });
+
 });

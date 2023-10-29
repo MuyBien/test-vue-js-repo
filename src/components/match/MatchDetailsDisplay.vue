@@ -39,8 +39,8 @@
 <script setup>
 import { watch, onMounted, ref } from "vue";
 
-import TeamDisplay from "@/components/TeamDisplay.vue";
-import BonusDisplay from "@/components/BonusDisplay.vue";
+import TeamDisplay from "@/components/team/TeamDisplay.vue";
+import BonusDisplay from "@/components/team/BonusDisplay.vue";
 
 import { Modal } from "bootstrap";
 

@@ -16,7 +16,7 @@
 
 <script setup>
 import { computed } from "vue";
-import MatchDisplay from "@/components/MatchDisplay.vue";
+import MatchDisplay from "@/components/match/MatchDisplay.vue";
 
 /**
  * Props

@@ -44,6 +44,3 @@ const isLosing = (score) => {
   return score[0] < score[1];
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

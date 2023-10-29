@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2 class="division">
-      <span class="division__logo" :style="{ 'backgroundImage': `url(${division.imageUrl}`}" />
-      <span class="division__name">{{ division.name }}</span>
+    <h2 class="league">
+      <span class="league__logo" :style="{ 'backgroundImage': `url(${league.imageUrl}`}" />
+      <span class="league__name">{{ league.name }}</span>
     </h2>
     <ul>
       <li v-for="match in matchesToDisplay" :key="match.id">
@@ -16,13 +16,13 @@
 
 <script setup>
 import { computed } from "vue";
-import MatchDisplay from "@/components/MatchDisplay.vue";
+import MatchDisplay from "@/components/match/MatchDisplay.vue";
 
 /**
  * Props
  */
 const props = defineProps({
-  division: {
+  league: {
     type: Object,
     required: true,
   },
@@ -33,22 +33,22 @@ const props = defineProps({
 });
 
 const userMatch = computed(() => {
-  const userTeamId = props.division.userTeamId;
-  const liveMatches = Object.values(props.division.liveState?.liveMatches || []);
+  const userTeamId = props.league.userTeamId;
+  const liveMatches = Object.values(props.league.liveState?.liveMatches || []);
   return liveMatches.find((match) => {
     return match.home.teamId === userTeamId || match.away.teamId === userTeamId;
   });
 });
 const matchesToDisplay = computed(() => {
   if (props.showAll) {
-    return Object.values(props.division.liveState?.liveMatches || []);
+    return Object.values(props.league.liveState?.liveMatches || []);
   }
   return [userMatch.value];
 });
 </script>
 
 <style lang="scss" scoped>
-.division {
+.league {
   display: flex;
   justify-content: center;
   align-items: center;

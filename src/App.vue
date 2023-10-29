@@ -14,7 +14,7 @@
       </section>
       <section v-else-if="loginEnded" class="content">
         <live-rating-disclaimer v-if="!haveLiveRating" />
-        <matches-list v-else />
+        <live-display v-else />
       </section>
     </transition>
 
@@ -24,7 +24,7 @@
 
 <script setup>
 import LiveRatingDisclaimer from "@/components/disclaimers/LiveRatingDisclaimer.vue";
-import MatchesList from "@/components/MatchesList.vue";
+import LiveDisplay from "@/components/live/LiveDisplay.vue";
 import MpgConnectionForm from "@/components/login/MpgConnectionForm.vue";
 import FeedbackButton from "@/components/feedback/FeedbackButton.vue";
 
@@ -74,7 +74,7 @@ nav.topbar {
 }
 
 main {
-  padding: 10vh 0;
+  padding: 5vh 0;
 
   .connection, .content {
     display: flex;

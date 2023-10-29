@@ -4,7 +4,7 @@
       <span class="result__team__name">{{ match.home.name || match.home.abbreviation }}</span>
       <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${match.home.jerseyUrl}`}" />
     </p>
-    <p class="result__score">
+    <p class="result__score" :class="{ 'result__score--clickable': isClickable }">
       {{ scoreToDisplay }}
     </p>
     <p class="result__team">
@@ -25,6 +25,10 @@ const props = defineProps({
   score: {
     type: Array,
     default: undefined,
+  },
+  isClickable: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -77,6 +81,13 @@ const scoreToDisplay = computed(() => {
     padding: 2px 5px;
     border-radius: 5px;
     font-weight: bold;
+
+    &--clickable {
+      transition: transform .3s ease-out;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
   }
 }
 </style>

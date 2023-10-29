@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import PlayerDisplay from "@/components/PlayerDisplay.vue";
+import PlayerDisplay from "@/components/player/PlayerDisplay.vue";
 
 defineProps({
   players: {
