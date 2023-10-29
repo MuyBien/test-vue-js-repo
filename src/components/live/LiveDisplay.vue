@@ -56,6 +56,6 @@ ul {
 }
 .division {
   list-style: none;
-  margin: 5vh;
+  margin: 4vh 0;
 }
 </style>

@@ -74,7 +74,7 @@ nav.topbar {
 }
 
 main {
-  padding: 10vh 0;
+  padding: 5vh 0;
 
   .connection, .content {
     display: flex;
