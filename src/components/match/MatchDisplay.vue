@@ -22,7 +22,7 @@
         <div class="accordion-body row">
           <h3>Résultat après RT et calcul des buts MPG :</h3>
           <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
-            <score-display :match="liveMatch" :score="match.getFinalScore()" />
+            <score-display :match="liveMatch" :score="match.getFinalScore()" is-clickable />
             <info-icon />
           </div>
           <div v-else>
