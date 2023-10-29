@@ -1,49 +1,57 @@
 <template>
-  <div :id="`${match.id}-parent`" class="accordion">
+  <div :id="`${liveMatch.id}-parent`" class="accordion">
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button
           class="accordion-button"
           type="button"
           data-bs-toggle="collapse"
-          :data-bs-target="`#${match.id}-more-infos`"
+          :data-bs-target="`#${liveMatch.id}-more-infos`"
           aria-expanded="true"
-          :aria-controls="`${match.id}-more-infos`"
+          :aria-controls="`${liveMatch.id}-more-infos`"
         >
           <score-display :match="liveMatch" />
         </button>
       </h2>
       <div
-        :id="`${match.id}-more-infos`"
+        :id="`${liveMatch.id}-more-infos`"
         ref="collapseElement"
         class="accordion-collapse collapse"
-        :data-bs-parent="`#${match.id}-parent`"
+        :data-bs-parent="`#${liveMatch.id}-parent`"
       >
         <div class="accordion-body row">
-          <h3 class="title">
-            Résultat calculé :
-          </h3>
-          <h6 class="subtitle">
-            Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
-          </h6>
-          <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
-            <score-display :match="liveMatch" :score="match.getFinalScore()" is-clickable />
-            <info-icon />
-          </div>
+          <match-placeholder v-if="!match" />
           <div v-else>
-            <score-probabilities-display :scores-probabilities="match.getScoreProbabilities()" />
-          </div>
-          <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
+            <h3 class="title">
+              Résultat calculé :
+            </h3>
+            <h6 class="subtitle">
+              Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
+            </h6>
+            <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
+              <score-display :match="liveMatch" :score="match.getFinalScore()" is-clickable />
+              <info-icon />
+            </div>
+            <div v-else>
+              <score-probabilities-display :scores-probabilities="match.getScoreProbabilities()" />
+            </div>
+            <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
 
-          <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
-            Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
-          </p>
+            <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
+              Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <match-details-display :match="match" :show="showMatchDetails" @close="showMatchDetails = false">
+  <match-details-display
+    v-if="match"
+    :match="match"
+    :show="showMatchDetails"
+    @close="showMatchDetails = false"
+  >
     <template #title>
       <score-display :match="liveMatch" :score="match.getFinalScore()" @click="showMatchDetails = true" />
     </template>
@@ -56,6 +64,7 @@ import { computed, ref, onMounted } from "vue";
 import { Collapse } from "bootstrap";
 
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
+import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 import ScoreProbabilitiesDisplay from "@/components/score/ScoreProbabilitiesDisplay.vue";
@@ -78,6 +87,9 @@ const props = defineProps({
 const collapseElement = ref(null);
 onMounted(() => {
   Collapse.getOrCreateInstance(collapseElement.value, { toggle: false });
+  collapseElement.value.addEventListener("shown.bs.collapse", () => {
+    fetchMatch();
+  });
 });
 
 /**
@@ -85,8 +97,10 @@ onMounted(() => {
  */
 const { getMatchData, getTournamentMatch } = useMPG();
 
-const match = ref("");
-match.value = props.isTournament ? await getTournamentMatch(props.liveMatch.id) : await getMatchData(props.liveMatch.id);
+const match = ref(undefined);
+const fetchMatch = async () => {
+  match.value = props.isTournament ? await getTournamentMatch(props.liveMatch.id) : await getMatchData(props.liveMatch.id);
+};
 
 /**
  * Gestion de la modale des détails du match
