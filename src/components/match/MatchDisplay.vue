@@ -24,7 +24,7 @@
             Résultat calculé :
           </h3>
           <h6 class="subtitle">
-            Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application du bonus.
+            Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
           </h6>
           <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
             <score-display :match="liveMatch" :score="match.getFinalScore()" is-clickable />
