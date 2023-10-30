@@ -10,7 +10,7 @@ import { computed } from "vue";
 const mail = "incoming+muybien-mpg-calculator-15624779-issue-@incoming.gitlab.com";
 const body = "Un problème ? Une idée ? Une amélioration ? Un remerciement ? Détaillez tout ça, on vous répondra.";
 const href = computed(() => {
-  return `mailto: ${mail} + "?body" + ${encodeURIComponent(body)}`;
+  return `mailto:${mail}?body=${encodeURIComponent(body)}`;
 });
 </script>
 
