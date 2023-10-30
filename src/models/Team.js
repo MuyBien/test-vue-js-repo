@@ -36,17 +36,11 @@ export class Team {
   }
 
   setBonus = (allBonuses) => {
-    const bonusMap = {};
     for (const bonusName in BONUSES) {
-      bonusMap[bonusName] = bonusName;
-    }
-
-    for (const bonusName in bonusMap) {
       if (allBonuses[bonusName]) {
-        return bonusMap[bonusName];
+        return BONUSES[bonusName];
       }
     }
-
     return BONUSES["none"];
   };
 

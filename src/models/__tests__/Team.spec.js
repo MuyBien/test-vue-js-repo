@@ -27,6 +27,14 @@ describe("Le modèle d'une équipe", () => {
       expect(team.substitutions[0].rating).toBe(6.5);
     });
 
+    it("Avec les bonus", () => {
+      team = new Team({
+        ...matchMock.home,
+        bonuses: { nerfGoalkeeper: {} },
+      });
+      expect(team.bonus.name).toBe("Suarez");
+    });
+
   });
 
   it("Donne l'attribut isCaptain au joueur capitaine", () => {
