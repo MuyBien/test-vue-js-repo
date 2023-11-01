@@ -75,7 +75,15 @@ describe("Le modèle de match de tournoi", () => {
       });
 
       it("Sans prendre en compte les bonus défensifs", () => {
-        match.homeTeam.starters.map(player => player.isBacker() ? player.bonusRating = 1 : player.bonusRating = 0);
+        match.homeTeam.starters.map(player => {
+          player.isBacker() ? player.bonusRating = 1 : player.bonusRating = 0;
+          player.isCaptain = false;
+          return player;
+        });
+        match.awayTeam.starters.map(player => {
+          player.isCaptain = false;
+          return player;
+        });
         match.awayTeam.starters[10].rating = 5.5;
         match.homeTeam.calculateFinalPlayers();
         match.awayTeam.calculateFinalPlayers();
@@ -113,7 +121,7 @@ describe("Le modèle de match de tournoi", () => {
         match.homeTeam.calculateFinalPlayers();
 
         expect(match.getQualified()).toBe(match.homeTeam);
-      })
+      });
 
       it("Du milieu", () => {
         match.awayTeam.starters[2].rating = 4.5; // Défenseur
@@ -122,7 +130,7 @@ describe("Le modèle de match de tournoi", () => {
         match.homeTeam.calculateFinalPlayers();
 
         expect(match.getQualified()).toBe(match.homeTeam);
-      })
+      });
 
       it("De la défense", () => {
         match.awayTeam.starters[1].rating = 3.5; // Défenseur
@@ -131,13 +139,13 @@ describe("Le modèle de match de tournoi", () => {
         match.homeTeam.calculateFinalPlayers();
 
         expect(match.getQualified()).toBe(match.homeTeam);
-      })
+      });
 
       // Pas trouvé comment tout le reste peut être égal sauf la note des gardiens...
 
       it("En renvoyant undefined si tout est égal", () => {
         expect(match.getQualified()).toBeUndefined();
-      })
+      });
 
     });
 

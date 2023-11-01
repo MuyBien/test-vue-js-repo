@@ -418,8 +418,8 @@ describe("Le modèle d'une équipe", () => {
       expect(team.getAverages()[0]).toBe(7);
     });
 
-    it("De l'équipe (pour un tournoi) sans prendre ne compte les bonus défensifs", () => {
-      expect(team.getTeamAverage()).toBeCloseTo(4.77, 0);
+    it("De l'équipe", () => {
+      expect(team.getTeamAverage()).toBeCloseTo(5.32, 0);
     });
   });
 

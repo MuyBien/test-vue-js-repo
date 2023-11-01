@@ -19,7 +19,7 @@ export class Team {
   bonus;
 
   constructor (team, blockTacticalSubs = false) {
-    this.name = team.name || team.abbreviation;
+    this.name = team.name;
     this.score = team.score;
     this.isLiveSubstitutesEnabled = team.isLiveSubstitutesEnabled;
     this.bonus = this.setBonus(team.bonuses);
@@ -193,12 +193,11 @@ export class Team {
   };
 
   /**
-   * Renvoi la moyenne de l'équipe (sans bonus défensif)
+   * Renvoi la moyenne de l'équipe
    * @returns { Number } la moyenne de l'équipe
    */
-  getTeamAverage = () => { // TODO basculer dans un TournamentTeam
+  getTeamAverage = () => {
     const teamAverage = this.finalPlayers.reduce((total, player) => {
-      player.bonusRating = player.isCaptain ? 0.5 : 0;
       return total + player.getTotalScore();
     }, 0) / this.finalPlayers.length;
     return roundFloat(teamAverage, 2);
