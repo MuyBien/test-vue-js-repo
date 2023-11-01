@@ -1,6 +1,7 @@
 import { Player } from "./Player";
 import { BONUSES } from "@/constants/bonus";
 import { Rotaldo } from "./Rotaldo";
+import { roundFloat } from "@/utils/math";
 
 const POSITION_GOALKEEPER = 1;
 const POSITION_BACKER = 2;
@@ -181,7 +182,7 @@ export class Team {
     const calculatePositionAverage = position => {
       const players = finalPlayers.filter(player => player.position === position);
       const average = players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
-      return Math.round((average + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
+      return roundFloat(average, 2);
     };
 
     const forwardAverage = calculatePositionAverage(POSITION_FORWARD);
@@ -200,6 +201,6 @@ export class Team {
       player.bonusRating = player.isCaptain ? 0.5 : 0;
       return total + player.getTotalScore();
     }, 0) / this.finalPlayers.length;
-    return Math.round((teamAverage + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
+    return roundFloat(teamAverage, 2);
   };
 }
