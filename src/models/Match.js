@@ -50,6 +50,7 @@ export class Match {
         continue;
       }
       team.applyRotaldoSubstitution(index);
+      this.resetMpgGoals();
       const score = this.getFinalScore();
       scores.push(score);
       team.calculateFinalPlayers(isTacticalSubsBlocked);
@@ -153,6 +154,12 @@ export class Match {
   removeGoal = (team) => {
     const firstScorerIndex = team.getFinalPlayers().findIndex(player => player.goals >= 1 || player.mpgGoals >= 1);
     team.finalPlayers[firstScorerIndex].cancelGoal();
+  };
+
+  resetMpgGoals = () => {
+    this.homeTeam.finalPlayers.map(player => player.mpgGoals = 0);
+    this.awayTeam.finalPlayers.map(player => player.mpgGoals = 0);
+    this.setMpgGoals();
   };
 
   /**
