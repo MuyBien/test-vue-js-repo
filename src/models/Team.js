@@ -1,6 +1,7 @@
 import { Player } from "./Player";
 import { BONUSES } from "@/constants/bonus";
 import { Rotaldo } from "./Rotaldo";
+import { roundFloat } from "@/utils/math";
 
 const POSITION_GOALKEEPER = 1;
 const POSITION_BACKER = 2;
@@ -18,7 +19,7 @@ export class Team {
   bonus;
 
   constructor (team, blockTacticalSubs = false) {
-    this.name = team.name || team.abbreviation;
+    this.name = team.name;
     this.score = team.score;
     this.isLiveSubstitutesEnabled = team.isLiveSubstitutesEnabled;
     this.bonus = this.setBonus(team.bonuses);
@@ -101,13 +102,14 @@ export class Team {
             finalPlayers[index].bonusRating -= 1;
             finalPlayers[index].isSubstitute = true;
             substitutesCopy.splice(substituteIndex, 1);
-          }
-          substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 2 === player.position);
-          if (substituteIndex >= 0) {
-            finalPlayers[index] = substitutesCopy[substituteIndex];
-            finalPlayers[index].bonusRating -= 2;
-            finalPlayers[index].isSubstitute = true;
-            substitutesCopy.splice(substituteIndex, 1);
+          } else {
+            substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 2 === player.position);
+            if (substituteIndex >= 0) {
+              finalPlayers[index] = substitutesCopy[substituteIndex];
+              finalPlayers[index].bonusRating -= 2;
+              finalPlayers[index].isSubstitute = true;
+              substitutesCopy.splice(substituteIndex, 1);
+            }
           }
         }
       }
@@ -181,7 +183,7 @@ export class Team {
     const calculatePositionAverage = position => {
       const players = finalPlayers.filter(player => player.position === position);
       const average = players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
-      return Math.round((average + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
+      return roundFloat(average, 2);
     };
 
     const forwardAverage = calculatePositionAverage(POSITION_FORWARD);
@@ -192,14 +194,13 @@ export class Team {
   };
 
   /**
-   * Renvoi la moyenne de l'équipe (sans bonus défensif)
+   * Renvoi la moyenne de l'équipe
    * @returns { Number } la moyenne de l'équipe
    */
-  getTeamAverage = () => { // TODO basculer dans un TournamentTeam
+  getTeamAverage = () => {
     const teamAverage = this.finalPlayers.reduce((total, player) => {
-      player.bonusRating = player.isCaptain ? 0.5 : 0;
       return total + player.getTotalScore();
     }, 0) / this.finalPlayers.length;
-    return Math.round((teamAverage + Number.EPSILON) * 100) / 100; // arrondi à 2 chiffres après la virgule
+    return roundFloat(teamAverage, 2);
   };
 }

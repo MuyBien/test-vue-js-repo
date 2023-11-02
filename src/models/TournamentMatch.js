@@ -1,9 +1,15 @@
 import { Match } from "./Match";
+import { TournamentTeam } from "./TournamentTeam";
 
 export class TournamentMatch extends Match {
 
   constructor (matchData) {
     super(matchData);
+
+    this.homeTeam = new TournamentTeam(matchData.home, matchData.away.bonuses.blockTacticalSubs);
+    this.awayTeam = new TournamentTeam(matchData.away, matchData.home.bonuses.blockTacticalSubs);
+
+    this.setMpgGoals();
   }
 
   /**
@@ -46,7 +52,7 @@ export class TournamentMatch extends Match {
       const homeTeamLinesAverages = this.homeTeam.getAverages();
       const awayTeamLinesAverages = this.awayTeam.getAverages();
 
-      for (let line = 3; line >= 0; line--) {
+      for (let line = 3; line >= 0; line --) {
         const lineAverageDiff = homeTeamLinesAverages[line] - awayTeamLinesAverages[line];
         if (lineAverageDiff !== 0) {
           return lineAverageDiff > 0 ? this.homeTeam : this.awayTeam;
@@ -54,9 +60,8 @@ export class TournamentMatch extends Match {
       }
 
       return undefined; // Aucune équipe n'est qualifiée
-    } else {
-      return finalScore[0] - finalScore[1] > 0 ? this.homeTeam : this.awayTeam;
     }
+    return finalScore[0] - finalScore[1] > 0 ? this.homeTeam : this.awayTeam;
   };
 
 }

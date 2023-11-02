@@ -30,9 +30,10 @@ export class Player {
     this.firstName = playerData.firstName;
     this.position = playerData.position;
     this.precisePosition = PRECISE_POSITIONS[playerData.ultraPosition];
+    this.isCaptain = playerData.isCaptain;
     this.compositionStatus = playerData.compositionStatus;
     this.hasMatchPostponed = playerData.hasMatchPostponed;
-    this.bonusRating = playerData.bonusRating || 0;
+    this.bonusRating = isNaN(playerData.bonusRating) ? 0 : playerData.bonusRating;
     this.rating = playerData.rating || undefined;
     this.goals = playerData.goals || 0;
     this.mpgGoals = playerData.mpgGoals || 0;
@@ -70,5 +71,23 @@ export class Player {
    */
   cancelGoal = () => {
     this.canceledGoals += 1;
+  };
+
+  /**
+   * Permet de récupérer un nouveau joueur sans bonus défensif
+   * @returns un nouveau joueur sans le bonus défensif (utile pour les tournois)
+   */
+  getWhithoutDefBonus = () => {
+    if (this.isBacker()) {
+      let bonusRating = this.bonusRating;
+      if (this.bonusRating >= 0) {
+        bonusRating = this.isCaptain ? 0.5 : 0;
+      }
+      return new Player({
+        ...this,
+        bonusRating,
+      });
+    }
+    return new Player(this);
   };
 }
