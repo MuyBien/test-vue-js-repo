@@ -14,8 +14,8 @@ export class TournamentTeam extends Team {
    */
   getTeamAverage = () => {
     const teamAverage = this.finalPlayers.reduce((total, player) => {
-      player.bonusRating = player.isCaptain ? 0.5 : 0;
-      return total + player.getTotalScore();
+      const noDefBonusPlayer = player.getWhithoutDefBonus();
+      return total + noDefBonusPlayer.getTotalScore();
     }, 0) / this.finalPlayers.length;
     return roundFloat(teamAverage, 2);
   };

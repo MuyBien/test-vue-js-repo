@@ -65,6 +65,49 @@ describe("Le modèle de joueur", () => {
     expect(player.getTotalScore()).toBe(6);
   });
 
+  describe("Permet de récupérer un nouvau joueur sans bonus défensif", () => {
+
+    it("Sans modifier le joueur actuel", () => {
+      player = new Player({
+        ...playerMock,
+        position: 2,
+        rating: 5,
+        bonusRating: 1,
+      });
+      expect(player.getWhithoutDefBonus().getTotalScore()).toBe(5);
+      expect(player.getTotalScore()).toBe(6);
+    });
+
+    it("Avec bonus de capitaine", () => {
+      player = new Player({
+        ...playerMock,
+        isCaptain: true,
+        position: 2,
+        rating: 5,
+        bonusRating: 1,
+      });
+      expect(player.getWhithoutDefBonus().getTotalScore()).toBe(5.5);
+    });
+
+    it("Avec malus de remplacement", () => {
+      player = new Player({
+        ...playerMock,
+        position: 2,
+        rating: 5,
+        bonusRating: - 1,
+      });
+      expect(player.getWhithoutDefBonus().getTotalScore()).toBe(4);
+      player = new Player({
+        ...playerMock,
+        position: 3,
+        rating: 5,
+        bonusRating: - 2,
+      });
+      expect(player.getWhithoutDefBonus().getTotalScore()).toBe(3);
+    });
+
+  });
+
   it("Permet d'annuler un but via la valise", () => {
     player = new Player({
       ...playerMock,

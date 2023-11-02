@@ -29,6 +29,13 @@ describe("Le modèle d'une équipe de tournoi", () => {
     });
 
     it("De l'équipe sans compter le bonus défensif", () => {
+      team.starters.map(player => {
+        player.isBacker() ? player.bonusRating = 1 : player.bonusRating = 0;
+        player.isCaptain = false;
+        return player;
+      });
+      team.starters[2].isCaptain = true;
+      team.calculateFinalPlayers();
       expect(team.getTeamAverage()).toBe(5.23);
     });
   });
