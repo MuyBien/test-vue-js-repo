@@ -8,7 +8,7 @@
             Connexion à MPG
           </h5>
           <div class="card-text">
-            <p class="alert alert-warning" role="alert">
+            <p class="alert alert-info" role="alert">
               Ce site n'est pas affilié à MPG. Nous ne conservons pas vos login et mot de passe.
               Pour vous en assurez, le code source de cette application est disponible sur
               <a href="https://gitlab.com/MuyBien/mpg-calculator" class="alert-link">GitLab</a>.
@@ -21,6 +21,7 @@
                   type="email"
                   class="form-control"
                   placeholder="name@example.com"
+                  @keyup.enter="signIn(login, password)"
                 >
                 <label for="mpg-login" class="form-label">Adresse e-mail</label>
               </div>
@@ -31,16 +32,23 @@
                   type="password"
                   class="form-control"
                   autocomplete="mpg-password"
-                  placeholder="name@example.com"
+                  placeholder="***"
+                  @keyup.enter="signIn(login, password)"
                 >
                 <label for="mpg-pwd" class="form-label">Mot de passe</label>
               </div>
             </form>
+
+            <transition name="slide-fade">
+              <div v-if="loginError" class="alert alert-warning" role="alert">
+                {{ loginError }}
+              </div>
+            </transition>
           </div>
         </div>
         <div class="card-footer">
           <footer>
-            <button class="btn btn-success" @click="signIn(login, password)">
+            <button class="btn btn-success" :disabled="!isFormCompleted" @click="signIn(login, password)">
               Connexion
             </button>
           </footer>
@@ -52,15 +60,18 @@
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 /**
  * Login
  */
 const login = ref("");
 const password = ref("");
-const { signIn } = useMPG();
+const { signIn, loginError } = useMPG();
 
+const isFormCompleted = computed(() => {
+  return login.value && password.value;
+});
 </script>
 
 <style lang="scss">
@@ -80,6 +91,7 @@ const { signIn } = useMPG();
   }
   .card-body {
     position: relative;
+    padding-bottom: 60px;
   }
   .card-footer {
     position: absolute;
@@ -90,5 +102,20 @@ const { signIn } = useMPG();
     justify-content: end;
     width: 100%;
   }
+}
+
+/**
+  Transition
+*/
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
 }
 </style>
