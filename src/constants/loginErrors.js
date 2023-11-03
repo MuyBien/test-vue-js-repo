@@ -1,0 +1,1 @@
+export const loginErrors = { invalidPassword: "Données de connexion invalides" };

@@ -36,6 +36,12 @@
                 <label for="mpg-pwd" class="form-label">Mot de passe</label>
               </div>
             </form>
+
+            <transition name="slide-fade">
+              <div v-if="loginError" class="alert alert-warning" role="alert">
+                {{ loginError }}
+              </div>
+            </transition>
           </div>
         </div>
         <div class="card-footer">
@@ -59,7 +65,7 @@ import { ref } from "vue";
  */
 const login = ref("");
 const password = ref("");
-const { signIn } = useMPG();
+const { signIn, loginError } = useMPG();
 
 </script>
 
