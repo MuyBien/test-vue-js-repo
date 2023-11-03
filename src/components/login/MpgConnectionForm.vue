@@ -46,7 +46,7 @@
         </div>
         <div class="card-footer">
           <footer>
-            <button class="btn btn-success" @click="signIn(login, password)">
+            <button class="btn btn-success" :disabled="!isFormCompleted" @click="signIn(login, password)">
               Connexion
             </button>
           </footer>
@@ -58,7 +58,7 @@
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 /**
  * Login
@@ -67,6 +67,9 @@ const login = ref("");
 const password = ref("");
 const { signIn, loginError } = useMPG();
 
+const isFormCompleted = computed(() => {
+  return login.value && password.value;
+});
 </script>
 
 <style lang="scss">
@@ -86,6 +89,7 @@ const { signIn, loginError } = useMPG();
   }
   .card-body {
     position: relative;
+    padding-bottom: 60px;
   }
   .card-footer {
     position: absolute;
@@ -96,5 +100,20 @@ const { signIn, loginError } = useMPG();
     justify-content: end;
     width: 100%;
   }
+}
+
+/**
+  Transition
+*/
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
 }
 </style>
