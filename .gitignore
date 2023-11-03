@@ -24,3 +24,7 @@ yarn-error.log*
 .nyc_output/
 coverage/
 junit.xml
+reports/
+
+# stryker temp files
+.stryker-tmp

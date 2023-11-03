@@ -14,3 +14,19 @@ test:unit:
       when: never
     - when: on_success
   timeout: 5m
+
+test:mutation:
+  stage: test
+  needs: ['build:app']
+  script:
+    - npm run test:mutation
+  artifacts:
+    name: "mutation-report"
+    when: always
+    paths:
+      - /reports/mutation/mutation.html
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: on_success
+  timeout: 15m
