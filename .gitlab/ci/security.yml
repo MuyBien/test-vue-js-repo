@@ -20,7 +20,6 @@ code:scan:
       when: never
     - when: on_success
 
-
 dependencies:scan:
   stage: security
   needs: ['build:app']
