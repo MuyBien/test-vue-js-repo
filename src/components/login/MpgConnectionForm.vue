@@ -21,6 +21,7 @@
                   type="email"
                   class="form-control"
                   placeholder="name@example.com"
+                  @keyup.enter="signIn(login, password)"
                 >
                 <label for="mpg-login" class="form-label">Adresse e-mail</label>
               </div>
@@ -31,7 +32,8 @@
                   type="password"
                   class="form-control"
                   autocomplete="mpg-password"
-                  placeholder="name@example.com"
+                  placeholder="***"
+                  @keyup.enter="signIn(login, password)"
                 >
                 <label for="mpg-pwd" class="form-label">Mot de passe</label>
               </div>
