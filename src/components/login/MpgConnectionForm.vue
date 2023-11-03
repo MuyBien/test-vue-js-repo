@@ -8,7 +8,7 @@
             Connexion à MPG
           </h5>
           <div class="card-text">
-            <p class="alert alert-warning" role="alert">
+            <p class="alert alert-info" role="alert">
               Ce site n'est pas affilié à MPG. Nous ne conservons pas vos login et mot de passe.
               Pour vous en assurez, le code source de cette application est disponible sur
               <a href="https://gitlab.com/MuyBien/mpg-calculator" class="alert-link">GitLab</a>.
