@@ -31,7 +31,9 @@ export class Team {
     this.substitutions = team.tacticalSubs;
 
     const captainIndex = this.starters.findIndex(player => player.playerId === team.captain);
-    this.starters[captainIndex].isCaptain = true;
+    if (captainIndex > 0) {
+      this.starters[captainIndex].isCaptain = true;
+    }
 
     this.calculateFinalPlayers(blockTacticalSubs);
   }
