@@ -54,14 +54,10 @@ export class Team {
     const startersCopy = [...this.starters];
     const substitutesCopy = [...this.substitutes];
 
-    if (! this.isLiveSubstitutesEnabled) {
-      const playersAfterRT = this.applyTacticalSubstitutions(startersCopy, substitutesCopy, blockTacticalSubs ? [] : this.substitutions);
-      const playersAfterSub = this.applyClassicSubstitutions(playersAfterRT, substitutesCopy);
-      const finalPlayers = this.applyRotaldoSubstitutions(playersAfterSub);
-      this.finalPlayers = finalPlayers;
-    } else {
-      this.finalPlayers = startersCopy;
-    }
+    const playersAfterRT = this.applyTacticalSubstitutions(startersCopy, substitutesCopy, blockTacticalSubs ? [] : this.substitutions);
+    const playersAfterSub = this.applyClassicSubstitutions(playersAfterRT, substitutesCopy);
+    const finalPlayers = this.applyRotaldoSubstitutions(playersAfterSub);
+    this.finalPlayers = finalPlayers;
   }
 
   /**

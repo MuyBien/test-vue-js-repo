@@ -168,21 +168,6 @@ describe("Le modèle d'une équipe", () => {
         team.calculateFinalPlayers();
         expect(team.getFinalPlayers()[10].isSubstitute).toBeTruthy();
       });
-
-      it("Sauf si l'équipe utilise les remplacements live", () => {
-        team = new Team({
-          ...matchMock.home,
-          isLiveSubstitutesEnabled: true,
-          tacticalSubs: [],
-        });
-
-        team.starters[10].lastName = "Emegha";
-        delete team.starters[10].rating;
-
-        team.calculateFinalPlayers();
-        expect(team.getFinalPlayers()[10].lastName).toBe("Emegha");
-        expect(team.getFinalPlayers()[10].rating).toBeUndefined();
-      });
     });
 
     describe("En remplaçant les joueurs qui n'ont pas joué", () => {
