@@ -5,6 +5,11 @@ export class Match {
   awayTeam;
   score;
 
-  constructor () {}
+  constructor (match = {}) {
+    this.id = match.id;
+    this.homeTeam = match.homeTeam;
+    this.awayTeam = match.awayTeam;
+    this.score = match.score;
+  }
 
 }

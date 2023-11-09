@@ -1,10 +1,8 @@
 import { computed, ref, watch, onBeforeMount } from "vue";
 import { Match } from "@/models/Match";
 import { TournamentMatch } from "@/models/TournamentMatch";
-import { loginErrors } from "@/constants/loginErrors";
 
 const token = ref("");
-const loginError = ref();
 const user = ref({});
 const loginEnded = ref(false);
 const liveData = ref({});
@@ -21,7 +19,6 @@ export function useMPG () {
     return Boolean(token.value);
   });
   const signIn = async (login, password) => {
-    loginError.value = undefined;
     const response = await fetch("https://api.mpg.football/user/sign-in", {
       method: "POST",
       headers: {
@@ -34,8 +31,6 @@ export function useMPG () {
     if (json.token) {
       token.value = json.token;
       localStorage.setItem("mpg-token", json.token);
-    } else {
-      loginError.value = loginErrors[json.message];
     }
   };
   const resetToken = () => {
@@ -73,6 +68,21 @@ export function useMPG () {
   });
 
   /**
+   * Infos des équipes (bonus restant, etc)
+   */
+  // const getTeamInfos = async (teamId) => {
+  //   const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
+  //     method: "GET",
+  //     headers: {
+  //       accept: "application/json, text/plain, */*",
+  //       authorization: token.value,
+  //     },
+  //   });
+  //   const team = await response.json();
+  //   return team;
+  // };
+
+  /**
    * Matches Live
    */
   watch(token, () => {
@@ -82,16 +92,19 @@ export function useMPG () {
   });
 
   const getLiveData = async () => {
-    const response = await fetch("https://api.mpg.football/live", {
-      method: "GET",
-      headers: {
-        accept: "application/json, text/plain, */*",
-        authorization: token.value,
-      },
-      body: null,
-    });
-    const data = await response.json();
-    liveData.value = data;
+    // const response = await fetch("https://api.mpg.football/live", {
+    //   method: "GET",
+    //   headers: {
+    //     accept: "application/json, text/plain, */*",
+    //     authorization: token.value,
+    //   },
+    //   body: null,
+    // });
+    // const data = await response.json();
+    // liveData.value = data;
+
+    const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
+    liveData.value = await mockedResponse.json();
   };
 
   const liveLeagues = computed(() => {
@@ -115,6 +128,10 @@ export function useMPG () {
     });
     const data = await response.json();
     return new Match(data);
+
+    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/match/response.json");
+    // const data = await mockedResponse.json();
+    // return new Match(data);
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -132,7 +149,6 @@ export function useMPG () {
 
   return {
     signIn,
-    loginError,
     user,
     isConnected,
     loginEnded,

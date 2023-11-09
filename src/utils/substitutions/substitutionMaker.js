@@ -1,5 +1,18 @@
-import { Rotaldo } from "@/models/Rotaldo";
-import { Team } from "@models/teams/Team";
+import { Match } from "@/models_refactored/Match";
+import { Team } from "@/models_refactored/teams/Team";
+import { Rotaldo } from "@/models_refactored/players/Rotaldo";
+
+const POSITION_GOALKEEPER = 1;
+
+const doMatchSubstitutions = (match) => {
+  const homeTeam = doSubstitutions(match.homeTeam);
+  const awayTeam = doSubstitutions(match.awayTeam);
+  return new Match({
+    ...match,
+    homeTeam,
+    awayTeam,
+  });
+};
 
 /**
  *
@@ -7,16 +20,16 @@ import { Team } from "@models/teams/Team";
  * @returns { Team } Une nouvelle équipe avec les changements effectués
  */
 const doSubstitutions = (team) => {
-  const startersCopy = [...team.starters];
-  const substitutesCopy = [...team.substitutes];
+  const pitchPlayersCopy = [...team.pitchPlayers];
+  const benchPlayersCopy = [...team.benchPlayers];
 
-  const playersAfterRT = applyTacticalSubstitutions(startersCopy, substitutesCopy, team.substitutions);
-  const playersAfterSub = applyClassicSubstitutions(playersAfterRT, substitutesCopy);
+  const playersAfterRT = applyTacticalSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
+  const playersAfterSub = applyClassicSubstitutions(playersAfterRT, benchPlayersCopy);
   const finalPlayers = applyRotaldoSubstitutions(playersAfterSub);
 
   return new Team({
     ...team,
-    pitchPlayers: finalPlayers,
+    pitchPlayers: finalPlayers, //TODO changer les remplaçants et les remplacements (marquer en done)
   });
 };
 
@@ -79,7 +92,7 @@ const applyClassicSubstitutions = (finalPlayers, substitutesCopy) => {
  * Effectue les rentrées de Rotaldo
  */
 const applyRotaldoSubstitutions = (finalPlayers) => {
-  let rotaldoAmount = this.finalPlayers.filter(player => player.lastName === "Rotaldo").length;
+  let rotaldoAmount = finalPlayers.filter(player => player.lastName === "Rotaldo").length;
   return finalPlayers.map(player => {
     if (! player.rating) {
       rotaldoAmount ++;
@@ -93,4 +106,4 @@ const applyRotaldoSubstitutions = (finalPlayers) => {
   });
 };
 
-export { doSubstitutions };
+export { doMatchSubstitutions };
