@@ -144,7 +144,9 @@ export function useMPG () {
       body: null,
     });
     const data = await response.json();
-    return new TournamentMatch(data);
+    const tournamentMatch = matchConstructor(data);
+    tournamentMatch.isTournament = true;
+    return tournamentMatch;
   };
 
   return {

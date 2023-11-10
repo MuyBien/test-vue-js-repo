@@ -13,19 +13,7 @@ const POSITION_FORWARD = 4;
 const setMpgGoals = (match) => {
   const newMatch = new Match(match);
   setTeamMpgGoals(newMatch.homeTeam, newMatch.awayTeam, true);
-  setTeamMpgGoals(newMatch.awayTeam, newMatch.homeTeam, false);
-  return newMatch;
-};
-
-/**
- * Donne les buts MPG dans les 2 équipes du match d'un tournoi
- * @param {Match}
- * @returns {Match} Un match avec les buts MPG
- */
-const setTournamentMpgGoals = (match) => {
-  const newMatch = new Match(match);
-  setTeamMpgGoals(newMatch.homeTeam, newMatch.awayTeam, true);
-  setTeamMpgGoals(newMatch.awayTeam, newMatch.homeTeam, true);
+  setTeamMpgGoals(newMatch.awayTeam, newMatch.homeTeam, match.isTournament);
   return newMatch;
 };
 
@@ -110,4 +98,4 @@ const getDribbleMalus = (lineIndex) => {
   return lineIndex === 0 ? DRIBBLE_MALUS_BASE : (lineIndex + 1) * DRIBBLE_MALUS_INCREMENT;
 };
 
-export { setMpgGoals, setTournamentMpgGoals };
+export { setMpgGoals };
