@@ -1,4 +1,4 @@
-import { Match } from "@/models_refactored/Match";
+import { Match } from "@/models_refactored/match/Match";
 import { Team } from "@/models_refactored/teams/Team";
 import { Rotaldo } from "@/models_refactored/players/Rotaldo";
 

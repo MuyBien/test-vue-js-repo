@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
-import { setGoalkeeperSaves } from "../mpgGoalSaveManager";
+import { setGoalkeeperSaves } from "../mpgSaveEventManager";
 
 import matchMock from "@/assets/mocks/match/response.js";
-import { Match } from "@/models_refactored/Match";
+import { Match } from "@/models_refactored/match/Match";
 
-describe("Le MpgGoalSaveCalculator", () => {
+describe("Le MpgSaveEventManager", () => {
 
   let match;
   beforeEach(() => {

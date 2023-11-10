@@ -1,4 +1,4 @@
-import { Match } from "@/models_refactored/Match";
+import { Match } from "@/models_refactored/match/Match";
 import { roundFloat } from "@/utils/math";
 
 const POSITION_BACKER = 2;
@@ -6,7 +6,7 @@ const POSITION_MIDDLE = 3;
 const POSITION_FORWARD = 4;
 
 /**
- * Donne les buts MPG marquant des buts MPG dans les 2 équipes du match
+ * Donne les buts MPG dans les 2 équipes du match d'une ligue
  * @param {Match}
  * @returns {Match} Un match avec les buts MPG
  */
@@ -14,6 +14,18 @@ const setMpgGoals = (match) => {
   const newMatch = new Match(match);
   setTeamMpgGoals(newMatch.homeTeam, newMatch.awayTeam, true);
   setTeamMpgGoals(newMatch.awayTeam, newMatch.homeTeam, false);
+  return newMatch;
+};
+
+/**
+ * Donne les buts MPG dans les 2 équipes du match d'un tournoi
+ * @param {Match}
+ * @returns {Match} Un match avec les buts MPG
+ */
+const setTournamentMpgGoals = (match) => {
+  const newMatch = new Match(match);
+  setTeamMpgGoals(newMatch.homeTeam, newMatch.awayTeam, true);
+  setTeamMpgGoals(newMatch.awayTeam, newMatch.homeTeam, true);
   return newMatch;
 };
 
@@ -98,4 +110,4 @@ const getDribbleMalus = (lineIndex) => {
   return lineIndex === 0 ? DRIBBLE_MALUS_BASE : (lineIndex + 1) * DRIBBLE_MALUS_INCREMENT;
 };
 
-export { setMpgGoals };
+export { setMpgGoals, setTournamentMpgGoals };

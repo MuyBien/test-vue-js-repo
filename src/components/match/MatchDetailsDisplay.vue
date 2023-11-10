@@ -24,11 +24,11 @@
         <div class="modal-body row">
           <div class="col-12 col-lg-6">
             <bonus-display :bonus="match.homeTeam.bonus" class="mb-3" />
-            <team-display :players="match.homeTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.homeTeam" />
+            <team-display :players="match.homeTeam.pitchPlayers" />
           </div>
           <div class="col-12 col-lg-6">
             <bonus-display :bonus="match.awayTeam.bonus" class="mb-3" />
-            <team-display :players="match.awayTeam.getFinalPlayers()" :goalkeeper-saves="match.goalkeeperSaves.awayTeam" />
+            <team-display :players="match.awayTeam.pitchPlayers" />
           </div>
         </div>
       </div>

@@ -5,9 +5,9 @@
       <span class="league__name">{{ league.name }}</span>
     </h2>
     <ul>
-      <li v-for="match in matchesToDisplay" :key="match.id">
+      <li v-for="matchData in matchesToDisplay" :key="matchData.id">
         <suspense>
-          <match-display :live-match="match" />
+          <match-display :live-data="matchData" />
         </suspense>
       </li>
     </ul>

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
-import { setMpgGoals } from "../mpgGoalManager";
+import { setMpgGoals } from "../mpgGoalEventManager";
 
 import matchMock from "@/assets/mocks/match/response.js";
 

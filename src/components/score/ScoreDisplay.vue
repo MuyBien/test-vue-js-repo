@@ -1,24 +1,26 @@
 <template>
   <section class="result">
     <p class="result__team">
-      <span class="result__team__name">{{ match.home.name || match.home.abbreviation }}</span>
-      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${match.home.jerseyUrl}`}" />
+      <span class="result__team__name">{{ homeTeam.name || homeTeam.abbreviation }}</span>
+      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${homeTeam.jerseyUrl}`}" />
     </p>
     <p class="result__score" :class="{ 'result__score--clickable': isClickable }">
-      {{ scoreToDisplay }}
+      {{ score.join(" - ") }}
     </p>
     <p class="result__team">
-      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${match.away.jerseyUrl}`}" />
-      <span class="result__team__name">{{ match.away.name || match.away.abbreviation }}</span>
+      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${awayTeam.jerseyUrl}`}" />
+      <span class="result__team__name">{{ awayTeam.name || awayTeam.abbreviation }}</span>
     </p>
   </section>
 </template>
 
 <script setup>
-import { computed } from "vue";
-
-const props = defineProps({
-  match: {
+defineProps({
+  homeTeam: {
+    type: Object,
+    required: true,
+  },
+  awayTeam: {
     type: Object,
     required: true,
   },
@@ -30,13 +32,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-});
-
-const scoreToDisplay = computed(() => {
-  if (props.score) {
-    return props.score.join(" - ");
-  }
-  return [props.match.home.score, props.match.away.score].join(" - ");
 });
 </script>
 

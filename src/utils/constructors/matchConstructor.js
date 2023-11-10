@@ -1,4 +1,4 @@
-import { Match } from "@/models_refactored/Match";
+import { Match } from "@/models_refactored/match/Match";
 import { teamConstructor } from "@/utils/constructors/teamConstructor";
 
 const matchConstructor = (matchData) => {

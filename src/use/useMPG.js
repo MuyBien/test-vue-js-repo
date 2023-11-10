@@ -1,6 +1,6 @@
 import { computed, ref, watch, onBeforeMount } from "vue";
-import { Match } from "@/models/Match";
 import { TournamentMatch } from "@/models/TournamentMatch";
+import { matchConstructor } from "@/utils/constructors/matchConstructor";
 
 const token = ref("");
 const user = ref({});
@@ -118,20 +118,20 @@ export function useMPG () {
   });
 
   const getMatchData = async (matchId) => {
-    const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
-      method: "GET",
-      headers: {
-        accept: "application/json, text/plain, */*",
-        authorization: token.value,
-      },
-      body: null,
-    });
-    const data = await response.json();
-    return new Match(data);
+    // const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
+    //   method: "GET",
+    //   headers: {
+    //     accept: "application/json, text/plain, */*",
+    //     authorization: token.value,
+    //   },
+    //   body: null,
+    // });
+    // const data = await response.json();
+    // return matchConstructor(data);
 
-    // const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/match/response.json");
-    // const data = await mockedResponse.json();
-    // return new Match(data);
+    const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/match/response.json");
+    const data = await mockedResponse.json();
+    return matchConstructor(data);
   };
 
   const getTournamentMatch = async (matchId) => {
