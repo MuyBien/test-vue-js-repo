@@ -1,5 +1,4 @@
 import { computed, ref, watch, onBeforeMount } from "vue";
-import { TournamentMatch } from "@/models/TournamentMatch";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
 
 const token = ref("");

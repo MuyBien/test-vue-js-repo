@@ -1,4 +1,4 @@
-import { Player } from "../../models/Player";
+import { Player } from "@/models_refactored/players/Player";
 
 export class Rotaldo extends Player {
 
