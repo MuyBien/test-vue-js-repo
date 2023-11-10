@@ -22,6 +22,7 @@ export class Player {
   mpgGoals;
   ownGoals;
   canceledGoals;
+  savedGoals;
 
   isCaptain = false;
   isSubstitute = false;
@@ -41,6 +42,7 @@ export class Player {
     this.mpgGoals = playerData.mpgGoals || 0;
     this.ownGoals = playerData.ownGoals || 0;
     this.canceledGoals = playerData.canceledGoals || 0;
+    this.savedGoals = playerData.savedGoals || 0;
 
     this.isCaptain = playerData.isCaptain;
     this.isSubstitute = playerData.isSubstitute || false;
