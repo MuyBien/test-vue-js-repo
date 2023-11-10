@@ -1,9 +1,5 @@
+import { calculatePositionsAverages } from "../averages/averageCalculator";
 import { Match } from "@/models_refactored/match/Match";
-import { roundFloat } from "@/utils/math";
-
-const POSITION_BACKER = 2;
-const POSITION_MIDDLE = 3;
-const POSITION_FORWARD = 4;
 
 /**
  * Donne les buts MPG dans les 2 équipes du match d'une ligue
@@ -23,7 +19,7 @@ const setMpgGoals = (match) => {
  * @param {Boolean} isHome Si le joueur joue à domicile ou non
  */
 const setTeamMpgGoals = (team, opponentTeam, isHome) => {
-  const opponentTeamAverages = getAverages(opponentTeam);
+  const opponentTeamAverages = calculatePositionsAverages(opponentTeam);
   const potentialScorers = getPotentialScorers(team);
 
   const scorers = potentialScorers
@@ -34,27 +30,6 @@ const setTeamMpgGoals = (team, opponentTeam, isHome) => {
     const scorerIndex = team.pitchPlayers.findIndex(player => player.playerId === scorerId);
     team.pitchPlayers[scorerIndex].mpgGoals = 1;
   });
-};
-
-/**
-   * Calcule les moyennes lignes par lignes de l'équipe
-   * @param {Team}
-   * @returns { Array } les moyennes ligne par ligne
-   */
-const getAverages = (team) => {
-  const finalPlayers = team.pitchPlayers;
-
-  const calculatePositionAverage = position => {
-    const players = finalPlayers.filter(player => player.position === position);
-    const average = players.reduce((total, player) => total + player.getTotalScore(), 0) / players.length;
-    return roundFloat(average, 2);
-  };
-
-  const forwardAverage = calculatePositionAverage(POSITION_FORWARD);
-  const middleAverage = calculatePositionAverage(POSITION_MIDDLE);
-  const backerAverage = calculatePositionAverage(POSITION_BACKER);
-
-  return [finalPlayers[0].getTotalScore(), backerAverage, middleAverage, forwardAverage];
 };
 
 /**

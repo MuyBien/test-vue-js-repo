@@ -43,11 +43,12 @@
 </template>
 
 <script setup>
-import { TournamentMatch } from "@/models/TournamentMatch";
+import { Match } from "@/models_refactored/match/Match";
+import { calculateTournamentTeamAverage, calculatePositionsAverages } from "@/utils/averages/averageCalculator";
 
 const props = defineProps({
   match: {
-    type: TournamentMatch,
+    type: Match,
     required: true,
   },
 });
@@ -55,17 +56,17 @@ const props = defineProps({
 /**
  * Global average comparaison
  */
-const homeTeamAverage = props.match.homeTeam.getTeamAverage();
-const awayTeamAverage = props.match.awayTeam.getTeamAverage();
-const needTeamAverageComparaison = props.match.getFinalScore()[0] === props.match.getFinalScore()[1];
+const needTeamAverageComparaison = props.match.score[0] === props.match.score[1];
+const homeTeamAverage = calculateTournamentTeamAverage(props.match.homeTeam, true);
+const awayTeamAverage = calculateTournamentTeamAverage(props.match.awayTeam, true);
 
 /**
  * Line to line average comparaison
  */
-const lines = ["de l'attaque", "du milieu", "de la défense", "du gardien"];
 const needLineAverageComparaison = homeTeamAverage === awayTeamAverage;
-const homeTeamLinesAverages = props.match.homeTeam.getAverages().reverse();
-const awayTeamLinesAverages = props.match.awayTeam.getAverages().reverse();
+const lines = ["de l'attaque", "du milieu", "de la défense", "du gardien"];
+const homeTeamLinesAverages = calculatePositionsAverages(props.match.homeTeam).reverse();
+const awayTeamLinesAverages = calculatePositionsAverages(props.match.awayTeam).reverse();
 const averageNeeded = (index) => {
   if (index) {
     return homeTeamLinesAverages[index - 1] === awayTeamLinesAverages[index - 1];
