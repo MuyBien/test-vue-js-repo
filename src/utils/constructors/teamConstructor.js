@@ -5,7 +5,7 @@ import { Substitution } from "@/models_refactored/substitutions/Substitution";
 const teamConstructor = (teamData) => {
   const team = new Team();
 
-  team.id = teamData.id;
+  team.id = teamData.teamId;
   team.name = teamData.name;
   team.jersey = teamData.jerseyUrl;
 

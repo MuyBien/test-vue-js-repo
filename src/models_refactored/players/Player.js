@@ -8,19 +8,21 @@ const PRECISE_POSITIONS = {
 };
 
 export class Player {
-
   playerId;
   lastName;
   firstName;
+
   position; // 1 gardien, 2 defenseur, 3 milieu, 4 attaquant
   precisePosition; // 10 G, 20 DC, 21 DL, 30 MD, 31 MO, 40 ATT
-  compositionStatus; // 1 ?
-  bonusRating;
-  hasMatchPostponed;
+
   rating;
+  bonusRating;
+
   goals;
+  mpgGoals;
   ownGoals;
   canceledGoals;
+
   isCaptain = false;
   isSubstitute = false;
 
@@ -28,17 +30,19 @@ export class Player {
     this.playerId = playerData.playerId;
     this.lastName = playerData.lastName;
     this.firstName = playerData.firstName;
+
     this.position = playerData.position;
     this.precisePosition = PRECISE_POSITIONS[playerData.ultraPosition];
-    this.isCaptain = playerData.isCaptain;
-    this.compositionStatus = playerData.compositionStatus;
-    this.hasMatchPostponed = playerData.hasMatchPostponed;
-    this.bonusRating = isNaN(playerData.bonusRating) ? 0 : playerData.bonusRating;
+
     this.rating = playerData.rating || undefined;
+    this.bonusRating = isNaN(playerData.bonusRating) ? 0 : playerData.bonusRating;
+
     this.goals = playerData.goals || 0;
     this.mpgGoals = playerData.mpgGoals || 0;
     this.ownGoals = playerData.ownGoals || 0;
     this.canceledGoals = playerData.canceledGoals || 0;
+
+    this.isCaptain = playerData.isCaptain;
     this.isSubstitute = playerData.isSubstitute || false;
   }
 
