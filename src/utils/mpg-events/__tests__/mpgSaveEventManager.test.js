@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
-import { setGoalkeeperSaves } from "../mpgSaveEventManager";
+import { setMpgSaves } from "../mpgSaveEventManager";
 
 import matchMock from "@/assets/mocks/match/response.js";
 import { Match } from "@/models/match/Match";
@@ -19,7 +19,7 @@ describe("Le MpgSaveEventManager", () => {
   });
 
   it("renvoi un nouveau match après les calculs", () => {
-    const newMatch = setGoalkeeperSaves(match);
+    const newMatch = setMpgSaves(match);
 
     expect(newMatch).toBeInstanceOf(Match);
     expect(newMatch.id).toEqual(match.id);
@@ -33,7 +33,7 @@ describe("Le MpgSaveEventManager", () => {
     match.homeTeam.pitchPlayers[10].goals = 1;
     match.awayTeam.pitchPlayers[10].goals = 1;
 
-    const newMatch = setGoalkeeperSaves(match);
+    const newMatch = setMpgSaves(match);
 
     expect(newMatch.homeTeam.pitchPlayers[10].goals).toBe(1);
     expect(newMatch.awayTeam.pitchPlayers[10].goals).toBe(1);
@@ -45,7 +45,7 @@ describe("Le MpgSaveEventManager", () => {
     match.awayTeam.pitchPlayers[10].goals = 1;
     match.homeTeam.pitchPlayers[10].goals = 1;
 
-    const newMatch = setGoalkeeperSaves(match);
+    const newMatch = setMpgSaves(match);
 
     expect(newMatch.awayTeam.pitchPlayers[10].goals).toBe(1);
     expect(newMatch.homeTeam.pitchPlayers[10].goals).toBe(1);
@@ -57,7 +57,7 @@ describe("Le MpgSaveEventManager", () => {
     match.awayTeam.pitchPlayers[0].goals = 0;
 
     const originalMatch = new Match(match);
-    const newMatch = setGoalkeeperSaves(originalMatch);
+    const newMatch = setMpgSaves(originalMatch);
 
     expect(newMatch.homeTeam.pitchPlayers[0].savedGoals).toBe(0);
     expect(newMatch.awayTeam.pitchPlayers[0].savedGoals).toBe(0);

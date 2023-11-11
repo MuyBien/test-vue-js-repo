@@ -5,7 +5,7 @@ import { Match } from "@/models/match/Match";
  * @param {Match} match
  * @returns {Match} - Un nouvel objet `Match` avec les buts annulés si un arrêt de but a été effectué par une des équipes.
 */
-const setGoalkeeperSaves = (match) => {
+const setMpgSaves = (match) => {
   const newMatch = new Match(match);
 
   if (isSavingGoal(newMatch.homeTeam)) {
@@ -27,4 +27,4 @@ const cancelPlayerGoal = (team) => {
   team.pitchPlayers.find(player => player.goals > 0).savedGoals += 1;
 };
 
-export { setGoalkeeperSaves };
+export { setMpgSaves };
