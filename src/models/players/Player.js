@@ -72,28 +72,4 @@ export class Player {
     return this.rating + this.bonusRating;
   };
 
-  /**
-   * Permet d'annuler un but via la valise
-   */
-  cancelGoal = () => {
-    this.canceledGoals += 1;
-  };
-
-  /**
-   * Permet de récupérer un nouveau joueur sans bonus défensif
-   * @returns un nouveau joueur sans le bonus défensif (utile pour les tournois)
-   */
-  getWhithoutDefBonus = () => {
-    if (this.isBacker()) {
-      let bonusRating = this.bonusRating;
-      if (this.bonusRating >= 0) {
-        bonusRating = this.isCaptain ? 0.5 : 0;
-      }
-      return new Player({
-        ...this,
-        bonusRating,
-      });
-    }
-    return new Player(this);
-  };
 }
