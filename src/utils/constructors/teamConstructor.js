@@ -4,6 +4,19 @@ import { Substitution } from "@/models/substitutions/Substitution";
 
 import { BONUSES } from "@/constants/bonus";
 
+/**
+ * Construit une équipe avec les données renvoyées par MPG
+ *
+ * @param {Object} teamData - Les données d'une équipe dans le retour de MPG
+ * @param {string} teamData.teamId - L'ID de l'équipe
+ * @param {string} teamData.name - Le nom de l'équipe
+ * @param {string} teamData.jerseyUrl - L'URL du maillot de l'équipe
+ * @param {Array} teamData.players - L'ensemble des joueurs de l'équipe
+ * @param {Map} teamData.playersOnPitch - La liste des IDs des joueurs sur le terrain
+ * @param {string} teamData.captain - L'ID du joueur capitaine
+ * @param {Bonus} teamData.bonuses - Le bonus de l'équipe
+ * @returns {Team} - L'équipe construite
+ */
 const teamConstructor = (teamData) => {
   const team = new Team();
 
