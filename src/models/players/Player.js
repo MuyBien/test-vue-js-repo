@@ -33,7 +33,7 @@ export class Player {
     this.firstName = playerData.firstName;
 
     this.position = playerData.position;
-    this.precisePosition = PRECISE_POSITIONS[playerData.ultraPosition];
+    this.precisePosition = playerData.precisePosition || PRECISE_POSITIONS[playerData.ultraPosition];
 
     this.rating = playerData.rating || undefined;
     this.bonusRating = isNaN(playerData.bonusRating) ? 0 : playerData.bonusRating;
@@ -72,4 +72,7 @@ export class Player {
     return this.rating + this.bonusRating;
   };
 
+  toString = () => {
+    return `${this.lastName} - note: ${this.rating} - bonus: ${this.bonusRating} - capitaine: ${this.isCaptain}`;
+  };
 }
