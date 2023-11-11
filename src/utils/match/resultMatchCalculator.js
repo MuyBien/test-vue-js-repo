@@ -28,11 +28,9 @@ const applyMatchBonuses = (match, timing) => {
 };
 
 const applyBonus = (team, opponentTeam, timing) => {
-  team.bonuses.forEach(bonus => {
-    if (bonus.timing === timing) {
-      bonus.apply(team, opponentTeam);
-    }
-  });
+  if (team.bonus.timing === timing) {
+    team.bonus.apply(team, opponentTeam);
+  }
 };
 
 export { calculateFinalMatch };
