@@ -22,13 +22,13 @@ const teamConstructor = (teamData) => {
   return team;
 };
 
-const setPlayers = (playersData, pitchData, positionLimit) => {
+const setPlayers = (playersData, pitchData, start, end) => {
   const playerMap = [];
 
   Object.keys(pitchData).forEach((position) => {
     const playerId = pitchData[position].playerId;
     const player = playersData[playerId];
-    if (position <= positionLimit) {
+    if (position >= start && position <= end) {
       playerMap.push(new Player(player));
     }
   });
@@ -37,11 +37,11 @@ const setPlayers = (playersData, pitchData, positionLimit) => {
 };
 
 const setPitchPlayers = (playersData, pitchData) => {
-  return setPlayers(playersData, pitchData, 11);
+  return setPlayers(playersData, pitchData, 0, 11);
 };
 
 const setBenchPlayers = (playersData, pitchData) => {
-  return setPlayers(playersData, pitchData, Infinity);
+  return setPlayers(playersData, pitchData, 12, Infinity);
 };
 
 const setSubstitutions = (teamData) => {
