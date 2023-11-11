@@ -27,7 +27,7 @@ export class Player {
   isCaptain = false;
   isSubstitute = false;
 
-  constructor (playerData) {
+  constructor (playerData = {}) {
     this.playerId = playerData.playerId;
     this.lastName = playerData.lastName;
     this.firstName = playerData.firstName;
