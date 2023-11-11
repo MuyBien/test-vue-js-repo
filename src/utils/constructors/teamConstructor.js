@@ -50,8 +50,7 @@ const setSubstitutions = (teamData) => {
 
 const setCaptain = (starters, captainId) => {
   if (captainId) {
-    const captainIndex = starters.findIndex(starter => starter.playerId === captainId);
-    captainIndex ? starters[captainIndex].isCaptain = true : undefined;
+    starters[captainId] ? starters[captainId].isCaptain = true : undefined;
   }
 };
 
