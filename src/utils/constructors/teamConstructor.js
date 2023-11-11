@@ -2,6 +2,8 @@ import { Team } from "@/models/teams/Team";
 import { Player } from "@/models/players/Player";
 import { Substitution } from "@/models/substitutions/Substitution";
 
+import { BONUSES } from "@/constants/bonus";
+
 const teamConstructor = (teamData) => {
   const team = new Team();
 
@@ -14,6 +16,8 @@ const teamConstructor = (teamData) => {
   team.substitutions = setSubstitutions(teamData);
 
   setCaptain(team.pitchPlayers, teamData.captain);
+
+  team.bonus = setBonus(teamData.bonuses);
 
   return team;
 };
@@ -46,8 +50,19 @@ const setSubstitutions = (teamData) => {
 
 const setCaptain = (starters, captainId) => {
   if (captainId) {
-    starters[captainId] ? starters[captainId].isCaptain = true : undefined;
+    const captainIndex = starters.findIndex(starter => starter.playerId === captainId);
+    captainIndex ? starters[captainIndex].isCaptain = true : undefined;
   }
+};
+
+const setBonus = (allBonuses) => {
+  for (const bonusKey in allBonuses) {
+    const BonusClass = BONUSES[bonusKey];
+    if (BonusClass) {
+      return new BonusClass();
+    }
+  }
+  return BONUSES["none"];
 };
 
 export { teamConstructor };
