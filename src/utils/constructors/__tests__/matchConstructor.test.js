@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 
 import { matchConstructor } from "../matchConstructor";
-import { Team } from "@/models_refactored/teams/Team.js";
+import { Team } from "@/models/teams/Team.js";
 
 import matchMock from "@/assets/mocks/match/response.js";
 

@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { Match } from "@/models_refactored/match/Match";
+import { Match } from "@/models/match/Match";
 import { calculateTournamentTeamAverage, calculatePositionsAverages } from "@/utils/averages/averageCalculator";
 
 const props = defineProps({

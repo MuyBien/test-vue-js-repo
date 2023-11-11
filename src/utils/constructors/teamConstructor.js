@@ -1,6 +1,6 @@
-import { Team } from "@/models_refactored/teams/Team";
-import { Player } from "@/models_refactored/players/Player";
-import { Substitution } from "@/models_refactored/substitutions/Substitution";
+import { Team } from "@/models/teams/Team";
+import { Player } from "@/models/players/Player";
+import { Substitution } from "@/models/substitutions/Substitution";
 
 const teamConstructor = (teamData) => {
   const team = new Team();

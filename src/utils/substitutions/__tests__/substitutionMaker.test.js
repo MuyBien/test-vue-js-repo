@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 
-import { Match } from "@/models_refactored/match/Match";
+import { Match } from "@/models/match/Match";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
 import { doMatchSubstitutions } from "../substitutionMaker";
 

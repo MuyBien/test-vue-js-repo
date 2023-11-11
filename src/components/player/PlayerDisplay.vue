@@ -43,7 +43,7 @@
 
 <script setup>
 import { computed } from "vue";
-import { Player } from "@/models_refactored/players/Player";
+import { Player } from "@/models/players/Player";
 import GoalIcon from "@/components/icons/GoalIcon.vue";
 import SubstitutionIcon from "@/components/icons/SubstitutionIcon.vue";
 

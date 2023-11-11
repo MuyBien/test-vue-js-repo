@@ -7,6 +7,8 @@ export class Team {
   benchPlayers = [];
   substitutions = [];
 
+  bonus;
+
   constructor (team = {}) {
     this.id = team.id;
     this.name = team.name;
@@ -15,5 +17,7 @@ export class Team {
     this.pitchPlayers = team.pitchPlayers;
     this.benchPlayers = team.benchPlayers;
     this.substitutions = team.substitutions;
+
+    this.bonus = team.bonus;
   }
 }

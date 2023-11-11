@@ -4,7 +4,7 @@ import { matchConstructor } from "@/utils/constructors/matchConstructor";
 import { setGoalkeeperSaves } from "../mpgSaveEventManager";
 
 import matchMock from "@/assets/mocks/match/response.js";
-import { Match } from "@/models_refactored/match/Match";
+import { Match } from "@/models/match/Match";
 
 describe("Le MpgSaveEventManager", () => {
 
