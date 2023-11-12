@@ -11,7 +11,7 @@ const calculateFinalMatch = (match) => {
 
   const finalMatch = doMatchSubstitutions(matchCopy);
 
-  applyMatchBonuses(matchCopy, "afterSubstitutions");
+  applyMatchBonuses(finalMatch, "afterSubstitutions");
 
   setMpgGoals(finalMatch);
   setMpgSaves(finalMatch);
