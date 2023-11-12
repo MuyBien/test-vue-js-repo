@@ -24,7 +24,10 @@ const isSavingGoal = (team) => {
 };
 
 const cancelPlayerGoal = (team) => {
-  team.pitchPlayers.find(player => player.goals > 0).savedGoals += 1;
+  const firstScorer = team.pitchPlayers.find(player => player.goals > 0);
+  if (firstScorer) {
+    firstScorer.savedGoals += 1;
+  }
 };
 
 export { setMpgSaves };

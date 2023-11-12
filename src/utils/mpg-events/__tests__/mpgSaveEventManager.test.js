@@ -52,7 +52,7 @@ describe("Le MpgSaveEventManager", () => {
     expect(newMatch.homeTeam.pitchPlayers[10].savedGoals).toBe(1);
   });
 
-  it("n'annule aucun but si il n'y a aucun but à annuler", () => {
+  it("n'annule aucun but si le gardien ne fait pas d'arrêt", () => {
     match.homeTeam.pitchPlayers[0].goals = 1;
     match.awayTeam.pitchPlayers[0].goals = 0;
 
@@ -61,6 +61,16 @@ describe("Le MpgSaveEventManager", () => {
 
     expect(newMatch.homeTeam.pitchPlayers[0].savedGoals).toBe(0);
     expect(newMatch.awayTeam.pitchPlayers[0].savedGoals).toBe(0);
+  });
+
+  it("n'annule aucun but si il n'y a aucun but à annuler", () => {
+    match.awayTeam.pitchPlayers[0].rating = 8;
+
+    const originalMatch = new Match(match);
+    const newMatch = setMpgSaves(originalMatch);
+
+    expect(newMatch.homeTeam.pitchPlayers.reduce((totalSaved, player) => totalSaved + player.savedGoals, 0)).toBe(0);
+    expect(newMatch.awayTeam.pitchPlayers.reduce((totalSaved, player) => totalSaved + player.savedGoals, 0)).toBe(0);
   });
 });
 
