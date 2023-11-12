@@ -9,6 +9,7 @@ export class BlockSubstitutionsBonus extends Bonus {
       icon: "/img/bonus-images/tonton-pat.png",
       description: "Aucun remplacement TACTIQUE adverse possible.",
       timing: "before",
+      isLiveApplied: false,
     });
   }
 
