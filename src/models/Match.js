@@ -200,10 +200,16 @@ export class Match {
     };
 
     if (this.homeTeam.canSaveGoal()) {
-      saves.awayTeam.push(this.awayTeam.getFinalPlayers().find(player => player.goals > 0).playerId);
+      const firstAwayScorer = this.awayTeam.getFinalPlayers().find(player => player.goals > 0);
+      if (firstAwayScorer) {
+        saves.awayTeam.push(firstAwayScorer.playerId);
+      }
     }
     if (this.awayTeam.canSaveGoal()) {
-      saves.homeTeam.push(this.homeTeam.getFinalPlayers().find(player => player.goals > 0).playerId);
+      const firstHomeScorer = this.homeTeam.getFinalPlayers().find(player => player.goals > 0);
+      if (firstHomeScorer) {
+        saves.homeTeam.push(firstHomeScorer.playerId);
+      }
     }
 
     return saves;
