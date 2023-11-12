@@ -44,7 +44,7 @@ export class Player {
     this.canceledGoals = playerData.canceledGoals || 0;
     this.savedGoals = playerData.savedGoals || 0;
 
-    this.isCaptain = playerData.isCaptain;
+    this.isCaptain = playerData.isCaptain || false;
     this.isSubstitute = playerData.isSubstitute || false;
   }
 
@@ -73,6 +73,6 @@ export class Player {
   };
 
   toString = () => {
-    return `${this.lastName} - note: ${this.rating} - bonus: ${this.bonusRating} - capitaine: ${this.isCaptain}`;
+    return `${this.playerId} - ${this.lastName} - note: ${this.rating} - bonus: ${this.bonusRating} - capitaine: ${this.isCaptain}`;
   };
 }

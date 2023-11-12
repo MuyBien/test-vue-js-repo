@@ -5,6 +5,7 @@ export class Bonus {
   icon;
   description;
   timing;
+  isLiveApplied;
 
   constructor (bonusData) {
     if (new.target === Bonus) {
@@ -15,6 +16,7 @@ export class Bonus {
     this.icon = bonusData.icon;
     this.description = bonusData.description;
     this.timing = bonusData.timing;
+    this.isLiveApplied = bonusData.isLiveApplied;
   }
 
   apply () {

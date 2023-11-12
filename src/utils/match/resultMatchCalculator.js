@@ -28,7 +28,7 @@ const applyMatchBonuses = (match, timing) => {
 };
 
 const applyBonus = (team, opponentTeam, timing) => {
-  if (team.bonus.timing === timing) {
+  if (team.bonus.timing === timing && ! team.bonus.isLiveApplied) {
     team.bonus.apply(team, opponentTeam);
   }
 };

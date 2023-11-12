@@ -69,12 +69,12 @@ const setCaptain = (starters, captainId) => {
 
 const setBonus = (allBonuses) => {
   for (const bonusKey in allBonuses) {
-    const BonusClass = BONUSES[bonusKey];
-    if (BonusClass) {
-      return new BonusClass();
+    const bonusClass = BONUSES[bonusKey];
+    if (bonusClass) {
+      return new bonusClass(allBonuses[bonusKey]);
     }
   }
-  return BONUSES["none"];
+  return new BONUSES["none"];
 };
 
 export { teamConstructor };

@@ -7,6 +7,7 @@ export class Rotaldo extends Player {
 
   constructor (playerData) {
     super(playerData);
+    this.playerId = undefined;
     this.lastName = this.ROTALDO_NAME;
     this.firstName = "";
     this.rating = this.ROTALDO_RATING;
