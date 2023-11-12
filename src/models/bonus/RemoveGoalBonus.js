@@ -9,13 +9,14 @@ export class RemoveGoalBonus extends Bonus {
       icon: "/img/bonus-images/valise-nanard.png",
       description: "Retire un but réel ou MPG à un joueur adverse.",
       timing: "after",
+      isLiveApplied: false,
     });
   }
 
   apply (team, opponentTeam) {
     const firstScorerIndex = opponentTeam.pitchPlayers.findIndex(player => player.goals >= 1 || player.mpgGoals >= 1);
-    if (firstScorerIndex) {
-      opponentTeam.pitchPlayers.finalPlayers[firstScorerIndex].canceledGoals = 1;
+    if (firstScorerIndex >= 0) {
+      opponentTeam.pitchPlayers[firstScorerIndex].canceledGoals = 1;
     }
   }
 }
