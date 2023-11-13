@@ -1,10 +1,10 @@
 <template>
-  <section class="result">
+  <section class="result" :class="{ 'result--clickable': isClickable }">
     <p class="result__team">
       <span class="result__team__name">{{ homeTeam.name || homeTeam.abbreviation }}</span>
       <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${homeTeam.jerseyUrl}`}" />
     </p>
-    <p class="result__score" :class="{ 'result__score--clickable': isClickable }">
+    <p class="result__score">
       {{ score.join(" - ") }}
     </p>
     <p class="result__team">
@@ -41,7 +41,17 @@ defineProps({
   width: 100%;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+
+  &--clickable {
+    cursor: pointer;
+
+    .result__score {
+      transition: transform .3s ease-out;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 
   &__team {
     display: flex;
@@ -76,13 +86,6 @@ defineProps({
     padding: 2px 5px;
     border-radius: 5px;
     font-weight: bold;
-
-    &--clickable {
-      transition: transform .3s ease-out;
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
   }
 }
 </style>

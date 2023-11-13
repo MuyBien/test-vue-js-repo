@@ -31,7 +31,7 @@
             <h6 class="subtitle">
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
             </h6>
-            <div v-if="! isResultProbabilities" class="score-display" @click="showMatchDetails = true">
+            <div class="score-display" @click="showMatchDetails = true">
               <score-display
                 :home-team="match.homeTeam"
                 :away-team="match.awayTeam"
@@ -40,10 +40,11 @@
               />
               <info-icon />
             </div>
-            <div v-else>
-              <score-probabilities-display :scores-probabilities="match.getScoreProbabilities()" />
+
+            <div v-if="isResultProbabilities && initialMatch" class="mt-3">
+              <scores-list-display :match="initialMatch" />
             </div>
-            <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
+            <!-- <display-tournament-result v-if="isTournament" :match="match" class="mt-3" /> -->
 
             <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
               Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
@@ -73,7 +74,7 @@
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { Collapse } from "bootstrap";
 
 import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
@@ -81,8 +82,8 @@ import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
 import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
-import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
-import ScoreProbabilitiesDisplay from "@/components/score/ScoreProbabilitiesDisplay.vue";
+// import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
+import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
 
 const props = defineProps({
@@ -112,10 +113,11 @@ onMounted(() => {
  */
 const { getMatchData, getTournamentMatch } = useMPG();
 
-const match = ref(undefined);
+const initialMatch = ref();
+const match = ref();
 const fetchMatch = async () => {
-  const liveMatch = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getMatchData(props.liveData.id);
-  match.value = calculateFinalMatch(liveMatch);
+  initialMatch.value = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getMatchData(props.liveData.id);
+  match.value = calculateFinalMatch(initialMatch.value);
 };
 // const isLiveSubMatch = computed(() => {
 //   return match.value ? match.value.homeTeam.isLiveSubstitutesEnabled || match.value.awayTeam.isLiveSubstitutesEnabled : true;
@@ -129,9 +131,9 @@ const showMatchDetails = ref(false);
 /**
  * Propriétés du score
  */
-// const isResultProbabilities = computed(() => {
-//   return match.value.homeTeam.bonus.value === "removeRandomPlayer" || match.value.awayTeam.bonus.value === "removeRandomPlayer";
-// });
+const isResultProbabilities = computed(() => {
+  return match.value.homeTeam.bonus.value === "removeRandomPlayer" || match.value.awayTeam.bonus.value === "removeRandomPlayer";
+});
 </script>
 
 <style lang="scss" scoped>
