@@ -3,7 +3,8 @@ import { Rotaldo } from "../players/Rotaldo";
 
 export class RemoveRandomPlayerBonus extends Bonus {
 
-  playerId;
+  team;
+  position;
 
   constructor (bonusData) {
     super({
@@ -14,26 +15,17 @@ export class RemoveRandomPlayerBonus extends Bonus {
       timing: "afterSubstitutions",
       isLiveApplied: false,
     });
-    this.playerId = bonusData.playerId;
+    this.team = bonusData.team;
+    this.position = bonusData.position;
   }
 
   apply (team, opponentTeam) {
-    const replacePlayer = (players) => {
-      const playerIndex = players.findIndex(p => p.playerId === this.playerId);
-      if (playerIndex !== - 1) {
-        const rotaldoAmount = players.filter(player => player.lastName === "Rotaldo").length;
-        players[playerIndex] = new Rotaldo({
-          ...players[playerIndex],
-          ownGoals: (rotaldoAmount + 1) % 3 ? 0 : 1,
-          isSubstitute: true,
-        });
-        return true; // Joueur trouvé et remplacé
-      }
-      return false; // Joueur non trouvé
-    };
-
-    if (! replacePlayer(team.pitchPlayers)) {
-      replacePlayer(opponentTeam.pitchPlayers);
-    }
+    const players = this.team === "team" ? team.pitchPlayers : opponentTeam.pitchPlayers;
+    const rotaldoAmount = players.filter(player => player.lastName === "Rotaldo").length;
+    players[this.position] = new Rotaldo({
+      ...players[this.position],
+      ownGoals: (rotaldoAmount + 1) % 3 ? 0 : 1,
+      isSubstitute: true,
+    });
   }
 }

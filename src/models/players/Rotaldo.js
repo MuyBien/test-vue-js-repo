@@ -12,6 +12,7 @@ export class Rotaldo extends Player {
     this.firstName = "";
     this.rating = this.ROTALDO_RATING;
     this.bonusRating = 0;
+    this.goals = 0;
     this.isCaptain = false;
   }
 

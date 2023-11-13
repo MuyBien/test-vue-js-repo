@@ -12,7 +12,10 @@ describe("Le bonus RemoveRandomPlayerBonus", () => {
     const team = createMockTeam(["player1", "player2", "player3"]);
     const opponentTeam = createMockTeam(["player4", "player5", "player6"]);
 
-    const bonus = new RemoveRandomPlayerBonus({ playerId: "player2" });
+    const bonus = new RemoveRandomPlayerBonus({
+      team: "team",
+      position: 1,
+    });
     bonus.apply(team, opponentTeam);
 
     expect(team.pitchPlayers.some(p => p instanceof Rotaldo)).toBe(true);
@@ -22,7 +25,10 @@ describe("Le bonus RemoveRandomPlayerBonus", () => {
     const team = createMockTeam(["player1", "player2", "player3"]);
     const opponentTeam = createMockTeam(["player4", "player5", "player6"]);
 
-    const bonus = new RemoveRandomPlayerBonus({ playerId: "player5" });
+    const bonus = new RemoveRandomPlayerBonus({
+      team: "opponentTeam",
+      position: 1,
+    });
     bonus.apply(team, opponentTeam);
 
     expect(opponentTeam.pitchPlayers.some(p => p instanceof Rotaldo)).toBe(true);
@@ -34,7 +40,10 @@ describe("Le bonus RemoveRandomPlayerBonus", () => {
     opponentTeam.pitchPlayers[0].lastName = "Rotaldo";
     opponentTeam.pitchPlayers[2].lastName = "Rotaldo";
 
-    const bonus = new RemoveRandomPlayerBonus({ playerId: "player5" });
+    const bonus = new RemoveRandomPlayerBonus({
+      team: "opponentTeam",
+      position: 1,
+    });
     bonus.apply(team, opponentTeam);
 
     expect(opponentTeam.pitchPlayers[1].ownGoals).toBe(1);
