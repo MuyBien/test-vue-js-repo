@@ -12,7 +12,7 @@ export class MirrorBonus extends Bonus {
     });
   }
 
-  apply (team, opponentTeam) {
+  apply () {
     //TODO
   }
 }
