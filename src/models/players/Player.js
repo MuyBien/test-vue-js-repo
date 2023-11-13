@@ -73,6 +73,6 @@ export class Player {
   };
 
   toString = () => {
-    return `${this.playerId} - ${this.lastName} - note: ${this.rating} - bonus: ${this.bonusRating} - capitaine: ${this.isCaptain}`;
+    return `${this.playerId} - ${this.lastName} - note: ${this.rating} - bonus: ${this.bonusRating} - Goals: ${this.goals} - capitaine: ${this.isCaptain}`;
   };
 }

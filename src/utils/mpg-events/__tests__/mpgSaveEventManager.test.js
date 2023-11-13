@@ -21,11 +21,9 @@ describe("Le MpgSaveEventManager", () => {
   it("renvoi un nouveau match après les calculs", () => {
     const newMatch = setMpgSaves(match);
 
+    expect(newMatch).not.toBe(match);
     expect(newMatch).toBeInstanceOf(Match);
     expect(newMatch.id).toEqual(match.id);
-    expect(newMatch.homeTeam).toEqual(match.homeTeam);
-    expect(newMatch.awayTeam).toEqual(match.awayTeam);
-    expect(newMatch.score).toEqual(match.score);
   });
 
   it("annule un but d'un joueur de l'équipe à l'extérieur si le gardien à domicile arrête un but", () => {

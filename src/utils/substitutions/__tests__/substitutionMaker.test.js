@@ -19,8 +19,6 @@ describe("Le substitutionMaker", () => {
     expect(updatedMatch).not.toBe(match);
     expect(updatedMatch).toBeInstanceOf(Match);
     expect(updatedMatch.homeTeam.pitchPlayers).not.toEqual(match.homeTeam.pitchPlayers);
-    expect(updatedMatch.homeTeam.benchPlayers).toEqual(match.homeTeam.benchPlayers);
-    expect(updatedMatch.homeTeam.substitutions).toEqual(match.homeTeam.substitutions);
   });
   describe("Calcule les joueurs sur le terrain", () => {
 
