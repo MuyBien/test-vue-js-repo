@@ -67,21 +67,6 @@ export function useMPG () {
   });
 
   /**
-   * Infos des équipes (bonus restant, etc)
-   */
-  // const getTeamInfos = async (teamId) => {
-  //   const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
-  //     method: "GET",
-  //     headers: {
-  //       accept: "application/json, text/plain, */*",
-  //       authorization: token.value,
-  //     },
-  //   });
-  //   const team = await response.json();
-  //   return team;
-  // };
-
-  /**
    * Matches Live
    */
   watch(token, () => {
@@ -91,19 +76,16 @@ export function useMPG () {
   });
 
   const getLiveData = async () => {
-    // const response = await fetch("https://api.mpg.football/live", {
-    //   method: "GET",
-    //   headers: {
-    //     accept: "application/json, text/plain, */*",
-    //     authorization: token.value,
-    //   },
-    //   body: null,
-    // });
-    // const data = await response.json();
-    // liveData.value = data;
-
-    const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/live/response.json");
-    liveData.value = await mockedResponse.json();
+    const response = await fetch("https://api.mpg.football/live", {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    liveData.value = data;
   };
 
   const liveLeagues = computed(() => {
@@ -117,19 +99,15 @@ export function useMPG () {
   });
 
   const getMatchData = async (matchId) => {
-    // const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
-    //   method: "GET",
-    //   headers: {
-    //     accept: "application/json, text/plain, */*",
-    //     authorization: token.value,
-    //   },
-    //   body: null,
-    // });
-    // const data = await response.json();
-    // return matchConstructor(data);
-
-    const mockedResponse = await fetch("http://localhost:5173/src/assets/mocks/match/response.json");
-    const data = await mockedResponse.json();
+    const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
     return matchConstructor(data);
   };
 
