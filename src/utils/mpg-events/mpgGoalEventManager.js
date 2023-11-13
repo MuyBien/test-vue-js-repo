@@ -1,5 +1,4 @@
 import { calculatePositionsAverages } from "../averages/averageCalculator";
-import { Match } from "@/models/match/Match";
 
 /**
  * Donne les buts MPG dans les 2 équipes du match d'une ligue
@@ -7,10 +6,8 @@ import { Match } from "@/models/match/Match";
  * @returns {Match} Un match avec les buts MPG
  */
 const setMpgGoals = (match) => {
-  const newMatch = new Match(match);
-  setTeamMpgGoals(newMatch.homeTeam, newMatch.awayTeam, true);
-  setTeamMpgGoals(newMatch.awayTeam, newMatch.homeTeam, match.isTournament);
-  return newMatch;
+  setTeamMpgGoals(match.homeTeam, match.awayTeam, true);
+  setTeamMpgGoals(match.awayTeam, match.homeTeam, match.isTournament);
 };
 
 /**
