@@ -44,7 +44,8 @@
             <div v-if="isResultProbabilities && initialMatch" class="mt-3">
               <scores-list-display :match="initialMatch" />
             </div>
-            <!-- <display-tournament-result v-if="isTournament" :match="match" class="mt-3" /> -->
+
+            <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
 
             <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
               Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
@@ -82,7 +83,7 @@ import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
 import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
-// import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
+import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
 

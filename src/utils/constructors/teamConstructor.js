@@ -21,7 +21,7 @@ const teamConstructor = (teamData) => {
   const team = new Team();
 
   team.id = teamData.teamId;
-  team.name = teamData.name;
+  team.name = teamData.name || teamData.abbreviation;
   team.jersey = teamData.jerseyUrl;
 
   team.pitchPlayers = setPitchPlayers(teamData.players, teamData.playersOnPitch);

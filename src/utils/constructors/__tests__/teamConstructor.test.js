@@ -23,6 +23,12 @@ describe("Le constructeur d'équipe", () => {
     expect(actualCaptain.playerId).toBe(expectedCaptainId);
   });
 
+  it("récupére le nom de l'équipe dun tournoi", () => {
+    matchMock.home.abbreviation = "AMB";
+    team = teamConstructor(matchMock.home);
+    expect(team.name).toBe("AMB");
+  });
+
   it("défini la bonne instance de bonus", () => {
     expect(team.bonus).toBeInstanceOf(BONUSES["boostAllPlayers"]);
   });

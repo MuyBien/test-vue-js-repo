@@ -3,7 +3,7 @@
     <h3>Équipe qualifiée pour le tour suivant :</h3>
     <p class="team">
       <span class="team__emoji--left">🎉</span>
-      <span class="team__name">{{ match.getQualified()?.name || "Par tirage au sort" }}</span>
+      <span class="team__name">{{ getQualified(match)?.name || "Par tirage au sort" }}</span>
       <span class="team__emoji--right">🎉</span>
     </p>
     <section v-if="needTeamAverageComparaison" class="teams-averages">
@@ -44,6 +44,7 @@
 
 <script setup>
 import { Match } from "@/models/match/Match";
+import { getQualified } from "@/utils/tournament/qualification.js";
 import { calculateTournamentTeamAverage, calculatePositionsAverages } from "@/utils/averages/averageCalculator";
 
 const props = defineProps({
