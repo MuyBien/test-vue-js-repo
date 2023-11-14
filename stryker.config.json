@@ -13,7 +13,6 @@
   "ignorePatterns": [
     "__tests__"
   ],
-  "dryRunOnly": true,
   "reporters": [
     "progress",
     "clear-text",
