@@ -1,10 +1,7 @@
 import { computed, ref, watch, onBeforeMount } from "vue";
-import { Match } from "@/models/Match";
-import { TournamentMatch } from "@/models/TournamentMatch";
-import { loginErrors } from "@/constants/loginErrors";
+import { matchConstructor } from "@/utils/constructors/matchConstructor";
 
 const token = ref("");
-const loginError = ref();
 const user = ref({});
 const loginEnded = ref(false);
 const liveData = ref({});
@@ -21,7 +18,6 @@ export function useMPG () {
     return Boolean(token.value);
   });
   const signIn = async (login, password) => {
-    loginError.value = undefined;
     const response = await fetch("https://api.mpg.football/user/sign-in", {
       method: "POST",
       headers: {
@@ -34,8 +30,6 @@ export function useMPG () {
     if (json.token) {
       token.value = json.token;
       localStorage.setItem("mpg-token", json.token);
-    } else {
-      loginError.value = loginErrors[json.message];
     }
   };
   const resetToken = () => {
@@ -114,7 +108,7 @@ export function useMPG () {
       body: null,
     });
     const data = await response.json();
-    return new Match(data);
+    return matchConstructor(data);
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -127,12 +121,13 @@ export function useMPG () {
       body: null,
     });
     const data = await response.json();
-    return new TournamentMatch(data);
+    const tournamentMatch = matchConstructor(data);
+    tournamentMatch.isTournament = true;
+    return tournamentMatch;
   };
 
   return {
     signIn,
-    loginError,
     user,
     isConnected,
     loginEnded,

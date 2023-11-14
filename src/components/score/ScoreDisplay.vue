@@ -1,24 +1,26 @@
 <template>
-  <section class="result">
+  <section class="result" :class="{ 'result--clickable': isClickable }">
     <p class="result__team">
-      <span class="result__team__name">{{ match.home.name || match.home.abbreviation }}</span>
-      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${match.home.jerseyUrl}`}" />
+      <span class="result__team__name">{{ homeTeam.name || homeTeam.abbreviation }}</span>
+      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${homeTeam.jerseyUrl}`}" />
     </p>
-    <p class="result__score" :class="{ 'result__score--clickable': isClickable }">
-      {{ scoreToDisplay }}
+    <p class="result__score">
+      {{ score.join(" - ") }}
     </p>
     <p class="result__team">
-      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${match.away.jerseyUrl}`}" />
-      <span class="result__team__name">{{ match.away.name || match.away.abbreviation }}</span>
+      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${awayTeam.jerseyUrl}`}" />
+      <span class="result__team__name">{{ awayTeam.name || awayTeam.abbreviation }}</span>
     </p>
   </section>
 </template>
 
 <script setup>
-import { computed } from "vue";
-
-const props = defineProps({
-  match: {
+defineProps({
+  homeTeam: {
+    type: Object,
+    required: true,
+  },
+  awayTeam: {
     type: Object,
     required: true,
   },
@@ -31,13 +33,6 @@ const props = defineProps({
     default: false,
   },
 });
-
-const scoreToDisplay = computed(() => {
-  if (props.score) {
-    return props.score.join(" - ");
-  }
-  return [props.match.home.score, props.match.away.score].join(" - ");
-});
 </script>
 
 <style lang="scss" scoped>
@@ -46,7 +41,17 @@ const scoreToDisplay = computed(() => {
   width: 100%;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+
+  &--clickable {
+    cursor: pointer;
+
+    .result__score {
+      transition: transform .3s ease-out;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 
   &__team {
     display: flex;
@@ -81,13 +86,6 @@ const scoreToDisplay = computed(() => {
     padding: 2px 5px;
     border-radius: 5px;
     font-weight: bold;
-
-    &--clickable {
-      transition: transform .3s ease-out;
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
   }
 }
 </style>

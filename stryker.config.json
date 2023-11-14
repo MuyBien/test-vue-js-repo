@@ -6,7 +6,7 @@
     "command": "npm run test:unit"
   },
   "mutate": [
-    "src/models/*.js"
+    "src/utils/*.js"
   ],
   "reporters": [
     "progress",
