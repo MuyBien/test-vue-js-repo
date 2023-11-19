@@ -3,6 +3,7 @@ import { Player } from "@/models/players/Player";
 import { Substitution } from "@/models/substitutions/Substitution";
 
 import { BONUSES } from "@/constants/bonus";
+import LiveSubstitution from "@/models/substitutions/LiveSubstitution";
 
 /**
  * Construit une équipe avec les données renvoyées par MPG
@@ -58,6 +59,9 @@ const setBenchPlayers = (playersData, pitchData) => {
 };
 
 const setSubstitutions = (teamData) => {
+  if (teamData.isLiveSubstitutesEnabled) {
+    return teamData.liveSubstitutesHistory.map(substitutionData => new LiveSubstitution(substitutionData));
+  }
   return teamData.tacticalSubs.map(substitutionData => new Substitution(substitutionData));
 };
 
