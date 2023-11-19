@@ -1,6 +1,6 @@
 import { Substitution } from "./Substitution";
 
-export default class LiveSubstitution extends Substitution {
+export class LiveSubstitution extends Substitution {
 
   constructor (substitutionData) {
     super(substitutionData);
