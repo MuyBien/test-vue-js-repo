@@ -3,11 +3,12 @@ code:scan:
   image: returntocorp/semgrep
   needs: ['build:app']
   variables:
+    SEMGREP_APP_TOKEN: $SEMGREP_APP_TOKEN
     SEMGREP_RULES: p/default # See more rules at semgrep.dev/explore.
     SEMGREP_TIMEOUT: 300
     # Upload findings to GitLab SAST Dashboard
     SEMGREP_GITLAB_JSON: "1"
-    GITLAB_TOKEN: $SEMGREP_API_TOKEN
+    GITLAB_TOKEN: $SEMGREP_APP_TOKEN
   before_script:
     - date
   script:
