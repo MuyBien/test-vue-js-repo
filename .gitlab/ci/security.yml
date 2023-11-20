@@ -6,16 +6,10 @@ code:scan:
     SEMGREP_APP_TOKEN: $SEMGREP_APP_TOKEN
     SEMGREP_RULES: p/default # See more rules at semgrep.dev/explore.
     SEMGREP_TIMEOUT: 300
-    # Upload findings to GitLab SAST Dashboard
-    SEMGREP_GITLAB_JSON: "1"
-    GITLAB_TOKEN: $SEMGREP_APP_TOKEN
   before_script:
     - date
   script:
-    - semgrep ci --gitlab-sast > gl-sast-report.json || true
-  artifacts:
-    reports:
-      sast: gl-sast-report.json
+    - semgrep ci
   rules:
     - if: $CI_COMMIT_TAG
       when: never
