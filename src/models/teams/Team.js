@@ -10,12 +10,16 @@ export class Team {
   benchPlayers = [];
   substitutions = [];
 
+  isLiveSubstitutesEnabled = false;
+
   bonus;
 
   constructor (team = {}) {
     this.id = team.id;
     this.name = team.name;
     this.jersey = team.jersey;
+
+    this.isLiveSubstitutesEnabled = team.isLiveSubstitutesEnabled;
 
     this.pitchPlayers = team.pitchPlayers?.map(player => new Player(player)) || [];
     this.benchPlayers = team.benchPlayers?.map(player => new Player(player)) || [];

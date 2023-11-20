@@ -1,8 +1,9 @@
-import { Team } from "@/models/teams/Team";
 import { Player } from "@/models/players/Player";
 import { Substitution } from "@/models/substitutions/Substitution";
+import { Team } from "@/models/teams/Team";
 
 import { BONUSES } from "@/constants/bonus";
+import { LiveSubstitution } from "@/models/substitutions/LiveSubstitution";
 
 /**
  * Construit une équipe avec les données renvoyées par MPG
@@ -23,9 +24,10 @@ const teamConstructor = (teamData) => {
   team.id = teamData.teamId;
   team.name = teamData.name || teamData.abbreviation;
   team.jersey = teamData.jerseyUrl;
+  team.isLiveSubstitutesEnabled = teamData.isLiveSubstitutesEnabled;
 
-  team.pitchPlayers = setPitchPlayers(teamData.players, teamData.playersOnPitch);
-  team.benchPlayers = setBenchPlayers(teamData.players, teamData.playersOnPitch);
+  team.pitchPlayers = setPitchPlayers(teamData);
+  team.benchPlayers = setBenchPlayers(teamData);
   team.substitutions = setSubstitutions(teamData);
 
   setCaptain(team.pitchPlayers, teamData.captain);
@@ -49,15 +51,29 @@ const setPlayers = (playersData, pitchData, start, end) => {
   return playerMap;
 };
 
-const setPitchPlayers = (playersData, pitchData) => {
-  return setPlayers(playersData, pitchData, 0, 11);
+const setPitchPlayers = (teamData) => {
+  return setPlayers(teamData.players, teamData.playersOnPitch, 0, 11);
 };
 
-const setBenchPlayers = (playersData, pitchData) => {
-  return setPlayers(playersData, pitchData, 12, Infinity);
+const setBenchPlayers = (teamData) => {
+  if (teamData.isLiveSubstitutesEnabled) {
+    const lastPlayerOnPitch = getLastPlayerIdOnPitch(teamData.playersOnPitch); // gardien remplaçant
+
+    const pitchPlayerIds = new Set(Object.values(teamData.playersOnPitch).map(p => p.playerId));
+    const benchPlayers = Object.values(teamData.players)
+      .filter(({ playerId }) => ! pitchPlayerIds.has(playerId) || playerId === lastPlayerOnPitch)
+      .map(playerData => new Player(playerData));
+
+    return benchPlayers;
+  }
+
+  return setPlayers(teamData.players, teamData.playersOnPitch, 12, Infinity);
 };
 
 const setSubstitutions = (teamData) => {
+  if (teamData.isLiveSubstitutesEnabled) {
+    return teamData.liveSubstitutesHistory.map(substitutionData => new LiveSubstitution(substitutionData));
+  }
   return teamData.tacticalSubs.map(substitutionData => new Substitution(substitutionData));
 };
 
@@ -75,6 +91,18 @@ const setBonus = (allBonuses) => {
     }
   }
   return new BONUSES["none"];
+};
+
+/**
+ * Perme de récupérer le dernier joueur sur le terrain.
+ * En mode live, le dernier joueur sur le terrain est le gardien remplaçant.
+ * @param {Map} playersOnPitch
+ * @returns l'id du joueur
+ */
+const getLastPlayerIdOnPitch = (playersOnPitch) => {
+  const positions = Object.keys(playersOnPitch).map(Number);
+  const maxPosition = Math.max(...positions);
+  return playersOnPitch[maxPosition.toString()].playerId;
 };
 
 export { teamConstructor };

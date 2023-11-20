@@ -21,9 +21,6 @@
       >
         <div class="accordion-body row">
           <match-placeholder v-if="!match" />
-          <p v-else-if="isLiveSubMatch" class="alert alert-danger mt-3" role="alert">
-            Désolé, les remplacements live ne sont pas encore gérés dans MPG Calculator.
-          </p>
           <div v-else>
             <h3 class="title">
               Résultat calculé :
@@ -120,9 +117,6 @@ const fetchMatch = async () => {
   initialMatch.value = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getMatchData(props.liveData.id);
   match.value = calculateFinalMatch(initialMatch.value);
 };
-// const isLiveSubMatch = computed(() => {
-//   return match.value ? match.value.homeTeam.isLiveSubstitutesEnabled || match.value.awayTeam.isLiveSubstitutesEnabled : true;
-// });
 
 /**
  * Gestion de la modale des détails du match
