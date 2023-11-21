@@ -87,8 +87,7 @@ defineProps({
   }
 
   &__score {
-    flex-grow: 1;
-    min-width: 50px;
+    min-width: 30px;
     display: flex;
     align-items: center;
     -webkit-box-pack: center;
