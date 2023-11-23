@@ -1,6 +1,7 @@
 <template>
   <nav class="topbar">
     <img alt="Logo MPG" src="./assets/logo.png">
+    <display-changelog />
     <h1>Calculateur de résultat de match MPG</h1>
     <p v-if="isConnected" class="user-infos">
       Connecté en tant que {{ user.username }}
@@ -23,6 +24,7 @@
 </template>
 
 <script setup>
+import DisplayChangelog from "@/components/changelog/DisplayChangelog.vue";
 import LiveRatingDisclaimer from "@/components/disclaimers/LiveRatingDisclaimer.vue";
 import LiveDisplay from "@/components/live/LiveDisplay.vue";
 import MpgConnectionForm from "@/components/login/MpgConnectionForm.vue";
