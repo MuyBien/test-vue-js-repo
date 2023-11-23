@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { BoostAllPlayersBonus } from "../BoostAllPlayersBonus";
-import { Team } from "@/models/teams/Team";
 import { Player } from "@/models/players/Player";
+import { Team } from "@/models/teams/Team";
+import { beforeEach, describe, expect, it } from "vitest";
+import { BoostAllPlayersBonus } from "../BoostAllPlayersBonus";
 
 describe("Le bonus BoostAllPlayersBonus", () => {
 
@@ -16,7 +16,7 @@ describe("Le bonus BoostAllPlayersBonus", () => {
     });
   });
 
-  it("donne un bonus de tous les joueurs titulaires de l'équipe", () => {
+  it("donne un bonus à tous les joueurs titulaires de l'équipe", () => {
     const bonus = new BoostAllPlayersBonus();
     bonus.apply(team);
 
@@ -25,7 +25,7 @@ describe("Le bonus BoostAllPlayersBonus", () => {
     });
   });
 
-  it("Ajoute un bonus aux joueurs qui en ont un", () => {
+  it("ajoute un bonus aux joueurs qui en ont un", () => {
     team.pitchPlayers[1].bonusRating = 1;
     const bonus = new BoostAllPlayersBonus();
     bonus.apply(team);
@@ -33,7 +33,7 @@ describe("Le bonus BoostAllPlayersBonus", () => {
     expect(team.pitchPlayers[1].bonusRating).toBe(1.5);
   });
 
-  it("Ajoute un bonus aux joueurs qui ont un malus", () => {
+  it("ajoute un bonus aux joueurs qui ont un malus", () => {
     team.pitchPlayers[1].bonusRating = - 1;
     const bonus = new BoostAllPlayersBonus();
     bonus.apply(team);

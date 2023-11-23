@@ -1,13 +1,14 @@
-import { describe, it, expect } from "vitest";
-import { RemoveRandomPlayerBonus } from "../RemoveRandomPlayerBonus";
 import { Player } from "@/models/players/Player";
 import { Rotaldo } from "@/models/players/Rotaldo";
+import { describe, expect, it } from "vitest";
+import { RemoveRandomPlayerBonus } from "../RemoveRandomPlayerBonus";
 
 const createMockTeam = (playerIds) => {
   return { pitchPlayers: playerIds.map(id => new Player({ playerId: id })) };
 };
 
 describe("Le bonus RemoveRandomPlayerBonus", () => {
+
   it("remplace un joueur spécifié par un Rotaldo dans l'équipe", () => {
     const team = createMockTeam(["player1", "player2", "player3"]);
     const opponentTeam = createMockTeam(["player4", "player5", "player6"]);
