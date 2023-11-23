@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="max-width: 80vw; min-height: 50vh;">
+  <div class="card" style="max-width: 80vw; min-height: 70vh;">
     <div class="row g-0 card__content">
       <div class="col-md-4 banner" />
       <div class="col-md-8 login-part">
@@ -80,10 +80,10 @@ const isFormCompleted = computed(() => {
     height: 100%;
   }
   .banner {
-    background-image: url(/img/login-banner.jpeg);
+    background-image: url(/img/login-banner.png);
     background-size: cover;
     background-repeat: no-repeat;
-    border-radius: var(--bs-card-border-radius);
+    border-radius: var(--bs-card-border-radius) 0 0 var(--bs-card-border-radius);
   }
   .login-part {
     min-height: 100%;
