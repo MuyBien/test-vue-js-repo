@@ -7,7 +7,8 @@
   },
   "mutate": [
     "src/utils/**/*.js",
-    "src/models/**/*.js"
+    "src/models/**/*.js",
+    "!src/**/__tests__/*"
   ],
   "reporters": [
     "progress",
