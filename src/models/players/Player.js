@@ -48,20 +48,8 @@ export class Player {
     this.isSubstitute = playerData.isSubstitute || false;
   }
 
-  isGoalkeeper = () => {
-    return this.position === 1;
-  };
-
   isBacker = () => {
     return this.position === 2;
-  };
-
-  isMiddle = () => {
-    return this.position === 3;
-  };
-
-  isForward = () => {
-    return this.position === 4;
   };
 
   /**

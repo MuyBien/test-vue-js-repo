@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { RemoveGoalBonus } from "../RemoveGoalBonus";
-import { Team } from "@/models/teams/Team";
 import { Player } from "@/models/players/Player";
+import { Team } from "@/models/teams/Team";
+import { beforeEach, describe, expect, it } from "vitest";
+import { RemoveGoalBonus } from "../RemoveGoalBonus";
 
 describe("Le bonus RemoveGoalBonus", () => {
 
@@ -55,5 +55,12 @@ describe("Le bonus RemoveGoalBonus", () => {
 
     expect(opponentTeam.pitchPlayers.find(p => p.playerId === "opponent1").canceledGoals).toBe(0);
     expect(opponentTeam.pitchPlayers.find(p => p.playerId === "opponent2").canceledGoals).toBe(1);
+  });
+
+  it("n'annule pas de but dans l'équipe adverse si aucun joueur n'a marqué", () => {
+    const bonus = new RemoveGoalBonus();
+    bonus.apply(opponentTeam, team);
+
+    expect(team.pitchPlayers.every(p => p.canceledGoals)).toBeFalsy();
   });
 });
