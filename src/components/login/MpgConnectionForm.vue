@@ -80,7 +80,7 @@ const isFormCompleted = computed(() => {
     height: 100%;
   }
   .banner {
-    background-image: url(/img/login-banner.jpeg);
+    background-image: url(/img/login-banner.png);
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: var(--bs-card-border-radius);
