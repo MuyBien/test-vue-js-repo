@@ -11,7 +11,7 @@ export class BoostOnePlayerBonus extends Bonus {
       icon: "/img/bonus-images/uber-eats.png",
       description: "+1pt sur le joueur de votre choix.",
       timing: "before",
-      isLiveApplied: true,
+      isLiveApplied: false,
     });
     this.playerId = bonusData.playerId;
   }
