@@ -110,8 +110,20 @@ export function useMPG () {
       },
       body: null,
     });
-    const data = await response.json();
-    return matchConstructor(data);
+    const matchData = await response.json();
+    const homeTeamData = await getTeamInfos(matchData.home.teamId);
+    const awayTeamData = await getTeamInfos(matchData.away.teamId);
+    return matchConstructor({
+      ...matchData,
+      home: {
+        ...matchData.home,
+        ...homeTeamData,
+      },
+      away: {
+        ...matchData.away,
+        ...awayTeamData,
+      },
+    });
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -127,6 +139,26 @@ export function useMPG () {
     const tournamentMatch = matchConstructor(data);
     tournamentMatch.isTournament = true;
     return tournamentMatch;
+  };
+
+  /**
+   * Team data
+   */
+  const getTeamInfos = async (teamId) => {
+    const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    return {
+      name: data.name,
+      abbreviation: data.abbreviation,
+      availableBonuses: data.availableBonuses,
+    };
   };
 
   return {
