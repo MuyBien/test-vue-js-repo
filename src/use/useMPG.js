@@ -1,5 +1,5 @@
-import { computed, ref, watch, onBeforeMount } from "vue";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
+import { computed, onBeforeMount, ref, watch } from "vue";
 
 const token = ref("");
 const user = ref({});
@@ -98,7 +98,10 @@ export function useMPG () {
     return liveTournaments ? Object.values(liveTournaments).filter(tournament => tournament.liveState) : [];
   });
 
-  const getMatchData = async (matchId) => {
+  /**
+   * Matchs data
+   */
+  const getLeagueMatch = async (matchId) => {
     const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
       method: "GET",
       headers: {
@@ -134,7 +137,7 @@ export function useMPG () {
     haveLiveRating,
     liveLeagues,
     liveTournaments,
-    getMatchData,
+    getLeagueMatch,
     getTournamentMatch,
   };
 }

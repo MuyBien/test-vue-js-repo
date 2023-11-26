@@ -108,12 +108,12 @@ onMounted(() => {
 /**
  * Match
  */
-const { getMatchData, getTournamentMatch } = useMPG();
+const { getLeagueMatch, getTournamentMatch } = useMPG();
 
 const initialMatch = ref();
 const match = ref();
 const fetchMatch = async () => {
-  initialMatch.value = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getMatchData(props.liveData.id);
+  initialMatch.value = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getLeagueMatch(props.liveData.id);
   match.value = calculateFinalMatch(initialMatch.value);
 };
 
