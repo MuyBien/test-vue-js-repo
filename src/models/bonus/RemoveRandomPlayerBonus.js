@@ -1,12 +1,12 @@
-import { Bonus } from "./Bonus";
 import { Rotaldo } from "../players/Rotaldo";
+import { Bonus } from "./Bonus";
 
 export class RemoveRandomPlayerBonus extends Bonus {
 
   team;
   position;
 
-  constructor (bonusData) {
+  constructor (bonusData = {}) {
     super({
       name: "Chapron Rouge",
       value: "removeRandomPlayer",

@@ -13,6 +13,7 @@ export class Team {
   isLiveSubstitutesEnabled = false;
 
   bonus;
+  availableBonuses;
 
   constructor (team = {}) {
     this.id = team.id;
@@ -26,5 +27,6 @@ export class Team {
     this.substitutions = team.substitutions?.map(substitution => new Substitution(substitution)) || [];
 
     this.bonus = team.bonus;
+    this.availableBonuses = team.availableBonuses;
   }
 }

@@ -42,6 +42,8 @@
               <scores-list-display :match="initialMatch" />
             </div>
 
+            <bonuses-selector :match="initialMatch" class="mt-3" />
+
             <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
 
             <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
@@ -81,6 +83,7 @@ import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
+import BonusesSelector from "@/components/bonus/BonusesSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
 
 const props = defineProps({

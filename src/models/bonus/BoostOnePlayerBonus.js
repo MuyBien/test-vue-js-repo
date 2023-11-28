@@ -4,7 +4,7 @@ export class BoostOnePlayerBonus extends Bonus {
 
   playerId;
 
-  constructor (bonusData) {
+  constructor (bonusData = {}) {
     super({
       name: "UberEats",
       value: "boostOnePlayer",

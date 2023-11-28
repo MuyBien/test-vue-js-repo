@@ -7,7 +7,7 @@ export class Bonus {
   timing;
   isLiveApplied;
 
-  constructor (bonusData) {
+  constructor (bonusData = {}) {
     if (new.target === Bonus) {
       throw new TypeError("La classe Bonus est une classe abstraite et ne peut pas être utilisée directement");
     }
