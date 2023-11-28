@@ -111,8 +111,12 @@ export function useMPG () {
       body: null,
     });
     const matchData = await response.json();
-    const homeTeamData = await getTeamInfos(matchData.home.teamId);
-    const awayTeamData = await getTeamInfos(matchData.away.teamId);
+
+    const [homeTeamData, awayTeamData] = await Promise.all([
+      getTeamInfos(matchData.home.teamId),
+      getTeamInfos(matchData.away.teamId),
+    ]);
+
     return matchConstructor({
       ...matchData,
       home: {
