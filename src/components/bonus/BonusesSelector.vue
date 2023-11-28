@@ -8,8 +8,8 @@
     </h6>
 
     <div class="row">
-      <bonus-selector :team="updatedMatch.homeTeam" class="col-6" />
-      <bonus-selector :team="updatedMatch.awayTeam" class="col-6" />
+      <bonus-selector :team="updatedMatch.homeTeam" class="col-6" @change-bonus="updateHomeTeam" />
+      <bonus-selector :team="updatedMatch.awayTeam" class="col-6" @change-bonus="updateAwayTeam" />
     </div>
 
     <score-display
@@ -44,7 +44,13 @@ const updatedMatch = computed(() => {
   return calculateFinalMatch(newMatch);
 });
 const homeTeamBonus = ref(props.match.homeTeam.bonus);
+const updateHomeTeam = (bonus) => {
+  homeTeamBonus.value = bonus;
+};
 const awayTeamBonus = ref(props.match.awayTeam.bonus);
+const updateAwayTeam = (bonus) => {
+  awayTeamBonus.value = bonus;
+};
 </script>
 
 <style lang="scss" scoped>

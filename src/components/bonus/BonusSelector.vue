@@ -5,6 +5,8 @@
         v-for="availableBonus in availableBonuses"
         :key="availableBonus.value"
         class="bonus"
+        :class="{'bonus--selected': selectedBonusValue === availableBonus.value}"
+        @click="selectBonus(availableBonus)"
       >
         <div class="bonus__logo" :style="{ 'backgroundImage': `url(${availableBonus.icon}`}" />
       </li>
@@ -13,7 +15,7 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { computed, defineProps } from "vue";
 import { Team } from "@/models/teams/Team";
 import { BONUSES } from "@/constants/bonus";
 
@@ -26,6 +28,15 @@ const props = defineProps({
 const availableBonuses = Object.keys(props.team.availableBonuses)
   .filter(bonus => props.team.availableBonuses[bonus])
   .map(bonus => new BONUSES[bonus]());
+
+/**
+ * Gestion du bonus sélectionné
+ */
+const selectedBonusValue = computed(() => props.team.bonus.value);
+const emit = defineEmits(["change-bonus"]);
+const selectBonus = (bonus) => {
+  emit("change-bonus", bonus);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +47,13 @@ const availableBonuses = Object.keys(props.team.availableBonuses)
 
   .bonus {
     cursor: pointer;
+    transition: filter 0.2s ease-in-out;
+    filter: grayscale(100%);
+
+    &--selected,
+    &:hover {
+      filter: grayscale(0%);
+    }
     .bonus__logo {
       height: 57px ;
       width: 44px;

@@ -16,7 +16,7 @@ const calculateFinalMatch = (match) => {
   setMpgGoals(finalMatch);
   setMpgSaves(finalMatch);
 
-  applyMatchBonuses(matchCopy, "after");
+  applyMatchBonuses(finalMatch, "after");
 
   setScore(finalMatch);
   return finalMatch;
