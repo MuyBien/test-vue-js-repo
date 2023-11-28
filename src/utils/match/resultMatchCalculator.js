@@ -7,6 +7,7 @@ import { doMatchSubstitutions } from "@/utils/substitutions/substitutionMaker";
 const calculateFinalMatch = (match) => {
 
   const matchCopy = new Match(match);
+  applyMatchBonuses(matchCopy, "beforeAll");
   applyMatchBonuses(matchCopy, "before");
 
   const finalMatch = doMatchSubstitutions(matchCopy);
