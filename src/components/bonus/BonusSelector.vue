@@ -5,7 +5,10 @@
         v-for="availableBonus in availableBonuses"
         :key="availableBonus.value"
         class="bonus"
-        :class="{'bonus--selected': selectedBonusValue === availableBonus.value}"
+        :class="{
+          'bonus--selected': selectedBonusValue === availableBonus.value,
+          'bonus--disabled': notManagedBonus.includes(availableBonus.value),
+        }"
         @click="selectBonus(availableBonus)"
       >
         <div class="bonus__logo" :style="{ 'backgroundImage': `url(${availableBonus.icon}`}" />
@@ -25,6 +28,7 @@ const props = defineProps({
     required: true,
   },
 });
+const notManagedBonus = ["boostOnePlayer", "removeRandomPlayer"];
 const availableBonuses = Object.keys(props.team.availableBonuses)
   .filter(bonus => props.team.availableBonuses[bonus])
   .map(bonus => new BONUSES[bonus]());
@@ -35,6 +39,9 @@ const availableBonuses = Object.keys(props.team.availableBonuses)
 const selectedBonusValue = computed(() => props.team.bonus.value);
 const emit = defineEmits(["change-bonus"]);
 const selectBonus = (bonus) => {
+  if (notManagedBonus.includes(bonus.value)) {
+    return;
+  }
   emit("change-bonus", bonus);
 };
 </script>
@@ -53,6 +60,15 @@ const selectBonus = (bonus) => {
     &--selected,
     &:hover {
       filter: grayscale(0%);
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      filter: grayscale(100%);
+
+      &:hover {
+        filter: grayscale(100%);
+      }
     }
     .bonus__logo {
       height: 57px ;
