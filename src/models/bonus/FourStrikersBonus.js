@@ -1,6 +1,6 @@
-import { Bonus } from "./Bonus";
+import { LiveAppliedBonus } from "./LiveAppliedBonus";
 
-export class FourStrikersBonus extends Bonus {
+export class FourStrikersBonus extends LiveAppliedBonus {
 
   constructor () {
     super({
@@ -9,13 +9,18 @@ export class FourStrikersBonus extends Bonus {
       icon: "/img/bonus-images/4-decat.png",
       description: "Passe en 4-2-4 et aligne 4 attaquants.",
       timing: "before",
-      isLiveApplied: true,
     });
   }
 
   apply (team) {
     team.pitchPlayers.filter(player => player.isBacker()).forEach(player => {
       player.bonusRating += 0.5;
+    });
+  }
+
+  revert (team) {
+    team.pitchPlayers.filter(player => player.isBacker()).forEach(player => {
+      player.bonusRating -= 0.5;
     });
   }
 }

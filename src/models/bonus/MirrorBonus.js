@@ -22,9 +22,8 @@ export class MirrorBonus extends Bonus {
     }
 
     // Si le bonus est liveApplied il faut le désappliquer
-    // TODO sauf si le bonus est le même que celui appliqué au début !
     if (opponentTeam.bonus.isLiveApplied) {
-      opponentTeam.bonus.revert(opponentTeam, team);
+      opponentTeam.bonus.revert(opponentTeam); // TODO
     }
 
     team.bonus.apply = opponentTeam.bonus.apply;

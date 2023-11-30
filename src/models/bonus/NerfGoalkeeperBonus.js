@@ -1,6 +1,6 @@
-import { Bonus } from "./Bonus";
+import { LiveAppliedBonus } from "./LiveAppliedBonus";
 
-export class NerfGoalkeeperBonus extends Bonus {
+export class NerfGoalkeeperBonus extends LiveAppliedBonus {
 
   constructor () {
     super({
@@ -9,11 +9,14 @@ export class NerfGoalkeeperBonus extends Bonus {
       icon: "/img/bonus-images/suarez.png",
       description: "-1pt pour le gardien adverse.",
       timing: "afterSubstitutions",
-      isLiveApplied: false,
     });
   }
 
   apply (team, opponentTeam) {
     opponentTeam.pitchPlayers[0].bonusRating -= 1;
+  }
+
+  revert (team, opponentTeam) {
+    opponentTeam.pitchPlayers[0].bonusRating += 1;
   }
 }

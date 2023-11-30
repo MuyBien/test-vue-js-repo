@@ -1,11 +1,13 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { NerfGoalkeeperBonus } from "../NerfGoalkeeperBonus";
-import { Team } from "@/models/teams/Team";
 import { Player } from "@/models/players/Player";
+import { Team } from "@/models/teams/Team";
+import { beforeEach, describe, expect, it } from "vitest";
+import { NerfGoalkeeperBonus } from "../NerfGoalkeeperBonus";
 
 describe("Le bonus NerfGoalkeeperBonus", () => {
 
   let team, opponentTeam;
+  let bonus;
+
   beforeEach(() => {
     team = new Team({
       pitchPlayers: [
@@ -24,10 +26,10 @@ describe("Le bonus NerfGoalkeeperBonus", () => {
         }), // Gardien de but de l'équipe adverse
       ],
     });
+    bonus = new NerfGoalkeeperBonus();
   });
 
   it("donne un malus de 1 au gardien adverse", () => {
-    const bonus = new NerfGoalkeeperBonus();
     bonus.apply(team, opponentTeam);
 
     expect(opponentTeam.pitchPlayers[0].bonusRating).toBe(- 1);
@@ -36,9 +38,17 @@ describe("Le bonus NerfGoalkeeperBonus", () => {
   it("diminue le bonusRating du gardien adverse", () => {
     opponentTeam.pitchPlayers[0].bonusRating = 0.5;
 
-    const bonus = new NerfGoalkeeperBonus();
     bonus.apply(team, opponentTeam);
 
     expect(opponentTeam.pitchPlayers[0].bonusRating).toBe(- 0.5);
   });
+
+  it("retire le malus de 1 au gardien adverse quand il est annulé", () => {
+    opponentTeam.pitchPlayers[0].bonusRating = - 1;
+
+    bonus.revert(team, opponentTeam);
+
+    expect(opponentTeam.pitchPlayers[0].bonusRating).toBe(0);
+  });
+
 });
