@@ -32,6 +32,7 @@ const notManagedBonus = ["boostOnePlayer", "removeRandomPlayer"];
 const availableBonuses = Object.keys(props.team.availableBonuses)
   .filter(bonus => props.team.availableBonuses[bonus])
   .map(bonus => new BONUSES[bonus]());
+availableBonuses.push(new BONUSES["none"]());
 
 /**
  * Gestion du bonus sélectionné
