@@ -39,8 +39,8 @@ const props = defineProps({
 
 const updatedMatch = computed(() => {
   const newMatch = new Match(props.match);
-  newMatch.homeTeam.bonus = homeTeamBonus.value;
-  newMatch.awayTeam.bonus = awayTeamBonus.value;
+  newMatch.homeTeam.bonus = new homeTeamBonus.value.constructor();
+  newMatch.awayTeam.bonus = new awayTeamBonus.value.constructor();
   return calculateFinalMatch(newMatch);
 });
 const homeTeamBonus = ref(props.match.homeTeam.bonus);
