@@ -17,7 +17,24 @@
       :away-team="updatedMatch.awayTeam"
       :score="updatedMatch.score"
       class="mt-5"
+      @click="showMatchDetails = true"
     />
+
+    <match-details-display
+      v-if="updatedMatch"
+      :match="updatedMatch"
+      :show="showMatchDetails"
+      @close="showMatchDetails = false"
+    >
+      <template #title>
+        <score-display
+          :home-team="updatedMatch.homeTeam"
+          :away-team="updatedMatch.awayTeam"
+          :score="updatedMatch.score"
+          @click="showMatchDetails = true"
+        />
+      </template>
+    </match-details-display>
   </section>
 </template>
 
@@ -25,6 +42,7 @@
 import { defineProps, computed, ref } from "vue";
 import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
+import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 
 import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
 
@@ -51,6 +69,12 @@ const awayTeamBonus = ref(props.match.awayTeam.bonus);
 const updateAwayTeam = (bonus) => {
   awayTeamBonus.value = bonus;
 };
+
+/**
+ * Gestion de la modale des détails du match
+ */
+const showMatchDetails = ref(false);
+
 </script>
 
 <style lang="scss" scoped>
