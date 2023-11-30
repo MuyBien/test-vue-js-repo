@@ -50,6 +50,7 @@ const selectBonus = (bonus) => {
 <style lang="scss" scoped>
 .available-bonuses {
   display: flex;
+  flex-wrap: wrap;
   list-style: none;
   gap: 1vw;
 
