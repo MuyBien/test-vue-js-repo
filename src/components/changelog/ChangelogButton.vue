@@ -1,6 +1,6 @@
 <template>
   <section class="changelog-wrapper" :class="{ inactive: isLoading || upToDate }">
-    <a target="_blank" href="https://gitlab.com/MuyBien/mpg-calculator/-/releases">Nouveautés</a>
+    <a target="_blank" href="https://gitlab.com/MuyBien/mpg-calculator/-/releases" @click="setAllReleasesSeen">Nouveautés</a>
     <span v-if="unseenReleases.length" class="unseen-count">{{ unseenReleases.length }}</span>
   </section>
 </template>
@@ -9,7 +9,7 @@
 import { computed } from "vue";
 import { useGitlab } from "@/use/useGitlab";
 
-const { isLoading, unseenReleases } = useGitlab();
+const { isLoading, unseenReleases, setAllReleasesSeen } = useGitlab();
 
 const upToDate = computed(() => {
   return unseenReleases.value.length === 0;
