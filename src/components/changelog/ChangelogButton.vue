@@ -1,7 +1,7 @@
 <template>
   <section class="changelog-wrapper" :class="{ inactive: isLoading || upToDate }">
     <a target="_blank" href="https://gitlab.com/MuyBien/mpg-calculator/-/releases" @click="setAllReleasesSeen">Nouveautés</a>
-    <span v-if="unseenReleases.length" class="unseen-count">{{ unseenReleases.length }}</span>
+    <span v-if="unseenReleases.length" class="unseen-count">{{ unseenReleases.length > 10 ? "9+" : unseenReleases.length }}</span>
   </section>
 </template>
 
