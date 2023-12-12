@@ -58,6 +58,25 @@ const upToDate = computed(() => {
     align-items: center;
     font-size: 0.8em;
     color: #fff;
+    animation: bounce 11s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 9%, 100% {
+      transform: translateY(0);
+    }
+    10% {
+      transform: translateY(-30px);
+    }
+    11% {
+      transform: translateY(0);
+    }
+    12% {
+      transform: translateY(-15px);
+    }
+    13% {
+      transform: translateY(0);
+    }
   }
 
 }
