@@ -19,6 +19,7 @@
       </section>
     </transition>
 
+    <changelog-button />
     <feedback-button />
   </main>
 </template>
@@ -29,6 +30,7 @@ import LiveRatingDisclaimer from "@/components/disclaimers/LiveRatingDisclaimer.
 import LiveDisplay from "@/components/live/LiveDisplay.vue";
 import MpgConnectionForm from "@/components/login/MpgConnectionForm.vue";
 import FeedbackButton from "@/components/feedback/FeedbackButton.vue";
+import ChangelogButton from "@/components/changelog/ChangelogButton.vue";
 
 import { useMPG } from "@/use/useMPG";
 
