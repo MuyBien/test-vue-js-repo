@@ -1,5 +1,5 @@
 <template>
-  <section class="feedback-wrapper" data-tour-step="12">
+  <section class="feedback-wrapper">
     <a target="_blank" :href="href">Feedback ?</a>
   </section>
 </template>
@@ -24,6 +24,7 @@ const href = computed(() => {
     background-color: hsla(120, 55%, 45%, 1);
     border-radius: 3px;
     color: #fff;
+    cursor: pointer;
     height: 30px;
     text-decoration: none;
     display: inline-block;
