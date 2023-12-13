@@ -3,7 +3,7 @@
     <a @click="showChangelog = true">Nouveautés</a>
     <span v-if="unseenReleases.length" class="unseen-count">{{ unseenReleases.length > 10 ? "9+" : unseenReleases.length }}</span>
 
-    <teleport to="body">
+    <teleport to=".modals-container">
       <changelog-display :show="showChangelog" @close="showChangelog = false" />
     </teleport>
   </section>
