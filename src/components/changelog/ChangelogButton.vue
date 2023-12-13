@@ -1,19 +1,26 @@
 <template>
   <section class="changelog-wrapper" :class="{ inactive: isLoading || upToDate }">
-    <a target="_blank" href="https://gitlab.com/MuyBien/mpg-calculator/-/releases" @click="setAllReleasesSeen">Nouveautés</a>
+    <a @click="showChangelog = true">Nouveautés</a>
     <span v-if="unseenReleases.length" class="unseen-count">{{ unseenReleases.length > 10 ? "9+" : unseenReleases.length }}</span>
+
+    <teleport to="body">
+      <changelog-display :show="showChangelog" @close="showChangelog = false" />
+    </teleport>
   </section>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useGitlab } from "@/use/useGitlab";
+import ChangelogDisplay from "@/components/changelog/ChangelogDisplay.vue";
 
-const { isLoading, unseenReleases, setAllReleasesSeen } = useGitlab();
+const { isLoading, unseenReleases } = useGitlab();
 
 const upToDate = computed(() => {
   return unseenReleases.value.length === 0;
 });
+
+const showChangelog = ref(false);
 </script>
 
 <style lang="scss" scoped>
