@@ -10,17 +10,22 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useGitlab } from "@/use/useGitlab";
 import ChangelogDisplay from "@/components/changelog/ChangelogDisplay.vue";
 
-const { isLoading, unseenReleases } = useGitlab();
+const { isLoading, unseenReleases, setAllReleasesSeen } = useGitlab();
 
 const upToDate = computed(() => {
   return unseenReleases.value.length === 0;
 });
 
 const showChangelog = ref(false);
+watch(showChangelog, (showed) => {
+  if (showed) {
+    setAllReleasesSeen();
+  }
+});
 </script>
 
 <style lang="scss" scoped>
