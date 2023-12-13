@@ -39,6 +39,9 @@ const showChangelog = ref(false);
     height: 40px;
     color: #fff;
     text-decoration: none;
+    &:hover {
+      color: #fff;
+    }
   }
 
   &.inactive {
