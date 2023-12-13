@@ -18,8 +18,10 @@
       </section>
     </transition>
 
-    <changelog-button />
-    <feedback-button />
+    <footer>
+      <changelog-button />
+      <feedback-button />
+    </footer>
   </main>
 </template>
 
@@ -82,6 +84,18 @@ main {
     display: flex;
     justify-content: center;
   }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  padding-bottom: 0;
+  margin-right: 2vw;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 2vw;
 }
 
 /**

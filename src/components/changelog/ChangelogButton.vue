@@ -25,9 +25,6 @@ const showChangelog = ref(false);
 
 <style lang="scss" scoped>
 .changelog-wrapper {
-  position: fixed;
-  bottom: 0;
-  right: 7vw;
   background-color: hsla(120, 55%, 45%, 1);
   border-radius: 3px;
   border-bottom-left-radius: 0;
@@ -39,7 +36,7 @@ const showChangelog = ref(false);
   a {
     display: inline-block;
     padding: 5px 10px;
-    height: 30px;
+    height: 40px;
     color: #fff;
     text-decoration: none;
   }

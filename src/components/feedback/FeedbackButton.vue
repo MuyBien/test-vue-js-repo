@@ -16,16 +16,13 @@ const href = computed(() => {
 
 <style lang="scss" scoped>
 .feedback-wrapper {
-  position: fixed;
-  bottom: 0;
-  right: 1vw;
   a {
     padding: 5px 10px;
     background-color: hsla(120, 55%, 45%, 1);
     border-radius: 3px;
     color: #fff;
     cursor: pointer;
-    height: 30px;
+    height: 40px;
     text-decoration: none;
     display: inline-block;
     border-bottom-left-radius: 0;
