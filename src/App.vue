@@ -96,6 +96,7 @@ footer {
   display: flex;
   justify-content: flex-end;
   column-gap: 2vw;
+  z-index: 2;
 }
 
 /**
