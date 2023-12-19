@@ -1,5 +1,5 @@
-import { calculateFinalMatch } from "./resultMatchCalculator";
 import { RemoveRandomPlayerBonus } from "@/models/bonus";
+import { calculateFinalMatch } from "./resultMatchCalculator";
 
 import { Match } from "@/models/match/Match";
 
@@ -27,8 +27,7 @@ const multipleResultMatchCalculator = (originalMatch) => {
 };
 
 const calculateWithPlayerReplaced = (originalMatch, team, position) => {
-  const matchCopy = JSON.parse(JSON.stringify(originalMatch));
-  const matchForThisPlayer = new Match(matchCopy);
+  const matchForThisPlayer = new Match(originalMatch);
   matchForThisPlayer.homeTeam.bonus = new RemoveRandomPlayerBonus({
     team,
     position,
