@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import ScoresProbabilitiesDisplay from "@/components/score/ScoresProbabilitiesDisplay.vue";
 
 import { Match } from "@/models/match/Match";
@@ -56,14 +57,15 @@ const props = defineProps({
 /**
  * Gestion des différents scénarios
  */
-const allPossiblesMatches = Array.from(multipleResultMatchCalculator(props.match));
+const allPossiblesMatches = computed(() => {
+  return Array.from(multipleResultMatchCalculator(props.match));
+});
+
 const getPlayerSubstituted = (data) => {
   const teamTarget = Object.keys(data)[0] === "home" ? props.match.homeTeam : props.match.awayTeam;
   const position = Object.values(data)[0];
-
   return teamTarget.pitchPlayers[position].lastName;
 };
-
 </script>
 
 <style scoped lang="scss">
