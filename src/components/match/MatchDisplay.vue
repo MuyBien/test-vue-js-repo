@@ -28,6 +28,12 @@
             <h6 class="subtitle">
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
             </h6>
+
+            <div class="row">
+              <bonus-selector :team="match.homeTeam" class="col-6" @change-bonus="updateHomeTeamBonus" />
+              <bonus-selector :team="match.awayTeam" class="col-6" @change-bonus="updateAwayTeamBonus" />
+            </div>
+
             <div class="score-display" @click="openModal">
               <score-display
                 :home-team="match.homeTeam"
@@ -38,11 +44,9 @@
               <info-icon />
             </div>
 
-            <div v-if="isResultProbabilities && initialMatch" class="mt-3">
-              <scores-list-display :match="initialMatch" />
+            <div v-if="isResultProbabilities && match" class="mt-3">
+              <scores-list-display :match="match" />
             </div>
-
-            <bonuses-selector :match="initialMatch" class="mt-3" />
 
             <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
 
@@ -83,8 +87,10 @@ import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
-import BonusesSelector from "@/components/bonus/BonusesSelector.vue";
+import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
+
+import { Match } from "@/models/match/Match";
 
 const props = defineProps({
   liveData: {
@@ -114,10 +120,32 @@ onMounted(() => {
 const { getLeagueMatch, getTournamentMatch } = useMPG();
 
 const initialMatch = ref();
-const match = ref();
 const fetchMatch = async () => {
   initialMatch.value = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getLeagueMatch(props.liveData.id);
-  match.value = calculateFinalMatch(initialMatch.value);
+  homeTeamBonus.value = initialMatch.value.homeTeam.bonus;
+  awayTeamBonus.value = initialMatch.value.awayTeam.bonus;
+};
+
+const match = computed(() => {
+  if (! initialMatch.value) {
+    return;
+  }
+  const newMatch = new Match(initialMatch.value);
+  newMatch.homeTeam.bonus = new homeTeamBonus.value.constructor();
+  newMatch.awayTeam.bonus = new awayTeamBonus.value.constructor();
+  return calculateFinalMatch(newMatch);
+});
+
+/**
+ * Gestion des bonus
+ */
+const homeTeamBonus = ref();
+const updateHomeTeamBonus = (bonus) => {
+  homeTeamBonus.value = new bonus.constructor();
+};
+const awayTeamBonus = ref();
+const updateAwayTeamBonus = (bonus) => {
+  awayTeamBonus.value = new bonus.constructor();
 };
 
 /**

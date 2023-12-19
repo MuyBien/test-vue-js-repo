@@ -28,7 +28,9 @@ const props = defineProps({
     required: true,
   },
 });
-const notManagedBonus = ["boostOnePlayer", "removeRandomPlayer"];
+
+// const notManagedBonus = ["boostOnePlayer", "removeRandomPlayer"];
+const notManagedBonus = ["boostOnePlayer", "fourStrikers"];
 const availableBonuses = Object.keys(props.team.availableBonuses)
   .filter(bonus => props.team.availableBonuses[bonus])
   .map(bonus => new BONUSES[bonus]());
