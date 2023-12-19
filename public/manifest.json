@@ -1,4 +1,5 @@
 {
+    "manifest_version": 3,
     "theme_color": "#45c945",
     "background_color": "#fff",
     "display": "standalone",
@@ -54,5 +55,5 @@
             "sizes": "1210x705",
             "form_factor": "wide"
         }
-  ]
+    ]
 }
