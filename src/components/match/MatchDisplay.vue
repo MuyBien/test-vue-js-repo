@@ -36,9 +36,9 @@
 
             <div class="score-display" @click="openModal">
               <score-display
-                :home-team="match.homeTeam"
-                :away-team="match.awayTeam"
-                :score="match.score"
+                :home-team="resultMatch.homeTeam"
+                :away-team="resultMatch.awayTeam"
+                :score="resultMatch.score"
                 is-clickable
               />
               <info-icon />
@@ -48,7 +48,7 @@
               <scores-list-display :match="match" />
             </div>
 
-            <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
+            <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
 
             <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
               Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
@@ -60,8 +60,8 @@
   </div>
 
   <match-details-display
-    v-if="match"
-    :match="match"
+    v-if="resultMatch"
+    :match="resultMatch"
     :show="showMatchDetails"
     @close="closeModal"
   >
@@ -69,7 +69,7 @@
       <score-display
         :home-team="liveData.home"
         :away-team="liveData.away"
-        :score="match.score"
+        :score="resultMatch.score"
       />
     </template>
   </match-details-display>
@@ -133,7 +133,13 @@ const match = computed(() => {
   const newMatch = new Match(initialMatch.value);
   newMatch.homeTeam.bonus = new homeTeamBonus.value.constructor();
   newMatch.awayTeam.bonus = new awayTeamBonus.value.constructor();
-  return calculateFinalMatch(newMatch);
+  return newMatch;
+});
+const resultMatch = computed(() => {
+  if (! match.value) {
+    return;
+  }
+  return calculateFinalMatch(match.value);
 });
 
 /**
@@ -193,6 +199,7 @@ li {
 }
 .score-display {
   display: flex;
+  margin-top: 2vh;
 
   &__action {
     padding: 0;
