@@ -28,7 +28,7 @@
             <h6 class="subtitle">
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
             </h6>
-            <div class="score-display" @click="showMatchDetails = true">
+            <div class="score-display" @click="openModal">
               <score-display
                 :home-team="match.homeTeam"
                 :away-team="match.awayTeam"
@@ -57,14 +57,13 @@
     v-if="match"
     :match="match"
     :show="showMatchDetails"
-    @close="showMatchDetails = false"
+    @close="closeModal"
   >
     <template #title>
       <score-display
         :home-team="liveData.home"
         :away-team="liveData.away"
         :score="match.score"
-        @click="showMatchDetails = true"
       />
     </template>
   </match-details-display>
@@ -122,6 +121,20 @@ const fetchMatch = async () => {
  * Gestion de la modale des détails du match
  */
 const showMatchDetails = ref(false);
+const openModal = () => {
+  showMatchDetails.value = true;
+  history.pushState({ modalOpen: true }, null);
+};
+const closeModal = () => {
+  showMatchDetails.value = false;
+};
+onMounted(() => {
+  window.addEventListener("popstate", (event) => {
+    if (event.state && event.state.modalOpen) {
+      closeModal();
+    }
+  });
+});
 
 /**
  * Propriétés du score
