@@ -1,7 +1,6 @@
 <template>
   <nav class="topbar">
     <img alt="Logo MPG" src="./assets/logo.png">
-    <display-changelog />
     <h1>Calculateur de résultat de match MPG</h1>
     <p v-if="isConnected" class="user-infos">
       Connecté en tant que {{ user.username }}
@@ -19,16 +18,19 @@
       </section>
     </transition>
 
-    <feedback-button />
+    <footer>
+      <changelog-button />
+      <feedback-button />
+    </footer>
   </main>
 </template>
 
 <script setup>
-import DisplayChangelog from "@/components/changelog/DisplayChangelog.vue";
 import LiveRatingDisclaimer from "@/components/disclaimers/LiveRatingDisclaimer.vue";
 import LiveDisplay from "@/components/live/LiveDisplay.vue";
 import MpgConnectionForm from "@/components/login/MpgConnectionForm.vue";
 import FeedbackButton from "@/components/feedback/FeedbackButton.vue";
+import ChangelogButton from "@/components/changelog/ChangelogButton.vue";
 
 import { useMPG } from "@/use/useMPG";
 
@@ -82,6 +84,19 @@ main {
     display: flex;
     justify-content: center;
   }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  padding-bottom: 0;
+  margin-right: 2vw;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 2vw;
+  z-index: 2;
 }
 
 /**

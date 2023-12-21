@@ -1,5 +1,5 @@
 <template>
-  <section class="feedback-wrapper" data-tour-step="12">
+  <section class="feedback-wrapper">
     <a target="_blank" :href="href">Feedback ?</a>
   </section>
 </template>
@@ -16,15 +16,13 @@ const href = computed(() => {
 
 <style lang="scss" scoped>
 .feedback-wrapper {
-  position: fixed;
-  bottom: 0;
-  right: 1vw;
   a {
     padding: 5px 10px;
     background-color: hsla(120, 55%, 45%, 1);
     border-radius: 3px;
     color: #fff;
-    height: 30px;
+    cursor: pointer;
+    height: 40px;
     text-decoration: none;
     display: inline-block;
     border-bottom-left-radius: 0;
