@@ -1,6 +1,6 @@
-import { LiveAppliedBonus } from "./LiveAppliedBonus";
+import { Bonus } from "./Bonus";
 
-export class NerfGoalkeeperBonus extends LiveAppliedBonus {
+export class NerfGoalkeeperBonus extends Bonus {
 
   constructor () {
     super({
