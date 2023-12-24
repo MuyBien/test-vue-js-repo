@@ -29,7 +29,7 @@
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
             </h6>
 
-            <div class="row">
+            <div v-if="!isTournament" class="row">
               <bonus-selector :team="match.homeTeam" class="col-6" @change-bonus="updateHomeTeamBonus" />
               <bonus-selector :team="match.awayTeam" class="col-6" @change-bonus="updateAwayTeamBonus" />
             </div>
