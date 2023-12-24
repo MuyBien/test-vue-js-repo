@@ -1,22 +1,15 @@
-import { Match } from "@/models/match/Match";
-
 /**
  * Renvoi un nouveau match avec les buts arrêtés par les gardien le cas échéant.
  * @param {Match} match
  * @returns {Match} - Un nouvel objet `Match` avec les buts annulés si un arrêt de but a été effectué par une des équipes.
 */
 const setMpgSaves = (match) => {
-  const newMatch = new Match(match);
-
-  if (isSavingGoal(newMatch.homeTeam)) {
-    cancelPlayerGoal(newMatch.awayTeam);
+  if (isSavingGoal(match.homeTeam)) {
+    cancelPlayerGoal(match.awayTeam);
   }
-
-  if (isSavingGoal(newMatch.awayTeam)) {
-    cancelPlayerGoal(newMatch.homeTeam);
+  if (isSavingGoal(match.awayTeam)) {
+    cancelPlayerGoal(match.homeTeam);
   }
-
-  return newMatch;
 };
 
 const isSavingGoal = (team) => {

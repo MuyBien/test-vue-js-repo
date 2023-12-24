@@ -13,7 +13,6 @@
         :key="player.playerId"
         :player="player"
         :player-index="index"
-        :goal-saved="goalkeeperSaves.includes(player.playerId)"
       />
     </tbody>
   </table>
@@ -26,12 +25,6 @@ defineProps({
   players: {
     type: Array,
     required: true,
-  },
-  goalkeeperSaves: {
-    type: Array,
-    default () {
-      return [];
-    },
   },
 });
 </script>

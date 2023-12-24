@@ -17,12 +17,12 @@
         </div>
         <div class="player_infos__additionnal__goals">
           <template v-if="haveFinallyScored">
-            <goal-icon v-for="goal in (player.goals - goalSaved - player.canceledGoals)" :key="goal" />
+            <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
           </template>
           <goal-icon v-if="player.canceledGoals" is-canceled />
           <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
           <goal-icon v-if="player.mpgGoals" is-mpg-goal />
-          <goal-icon v-if="goalSaved" is-saved />
+          <goal-icon v-if="player.savedGoals" is-saved />
         </div>
       </div>
     </td>
@@ -56,17 +56,13 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  goalSaved: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 /**
  * Buts
  */
 const haveFinallyScored = computed(() => {
-  return props.player.goals - props.goalSaved - props.player.canceledGoals > 0;
+  return props.player.goals - props.player.savedGoals - props.player.canceledGoals > 0;
 });
 
 /**
