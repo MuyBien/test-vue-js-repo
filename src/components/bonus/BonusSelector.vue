@@ -1,6 +1,17 @@
 <template>
   <section class="bonus-swaper">
-    <ul class="available-bonuses">
+    <div v-if="initialBonus" class="initial-bonus">
+      <bonus-display
+        :bonus="initialBonus"
+        :class="{
+          'bonus--selected': selectedBonusValue === initialBonus.value,
+        }"
+      />
+      <button class="btn btn-link btn-sm" data-bs-toggle="button" @click="showBonusList = !showBonusList">
+        Changer le bonus
+      </button>
+    </div>
+    <ul v-if="showBonusList" class="available-bonuses mt-3">
       <li
         v-for="availableBonus in availableBonuses"
         :key="availableBonus.value"
@@ -18,9 +29,10 @@
 </template>
 
 <script setup>
-import { computed, defineProps } from "vue";
+import { ref, computed, defineProps, onMounted } from "vue";
 import { Team } from "@/models/teams/Team";
 import { BONUSES } from "@/constants/bonus";
+import BonusDisplay from "@/components/bonus/BonusDisplay.vue";
 
 const props = defineProps({
   team: {
@@ -29,12 +41,23 @@ const props = defineProps({
   },
 });
 
-// const notManagedBonus = ["boostOnePlayer", "removeRandomPlayer"];
+/**
+ * Liste des bonus
+ */
 const notManagedBonus = ["boostOnePlayer", "fourStrikers"];
 const availableBonuses = Object.keys(props.team.availableBonuses)
   .filter(bonus => props.team.availableBonuses[bonus])
   .map(bonus => new BONUSES[bonus]());
 availableBonuses.push(new BONUSES["none"]());
+const showBonusList = ref(false);
+
+/**
+ * Bonus initial
+ */
+const initialBonus = ref();
+onMounted(() => {
+  initialBonus.value = new BONUSES[props.team.bonus.value || "none"]();
+});
 
 /**
  * Gestion du bonus sélectionné
@@ -50,6 +73,10 @@ const selectBonus = (bonus) => {
 </script>
 
 <style lang="scss" scoped>
+.initial-bonus {
+    flex-direction: column;
+}
+.initial-bonus,
 .available-bonuses {
   display: flex;
   flex-wrap: wrap;
@@ -81,6 +108,5 @@ const selectBonus = (bonus) => {
       background-repeat: no-repeat;
     }
   }
-
 }
 </style>
