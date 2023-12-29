@@ -34,7 +34,7 @@
               <bonus-selector :team="match.awayTeam" class="col-6" @change-bonus="updateAwayTeamBonus" />
             </div>
 
-            <div class="score-display" @click="openModal">
+            <div v-if="!isResultProbabilities" class="score-display" @click="openModal">
               <score-display
                 :home-team="resultMatch.homeTeam"
                 :away-team="resultMatch.awayTeam"
