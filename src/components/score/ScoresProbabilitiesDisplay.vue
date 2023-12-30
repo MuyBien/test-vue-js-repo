@@ -23,6 +23,8 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 const props = defineProps({
   matches: {
     type: Array,
@@ -59,5 +61,7 @@ const getScoresPoucentages = (scores) => {
   return pourcentages;
 };
 
-const allPossiblesScores = getScoresPoucentages(props.matches.map(match => match[1].score));
+const allPossiblesScores = computed(() => {
+  return getScoresPoucentages(props.matches.map(match => match[1].score));
+});
 </script>
