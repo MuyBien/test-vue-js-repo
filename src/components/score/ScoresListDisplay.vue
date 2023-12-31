@@ -21,15 +21,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="possibleMatch in allPossiblesMatches" :key="possibleMatch[0]">
+        <tr v-for="(possibleMatch, index) in allPossiblesMatches" :key="possibleMatch.id + index">
           <td scope="row">
-            {{ getPlayerSubstituted(possibleMatch[0]) }}
+            {{ getPlayerSubstituted(possibleMatch) }}
           </td>
           <td scope="row">
             <score-display
-              :home-team="possibleMatch[1].homeTeam"
-              :away-team="possibleMatch[1].awayTeam"
-              :score="possibleMatch[1].score"
+              :home-team="possibleMatch.homeTeam"
+              :away-team="possibleMatch.awayTeam"
+              :score="possibleMatch.score"
             />
           </td>
         </tr>
@@ -58,13 +58,23 @@ const props = defineProps({
  * Gestion des différents scénarios
  */
 const allPossiblesMatches = computed(() => {
-  return Array.from(multipleResultMatchCalculator(props.match));
+  return multipleResultMatchCalculator(props.match);
 });
 
-const getPlayerSubstituted = (data) => {
-  const teamTarget = Object.keys(data)[0] === "home" ? props.match.homeTeam : props.match.awayTeam;
-  const position = Object.values(data)[0];
-  return teamTarget.pitchPlayers[position].lastName;
+const getPlayerSubstituted = (match) => {
+  const players = [];
+
+  if (match.homeTeam.bonus.value === "removeRandomPlayer") {
+    const targetTeam = match.homeTeam.bonus.team === "team" ? match.homeTeam : match.awayTeam;
+    players.push(targetTeam.pitchPlayers[match.homeTeam.bonus.position].lastName);
+  }
+
+  if (match.awayTeam.bonus.value === "removeRandomPlayer") {
+    const targetTeam = match.awayTeam.bonus.team === "team" ? match.awayTeam : match.homeTeam;
+    players.push(targetTeam.pitchPlayers[match.awayTeam.bonus.position].lastName);
+  }
+
+  return players.join(" et ");
 };
 </script>
 

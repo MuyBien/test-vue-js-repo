@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { multipleResultMatchCalculator } from "../multipleResultMatchCalculator";
 
-import { matchConstructor } from "@/utils/constructors/matchConstructor";
 import mockMatch from "@/assets/mocks/match/response";
+import { RemoveRandomPlayerBonus } from "@/models/bonus";
+import { matchConstructor } from "@/utils/constructors/matchConstructor";
 
 describe("multipleResultMatchCalculator Tests", () => {
 
@@ -11,16 +12,49 @@ describe("multipleResultMatchCalculator Tests", () => {
 
   beforeEach(() => {
     match = matchConstructor(mockMatch);
+    match.homeTeam.bonus = new RemoveRandomPlayerBonus();
   });
 
-  it("calcule des résultats différents pour chaque remplacement de joueur", () => {
+  it("calcule tous les résultats possibles avec 1 chapron rouge", () => {
     const results = multipleResultMatchCalculator(match);
 
-    expect(results).toBeInstanceOf(Map);
-    expect(results.size).toBe(20);
+    expect(results).toBeInstanceOf(Array);
+    expect(results).toHaveLength(20);
 
-    const scoreList = Array.from(results.values()).map(match => match.score);
+    const scoreList = results.map(match => match.score);
     expect(JSON.stringify(scoreList)).toContain("[0,0]");
+  });
+
+  describe("dans le cas de 2 chaprons rouges", () => {
+
+    beforeEach(() => {
+      match.awayTeam.bonus = new RemoveRandomPlayerBonus();
+    });
+
+    it("calcule tous les résultats possibles", () => {
+      const results = multipleResultMatchCalculator(match);
+
+      expect(results).toBeInstanceOf(Array);
+      expect(results).toHaveLength(380);
+
+      const scoreList = results.map(match => match.score);
+      expect(JSON.stringify(scoreList)).toContain("[0,0]");
+    });
+
+    it("ne remplace pas 2 fois le même joueur", () => {
+      const results = multipleResultMatchCalculator(match);
+
+      const playersReplaced = results.map(match => {
+        return [
+          match.homeTeam.bonus.team,
+          match.homeTeam.bonus.position,
+          match.awayTeam.bonus.team,
+          match.awayTeam.bonus.position,
+        ];
+      });
+      expect(JSON.stringify(playersReplaced)).not.toContain("[\"team\",1,\"team\",1]"); // même tableau donc même équipe et même position
+    });
+
   });
 
 });

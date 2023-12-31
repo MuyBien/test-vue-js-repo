@@ -62,6 +62,6 @@ const getScoresPoucentages = (scores) => {
 };
 
 const allPossiblesScores = computed(() => {
-  return getScoresPoucentages(props.matches.map(match => match[1].score));
+  return getScoresPoucentages(props.matches.map(match => match.score));
 });
 </script>
