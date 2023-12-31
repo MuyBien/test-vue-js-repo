@@ -34,28 +34,6 @@ const getResultsForOneBonus = (match) => {
   return results;
 };
 
-const getPositionsToTestOneBonus = () => {
-  const positionsToTest = [];
-
-  // Joueurs de l'équipe à domicile (sauf le gardien)
-  positionsToTest.push(...Array.from({ length: 10 }, (_, i) => {
-    return {
-      team: "team",
-      position: i + 1,
-    };
-  }));
-
-  // Joueurs de l'équipe à l'extérieur(sauf le gardien)
-  positionsToTest.push(...Array.from({ length: 10 }, (_, i) => {
-    return {
-      team: "opponentTeam",
-      position: i + 1,
-    };
-  }));
-
-  return positionsToTest;
-};
-
 const getResultsForTwoBonus = (match) => {
   const positionsToTest = getPositionsToTestTwoBonus();
 
@@ -87,56 +65,43 @@ const getResultsForTwoBonus = (match) => {
 
     const matchWithPlayersReplaced = calculateFinalMatch(matchForThosePlayers);
 
-    // TODO : Supprimer la clé. La récupération du joueur remplacé se fera dans le bonus
     results.push(matchWithPlayersReplaced);
   });
 
   return results;
 };
 
+const getPositions = (teamName) => Array.from({ length: 10 }, (_, i) => ({
+  team: teamName,
+  position: i + 1,
+}));
+
+const getPositionsToTestOneBonus = () => [...getPositions("team"), ...getPositions("opponentTeam")];
+
 const getPositionsToTestTwoBonus = () => {
-  const positionsToTest = [];
+  const positionsToTest = getPositionsToTestOneBonus();
 
-  // Joueurs de l'équipe à domicile (sauf le gardien)
-  positionsToTest.push(...Array.from({ length: 10 }, (_, i) => {
-    return {
-      team: "team",
-      position: i + 1,
-    };
-  }));
-
-  // Joueurs de l'équipe à l'extérieur(sauf le gardien)
-  positionsToTest.push(...Array.from({ length: 10 }, (_, i) => {
-    return {
-      team: "opponentTeam",
-      position: i + 1,
-    };
-  }));
-
-  const allPositionsToTest = [];
-  positionsToTest.forEach((position) => {
-    const positionsToAdd = getPositionsToTestOneBonus();
-    positionsToAdd.forEach((positionToAdd) => {
-      const tuppleposition = [];
-      if (positionToAdd.team === position.team && positionToAdd.position === position.position) {
-        return;
-      }
-      tuppleposition.push(position);
-      tuppleposition.push(positionToAdd);
-      allPositionsToTest.push(tuppleposition);
-    });
+  return positionsToTest.flatMap(position => {
+    return getPositionsToTestOneBonus()
+      .filter(positionToAdd => positionToAdd.team !== position.team || positionToAdd.position !== position.position)
+      .map(positionToAdd => [position, positionToAdd]);
   });
-
-  return allPositionsToTest;
 };
 
 const calculateWithPlayerReplaced = (originalMatch, team, position) => {
   const matchForThisPlayer = new Match(originalMatch);
-  matchForThisPlayer.homeTeam.bonus = new RemoveRandomPlayerBonus({
+  const newBonus = new RemoveRandomPlayerBonus({
     team,
     position,
   });
-  return calculateFinalMatch(matchForThisPlayer);
+  const newMatch = {
+    ...matchForThisPlayer,
+    homeTeam: {
+      ...matchForThisPlayer.homeTeam,
+      bonus: newBonus,
+    },
+  };
+  return calculateFinalMatch(newMatch);
 };
 
 const getRemovePlayerBonusNumber = (originalMatch) => {
