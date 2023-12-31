@@ -66,12 +66,12 @@ const getPlayerSubstituted = (match) => {
 
   if (match.homeTeam.bonus.value === "removeRandomPlayer") {
     const targetTeam = match.homeTeam.bonus.team === "team" ? match.homeTeam : match.awayTeam;
-    players.push(targetTeam.pitchPlayers[match.homeTeam.bonus.position].lastName);
+    players.push(targetTeam.pitchPlayers[match.homeTeam.bonus.position].substitued.lastName);
   }
 
   if (match.awayTeam.bonus.value === "removeRandomPlayer") {
     const targetTeam = match.awayTeam.bonus.team === "team" ? match.awayTeam : match.homeTeam;
-    players.push(targetTeam.pitchPlayers[match.awayTeam.bonus.position].lastName);
+    players.push(targetTeam.pitchPlayers[match.awayTeam.bonus.position].substitued.lastName);
   }
 
   return players.join(" et ");

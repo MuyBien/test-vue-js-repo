@@ -26,6 +26,7 @@ export class RemoveRandomPlayerBonus extends Bonus {
       ...players[this.position],
       ownGoals: (rotaldoAmount + 1) % 3 ? 0 : 1,
       isSubstitute: true,
+      substitued: players[this.position],
     });
   }
 }
