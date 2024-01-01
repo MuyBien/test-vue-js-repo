@@ -30,6 +30,14 @@ export class MirrorBonus extends Bonus {
     team.bonus.timing = opponentTeam.bonus.timing;
     team.bonus.isLiveApplied = false;
 
+    if (opponentTeam.bonus.value === "boostOnePlayer") {
+      const targetIndex = opponentTeam.pitchPlayers.findIndex(player => {
+        return player.playerId === opponentTeam.bonus.playerId;
+      });
+      team.bonus.playerId = team.pitchPlayers[targetIndex].playerId;
+    }
+
+    // On désactive le bonus de l'adversaire
     opponentTeam.bonus.isLiveApplied = true;
   }
 }
