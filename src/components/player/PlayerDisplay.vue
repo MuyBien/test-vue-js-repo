@@ -19,9 +19,9 @@
           <template v-if="haveFinallyScored">
             <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
           </template>
-          <goal-icon v-if="player.canceledGoals" is-canceled />
+          <goal-icon v-if="player.goals.length && player.canceledGoals" is-canceled />
           <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
-          <goal-icon v-if="player.mpgGoals" is-mpg-goal />
+          <goal-icon v-if="player.mpgGoals" is-mpg-goal :is-canceled="player.canceledGoals" />
           <goal-icon v-if="player.savedGoals" is-saved />
         </div>
       </div>
