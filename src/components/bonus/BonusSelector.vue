@@ -13,7 +13,10 @@
     </div>
 
     <div v-if="showBonusList">
-      <ul class="available-bonuses mt-3">
+      <p v-if="initialBonus.value === 'fourStrikers'" class="rating-disclaimer alert alert-warning mt-3" role="alert">
+        Le bonus 4-Decat ne peut pas être supprimé. Il n'est pas possible d'imaginer le match avec un autre bonus.
+      </p>
+      <ul v-else class="available-bonuses mt-3">
         <li
           v-for="availableBonus in availableBonuses"
           :key="availableBonus.value"
@@ -59,6 +62,7 @@ const props = defineProps({
     required: true,
   },
 });
+const emits = defineEmits(["change-bonus"]);
 
 /**
  * Liste des bonus
@@ -92,8 +96,8 @@ const targetPlayer = ref(props.team.bonus.playerId);
  * Gestion du bonus sélectionné
  */
 const selectedBonusValue = computed(() => props.team.bonus.value);
-const emit = defineEmits(["change-bonus"]);
 const selectBonus = (bonus) => {
+
   if (notManagedBonus.includes(bonus.value)) {
     return;
   }
@@ -109,7 +113,7 @@ const selectBonus = (bonus) => {
     }
   }
 
-  emit("change-bonus", bonus);
+  emits("change-bonus", bonus);
 };
 </script>
 
