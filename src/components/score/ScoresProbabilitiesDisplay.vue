@@ -23,6 +23,8 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 const props = defineProps({
   matches: {
     type: Array,
@@ -49,7 +51,7 @@ const getScoresPoucentages = (scores) => {
   const uniqueScores = Array.from(new Set(scores.map(JSON.stringify)), JSON.parse);
   const pourcentages = uniqueScores.map(uniqueScore => {
     const occurences = scores.filter(score => JSON.stringify(score) === JSON.stringify(uniqueScore)).length;
-    const pourcentage = (occurences / scores.length) * 100;
+    const pourcentage = Math.round((occurences / scores.length) * 100);
     return {
       score: uniqueScore,
       pourcentage,
@@ -59,5 +61,7 @@ const getScoresPoucentages = (scores) => {
   return pourcentages;
 };
 
-const allPossiblesScores = getScoresPoucentages(props.matches.map(match => match[1].score));
+const allPossiblesScores = computed(() => {
+  return getScoresPoucentages(props.matches.map(match => match.score));
+});
 </script>

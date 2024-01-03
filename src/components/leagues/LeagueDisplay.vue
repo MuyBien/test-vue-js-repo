@@ -55,9 +55,10 @@ const matchesToDisplay = computed(() => {
   gap: 10px;
 
   &__logo {
+    display: block;
     width: 50px;
     height: 50px;
-    display: block;
+    border-radius: 50%;
     background-size: cover;
   }
 }

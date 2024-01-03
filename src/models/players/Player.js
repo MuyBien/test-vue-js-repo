@@ -26,6 +26,7 @@ export class Player {
 
   isCaptain = false;
   isSubstitute = false;
+  substitued;
 
   constructor (playerData = {}) {
     this.playerId = playerData.playerId;
@@ -46,6 +47,7 @@ export class Player {
 
     this.isCaptain = playerData.isCaptain || false;
     this.isSubstitute = playerData.isSubstitute || false;
+    this.substitued = playerData.substitued || undefined;
   }
 
   isBacker = () => {

@@ -34,6 +34,7 @@ defineProps({
     width: 44px;
     background-size: contain;
     background-repeat: no-repeat;
+    flex-shrink: 0;
   }
 
   &__description {

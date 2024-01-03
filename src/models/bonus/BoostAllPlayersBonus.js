@@ -1,6 +1,6 @@
-import { Bonus } from "./Bonus";
+import { LiveAppliedBonus } from "./LiveAppliedBonus";
 
-export class BoostAllPlayersBonus extends Bonus {
+export class BoostAllPlayersBonus extends LiveAppliedBonus {
 
   constructor () {
     super({
@@ -9,13 +9,18 @@ export class BoostAllPlayersBonus extends Bonus {
       icon: "/img/bonus-images/zahia.png",
       description: "Ajoute un bonus de 0.5 à tous les joueurs titulaires (pas les remplaçants).",
       timing: "before",
-      isLiveApplied: true,
     });
   }
 
   apply (team) {
     team.pitchPlayers.forEach(player => {
       player.bonusRating += 0.5;
+    });
+  }
+
+  revert (team) {
+    team.pitchPlayers.forEach(player => {
+      player.bonusRating -= 0.5;
     });
   }
 }

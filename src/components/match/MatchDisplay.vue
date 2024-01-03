@@ -28,21 +28,35 @@
             <h6 class="subtitle">
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
             </h6>
-            <div class="score-display" @click="openModal">
+
+            <div v-if="!isTournament" class="row">
+              <bonus-selector
+                :team="match.homeTeam"
+                class="col-6"
+                @change-bonus="updateHomeTeamBonus"
+              />
+              <bonus-selector
+                :team="match.awayTeam"
+                class="col-6"
+                @change-bonus="updateAwayTeamBonus"
+              />
+            </div>
+
+            <div v-if="!isResultProbabilities" class="score-display" @click="openModal">
               <score-display
-                :home-team="match.homeTeam"
-                :away-team="match.awayTeam"
-                :score="match.score"
+                :home-team="resultMatch.homeTeam"
+                :away-team="resultMatch.awayTeam"
+                :score="resultMatch.score"
                 is-clickable
               />
               <info-icon />
             </div>
 
-            <div v-if="isResultProbabilities && initialMatch" class="mt-3">
-              <scores-list-display :match="initialMatch" />
+            <div v-if="isResultProbabilities && match" class="mt-3">
+              <scores-list-display :match="match" />
             </div>
 
-            <display-tournament-result v-if="isTournament" :match="match" class="mt-3" />
+            <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
 
             <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
               Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
@@ -54,8 +68,8 @@
   </div>
 
   <match-details-display
-    v-if="match"
-    :match="match"
+    v-if="resultMatch"
+    :match="resultMatch"
     :show="showMatchDetails"
     @close="closeModal"
   >
@@ -63,7 +77,7 @@
       <score-display
         :home-team="liveData.home"
         :away-team="liveData.away"
-        :score="match.score"
+        :score="resultMatch.score"
       />
     </template>
   </match-details-display>
@@ -81,7 +95,10 @@ import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
+import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
+
+import { Match } from "@/models/match/Match";
 
 const props = defineProps({
   liveData: {
@@ -108,13 +125,52 @@ onMounted(() => {
 /**
  * Match
  */
-const { getMatchData, getTournamentMatch } = useMPG();
+const { getLeagueMatch, getTournamentMatch } = useMPG();
 
 const initialMatch = ref();
-const match = ref();
 const fetchMatch = async () => {
-  initialMatch.value = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getMatchData(props.liveData.id);
-  match.value = calculateFinalMatch(initialMatch.value);
+  initialMatch.value = props.isTournament ? await getTournamentMatch(props.liveData.id) : await getLeagueMatch(props.liveData.id);
+  homeTeamBonus.value = initialMatch.value.homeTeam.bonus;
+  awayTeamBonus.value = initialMatch.value.awayTeam.bonus;
+};
+
+const match = computed(() => {
+  if (! initialMatch.value) {
+    return;
+  }
+  const newMatch = new Match(initialMatch.value);
+  newMatch.homeTeam.bonus = new homeTeamBonus.value.constructor(homeTeamBonus.value);
+  newMatch.awayTeam.bonus = new awayTeamBonus.value.constructor(awayTeamBonus.value);
+  return newMatch;
+});
+const resultMatch = computed(() => {
+  if (! match.value) {
+    return;
+  }
+  return calculateFinalMatch(match.value);
+});
+
+/**
+ * Gestion des bonus
+ */
+const homeTeamBonus = ref();
+const updateHomeTeamBonus = (bonus) => {
+  updateTeamBonus(homeTeamBonus, bonus, initialMatch.value.homeTeam.bonus.value);
+};
+
+const awayTeamBonus = ref();
+const updateAwayTeamBonus = (bonus) => {
+  updateTeamBonus(awayTeamBonus, bonus, initialMatch.value.awayTeam.bonus.value);
+};
+
+const updateTeamBonus = (teamBonus, bonus, initialBonusValue) => {
+  teamBonus.value = new bonus.constructor();
+  if (initialBonusValue !== bonus.value) {
+    teamBonus.value.isLiveApplied = false;
+  }
+  if (bonus.playerId) {
+    teamBonus.value.playerId = bonus.playerId;
+  }
 };
 
 /**
@@ -162,6 +218,7 @@ li {
 }
 .score-display {
   display: flex;
+  margin-top: 2vh;
 
   &__action {
     padding: 0;

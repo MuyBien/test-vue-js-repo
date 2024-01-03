@@ -1,12 +1,13 @@
 import { Match } from "@/models/match/Match";
-import { doMatchSubstitutions } from "@/utils/substitutions/substitutionMaker";
 import { setMpgGoals } from "@/utils/mpg-events/mpgGoalEventManager";
 import { setMpgSaves } from "@/utils/mpg-events/mpgSaveEventManager";
 import { setScore } from "@/utils/score/score";
+import { doMatchSubstitutions } from "@/utils/substitutions/substitutionMaker";
 
 const calculateFinalMatch = (match) => {
 
   const matchCopy = new Match(match);
+  applyMatchBonuses(matchCopy, "beforeAll");
   applyMatchBonuses(matchCopy, "before");
 
   const finalMatch = doMatchSubstitutions(matchCopy);
@@ -16,7 +17,7 @@ const calculateFinalMatch = (match) => {
   setMpgGoals(finalMatch);
   setMpgSaves(finalMatch);
 
-  applyMatchBonuses(matchCopy, "after");
+  applyMatchBonuses(finalMatch, "after");
 
   setScore(finalMatch);
   return finalMatch;

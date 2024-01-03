@@ -1,5 +1,5 @@
-import { computed, ref, watch, onBeforeMount } from "vue";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
+import { computed, onBeforeMount, ref, watch } from "vue";
 
 const token = ref("");
 const user = ref({});
@@ -98,7 +98,10 @@ export function useMPG () {
     return liveTournaments ? Object.values(liveTournaments).filter(tournament => tournament.liveState) : [];
   });
 
-  const getMatchData = async (matchId) => {
+  /**
+   * Matchs data
+   */
+  const getLeagueMatch = async (matchId) => {
     const response = await fetch(`https://api.mpg.football/division-match/${matchId}`, {
       method: "GET",
       headers: {
@@ -107,8 +110,24 @@ export function useMPG () {
       },
       body: null,
     });
-    const data = await response.json();
-    return matchConstructor(data);
+    const matchData = await response.json();
+
+    const [homeTeamData, awayTeamData] = await Promise.all([
+      getTeamInfos(matchData.home.teamId),
+      getTeamInfos(matchData.away.teamId),
+    ]);
+
+    return matchConstructor({
+      ...matchData,
+      home: {
+        ...matchData.home,
+        ...homeTeamData,
+      },
+      away: {
+        ...matchData.away,
+        ...awayTeamData,
+      },
+    });
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -126,6 +145,26 @@ export function useMPG () {
     return tournamentMatch;
   };
 
+  /**
+   * Team data
+   */
+  const getTeamInfos = async (teamId) => {
+    const response = await fetch(`https://api.mpg.football/team/${teamId}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    return {
+      name: data.name,
+      abbreviation: data.abbreviation,
+      availableBonuses: data.availableBonuses,
+    };
+  };
+
   return {
     signIn,
     user,
@@ -134,7 +173,7 @@ export function useMPG () {
     haveLiveRating,
     liveLeagues,
     liveTournaments,
-    getMatchData,
+    getLeagueMatch,
     getTournamentMatch,
   };
 }

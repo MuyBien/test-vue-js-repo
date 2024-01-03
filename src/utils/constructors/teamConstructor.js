@@ -33,6 +33,7 @@ const teamConstructor = (teamData) => {
   setCaptain(team.pitchPlayers, teamData.captain);
 
   team.bonus = setBonus(teamData.bonuses);
+  team.availableBonuses = teamData.availableBonuses;
 
   return team;
 };
