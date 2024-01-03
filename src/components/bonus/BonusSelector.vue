@@ -88,7 +88,7 @@ onMounted(() => {
 const choosePlayer = ref(props.team.bonus.value === "boostOnePlayer");
 const players = computed(() => {
   const pitchPlayersCopy = [...props.team.pitchPlayers];
-  return pitchPlayersCopy.splice(1, 10);
+  return pitchPlayersCopy.splice(1, 10).filter(player => ! player.isCaptain);
 });
 const targetPlayer = ref(props.team.bonus.playerId);
 
