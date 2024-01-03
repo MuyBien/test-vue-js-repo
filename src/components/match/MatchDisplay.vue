@@ -30,8 +30,16 @@
             </h6>
 
             <div v-if="!isTournament" class="row">
-              <bonus-selector :team="match.homeTeam" class="col-6" @change-bonus="updateHomeTeamBonus" />
-              <bonus-selector :team="match.awayTeam" class="col-6" @change-bonus="updateAwayTeamBonus" />
+              <bonus-selector
+                :team="match.homeTeam"
+                class="col-6"
+                @change-bonus="updateHomeTeamBonus"
+              />
+              <bonus-selector
+                :team="match.awayTeam"
+                class="col-6"
+                @change-bonus="updateAwayTeamBonus"
+              />
             </div>
 
             <div v-if="!isResultProbabilities" class="score-display" @click="openModal">
@@ -147,16 +155,21 @@ const resultMatch = computed(() => {
  */
 const homeTeamBonus = ref();
 const updateHomeTeamBonus = (bonus) => {
-  homeTeamBonus.value = new bonus.constructor();
-  if (initialMatch.value.homeTeam.bonus.value !== bonus.value) {
-    homeTeamBonus.value.isLiveApplied = false;
-  }
+  updateTeamBonus(homeTeamBonus, bonus, initialMatch.value.homeTeam.bonus.value);
 };
+
 const awayTeamBonus = ref();
 const updateAwayTeamBonus = (bonus) => {
-  awayTeamBonus.value = new bonus.constructor();
-  if (initialMatch.value.awayTeam.bonus.value !== bonus.value) {
-    awayTeamBonus.value.isLiveApplied = false;
+  updateTeamBonus(awayTeamBonus, bonus, initialMatch.value.awayTeam.bonus.value);
+};
+
+const updateTeamBonus = (teamBonus, bonus, initialBonusValue) => {
+  teamBonus.value = new bonus.constructor();
+  if (initialBonusValue !== bonus.value) {
+    teamBonus.value.isLiveApplied = false;
+  }
+  if (bonus.playerId) {
+    teamBonus.value.playerId = bonus.playerId;
   }
 };
 

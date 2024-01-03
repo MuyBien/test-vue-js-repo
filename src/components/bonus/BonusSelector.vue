@@ -11,20 +11,39 @@
         Changer le bonus
       </button>
     </div>
-    <ul v-if="showBonusList" class="available-bonuses mt-3">
-      <li
-        v-for="availableBonus in availableBonuses"
-        :key="availableBonus.value"
-        class="bonus"
-        :class="{
-          'bonus--selected': selectedBonusValue === availableBonus.value,
-          'bonus--disabled': notManagedBonus.includes(availableBonus.value),
-        }"
-        @click="selectBonus(availableBonus)"
-      >
-        <div class="bonus__logo" :style="{ 'backgroundImage': `url(${availableBonus.icon}`}" />
-      </li>
-    </ul>
+
+    <div v-if="showBonusList">
+      <ul class="available-bonuses mt-3">
+        <li
+          v-for="availableBonus in availableBonuses"
+          :key="availableBonus.value"
+          class="bonus"
+          :class="{
+            'bonus--selected': selectedBonusValue === availableBonus.value,
+            'bonus--disabled': notManagedBonus.includes(availableBonus.value),
+          }"
+          @click="selectBonus(availableBonus)"
+        >
+          <div class="bonus__logo" :style="{ 'backgroundImage': `url(${availableBonus.icon}`}" />
+        </li>
+      </ul>
+
+      <div v-if="choosePlayer" class="mt-2">
+        <select
+          v-model="targetPlayer"
+          class="form-select"
+          aria-label="Default select example"
+          @change="selectBonus(new BONUSES['boostOnePlayer'])"
+        >
+          <option selected>
+            Choisissez un joueur cible
+          </option>
+          <option v-for="player in players" :key="player.playerId" :value="player.playerId">
+            {{ player.lastName }}
+          </option>
+        </select>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -44,7 +63,7 @@ const props = defineProps({
 /**
  * Liste des bonus
  */
-const notManagedBonus = ["boostOnePlayer", "fourStrikers"];
+const notManagedBonus = ["fourStrikers"];
 const availableBonuses = Object.keys(props.team.availableBonuses)
   .filter(bonus => props.team.availableBonuses[bonus])
   .map(bonus => new BONUSES[bonus]());
@@ -60,6 +79,16 @@ onMounted(() => {
 });
 
 /**
+ * Gestion du bonus UberEat
+ */
+const choosePlayer = ref(props.team.bonus.value === "boostOnePlayer");
+const players = computed(() => {
+  const pitchPlayersCopy = [...props.team.pitchPlayers];
+  return pitchPlayersCopy.splice(1, 10);
+});
+const targetPlayer = ref(props.team.bonus.playerId);
+
+/**
  * Gestion du bonus sélectionné
  */
 const selectedBonusValue = computed(() => props.team.bonus.value);
@@ -68,6 +97,18 @@ const selectBonus = (bonus) => {
   if (notManagedBonus.includes(bonus.value)) {
     return;
   }
+
+  choosePlayer.value = false;
+  if (bonus.value === "boostOnePlayer") {
+    choosePlayer.value = true;
+    if (targetPlayer.value) {
+      bonus.playerId = targetPlayer.value;
+    } else {
+      targetPlayer.value = initialBonus.value.bonus.playerId;
+      return;
+    }
+  }
+
   emit("change-bonus", bonus);
 };
 </script>
