@@ -19,6 +19,7 @@
     </transition>
 
     <footer>
+      <donation-button />
       <changelog-button />
       <feedback-button />
     </footer>
@@ -31,6 +32,7 @@ import LiveDisplay from "@/components/live/LiveDisplay.vue";
 import MpgConnectionForm from "@/components/login/MpgConnectionForm.vue";
 import FeedbackButton from "@/components/feedback/FeedbackButton.vue";
 import ChangelogButton from "@/components/changelog/ChangelogButton.vue";
+import DonationButton from "@/components/donation/DonationButton.vue";
 
 import { useMPG } from "@/use/useMPG";
 
@@ -95,7 +97,7 @@ footer {
   margin-right: 2vw;
   display: flex;
   justify-content: flex-end;
-  column-gap: 2vw;
+  column-gap: 1.5vw;
   z-index: 2;
 }
 
