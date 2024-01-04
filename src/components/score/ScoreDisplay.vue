@@ -71,6 +71,7 @@ defineProps({
       flex-grow: 1;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-align: start;
 
       &:first-child {
         text-align: end;
