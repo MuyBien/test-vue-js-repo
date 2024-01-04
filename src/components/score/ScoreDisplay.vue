@@ -56,16 +56,30 @@ defineProps({
   &__team {
     display: flex;
     align-items: center;
+    flex: 1;
     width: 40%;
     margin: 0 10px;
-    white-space: pre-wrap;
+    white-space: nowrap;
+    overflow: hidden;
     font-size: 15px;
 
     &:first-child {
       justify-content: end;
     }
 
+    &__name {
+      flex-grow: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: start;
+
+      &:first-child {
+        text-align: end;
+      }
+    }
+
     &__jersey {
+      flex-shrink: 0;
       width: 32px;
       height: 32px;
       background-size: cover;
@@ -74,8 +88,7 @@ defineProps({
   }
 
   &__score {
-    flex-grow: 1;
-    min-width: 50px;
+    min-width: 30px;
     display: flex;
     align-items: center;
     -webkit-box-pack: center;
