@@ -28,6 +28,7 @@ defineProps({
 <style lang="scss" scoped>
 .bonus {
   display: flex;
+  column-gap: 1vw;
 
   &__logo {
     height: 57px ;
@@ -41,7 +42,6 @@ defineProps({
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin-left: 1vw;
 
     &__name {
       color: var(--bs-primary);
