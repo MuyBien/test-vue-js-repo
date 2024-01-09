@@ -1,76 +1,87 @@
 <template>
-  <section class="match-wrapper">
-    <div class="match-wrapper__jersey home-team" :style="{ 'backgroundImage': `url(${jerseyHome}`}" />
-    <div class="match-wrapper__jersey away-team" :style="{ 'backgroundImage': `url(${jerseyAway}`}" />
+  <section class="sharing-section">
+    <button class="btn btn-primary" @click="shareMatch">
+      Partager le résultat
+    </button>
 
-    <header class="match-wrapper__score">
-      <p class="match-wrapper__score__team_name">
-        {{ match.homeTeam.name }}
-      </p>
-      <p class="match-wrapper__score__team_score">
-        {{ match.score[0] }}
-      </p>
-      <p class="match-wrapper__score__team_score">
-        {{ match.score[1] }}
-      </p>
-      <p class="match-wrapper__score__team_name">
-        {{ match.awayTeam.name }}
-      </p>
-    </header>
+    <section v-if="generatingImage" ref="shareImage" class="match-wrapper">
+      <div class="match-wrapper__jersey home-team" :style="{ 'backgroundImage': `url(${jerseyHome}`}" />
+      <div class="match-wrapper__jersey away-team" :style="{ 'backgroundImage': `url(${jerseyAway}`}" />
 
-    <main class="match-wrapper__teams">
-      <div class="home-team goals">
-        <div v-for="player in homeScorers" :key="player.playerId">
-          <p>
-            {{ player.lastName }}
-          </p>
-          <div class="player__goals">
-            <template v-if="haveFinallyScored(player)">
-              <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
-            </template>
-            <goal-icon v-if="player.goals.length && player.canceledGoals" is-canceled />
-            <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
-            <goal-icon v-if="player.mpgGoals" is-mpg-goal :is-canceled="!!player.canceledGoals" />
-            <goal-icon v-if="player.savedGoals" is-saved />
+      <header class="match-wrapper__score">
+        <p class="match-wrapper__score__team_name">
+          {{ match.homeTeam.name }}
+        </p>
+        <p class="match-wrapper__score__team_score">
+          {{ match.score[0] }}
+        </p>
+        <p class="match-wrapper__score__team_score">
+          {{ match.score[1] }}
+        </p>
+        <p class="match-wrapper__score__team_name">
+          {{ match.awayTeam.name }}
+        </p>
+      </header>
+
+      <main class="match-wrapper__teams">
+        <div class="home-team goals">
+          <div v-for="player in homeScorers" :key="player.playerId">
+            <p>
+              {{ player.lastName }}
+            </p>
+            <div class="player__goals">
+              <template v-if="haveFinallyScored(player)">
+                <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
+              </template>
+              <goal-icon v-if="player.goals.length && player.canceledGoals" is-canceled />
+              <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
+              <goal-icon v-if="player.mpgGoals" is-mpg-goal :is-canceled="!!player.canceledGoals" />
+              <goal-icon v-if="player.savedGoals" is-saved />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="home-team bonus">
-        <bonus-display :bonus="match.homeTeam.bonus" />
-      </div>
-      <div class="away-team goals">
-        <div v-for="player in awayScorers" :key="player.playerId">
-          <p>
-            {{ player.lastName }}
-          </p>
-          <div class="player__goals">
-            <template v-if="haveFinallyScored(player)">
-              <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
-            </template>
-            <goal-icon v-if="player.goals.length && player.canceledGoals" is-canceled />
-            <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
-            <goal-icon v-if="player.mpgGoals" is-mpg-goal :is-canceled="!!player.canceledGoals" />
-            <goal-icon v-if="player.savedGoals" is-saved />
+        <div class="home-team bonus">
+          <bonus-display :bonus="match.homeTeam.bonus" />
+        </div>
+        <div class="away-team goals">
+          <div v-for="player in awayScorers" :key="player.playerId">
+            <p>
+              {{ player.lastName }}
+            </p>
+            <div class="player__goals">
+              <template v-if="haveFinallyScored(player)">
+                <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
+              </template>
+              <goal-icon v-if="player.goals.length && player.canceledGoals" is-canceled />
+              <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
+              <goal-icon v-if="player.mpgGoals" is-mpg-goal :is-canceled="!!player.canceledGoals" />
+              <goal-icon v-if="player.savedGoals" is-saved />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="away-team bonus">
-        <bonus-display :bonus="match.awayTeam.bonus" class="away-bonus" />
-      </div>
-    </main>
+        <div class="away-team bonus">
+          <bonus-display :bonus="match.awayTeam.bonus" class="away-bonus" />
+        </div>
+      </main>
 
-    <footer>
-      <img alt="Logo MPG" src="/src/assets/logo.png">
-      Calculé par mpg-calculator.fr
-    </footer>
+      <footer>
+        <p>Généré le {{ imageDate }}</p>
+        <div>
+          <img alt="Logo MPG" src="/src/assets/logo.png">
+          Calculé par mpg-calculator.fr
+        </div>
+      </footer>
+    </section>
   </section>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, nextTick } from "vue";
 import GoalIcon from "@/components/icons/GoalIcon.vue";
 import BonusDisplay from "@/components/bonus/BonusDisplay.vue";
 import { Match } from "@/models/match/Match";
+
+import { toPng } from "html-to-image";
 
 const props = defineProps({
   match: {
@@ -98,6 +109,31 @@ const awayScorers = computed(() => {
 });
 const haveFinallyScored = (player) => {
   return player.goals - player.savedGoals - player.canceledGoals > 0;
+};
+
+/**
+ * Screenshot
+ */
+const generatingImage = ref(false);
+const shareImage = ref(null);
+const imageDate = ref(null);
+const shareMatch = async () => {
+  imageDate.value = new Date().toLocaleString();
+  generatingImage.value = true;
+  await nextTick();
+  toPng(shareImage.value, { backgroundColor: "white" })
+    .then(function (dataUrl) {
+      const link = document.createElement("a");
+      link.download = props.match.id + ".jpeg";
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch(function (error) {
+      console.error("oops, something went wrong!", error);
+    })
+    .finally(() => {
+      generatingImage.value = false;
+    });
 };
 </script>
 
@@ -194,11 +230,15 @@ const haveFinallyScored = (player) => {
 
   footer {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     font-size: 0.7em;
     color: grey;
     margin-top: 20px;
+
+    p {
+      margin-bottom: 0;
+    }
 
     img {
       width: 20px;

@@ -61,6 +61,8 @@
             <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
               Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
             </p>
+
+            <share-match-image :match="resultMatch" :jersey-home="liveData.home.jerseyUrl" :jersey-away="liveData.away.jerseyUrl" />
           </div>
         </div>
       </div>
@@ -97,6 +99,7 @@ import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentR
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
+import ShareMatchImage from "@/components/match/ShareMatchImage.vue";
 
 import { Match } from "@/models/match/Match";
 
