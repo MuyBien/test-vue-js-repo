@@ -29,9 +29,12 @@
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application des bonus.
             </h6>
 
+            <section class="team_jerseys">
             <div class="team_jersey team_jersey--home" :style="{ 'backgroundImage': `url(${liveData.home.jerseyUrl}`}" />
             <div class="team_jersey team_jersey--away" :style="{ 'backgroundImage': `url(${liveData.away.jerseyUrl}`}" />
+            </section>
 
+            <section class="match-details">
             <score-display :match="resultMatch" />
             <scorers-display :match="resultMatch" class="mt-3" />
 
@@ -242,6 +245,10 @@ li {
   }
 }
 
+  .team_jerseys {
+    position: relative;
+    z-index: 0;
+
   .team_jersey {
     position: absolute;
     top: -4vh;
@@ -258,6 +265,12 @@ li {
     &--away {
       right: -10vw;
     }
+    }
+  }
+
+  .match-details {
+    position: relative;
+    z-index: 1;
   }
 
 .rating-disclaimer {
