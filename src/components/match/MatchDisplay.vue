@@ -19,7 +19,7 @@
         class="accordion-collapse collapse"
         :data-bs-parent="`#${liveData.id}-parent`"
       >
-        <div class="accordion-body row">
+        <div class="accordion-body row match-details-wrapper">
           <match-placeholder v-if="!match" />
           <div v-else>
             <h3 class="title">
@@ -28,6 +28,9 @@
             <h6 class="subtitle">
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application des bonus.
             </h6>
+
+            <div class="team_jersey team_jersey--home" :style="{ 'backgroundImage': `url(${liveData.home.jerseyUrl}`}" />
+            <div class="team_jersey team_jersey--away" :style="{ 'backgroundImage': `url(${liveData.away.jerseyUrl}`}" />
 
             <score-display :match="resultMatch" />
             <div v-if="!isTournament" class="row">
@@ -209,6 +212,11 @@ const isResultProbabilities = computed(() => {
 li {
   list-style: none;
 }
+.match-details-wrapper {
+  position: relative;
+  overflow: hidden;
+  --bs-gutter-x: 0; // override BS
+
 .title {
   font-size: 14px;
   text-align: left;
@@ -230,7 +238,26 @@ li {
   }
 }
 
+  .team_jersey {
+    position: absolute;
+    top: -4vh;
+    width: 30vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: top right;
+    z-index: 0;
+    opacity: 0.1;
+
+    &--home {
+      left: -15vw;
+    }
+    &--away {
+      right: -10vw;
+    }
+  }
+
 .rating-disclaimer {
   font-size: 13px;
+  }
 }
 </style>
