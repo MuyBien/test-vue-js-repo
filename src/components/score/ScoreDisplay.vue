@@ -1,104 +1,53 @@
 <template>
-  <section class="result" :class="{ 'result--clickable': isClickable }">
-    <p class="result__team">
-      <span class="result__team__name">{{ homeTeam.name || homeTeam.abbreviation }}</span>
-      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${homeTeam.jerseyUrl}`}" />
+  <section class="score">
+    <p class="score__team_name">
+      {{ match.homeTeam.name }}
     </p>
-    <p class="result__score">
-      {{ score.join(" - ") }}
+    <p class="score__team_score">
+      {{ match.score[0] }}
     </p>
-    <p class="result__team">
-      <span class="result__team__jersey" :style="{ 'backgroundImage': `url(${awayTeam.jerseyUrl}`}" />
-      <span class="result__team__name">{{ awayTeam.name || awayTeam.abbreviation }}</span>
+    <p class="score__team_score">
+      {{ match.score[1] }}
+    </p>
+    <p class="score__team_name">
+      {{ match.awayTeam.name }}
     </p>
   </section>
 </template>
 
 <script setup>
+import { Match } from "@/models/match/Match";
+
 defineProps({
-  homeTeam: {
-    type: Object,
+  match: {
+    type: Match,
     required: true,
-  },
-  awayTeam: {
-    type: Object,
-    required: true,
-  },
-  score: {
-    type: Array,
-    default: undefined,
-  },
-  isClickable: {
-    type: Boolean,
-    default: false,
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.result {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-
-  &--clickable {
-    cursor: pointer;
-
-    .result__score {
-      transition: transform .3s ease-out;
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
-  }
-
-  &__team {
+.score {
     display: flex;
     align-items: center;
-    flex: 1;
-    width: 40%;
-    margin: 0 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    font-size: 15px;
-
-    &:first-child {
-      justify-content: end;
-    }
-
-    &__name {
-      flex-grow: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: start;
-
-      &:first-child {
-        text-align: end;
-      }
-    }
-
-    &__jersey {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      background-size: cover;
-      margin: 0 1vw;
-    }
-  }
-
-  &__score {
-    min-width: 30px;
-    display: flex;
-    align-items: center;
-    -webkit-box-pack: center;
     justify-content: center;
-    color: rgb(232, 30, 41);
-    background: rgba(232, 30, 41, 0.08);
-    margin: 0;
-    padding: 2px 5px;
-    border-radius: 5px;
-    font-weight: bold;
+    column-gap: 10px;
+
+    &__team_name {
+      width: 15vw;
+      margin-bottom: 0;
+      font-size: 1.2em;
+    }
+
+    &__team_score {
+      margin-bottom: 0;
+      border: 1px solid rgb(232, 30, 41);
+      border-radius: 5px;
+      padding: 15px;
+      color: rgb(232, 30, 41);
+      font-weight: bold;
+      background-color: rgba(232, 30, 41, 0.08);
+      font-size: 1.3em;
+    }
   }
-}
 </style>

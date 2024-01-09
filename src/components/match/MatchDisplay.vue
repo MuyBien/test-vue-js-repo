@@ -10,7 +10,7 @@
           aria-expanded="true"
           :aria-controls="`${liveData.id}-more-infos`"
         >
-          <score-display :home-team="liveData.home" :away-team="liveData.away" :score="[liveData.home.score, liveData.away.score]" />
+          <score-line-display :home-team="liveData.home" :away-team="liveData.away" :score="[liveData.home.score, liveData.away.score]" />
         </button>
       </h2>
       <div
@@ -26,9 +26,10 @@
               Résultat calculé :
             </h3>
             <h6 class="subtitle">
-              Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
+              Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application des bonus.
             </h6>
 
+            <score-display :match="resultMatch" />
             <div v-if="!isTournament" class="row">
               <bonus-selector
                 :team="match.homeTeam"
@@ -43,7 +44,7 @@
             </div>
 
             <div v-if="!isResultProbabilities" class="score-display" @click="openModal">
-              <score-display
+              <score-line-display
                 :home-team="resultMatch.homeTeam"
                 :away-team="resultMatch.awayTeam"
                 :score="resultMatch.score"
@@ -76,7 +77,7 @@
     @close="closeModal"
   >
     <template #title>
-      <score-display
+      <score-line-display
         :home-team="liveData.home"
         :away-team="liveData.away"
         :score="resultMatch.score"
@@ -92,6 +93,7 @@ import { Collapse } from "bootstrap";
 
 import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
 
+import ScoreLineDisplay from "@/components/score/ScoreLineDisplay.vue";
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
 import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";

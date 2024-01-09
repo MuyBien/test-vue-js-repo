@@ -26,7 +26,7 @@
             {{ getPlayerSubstituted(possibleMatch) }}
           </td>
           <td scope="row">
-            <score-display
+            <score-line-display
               :home-team="possibleMatch.homeTeam"
               :away-team="possibleMatch.awayTeam"
               :score="possibleMatch.score"
@@ -45,7 +45,7 @@ import ScoresProbabilitiesDisplay from "@/components/score/ScoresProbabilitiesDi
 import { Match } from "@/models/match/Match";
 import { multipleResultMatchCalculator } from "@/utils/match/multipleResultMatchCalculator";
 
-import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
+import ScoreLineDisplay from "@/components/score/ScoreLineDisplay.vue";
 
 const props = defineProps({
   match: {
