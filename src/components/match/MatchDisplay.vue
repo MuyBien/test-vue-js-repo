@@ -33,6 +33,8 @@
             <div class="team_jersey team_jersey--away" :style="{ 'backgroundImage': `url(${liveData.away.jerseyUrl}`}" />
 
             <score-display :match="resultMatch" />
+            <scorers-display :match="resultMatch" class="mt-3" />
+
             <div v-if="!isTournament" class="row">
               <bonus-selector
                 :team="match.homeTeam"
@@ -98,6 +100,7 @@ import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
 
 import ScoreLineDisplay from "@/components/score/ScoreLineDisplay.vue";
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
+import ScorersDisplay from "@/components/match/ScorersDisplay.vue";
 import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
