@@ -3,6 +3,7 @@
     <div v-if="initialBonus" class="initial-bonus">
       <bonus-display
         :bonus="initialBonus"
+        :reverse-display="reverseDisplay"
         :class="{
           'bonus--selected': selectedBonusValue === initialBonus.value,
         }"
@@ -60,6 +61,10 @@ const props = defineProps({
   team: {
     type: Team,
     required: true,
+  },
+  reverseDisplay: {
+    type: Boolean,
+    default: false,
   },
 });
 const emits = defineEmits(["change-bonus"]);
@@ -124,6 +129,7 @@ const selectBonus = (bonus) => {
 .initial-bonus,
 .available-bonuses {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   list-style: none;
   gap: 1vw;
@@ -146,6 +152,7 @@ const selectBonus = (bonus) => {
         filter: grayscale(100%);
       }
     }
+
     .bonus__logo {
       height: 57px ;
       width: 44px;

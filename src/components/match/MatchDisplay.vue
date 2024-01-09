@@ -35,7 +35,7 @@
             <score-display :match="resultMatch" />
             <scorers-display :match="resultMatch" class="mt-3" />
 
-            <div v-if="!isTournament" class="row">
+              <div v-if="!isTournament" class="row mt-5">
               <bonus-selector
                 :team="match.homeTeam"
                 class="col-6"
@@ -43,7 +43,8 @@
               />
               <bonus-selector
                 :team="match.awayTeam"
-                class="col-6"
+                  class="col-6 away-bonus"
+                  reverse-display
                 @change-bonus="updateAwayTeamBonus"
               />
             </div>
