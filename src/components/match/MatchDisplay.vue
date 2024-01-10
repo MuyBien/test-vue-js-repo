@@ -30,47 +30,43 @@
             </h6>
 
             <section class="team_jerseys">
-            <div class="team_jersey team_jersey--home" :style="{ 'backgroundImage': `url(${liveData.home.jerseyUrl}`}" />
-            <div class="team_jersey team_jersey--away" :style="{ 'backgroundImage': `url(${liveData.away.jerseyUrl}`}" />
+              <div class="team_jersey team_jersey--home" :style="{ 'backgroundImage': `url(${liveData.home.jerseyUrl}`}" />
+              <div class="team_jersey team_jersey--away" :style="{ 'backgroundImage': `url(${liveData.away.jerseyUrl}`}" />
             </section>
 
             <section class="match-details">
-            <score-display :match="resultMatch" />
-            <scorers-display :match="resultMatch" class="mt-3" />
+              <score-display :match="resultMatch" />
+              <scorers-display :match="resultMatch" class="mt-3" />
 
               <div v-if="!isTournament" class="row mt-5">
-              <bonus-selector
-                :team="match.homeTeam"
-                class="col-6"
-                @change-bonus="updateHomeTeamBonus"
-              />
-              <bonus-selector
-                :team="match.awayTeam"
+                <bonus-selector
+                  :team="match.homeTeam"
+                  class="col-6"
+                  @change-bonus="updateHomeTeamBonus"
+                />
+                <bonus-selector
+                  :team="match.awayTeam"
                   class="col-6 away-bonus"
                   reverse-display
-                @change-bonus="updateAwayTeamBonus"
-              />
-            </div>
+                  @change-bonus="updateAwayTeamBonus"
+                />
+              </div>
 
-            <div v-if="!isResultProbabilities" class="score-display" @click="openModal">
-              <score-line-display
-                :home-team="resultMatch.homeTeam"
-                :away-team="resultMatch.awayTeam"
-                :score="resultMatch.score"
-                is-clickable
-              />
-              <info-icon />
-            </div>
+              <a v-if="!isResultProbabilities" class="show-players" @click="openModal">
+                <span>Afficher les joueurs</span>
+                <info-icon />
+              </a>
 
-            <div v-if="isResultProbabilities && match" class="mt-3">
-              <scores-list-display :match="match" />
-            </div>
+              <div v-if="isResultProbabilities && match" class="mt-3">
+                <scores-list-display :match="match" />
+              </div>
 
-            <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
+              <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
 
-            <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
-              Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
-            </p>
+              <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
+                Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
+              </p>
+            </section>
 
             <share-match-image :match="resultMatch" :jersey-home="liveData.home.jerseyUrl" :jersey-away="liveData.away.jerseyUrl" />
           </div>
@@ -224,47 +220,50 @@ li {
   overflow: hidden;
   --bs-gutter-x: 0; // override BS
 
-.title {
-  font-size: 14px;
-  text-align: left;
-  margin-bottom: 0;
-}
-.subtitle {
-  margin-top: 0;
-  margin-bottom: 2vh;
-  font-size: 13px;
-  text-align: left;
-  color: var(--bs-gray);
-}
-.score-display {
-  display: flex;
-  margin-top: 2vh;
-
-  &__action {
-    padding: 0;
+  .title {
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 0;
   }
-}
+  .subtitle {
+    margin-top: 0;
+    margin-bottom: 2vh;
+    font-size: 13px;
+    text-align: left;
+    color: var(--bs-gray);
+  }
+  .show-players {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+    cursor: pointer;
+
+    &__action {
+      padding: 0;
+    }
+  }
 
   .team_jerseys {
     position: relative;
     z-index: 0;
 
-  .team_jersey {
-    position: absolute;
-    top: -4vh;
-    width: 30vw;
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-position: top right;
-    z-index: 0;
-    opacity: 0.1;
+    .team_jersey {
+      position: absolute;
+      top: -4vh;
+      width: 30vw;
+      height: 100vh;
+      background-repeat: no-repeat;
+      background-position: top right;
+      z-index: 0;
+      opacity: 0.1;
 
-    &--home {
-      left: -15vw;
-    }
-    &--away {
-      right: -10vw;
-    }
+      &--home {
+        left: -15vw;
+      }
+      &--away {
+        right: -10vw;
+      }
     }
   }
 
@@ -273,8 +272,8 @@ li {
     z-index: 1;
   }
 
-.rating-disclaimer {
-  font-size: 13px;
+  .rating-disclaimer {
+    font-size: 13px;
   }
 }
 </style>
