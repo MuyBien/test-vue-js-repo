@@ -63,12 +63,20 @@
 
               <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
 
+              <footer>
+                <p>Généré le {{ lastUpdate }}</p>
+                <div>
+                  <img alt="Logo MPG" src="/src/assets/logo.png">
+                  Calculé par mpg-calculator.fr
+                </div>
+              </footer>
+
               <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
                 Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
               </p>
             </section>
 
-            <share-match-image :match="resultMatch" :jersey-home="liveData.home.jerseyUrl" :jersey-away="liveData.away.jerseyUrl" />
+            <share-match-image :id="liveData.id" />
           </div>
         </div>
       </div>
@@ -93,7 +101,7 @@
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import { Collapse } from "bootstrap";
 
 import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
@@ -209,6 +217,14 @@ onMounted(() => {
 const isResultProbabilities = computed(() => {
   return match.value.homeTeam.bonus.value === "removeRandomPlayer" || match.value.awayTeam.bonus.value === "removeRandomPlayer";
 });
+
+/**
+ * Gestion de la date de MAJ des données
+ */
+const lastUpdate = ref(new Date().toLocaleString());
+onUpdated(() => {
+  lastUpdate.value = new Date().toLocaleString();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -274,6 +290,24 @@ li {
 
   .rating-disclaimer {
     font-size: 13px;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7em;
+    color: grey;
+    margin-top: 20px;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    img {
+      width: 20px;
+      margin-right: 5px;
+    }
   }
 }
 </style>
