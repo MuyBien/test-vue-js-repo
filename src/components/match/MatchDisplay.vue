@@ -120,7 +120,7 @@ import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentR
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
-import ShareMatchImage from "@/components/match/ShareMatchImage.vue";
+import ShareMatch from "@/components/share/ShareMatch.vue";
 
 import { Match } from "@/models/match/Match";
 
