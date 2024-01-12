@@ -76,7 +76,9 @@
               </p>
             </section>
 
-            <share-match-image :id="liveData.id" />
+            <section class="sharing">
+              <share-match :id="liveData.id" class="do-not-share" />
+            </section>
           </div>
         </div>
       </div>
@@ -283,7 +285,7 @@ li {
     }
   }
 
-  .match-details {
+  .match-details, .sharing {
     position: relative;
     z-index: 1;
   }
