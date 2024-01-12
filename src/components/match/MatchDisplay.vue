@@ -22,12 +22,15 @@
         <div class="accordion-body row match-details-wrapper">
           <match-placeholder v-if="!match" />
           <div v-else>
-            <h3 class="title">
+            <h3 class="title do-not-share">
               Résultat calculé :
             </h3>
-            <h6 class="subtitle">
+            <h6 class="subtitle do-not-share">
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application des bonus.
             </h6>
+            <h2 class="only-print mb-3">
+              {{ leagueName }}
+            </h2>
 
             <section class="team_jerseys">
               <div class="team_jersey team_jersey--home" :style="{ 'backgroundImage': `url(${liveData.home.jerseyUrl}`}" />
@@ -38,7 +41,7 @@
               <score-display :match="resultMatch" />
               <scorers-display :match="resultMatch" class="mt-3" />
 
-              <div v-if="!isTournament" class="row mt-5">
+              <div v-if="!isTournament" class="row mt-3">
                 <bonus-selector
                   :team="match.homeTeam"
                   class="col-6"
@@ -52,7 +55,7 @@
                 />
               </div>
 
-              <a v-if="!isResultProbabilities" class="show-players" @click="openModal">
+              <a v-if="!isResultProbabilities" class="show-players do-not-share" @click="openModal">
                 <span>Afficher les joueurs</span>
                 <info-icon />
               </a>
@@ -63,7 +66,7 @@
 
               <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
 
-              <footer>
+              <footer class="only-print">
                 <p>Généré le {{ lastUpdate }}</p>
                 <div>
                   <img alt="Logo MPG" src="/src/assets/logo.png">
@@ -71,7 +74,7 @@
                 </div>
               </footer>
 
-              <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
+              <p class="rating-disclaimer alert alert-warning mt-3 do-not-share" role="alert">
                 Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
               </p>
             </section>
@@ -122,6 +125,10 @@ import ShareMatchImage from "@/components/match/ShareMatchImage.vue";
 import { Match } from "@/models/match/Match";
 
 const props = defineProps({
+  leagueName: {
+    type: String,
+    required: true,
+  },
   liveData: {
     type: Object,
     required: true,
@@ -310,6 +317,24 @@ li {
       width: 20px;
       margin-right: 5px;
     }
+  }
+}
+</style>
+
+<style lang="scss">
+.only-print {
+  display: none !important;
+}
+
+.to-print {
+  .do-not-share {
+    display: none !important;
+  }
+  footer.only-print {
+    display: flex !important;
+  }
+  .only-print {
+    display: block !important;
   }
 }
 </style>

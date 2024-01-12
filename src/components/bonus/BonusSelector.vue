@@ -9,12 +9,12 @@
         }"
         title="Bonus initial"
       />
-      <button class="btn btn-link btn-sm" data-bs-toggle="button" @click="showBonusList = !showBonusList">
+      <button class="btn btn-link btn-sm do-not-share" data-bs-toggle="button" @click="showBonusList = !showBonusList">
         Changer le bonus
       </button>
     </div>
 
-    <div v-if="showBonusList">
+    <div v-if="showBonusList" class="do-not-share">
       <p v-if="initialBonus.value === 'fourStrikers'" class="rating-disclaimer alert alert-warning mt-3" role="alert">
         Le bonus 4-Decat ne peut pas être supprimé. Il n'est pas possible d'imaginer le match avec un autre bonus.
       </p>
