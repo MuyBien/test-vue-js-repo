@@ -1,6 +1,7 @@
 <template>
   <div
     id="share-modal"
+    ref="modalElem"
     class="modal fade modal-lg"
     tabindex="-1"
     aria-labelledby="share-modal"
@@ -20,7 +21,7 @@
           />
         </div>
         <div class="modal-body row">
-          <img v-if="imageLoaded" :key="imageKey" :src="matchImage">
+          <img :src="matchImage">
         </div>
         <div class="modal-footer">
           <a download="mpg-calculator-result.jpeg" :href="matchImage" class="btn btn-primary">Télécharger</a>
@@ -47,26 +48,12 @@ const props = defineProps({
 const emits = defineEmits(["close"]);
 
 /**
- * Mise à jour de l'image
- */
-let imageKey = 0;
-const imageLoaded = ref(false);
-watch(() => props.matchImage, (newImage) => {
-  console.log("🚀 ~ watch ~ newImage:", newImage);
-  imageKey ++;
-  imageLoaded.value = false;
-
-  const img = new Image();
-  img.onload = () => imageLoaded.value = true;
-  img.src = newImage;
-});
-
-/**
  * Affichage de la modale
  */
 const modal = ref();
+const modalElem = ref();
 onMounted(() => {
-  modal.value = Modal.getOrCreateInstance("#share-modal");
+  modal.value = Modal.getOrCreateInstance(modalElem.value);
   const myModalEl = document.getElementById("share-modal");
   myModalEl.addEventListener("hidden.bs.modal", () => {
     emits("close");
