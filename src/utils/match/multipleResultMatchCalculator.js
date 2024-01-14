@@ -20,12 +20,18 @@ const multipleResultMatchCalculator = (originalMatch) => {
  * @returns Map
  */
 const getResultsForOneBonus = (match) => {
+  const matchWhithoutBonus = calculateFinalMatch(match);
   const positionsToTest = getPositionsToTestOneBonus();
 
   const results = [];
   positionsToTest.forEach(({ team, position }) => {
-    const teamToTest = team === "team" ? match.homeTeam : match.awayTeam;
-    if (teamToTest.pitchPlayers[position - 1].lastName !== "Rotaldo") {
+    let teamToTest;
+    if (isHomeBonus(match)) {
+      teamToTest = team === "team" ? matchWhithoutBonus.homeTeam : matchWhithoutBonus.awayTeam;
+    } else {
+      teamToTest = team === "team" ? matchWhithoutBonus.awayTeam : matchWhithoutBonus.homeTeam;
+    }
+    if (teamToTest.pitchPlayers[position].lastName !== "Rotaldo") {
       const matchWithPlayerReplaced = calculateWithPlayerReplaced(match, team, position);
       results.push(matchWithPlayerReplaced);
     }
@@ -94,18 +100,18 @@ const calculateWithPlayerReplaced = (originalMatch, team, position) => {
     team,
     position,
   });
-  const newMatch = {
-    ...matchForThisPlayer,
-    homeTeam: {
-      ...matchForThisPlayer.homeTeam,
-      bonus: newBonus,
-    },
-  };
-  return calculateFinalMatch(newMatch);
+  if (isHomeBonus(matchForThisPlayer)) {
+    matchForThisPlayer.homeTeam.bonus = newBonus;
+  } else {
+    matchForThisPlayer.awayTeam.bonus = newBonus;
+  }
+  return calculateFinalMatch(matchForThisPlayer);
 };
 
 const getRemovePlayerBonusNumber = (originalMatch) => {
   return Number(originalMatch.homeTeam.bonus.value === "removeRandomPlayer") + Number(originalMatch.awayTeam.bonus.value === "removeRandomPlayer");
 };
+
+const isHomeBonus = (match) => match.homeTeam.bonus.value === "removeRandomPlayer";
 
 export { multipleResultMatchCalculator };
