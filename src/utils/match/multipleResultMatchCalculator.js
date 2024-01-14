@@ -20,12 +20,18 @@ const multipleResultMatchCalculator = (originalMatch) => {
  * @returns Map
  */
 const getResultsForOneBonus = (match) => {
+  const matchWhithoutBonus = calculateFinalMatch(match);
   const positionsToTest = getPositionsToTestOneBonus();
 
   const results = [];
   positionsToTest.forEach(({ team, position }) => {
-    const teamToTest = team === "team" ? match.homeTeam : match.awayTeam;
-    if (teamToTest.pitchPlayers[position - 1].lastName !== "Rotaldo") {
+    let teamToTest;
+    if (isHomeBonus(match)) {
+      teamToTest = team === "team" ? matchWhithoutBonus.homeTeam : matchWhithoutBonus.awayTeam;
+    } else {
+      teamToTest = team === "team" ? matchWhithoutBonus.awayTeam : matchWhithoutBonus.homeTeam;
+    }
+    if (teamToTest.pitchPlayers[position].lastName !== "Rotaldo") {
       const matchWithPlayerReplaced = calculateWithPlayerReplaced(match, team, position);
       results.push(matchWithPlayerReplaced);
     }
@@ -35,6 +41,7 @@ const getResultsForOneBonus = (match) => {
 };
 
 const getResultsForTwoBonus = (match) => {
+  const matchWhithoutBonus = calculateFinalMatch(match);
   const positionsToTest = getPositionsToTestTwoBonus();
 
   const results = [];
@@ -43,8 +50,8 @@ const getResultsForTwoBonus = (match) => {
 
     // First Rotaldo
     const { team: firstTeam, position: firstPosition } = positions[0];
-    const teamToTest = firstTeam === "team" ? match.homeTeam : match.awayTeam;
-    if (teamToTest.pitchPlayers[firstPosition - 1].lastName === "Rotaldo") {
+    const teamToTest = firstTeam === "team" ? matchWhithoutBonus.homeTeam : matchWhithoutBonus.awayTeam;
+    if (teamToTest.pitchPlayers[firstPosition].lastName === "Rotaldo") {
       return;
     }
     matchForThosePlayers.homeTeam.bonus = new RemoveRandomPlayerBonus({
@@ -54,17 +61,16 @@ const getResultsForTwoBonus = (match) => {
 
     // Second Rotaldo
     const { team: secondTeam, position: secondPosition } = positions[1];
-    const teamToTest2 = secondTeam === "team" ? match.homeTeam : match.awayTeam;
-    if (teamToTest2.pitchPlayers[secondPosition - 1].lastName === "Rotaldo") {
+    const teamToTest2 = secondTeam === "team" ? matchWhithoutBonus.homeTeam : matchWhithoutBonus.awayTeam;
+    if (teamToTest2.pitchPlayers[secondPosition].lastName === "Rotaldo") {
       return;
     }
     matchForThosePlayers.awayTeam.bonus = new RemoveRandomPlayerBonus({
-      team: secondTeam,
+      team: secondTeam === "team" ? "opponentTeam" : "team", // les team et opponentTeam sont calculés par rapport à homeTeam
       position: secondPosition,
     });
 
     const matchWithPlayersReplaced = calculateFinalMatch(matchForThosePlayers);
-
     results.push(matchWithPlayersReplaced);
   });
 
@@ -94,18 +100,18 @@ const calculateWithPlayerReplaced = (originalMatch, team, position) => {
     team,
     position,
   });
-  const newMatch = {
-    ...matchForThisPlayer,
-    homeTeam: {
-      ...matchForThisPlayer.homeTeam,
-      bonus: newBonus,
-    },
-  };
-  return calculateFinalMatch(newMatch);
+  if (isHomeBonus(matchForThisPlayer)) {
+    matchForThisPlayer.homeTeam.bonus = newBonus;
+  } else {
+    matchForThisPlayer.awayTeam.bonus = newBonus;
+  }
+  return calculateFinalMatch(matchForThisPlayer);
 };
 
 const getRemovePlayerBonusNumber = (originalMatch) => {
   return Number(originalMatch.homeTeam.bonus.value === "removeRandomPlayer") + Number(originalMatch.awayTeam.bonus.value === "removeRandomPlayer");
 };
+
+const isHomeBonus = (match) => match.homeTeam.bonus.value === "removeRandomPlayer";
 
 export { multipleResultMatchCalculator };

@@ -25,6 +25,18 @@ describe("multipleResultMatchCalculator Tests", () => {
     expect(JSON.stringify(scoreList)).toContain("[0,0]");
   });
 
+  it("ne remplace pas le gardien", () => {
+    const results = multipleResultMatchCalculator(match);
+
+    const playersReplaced = results.map(match => {
+      return [
+        match.homeTeam.bonus.team,
+        match.homeTeam.bonus.position,
+      ];
+    });
+    expect(JSON.stringify(playersReplaced)).not.toContain("\"team\",0"); // position = 0 = gardien
+  });
+
   describe("dans le cas de 2 chaprons rouges", () => {
 
     beforeEach(() => {
@@ -52,7 +64,7 @@ describe("multipleResultMatchCalculator Tests", () => {
           match.awayTeam.bonus.position,
         ];
       });
-      expect(JSON.stringify(playersReplaced)).not.toContain("[\"team\",1,\"team\",1]"); // même tableau donc même équipe et même position
+      expect(JSON.stringify(playersReplaced)).not.toContain("[\"team\",1,\"opponentTeam\",1]"); // team de home === opponentTeam de away
     });
 
   });
