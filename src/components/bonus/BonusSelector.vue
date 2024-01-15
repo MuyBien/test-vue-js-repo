@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { Team } from "@/models/teams/Team";
 import { BONUSES } from "@/constants/bonus";
 import BonusDisplay from "@/components/bonus/BonusDisplay.vue";
