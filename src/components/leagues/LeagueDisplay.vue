@@ -7,7 +7,7 @@
     <ul>
       <li v-for="matchData in matchesToDisplay" :key="matchData.id">
         <suspense>
-          <match-display :live-data="matchData" />
+          <match-display :live-data="matchData" :league-name="league.name" />
         </suspense>
       </li>
     </ul>

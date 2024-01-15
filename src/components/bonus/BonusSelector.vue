@@ -1,22 +1,34 @@
 <template>
   <section class="bonus-swaper">
-    <div v-if="initialBonus" class="initial-bonus">
+    <div v-if="team.bonus" class="initial-bonus">
       <bonus-display
-        :bonus="initialBonus"
+        :bonus="team.bonus"
+        :reverse-display="reverseDisplay"
         :class="{
-          'bonus--selected': selectedBonusValue === initialBonus.value,
+          'bonus--selected': selectedBonusValue === team.bonus.value,
         }"
+        title="Bonus initial"
       />
-      <button class="btn btn-link btn-sm" data-bs-toggle="button" @click="showBonusList = !showBonusList">
+      <button class="btn btn-link btn-sm do-not-share" data-bs-toggle="button" @click="showBonusList = !showBonusList">
         Changer le bonus
       </button>
     </div>
 
-    <div v-if="showBonusList">
+    <div v-if="showBonusList" class="do-not-share">
       <p v-if="initialBonus.value === 'fourStrikers'" class="rating-disclaimer alert alert-warning mt-3" role="alert">
         Le bonus 4-Decat ne peut pas être supprimé. Il n'est pas possible d'imaginer le match avec un autre bonus.
       </p>
       <ul v-else class="available-bonuses mt-3">
+        <li
+          class="bonus initial-bonus"
+          :class="{
+            'bonus--selected': selectedBonusValue === initialBonus.value,
+          }"
+          @click="selectBonus(initialBonus)"
+        >
+          <div class="bonus__logo" :style="{ 'backgroundImage': `url(${initialBonus.icon}`}" />
+        </li>
+        <div class="vr" />
         <li
           v-for="availableBonus in availableBonuses"
           :key="availableBonus.value"
@@ -51,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { Team } from "@/models/teams/Team";
 import { BONUSES } from "@/constants/bonus";
 import BonusDisplay from "@/components/bonus/BonusDisplay.vue";
@@ -61,18 +73,12 @@ const props = defineProps({
     type: Team,
     required: true,
   },
+  reverseDisplay: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emits = defineEmits(["change-bonus"]);
-
-/**
- * Liste des bonus
- */
-const notManagedBonus = ["fourStrikers"];
-const availableBonuses = Object.keys(props.team.availableBonuses)
-  .filter(bonus => props.team.availableBonuses[bonus])
-  .map(bonus => new BONUSES[bonus]());
-availableBonuses.push(new BONUSES["none"]());
-const showBonusList = ref(false);
 
 /**
  * Bonus initial
@@ -81,6 +87,19 @@ const initialBonus = ref();
 onMounted(() => {
   initialBonus.value = new BONUSES[props.team.bonus.value || "none"]();
 });
+
+/**
+ * Liste des bonus
+ */
+const notManagedBonus = ["fourStrikers"];
+const availableBonuses = computed(() => {
+  const bonuses = Object.keys(props.team.availableBonuses);
+  bonuses.push("none");
+  return bonuses.filter(bonus => props.team.availableBonuses[bonus] || bonus === "none")
+    .filter(bonus => initialBonus.value.value !== bonus)
+    .map(bonus => new BONUSES[bonus]());
+});
+const showBonusList = ref(false);
 
 /**
  * Gestion du bonus UberEat
@@ -124,6 +143,7 @@ const selectBonus = (bonus) => {
 .initial-bonus,
 .available-bonuses {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   list-style: none;
   gap: 1vw;
@@ -146,6 +166,7 @@ const selectBonus = (bonus) => {
         filter: grayscale(100%);
       }
     }
+
     .bonus__logo {
       height: 57px ;
       width: 44px;

@@ -10,7 +10,7 @@
           aria-expanded="true"
           :aria-controls="`${liveData.id}-more-infos`"
         >
-          <score-display :home-team="liveData.home" :away-team="liveData.away" :score="[liveData.home.score, liveData.away.score]" />
+          <score-line-display :home-team="liveData.home" :away-team="liveData.away" :score="[liveData.home.score, liveData.away.score]" />
         </button>
       </h2>
       <div
@@ -19,48 +19,72 @@
         class="accordion-collapse collapse"
         :data-bs-parent="`#${liveData.id}-parent`"
       >
-        <div class="accordion-body row">
+        <div class="accordion-body row match-details-wrapper">
           <match-placeholder v-if="!match" />
           <div v-else>
-            <h3 class="title">
+            <h3 class="title do-not-share">
               Résultat calculé :
             </h3>
-            <h6 class="subtitle">
-              Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application de votre bonus.
+            <h6 class="subtitle do-not-share">
+              Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application des bonus.
             </h6>
-
-            <div v-if="!isTournament" class="row">
-              <bonus-selector
-                :team="match.homeTeam"
-                class="col-6"
-                @change-bonus="updateHomeTeamBonus"
-              />
-              <bonus-selector
-                :team="match.awayTeam"
-                class="col-6"
-                @change-bonus="updateAwayTeamBonus"
-              />
-            </div>
-
-            <div v-if="!isResultProbabilities" class="score-display" @click="openModal">
-              <score-display
-                :home-team="resultMatch.homeTeam"
-                :away-team="resultMatch.awayTeam"
-                :score="resultMatch.score"
-                is-clickable
-              />
-              <info-icon />
-            </div>
-
-            <div v-if="isResultProbabilities && match" class="mt-3">
-              <scores-list-display :match="match" />
-            </div>
-
-            <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
-
-            <p class="rating-disclaimer alert alert-warning mt-3" role="alert">
-              Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
+            <h2 class="only-print">
+              {{ leagueName }}
+            </h2>
+            <p v-if="isResultProbabilities" class="only-print mb-3">
+              Score sans application du bonus Chapron Rouge
             </p>
+
+            <section class="team_jerseys">
+              <div class="team_jersey team_jersey--home" :style="{ 'backgroundImage': `url(${liveData.home.jerseyUrl}`}" />
+              <div class="team_jersey team_jersey--away" :style="{ 'backgroundImage': `url(${liveData.away.jerseyUrl}`}" />
+            </section>
+
+            <section class="match-details">
+              <score-display :match="resultMatch" />
+              <scorers-display :match="resultMatch" class="mt-3" />
+
+              <div v-if="!isTournament" class="row mt-3">
+                <bonus-selector
+                  :team="match.homeTeam"
+                  class="col-6"
+                  @change-bonus="updateHomeTeamBonus"
+                />
+                <bonus-selector
+                  :team="match.awayTeam"
+                  class="col-6 away-bonus"
+                  reverse-display
+                  @change-bonus="updateAwayTeamBonus"
+                />
+              </div>
+
+              <a v-if="!isResultProbabilities" class="show-players do-not-share" @click="openModal">
+                <span>Afficher les joueurs</span>
+                <info-icon />
+              </a>
+
+              <div v-if="isResultProbabilities && match" class="mt-3">
+                <scores-list-display :match="match" />
+              </div>
+
+              <display-tournament-result v-if="isTournament" :match="resultMatch" class="mt-3" />
+
+              <footer class="only-print">
+                <p>Généré le {{ lastUpdate }}</p>
+                <div>
+                  <img alt="Logo MPG" src="/src/assets/logo.png">
+                  Calculé par mpg-calculator.fr
+                </div>
+              </footer>
+
+              <p class="rating-disclaimer alert alert-warning mt-3 do-not-share" role="alert">
+                Attention, les notes des joueurs peuvent varier jusqu'à 7h après la fin de leur match et donc faire évoluer le résultat.
+              </p>
+            </section>
+
+            <section class="sharing">
+              <share-match :id="liveData.id" class="do-not-share" />
+            </section>
           </div>
         </div>
       </div>
@@ -74,7 +98,7 @@
     @close="closeModal"
   >
     <template #title>
-      <score-display
+      <score-line-display
         :home-team="liveData.home"
         :away-team="liveData.away"
         :score="resultMatch.score"
@@ -85,22 +109,29 @@
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import { Collapse } from "bootstrap";
 
 import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
 
+import ScoreLineDisplay from "@/components/score/ScoreLineDisplay.vue";
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
+import ScorersDisplay from "@/components/match/ScorersDisplay.vue";
 import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
+import ShareMatch from "@/components/share/ShareMatch.vue";
 
 import { Match } from "@/models/match/Match";
 
 const props = defineProps({
+  leagueName: {
+    type: String,
+    required: true,
+  },
   liveData: {
     type: Object,
     required: true,
@@ -198,34 +229,115 @@ onMounted(() => {
 const isResultProbabilities = computed(() => {
   return match.value.homeTeam.bonus.value === "removeRandomPlayer" || match.value.awayTeam.bonus.value === "removeRandomPlayer";
 });
+
+/**
+ * Gestion de la date de MAJ des données
+ */
+const lastUpdate = ref(new Date().toLocaleString());
+onUpdated(() => {
+  lastUpdate.value = new Date().toLocaleString();
+});
 </script>
 
 <style lang="scss" scoped>
 li {
   list-style: none;
 }
-.title {
-  font-size: 14px;
-  text-align: left;
-  margin-bottom: 0;
-}
-.subtitle {
-  margin-top: 0;
-  margin-bottom: 2vh;
-  font-size: 13px;
-  text-align: left;
-  color: var(--bs-gray);
-}
-.score-display {
-  display: flex;
-  margin-top: 2vh;
+.match-details-wrapper {
+  position: relative;
+  overflow: hidden;
+  --bs-gutter-x: 0; // override BS
 
-  &__action {
-    padding: 0;
+  .title {
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 0;
+  }
+  .subtitle {
+    margin-top: 0;
+    margin-bottom: 2vh;
+    font-size: 13px;
+    text-align: left;
+    color: var(--bs-gray);
+  }
+  .show-players {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+    cursor: pointer;
+
+    &__action {
+      padding: 0;
+    }
+  }
+
+  .team_jerseys {
+    position: relative;
+    z-index: 0;
+
+    .team_jersey {
+      position: absolute;
+      top: -4vh;
+      width: 30vw;
+      height: 100vh;
+      background-repeat: no-repeat;
+      background-position: top right;
+      z-index: 0;
+      opacity: 0.1;
+
+      &--home {
+        left: -15vw;
+      }
+      &--away {
+        right: -10vw;
+      }
+    }
+  }
+
+  .match-details, .sharing {
+    position: relative;
+    z-index: 1;
+  }
+
+  .rating-disclaimer {
+    font-size: 13px;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7em;
+    color: grey;
+    margin-top: 20px;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    img {
+      width: 20px;
+      margin-right: 5px;
+    }
   }
 }
+</style>
 
-.rating-disclaimer {
-  font-size: 13px;
+<style lang="scss">
+.only-print {
+  display: none !important;
+}
+
+.to-print {
+  .do-not-share {
+    display: none !important;
+  }
+  footer.only-print {
+    display: flex !important;
+  }
+  .only-print {
+    display: block !important;
+  }
 }
 </style>

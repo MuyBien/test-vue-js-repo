@@ -1,5 +1,5 @@
 <template>
-  <section class="bonus">
+  <section class="bonus" :class="{'bonus--reversed': reverseDisplay }">
     <div class="bonus__logo" :style="{ 'backgroundImage': `url(${bonus.icon}`}" />
     <div class="bonus__description">
       <p class="bonus__description__name">
@@ -22,12 +22,17 @@ defineProps({
       return BONUSES.none;
     },
   },
+  reverseDisplay: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .bonus {
   display: flex;
+  column-gap: 1vw;
 
   &__logo {
     height: 57px ;
@@ -41,7 +46,6 @@ defineProps({
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin-left: 1vw;
 
     &__name {
       color: var(--bs-primary);
@@ -52,6 +56,14 @@ defineProps({
       color: var(--bs-tertiary-color);
       margin-bottom: 0;
       font-size: .8em;;
+    }
+  }
+
+  &--reversed {
+    flex-direction: row-reverse;
+
+    .bonus__description {
+      text-align: right;
     }
   }
 

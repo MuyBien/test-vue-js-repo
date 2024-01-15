@@ -7,7 +7,7 @@
     <ul>
       <li>
         <suspense>
-          <match-display :live-data="match" is-tournament />
+          <match-display :live-data="match" is-tournament :league-name="tournament.name" />
         </suspense>
       </li>
     </ul>

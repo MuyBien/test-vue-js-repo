@@ -16,13 +16,7 @@
           <substitution-icon />
         </div>
         <div class="player_infos__additionnal__goals">
-          <template v-if="haveFinallyScored">
-            <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
-          </template>
-          <goal-icon v-if="player.goals > 0 && player.canceledGoals > 0" is-canceled />
-          <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
-          <goal-icon v-if="player.mpgGoals" is-mpg-goal :is-canceled="!!player.canceledGoals" />
-          <goal-icon v-if="player.savedGoals" is-saved />
+          <goals-display :player="player" />
         </div>
       </div>
     </td>
@@ -44,7 +38,7 @@
 <script setup>
 import { computed } from "vue";
 import { Player } from "@/models/players/Player";
-import GoalIcon from "@/components/icons/GoalIcon.vue";
+import GoalsDisplay from "@/components/goals/GoalsDisplay.vue";
 import SubstitutionIcon from "@/components/icons/SubstitutionIcon.vue";
 
 const props = defineProps({
@@ -56,13 +50,6 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-});
-
-/**
- * Buts
- */
-const haveFinallyScored = computed(() => {
-  return props.player.goals - props.player.savedGoals - props.player.canceledGoals > 0;
 });
 
 /**
