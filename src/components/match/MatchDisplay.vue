@@ -28,9 +28,12 @@
             <h6 class="subtitle do-not-share">
               Après réalisation des remplacements tactiques et obligatoires, calcul des buts MPG et application des bonus.
             </h6>
-            <h2 class="only-print mb-3">
+            <h2 class="only-print">
               {{ leagueName }}
             </h2>
+            <p v-if="isResultProbabilities" class="only-print mb-3">
+              Score sans application du bonus Chapron Rouge
+            </p>
 
             <section class="team_jerseys">
               <div class="team_jersey team_jersey--home" :style="{ 'backgroundImage': `url(${liveData.home.jerseyUrl}`}" />

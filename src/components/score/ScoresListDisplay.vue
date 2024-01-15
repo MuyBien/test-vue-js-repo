@@ -3,12 +3,12 @@
     <p class="score_probabilities__help">
       Le bonus Chapron Rouge enlève un joueur au hasard parmi les 20 joueurs de champ.
       Le score ne peut donc pas être prédit à 100%.
-      Le score après remplacement de chaque joueur par un Rotaldo a été calculé et les scores possibles aisni que leur probabilité sont affichés.
+      Le score après remplacement de chaque joueur par un Rotaldo a été calculé et les scores possibles ainsi que leur probabilité sont affichés.
     </p>
 
     <scores-probabilities-display :matches="allPossiblesMatches" />
 
-    <table class="table table-striped table-hover mt-3">
+    <table class="table table-striped table-hover mt-3 do-not-share">
       <caption>Liste des résultats possibles selon le joueur ciblé par le bonus Chapron Rouge</caption>
       <thead>
         <tr>
