@@ -34,7 +34,7 @@ defineProps({
     column-gap: 10px;
 
     &__team_name {
-      width: 15vw;
+      width: calc(100% - 90px);
       margin-bottom: 0;
       font-size: 1.2em;
     }
