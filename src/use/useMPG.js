@@ -1,9 +1,11 @@
+import { loginErrors } from "@/constants/loginErrors";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
 import { computed, onBeforeMount, ref, watch } from "vue";
 
 const token = ref("");
 const user = ref({});
 const loginEnded = ref(false);
+const loginError = ref();
 const liveData = ref({});
 
 export function useMPG () {
@@ -18,6 +20,7 @@ export function useMPG () {
     return Boolean(token.value);
   });
   const signIn = async (login, password) => {
+    loginError.value = undefined;
     const response = await fetch("https://api.mpg.football/user/sign-in", {
       method: "POST",
       headers: {
@@ -30,6 +33,8 @@ export function useMPG () {
     if (json.token) {
       token.value = json.token;
       localStorage.setItem("mpg-token", json.token);
+    } else {
+      loginError.value = loginErrors[json.message];
     }
   };
   const resetToken = () => {
@@ -169,6 +174,7 @@ export function useMPG () {
     signIn,
     user,
     isConnected,
+    loginError,
     loginEnded,
     haveLiveRating,
     liveLeagues,
