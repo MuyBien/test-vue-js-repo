@@ -1,1 +1,1 @@
-export const loginErrors = { invalidPassword: "Données de connexion invalides" };
+export const loginErrors = { invalidPassword: "MPG a refusé la connexion : Données de connexion invalides" };

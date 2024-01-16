@@ -9,7 +9,7 @@
           </h5>
           <div class="card-text">
             <p class="alert alert-info" role="alert">
-              Ce site n'est pas affilié à MPG. Nous ne conservons pas vos login et mot de passe.
+              Ce site n'est pas affilié à MPG. Vos données d'identification sont directement envoyées à MPG sans jamais transiter par MPG-Calculator et ne sont pas stockées.
               Pour vous en assurez, le code source de cette application est disponible sur
               <a href="https://gitlab.com/MuyBien/mpg-calculator" class="alert-link">GitLab</a>.
             </p>
