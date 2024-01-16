@@ -37,6 +37,7 @@ watch(showChangelog, (showed) => {
   cursor: pointer;
   transition: all .3s ease-out;
   transform: translateY(10px);
+  z-index: 1;
 
   a {
     display: inline-block;

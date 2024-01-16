@@ -287,10 +287,12 @@ li {
       opacity: 0.1;
 
       &--home {
+        background-position: top right;
         left: -15vw;
       }
       &--away {
-        right: -10vw;
+        background-position: top left;
+        right: -15vw;
       }
     }
   }

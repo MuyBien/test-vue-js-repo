@@ -68,7 +68,7 @@ const awayScorers = computed(() => {
         justify-content: flex-end;
 
         .goals {
-          margin-left: 1vw;
+          margin-left: 20px;
         }
       }
     }
@@ -80,7 +80,7 @@ const awayScorers = computed(() => {
         justify-content: start;
 
         .goals {
-          margin-right: 1vw;
+          margin-right: 20px;
         }
       }
     }
