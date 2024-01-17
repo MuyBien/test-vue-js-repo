@@ -6,6 +6,8 @@ https://mpg-calculator.fr
 
 Si vous aussi, vous avez déjà calculé les moyennes de chaque ligne de l'équipe de votre adversaire le dimanche soir en vous demandant si Artur Theate allait rentrer ou pas à la place de Lala et si Savanier allait finalement mettre ce but MPG qui vous donne la victoire, alors vous êtes à la bonne adresse.
 
-En remplissant la composition de votre équipe et celle de l'adversaire, le résultat final apparaîtra alors sans aucun effort.  
+En vous connectant avec vos logins MPG, le résultat final du match du weekend apparaîtra alors sans aucun effort.
 
-Il restera toujours le suspens du bonus utilisé qui fera peut-être pencher la balance de son côté... ou pas.
+![image](https://gitlab.com/MuyBien/mpg-calculator/-/raw/master/public/img/screenshots/screenshot-1.png?ref_type=heads)
+
+Faites varier le bonus de l'adversaire pour vérifier l'effet sur le match et le score final.
