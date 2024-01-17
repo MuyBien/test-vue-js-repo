@@ -170,6 +170,23 @@ export function useMPG () {
     };
   };
 
+  /**
+   * Players data
+   */
+  const getPlayerInfos = async (playerId, championshipId) => {
+    const currentSeasonStartYear = new Date().getMonth() < 7 ? new Date().getFullYear() - 1 : new Date().getFullYear();
+    const response = await fetch(`https://api.mpg.football/championship-player-stats/${playerId}/${currentSeasonStartYear}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    return { averrageRating: data.championships[championshipId].keySeasonStats.averageRating }; // MPG a mal écrit averrage
+  };
+
   return {
     signIn,
     user,
@@ -181,5 +198,6 @@ export function useMPG () {
     liveTournaments,
     getLeagueMatch,
     getTournamentMatch,
+    getPlayerInfos,
   };
 }
