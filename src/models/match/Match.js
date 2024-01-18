@@ -8,6 +8,7 @@ export class Match {
   awayTeam;
   score;
   championshipId;
+  championshipSeason;
 
   constructor (match = {}) {
     this.id = match.id;
@@ -16,6 +17,7 @@ export class Match {
     this.awayTeam = new Team(match.awayTeam);
     this.score = match.score;
     this.championshipId = match.championshipId;
+    this.championshipSeason = match.championshipSeason;
   }
 
 }
