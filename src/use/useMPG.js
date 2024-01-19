@@ -1,5 +1,6 @@
 import { loginErrors } from "@/constants/loginErrors";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
+import { setMatchPlayersAverageRating } from "@/utils/players/playersAverageRating";
 import { computed, onBeforeMount, ref, watch } from "vue";
 
 const token = ref("");
@@ -122,7 +123,7 @@ export function useMPG () {
       getTeamInfos(matchData.away.teamId),
     ]);
 
-    return matchConstructor({
+    const match = matchConstructor({
       ...matchData,
       home: {
         ...matchData.home,
@@ -133,6 +134,9 @@ export function useMPG () {
         ...awayTeamData,
       },
     });
+
+    const finalMatch = await setMatchPlayersAverageRating(match, matchData.championshipMatches, getPlayerInfos);
+    return finalMatch;
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -173,9 +177,8 @@ export function useMPG () {
   /**
    * Players data
    */
-  const getPlayerInfos = async (playerId, championshipId) => {
-    const currentSeasonStartYear = new Date().getMonth() < 7 ? new Date().getFullYear() - 1 : new Date().getFullYear();
-    const response = await fetch(`https://api.mpg.football/championship-player-stats/${playerId}/${currentSeasonStartYear}`, {
+  const getPlayerInfos = async (playerId, championshipId, season) => {
+    const response = await fetch(`https://api.mpg.football/championship-player-stats/${playerId}/${season}`, {
       method: "GET",
       headers: {
         accept: "application/json, text/plain, */*",
@@ -184,7 +187,7 @@ export function useMPG () {
       body: null,
     });
     const data = await response.json();
-    return { averrageRating: data.championships[championshipId].keySeasonStats.averageRating }; // MPG a mal écrit averrage
+    return data.championships[championshipId].keySeasonStats || {};
   };
 
   return {
