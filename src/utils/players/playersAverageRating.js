@@ -31,16 +31,18 @@ const getNotStartedTeams = (championshipMatches) => {
 };
 
 const setTeamPlayersAverageRating = async (team, match, notStartedTeams, getPlayerInfos) => {
-  for (const player of team.pitchPlayers) {
+  const notPlayedPlayers = [];
+  team.pitchPlayers.forEach((player) => {
     if (notStartedTeams.includes(player.clubId)) {
-      await setPlayerAverageRating(player, match.championshipId, match.championshipSeason, getPlayerInfos);
+      notPlayedPlayers.push(setPlayerAverageRating(player, match.championshipId, match.championshipSeason, getPlayerInfos));
     }
-  }
-  for (const player of team.benchPlayers) {
+  });
+  team.benchPlayers.forEach((player) => {
     if (notStartedTeams.includes(player.clubId)) {
-      await setPlayerAverageRating(player, match.championshipId, match.championshipSeason, getPlayerInfos);
+      notPlayedPlayers.push(setPlayerAverageRating(player, match.championshipId, match.championshipSeason, getPlayerInfos));
     }
-  }
+  });
+  await Promise.all(notPlayedPlayers);
 };
 
 const setPlayerAverageRating = async (player, championshipId, season, getPlayerInfos) => {
