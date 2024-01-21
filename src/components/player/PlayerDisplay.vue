@@ -140,6 +140,7 @@ const ratingClass = computed(() => {
     &__average {
       position: absolute;
       top: 5px;
+      right: 5px;
       background-color: var(--bs-yellow);
       color: #333;
       font-size: 0.6em;
