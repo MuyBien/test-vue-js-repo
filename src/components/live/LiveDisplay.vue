@@ -5,6 +5,7 @@
       <h2>Matchs en live</h2>
       <header>
         <live-options v-model:options="options" />
+        <legend-display />
       </header>
       <ul>
         <li v-for="liveLeague in liveLeagues" :key="liveLeague.leagueId" class="division">
@@ -27,6 +28,7 @@ import LiveOptions from "@/components/live/LiveOptions.vue";
 import TournamentDisplay from "@/components/tournaments/TournamentDisplay.vue";
 import NoLiveDisclaimer from "@/components/disclaimers/NoLiveDisclaimer.vue";
 import LeagueDisplay from "@/components/leagues/LeagueDisplay.vue";
+import LegendDisplay from "@/components/legend/LegendDisplay.vue";
 
 import { useMPG } from "@/use/useMPG";
 
