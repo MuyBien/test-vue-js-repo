@@ -1,14 +1,32 @@
 <template>
   <section class="legends">
     <div class="average-legend">
-      <span class="average-legend__icon">M</span> : Note moyenne du joueur (attribué aux joueurs dont le match n'a pas commencé)
+      <span class="average-legend__icon">M</span> :
+      <span v-if="forPlayers">Note moyenne du joueur (attribuée aux joueurs dont le match n'a pas commencé)</span>
+      <span v-else>Score calculé avec des notes moyennes de joueurs (attribuée aux joueurs dont le match n'a pas commencé)</span>
     </div>
   </section>
 </template>
 
+<script setup>
+
+defineProps({
+  forPlayers: {
+    type: Boolean,
+    default: false,
+  },
+});
+</script>
+
 <style lang="scss" scoped>
 .legends {
+  font-size: 0.8rem;
   .average-legend {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 5px;
+
     &__icon {
       display: inline-block;
       width: 15px;

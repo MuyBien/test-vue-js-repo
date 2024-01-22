@@ -31,6 +31,9 @@
             <team-display :players="match.awayTeam.pitchPlayers" />
           </div>
         </div>
+        <div class="modal-footer">
+          <legend-display for-players />
+        </div>
       </div>
     </div>
   </div>
@@ -41,6 +44,7 @@ import { watch, onMounted, ref } from "vue";
 
 import TeamDisplay from "@/components/team/TeamDisplay.vue";
 import BonusDisplay from "@/components/bonus/BonusDisplay.vue";
+import LegendDisplay from "@/components/legend/LegendDisplay.vue";
 
 import { Modal } from "bootstrap";
 
@@ -84,5 +88,9 @@ const closeModal = () => {
 <style scoped lang="scss">
 .modal-title {
   width: 100%;
+}
+
+.modal-footer {
+  padding: 0 5px;
 }
 </style>
