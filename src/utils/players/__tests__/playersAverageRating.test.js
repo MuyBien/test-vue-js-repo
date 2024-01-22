@@ -9,6 +9,7 @@ describe("Le setter de notes moyennes", () => {
 
   let match;
   let championshipMatches;
+  let getPlayerInfos;
 
   beforeEach(() => {
     match = matchConstructor(mockMatch);
@@ -18,17 +19,22 @@ describe("Le setter de notes moyennes", () => {
         away: { clubId: 2 },
       },
       2: {
-        period: "fullTime",
+        period: "fullTime", // terminé
         home: { clubId: 3 },
         away: { clubId: 4 },
       },
+      3: {
+        period: "firstHalf", // en cours
+        home: { clubId: 5 },
+        away: { clubId: 6 },
+      },
     };
     resetPlayersClubId(4);
+    getPlayerInfos = vi.fn().mockResolvedValue({ averageRating: 5.6 });
   });
 
   it("donne sa note moyenne à un joueur dont son match n'a pas commencé", async () => {
     match.homeTeam.pitchPlayers[0].clubId = 1;
-    const getPlayerInfos = vi.fn().mockResolvedValue({ averageRating: 5.6 });
 
     const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
 
@@ -38,12 +44,23 @@ describe("Le setter de notes moyennes", () => {
   });
 
   it("ne change pas la note d'un joueur dont son match a commencé", async () => {
-    const getPlayerInfos = vi.fn().mockResolvedValue({ averageRating: 5.6 });
+    match.homeTeam.pitchPlayers[0].clubId = 5;
 
     const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
 
-    const allFalse = resultMatch.homeTeam.pitchPlayers.map(player => player.isAverageRating).every(val => val === false);
-    expect(allFalse).toBeTruthy();
+    const testPlayer = resultMatch.homeTeam.pitchPlayers[0];
+    expect(testPlayer.rating).toBe(6.5);
+    expect(testPlayer.isAverageRating).toBeFalsy();
+  });
+
+  it("ne change pas la note d'un joueur dont son match est terminé", async () => {
+    match.homeTeam.pitchPlayers[0].clubId = 3;
+
+    const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
+
+    const testPlayer = resultMatch.homeTeam.pitchPlayers[0];
+    expect(testPlayer.rating).toBe(6.5);
+    expect(testPlayer.isAverageRating).toBeFalsy();
   });
 
   it("récupère la note moyenne d'un joueur en local si elle existe", async () => {
