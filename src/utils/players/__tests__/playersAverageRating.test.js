@@ -12,7 +12,6 @@ describe("Le setter de notes moyennes", () => {
     match = matchConstructor(mockMatch);
     championshipMatches = {
       1: {
-        period: "firstHalf",
         home: { clubId: 1 },
         away: { clubId: 2 },
       },
