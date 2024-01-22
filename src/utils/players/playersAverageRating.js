@@ -1,4 +1,5 @@
 import { Match } from "@/models/match/Match";
+import { openDB } from "idb";
 import { roundFloat } from "../math/math";
 
 /**
@@ -46,11 +47,44 @@ const setTeamPlayersAverageRating = async (team, match, notStartedTeams, getPlay
 };
 
 const setPlayerAverageRating = async (player, championshipId, season, getPlayerInfos) => {
-  const { averageRating } = await getPlayerInfos(player.playerId, championshipId, season);
+  let averageRating;
+
+  const localPlayerInfos = await getLocalPlayerInfos(player.playerId);
+  if (localPlayerInfos) {
+    averageRating = localPlayerInfos.averageRating;
+  } else {
+    const playerInfos = await getPlayerInfos(player.playerId, championshipId, season);
+    averageRating = playerInfos.averageRating;
+    setLocalPlayerInfos(player.playerId, playerInfos);
+  }
+
   if (averageRating) {
     player.rating = roundFloat(averageRating, 1);
     player.isAverageRating = true;
   }
+};
+
+const getLocalPlayerInfos = async (playerId) => {
+  const db = await openDB("players-db", 1, {
+    upgrade (db) {
+      db.createObjectStore("playerInfos");
+    },
+  });
+
+  const playerInfos = await db.get("playerInfos", playerId);
+  if (playerInfos) {
+    return playerInfos;
+  }
+};
+
+const setLocalPlayerInfos = async (playerId, playerInfos) => {
+  const db = await openDB("players-db", 1, {
+    upgrade (db) {
+      db.createObjectStore("playerInfos");
+    },
+  });
+
+  await db.put("playerInfos", playerInfos, playerId);
 };
 
 export { setMatchPlayersAverageRating };
