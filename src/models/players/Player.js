@@ -17,6 +17,7 @@ export class Player {
 
   rating;
   bonusRating;
+  isAverageRating = false;
 
   goals;
   mpgGoals;
@@ -27,6 +28,8 @@ export class Player {
   isCaptain = false;
   isSubstitute = false;
   substitued;
+
+  clubId;
 
   constructor (playerData = {}) {
     this.playerId = playerData.playerId;
@@ -48,6 +51,9 @@ export class Player {
     this.isCaptain = playerData.isCaptain || false;
     this.isSubstitute = playerData.isSubstitute || false;
     this.substitued = playerData.substitued || undefined;
+    this.isAverageRating = playerData.isAverageRating || false;
+
+    this.clubId = playerData.clubId;
   }
 
   isBacker = () => {

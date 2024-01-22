@@ -6,7 +6,7 @@ import mockMatch from "@/assets/mocks/match/response";
 import { RemoveRandomPlayerBonus } from "@/models/bonus";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
 
-describe("multipleResultMatchCalculator Tests", () => {
+describe("Le calculateur de résultat de match", () => {
 
   let match;
 

@@ -1,5 +1,6 @@
 import { loginErrors } from "@/constants/loginErrors";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
+import { setMatchPlayersAverageRating } from "@/utils/players/playersAverageRating";
 import { computed, onBeforeMount, ref, watch } from "vue";
 
 const token = ref("");
@@ -122,7 +123,7 @@ export function useMPG () {
       getTeamInfos(matchData.away.teamId),
     ]);
 
-    return matchConstructor({
+    const match = matchConstructor({
       ...matchData,
       home: {
         ...matchData.home,
@@ -133,6 +134,9 @@ export function useMPG () {
         ...awayTeamData,
       },
     });
+
+    const finalMatch = await setMatchPlayersAverageRating(match, matchData.championshipMatches, getPlayerInfos);
+    return finalMatch;
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -147,7 +151,8 @@ export function useMPG () {
     const data = await response.json();
     const tournamentMatch = matchConstructor(data);
     tournamentMatch.isTournament = true;
-    return tournamentMatch;
+    const finalMatch = await setMatchPlayersAverageRating(tournamentMatch, data.championshipMatches, getPlayerInfos);
+    return finalMatch;
   };
 
   /**
@@ -170,6 +175,22 @@ export function useMPG () {
     };
   };
 
+  /**
+   * Players data
+   */
+  const getPlayerInfos = async (playerId, championshipId, season) => {
+    const response = await fetch(`https://api.mpg.football/championship-player-stats/${playerId}/${season}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: token.value,
+      },
+      body: null,
+    });
+    const data = await response.json();
+    return data.championships[championshipId].keySeasonStats || {};
+  };
+
   return {
     signIn,
     user,
@@ -181,5 +202,6 @@ export function useMPG () {
     liveTournaments,
     getLeagueMatch,
     getTournamentMatch,
+    getPlayerInfos,
   };
 }

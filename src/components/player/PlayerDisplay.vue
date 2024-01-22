@@ -25,6 +25,7 @@
     </td>
     <td class="player__rating">
       {{ player.rating || "-" }}
+      <span v-if="player.isAverageRating" class="player__rating__average">M</span>
     </td>
     <td class="player__bonus_rating">
       {{ player.bonusRating }}
@@ -131,6 +132,26 @@ const ratingClass = computed(() => {
   &__rating,
   &__bonus_rating {
     color: #959daf;
+  }
+
+  &__rating {
+    position: relative;
+
+    &__average {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: var(--bs-yellow);
+      color: #333;
+      font-size: 0.6em;
+      font-weight: bold;;
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+      line-height: 15px;
+      text-align: center;
+      padding: 0;
+    }
   }
 
   &__total_rating {
