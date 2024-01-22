@@ -73,7 +73,13 @@ const getLocalPlayerInfos = async (playerId) => {
 
   const playerInfos = await db.get("playerInfos", playerId);
   if (playerInfos) {
-    return playerInfos;
+    const currentTime = Date.now();
+    const storedTime = playerInfos.updatedAt;
+    const differenceInHours = (currentTime - storedTime) / (1000 * 60 * 60);
+
+    if (differenceInHours <= 48) {
+      return playerInfos.data;
+    }
   }
 };
 
@@ -84,7 +90,10 @@ const setLocalPlayerInfos = async (playerId, playerInfos) => {
     },
   });
 
-  await db.put("playerInfos", playerInfos, playerId);
+  await db.put("playerInfos", {
+    data: playerInfos,
+    updatedAt: Date.now(),
+  }, playerId);
 };
 
 export { setMatchPlayersAverageRating };
