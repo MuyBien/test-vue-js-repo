@@ -34,10 +34,10 @@ const props = defineProps({
 const isHomeTeamAverage = ref(false);
 const isAwayTeamAverage = ref(false);
 watch(() => props.match, (match) => {
-  isHomeTeamAverage.value = match.homeTeam.pitchPlayers.concat(match.benchPlayers).some(
+  isHomeTeamAverage.value = match.homeTeam.pitchPlayers.concat(match.homeTeam.benchPlayers).some(
     (player) => player.isAverageRating,
   );
-  isAwayTeamAverage.value = match.awayTeam.pitchPlayers.concat(match.benchPlayers).some(
+  isAwayTeamAverage.value = match.awayTeam.pitchPlayers.concat(match.awayTeam.benchPlayers).some(
     (player) => player.isAverageRating,
   );
 }, { immediate: true });
