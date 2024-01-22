@@ -91,9 +91,10 @@ describe("Le setter de notes moyennes", () => {
         db.createObjectStore("playerInfos");
       },
     });
+    const twoDays = 1000 * 60 * 60 * 24 * 2;
     await db.put("playerInfos", {
       data: { averageRating: 6.1 },
-      updatedAt: Date.now() - 172800000, // + de 48 heures en millisecondes
+      updatedAt: Date.now() - twoDays,
     }, match.homeTeam.pitchPlayers[0].playerId);
 
     const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);

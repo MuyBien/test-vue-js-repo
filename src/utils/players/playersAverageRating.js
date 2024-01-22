@@ -77,7 +77,7 @@ const getLocalPlayerInfos = async (playerId) => {
     const storedTime = playerInfos.updatedAt;
     const differenceInHours = (currentTime - storedTime) / (1000 * 60 * 60);
 
-    if (differenceInHours <= 48) {
+    if (differenceInHours < 48) {
       return playerInfos.data;
     }
   }
