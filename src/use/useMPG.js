@@ -136,9 +136,7 @@ export function useMPG () {
       },
     });
 
-    const matchWithAverages = await setMatchPlayersAverageRating(match, matchData.championshipMatches, getPlayerInfos);
-    const finalMatch = setMatchPlayersLiveStatus(matchWithAverages, matchData.championshipMatches);
-    return finalMatch;
+    return setPlayersInfos(match, matchData);
   };
 
   const getTournamentMatch = async (matchId) => {
@@ -150,12 +148,16 @@ export function useMPG () {
       },
       body: null,
     });
-    const data = await response.json();
-    const tournamentMatch = matchConstructor(data);
-    tournamentMatch.isTournament = true;
+    const matchData = await response.json();
+    const match = matchConstructor(matchData);
+    match.isTournament = true;
 
-    const matchWithAverages = await setMatchPlayersAverageRating(tournamentMatch, data.championshipMatches, getPlayerInfos);
-    const finalMatch = setMatchPlayersLiveStatus(matchWithAverages, data.championshipMatches);
+    return setPlayersInfos(match, matchData);
+  };
+
+  const setPlayersInfos = async (match, matchData) => {
+    const matchWithAverages = await setMatchPlayersAverageRating(match, matchData.championshipMatches, getPlayerInfos);
+    const finalMatch = setMatchPlayersLiveStatus(matchWithAverages, matchData.championshipMatches);
     return finalMatch;
   };
 
