@@ -1,6 +1,7 @@
 import { loginErrors } from "@/constants/loginErrors";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
 import { setMatchPlayersAverageRating } from "@/utils/players/playersAverageRating";
+import { setMatchPlayersLiveStatus } from "@/utils/players/playersLiveStatus";
 import { computed, onBeforeMount, ref, watch } from "vue";
 
 const token = ref("");
@@ -135,7 +136,8 @@ export function useMPG () {
       },
     });
 
-    const finalMatch = await setMatchPlayersAverageRating(match, matchData.championshipMatches, getPlayerInfos);
+    const matchWithAverages = await setMatchPlayersAverageRating(match, matchData.championshipMatches, getPlayerInfos);
+    const finalMatch = setMatchPlayersLiveStatus(matchWithAverages, matchData.championshipMatches);
     return finalMatch;
   };
 

@@ -25,7 +25,8 @@
     </td>
     <td class="player__rating">
       {{ player.rating || "-" }}
-      <span v-if="player.isAverageRating" class="player__rating__average">M</span>
+      <span v-if="player.isAverageRating" class="player__rating__status player__rating__status--average">M</span>
+      <span v-if="player.isLiveRating" class="player__rating__status player__rating__status--live" />
     </td>
     <td class="player__bonus_rating">
       {{ player.bonusRating }}
@@ -137,20 +138,37 @@ const ratingClass = computed(() => {
   &__rating {
     position: relative;
 
-    &__average {
+    &__status {
       position: absolute;
       top: 5px;
       right: 5px;
-      background-color: var(--bs-yellow);
-      color: #333;
       font-size: 0.6em;
-      font-weight: bold;;
+      font-weight: bold;
       border-radius: 50%;
       width: 15px;
       height: 15px;
       line-height: 15px;
       text-align: center;
       padding: 0;
+
+      &--average {
+        background-color: var(--bs-yellow);
+        color: #333;
+      }
+
+      &--live {
+        background-color: var(--bs-red);
+        color: #fff;
+        width: 10px;
+        height: 10px;
+        animation: blink 2s infinite;
+      }
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
     }
   }
 
