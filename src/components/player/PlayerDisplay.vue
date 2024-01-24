@@ -159,8 +159,8 @@ const ratingClass = computed(() => {
       &--live {
         background-color: var(--bs-red);
         color: #fff;
-        width: 10px;
-        height: 10px;
+        width: 7px;
+        height: 7px;
         animation: blink 2s infinite;
       }
     }
