@@ -22,6 +22,8 @@
         <div class="accordion-body row match-details-wrapper">
           <match-placeholder v-if="!match" />
           <div v-else>
+            <match-progress :match="match" class="do-not-share mb-3" />
+
             <h3 class="title do-not-share">
               Résultat calculé :
             </h3>
@@ -124,6 +126,7 @@ import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
 import ShareMatch from "@/components/share/ShareMatch.vue";
+import MatchProgress from "@/components/match/MatchProgress.vue";
 
 import { Match } from "@/models/match/Match";
 
