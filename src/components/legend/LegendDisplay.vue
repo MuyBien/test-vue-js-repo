@@ -27,6 +27,8 @@ defineProps({
   font-size: 0.8rem;
   display:flex;
   column-gap: 10px;
+  flex-wrap: wrap;
+  text-align: left;
 
   .average-legend {
     display: flex;
