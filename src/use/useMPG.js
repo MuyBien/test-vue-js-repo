@@ -153,7 +153,9 @@ export function useMPG () {
     const data = await response.json();
     const tournamentMatch = matchConstructor(data);
     tournamentMatch.isTournament = true;
-    const finalMatch = await setMatchPlayersAverageRating(tournamentMatch, data.championshipMatches, getPlayerInfos);
+
+    const matchWithAverages = await setMatchPlayersAverageRating(tournamentMatch, data.championshipMatches, getPlayerInfos);
+    const finalMatch = setMatchPlayersLiveStatus(matchWithAverages, data.championshipMatches);
     return finalMatch;
   };
 
