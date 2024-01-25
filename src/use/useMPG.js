@@ -2,7 +2,7 @@ import { loginErrors } from "@/constants/loginErrors";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
 import { setMatchPlayersAverageRating } from "@/utils/players/playersAverageRating";
 import { setMatchPlayersLiveStatus } from "@/utils/players/playersLiveStatus";
-import { computed, onBeforeMount, ref, watch } from "vue";
+import { computed, onBeforeMount, readonly, ref, watch } from "vue";
 
 const token = ref("");
 const user = ref({});
@@ -199,10 +199,10 @@ export function useMPG () {
 
   return {
     signIn,
-    user,
+    user: readonly(user),
     isConnected,
-    loginError,
-    loginEnded,
+    loginError: readonly(loginError),
+    loginEnded: readonly(loginEnded),
     haveLiveRating,
     liveLeagues,
     liveTournaments,

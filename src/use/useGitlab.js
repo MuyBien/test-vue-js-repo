@@ -1,4 +1,4 @@
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, readonly, ref } from "vue";
 
 const GITLAB_PROJECT_ID = 15624779;
 
@@ -55,9 +55,9 @@ export function useGitlab () {
   };
 
   return {
-    isLoading,
-    releases,
-    unseenReleases,
+    isLoading: readonly(isLoading),
+    releases: readonly(releases),
+    unseenReleases: readonly(unseenReleases),
     setAllReleasesSeen,
   };
 }
