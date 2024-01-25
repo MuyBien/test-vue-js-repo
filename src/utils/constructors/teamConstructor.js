@@ -24,6 +24,7 @@ const teamConstructor = (teamData) => {
   team.id = teamData.teamId;
   team.name = teamData.name || teamData.abbreviation;
   team.jersey = teamData.jerseyUrl;
+  team.userId = teamData.userId;
   team.isLiveSubstitutesEnabled = teamData.isLiveSubstitutesEnabled;
 
   team.pitchPlayers = setPitchPlayers(teamData);
