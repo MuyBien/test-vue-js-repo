@@ -5,6 +5,7 @@ export class Team {
   id;
   name;
   jersey;
+  userId;
 
   pitchPlayers = [];
   benchPlayers = [];
@@ -19,6 +20,7 @@ export class Team {
     this.id = team.id;
     this.name = team.name;
     this.jersey = team.jersey;
+    this.userId = team.userId;
 
     this.isLiveSubstitutesEnabled = team.isLiveSubstitutesEnabled;
 

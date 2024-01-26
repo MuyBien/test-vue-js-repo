@@ -2,9 +2,9 @@
   <section class="tournament-match-winner">
     <h3>Équipe qualifiée pour le tour suivant :</h3>
     <p class="team">
-      <span class="team__emoji--left">🎉</span>
-      <span class="team__name">{{ getQualified(match)?.name || "Par tirage au sort" }}</span>
-      <span class="team__emoji--right">🎉</span>
+      <span class="team__emoji--left">{{ qualifiedEmoji }}</span>
+      <span class="team__name">{{ qualifiedTeam?.name || "Par tirage au sort" }}</span>
+      <span class="team__emoji--right">{{ qualifiedEmoji }}</span>
     </p>
     <section v-if="needTeamAverageComparaison" class="teams-averages">
       <p class="teams-averages__description">
@@ -43,9 +43,13 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { Match } from "@/models/match/Match";
 import { getQualified } from "@/utils/tournament/qualification.js";
 import { calculateTournamentTeamAverage, calculatePositionsAverages } from "@/utils/averages/averageCalculator";
+import { useMPG } from "@/use/useMPG";
+
+const { user } = useMPG();
 
 const props = defineProps({
   match: {
@@ -74,6 +78,19 @@ const averageNeeded = (index) => {
   }
   return true;
 };
+
+/**
+ * Qualified
+ */
+const qualifiedTeam = computed(() => {
+  return getQualified(props.match);
+});
+const qualifiedEmoji = computed(() => {
+  if (qualifiedTeam.value) {
+    return qualifiedTeam.value.userId === user.value.id ? "🎉" : "😭";
+  }
+  return "🔮";
+});
 
 /**
  * Average colors
