@@ -7,6 +7,9 @@ import { doMatchSubstitutions } from "@/utils/substitutions/substitutionMaker";
 const calculateFinalMatch = (match) => {
 
   const matchCopy = new Match(match);
+
+  setOnPitchRotaldoOwnGoals(matchCopy);
+
   applyMatchBonuses(matchCopy, "beforeAll");
   applyMatchBonuses(matchCopy, "before");
 
@@ -32,6 +35,24 @@ const applyBonus = (team, opponentTeam, timing) => {
   if (team.bonus.timing === timing && ! team.bonus.isLiveApplied) {
     team.bonus.apply(team, opponentTeam);
   }
+};
+
+const setOnPitchRotaldoOwnGoals = (match) => {
+  setOnPitchTeamRotaldoOwnGoals(match.homeTeam);
+  setOnPitchTeamRotaldoOwnGoals(match.awayTeam);
+};
+
+const setOnPitchTeamRotaldoOwnGoals = (team) => {
+  let homeRotaldoAmount = 0;
+  team.pitchPlayers.forEach(player => {
+    if (player.lastName === "Rotaldo") {
+      homeRotaldoAmount ++;
+      if (homeRotaldoAmount === 3) {
+        player.ownGoals = 1;
+        homeRotaldoAmount = 0;
+      }
+    }
+  });
 };
 
 export { calculateFinalMatch };
