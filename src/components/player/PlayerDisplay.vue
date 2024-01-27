@@ -154,6 +154,7 @@ const ratingClass = computed(() => {
       &--average {
         background-color: var(--bs-yellow);
         color: #333;
+        right: 0;
       }
 
       &--live {
