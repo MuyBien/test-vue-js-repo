@@ -38,8 +38,8 @@ defineProps({
 
     &__icon {
       display: inline-block;
-      width: 15px;
-      height: 15px;
+      min-width: 15px;
+      min-height: 15px;
       line-height: 15px;
       background-color: var(--bs-yellow);
       color: #333;
