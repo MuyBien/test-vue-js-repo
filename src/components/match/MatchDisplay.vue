@@ -170,10 +170,11 @@ const match = computed(() => {
     return;
   }
   const newMatch = new Match(initialMatch.value);
-  newMatch.homeTeam.bonus = new homeTeamBonus.value.constructor(homeTeamBonus.value);
-  newMatch.awayTeam.bonus = new awayTeamBonus.value.constructor(awayTeamBonus.value);
+  newMatch.homeTeam.bonus = homeTeamBonus.value;
+  newMatch.awayTeam.bonus = awayTeamBonus.value;
   return newMatch;
 });
+
 const resultMatch = computed(() => {
   if (! match.value) {
     return;
