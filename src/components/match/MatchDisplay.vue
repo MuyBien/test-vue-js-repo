@@ -170,10 +170,11 @@ const match = computed(() => {
     return;
   }
   const newMatch = new Match(initialMatch.value);
-  newMatch.homeTeam.bonus = new homeTeamBonus.value.constructor(homeTeamBonus.value);
-  newMatch.awayTeam.bonus = new awayTeamBonus.value.constructor(awayTeamBonus.value);
+  newMatch.homeTeam.bonus = homeTeamBonus.value;
+  newMatch.awayTeam.bonus = awayTeamBonus.value;
   return newMatch;
 });
+
 const resultMatch = computed(() => {
   if (! match.value) {
     return;
@@ -195,13 +196,14 @@ const updateAwayTeamBonus = (bonus) => {
 };
 
 const updateTeamBonus = (teamBonus, bonus, initialBonusValue) => {
-  teamBonus.value = new bonus.constructor();
+  const teamBonusUpdated = new bonus.constructor();
   if (initialBonusValue !== bonus.value) {
-    teamBonus.value.isLiveApplied = false;
+    teamBonusUpdated.isLiveApplied = false;
   }
   if (bonus.playerId) {
-    teamBonus.value.playerId = bonus.playerId;
+    teamBonusUpdated.playerId = bonus.playerId;
   }
+  teamBonus.value = teamBonusUpdated;
 };
 
 /**
