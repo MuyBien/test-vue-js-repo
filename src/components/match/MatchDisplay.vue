@@ -195,13 +195,14 @@ const updateAwayTeamBonus = (bonus) => {
 };
 
 const updateTeamBonus = (teamBonus, bonus, initialBonusValue) => {
-  teamBonus.value = new bonus.constructor();
+  const teamBonusUpdated = new bonus.constructor();
   if (initialBonusValue !== bonus.value) {
-    teamBonus.value.isLiveApplied = false;
+    teamBonusUpdated.isLiveApplied = false;
   }
   if (bonus.playerId) {
-    teamBonus.value.playerId = bonus.playerId;
+    teamBonusUpdated.playerId = bonus.playerId;
   }
+  teamBonus.value = teamBonusUpdated;
 };
 
 /**
