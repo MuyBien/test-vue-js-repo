@@ -14,9 +14,15 @@ export class RemoveGoalBonus extends Bonus {
   }
 
   apply (team, opponentTeam) {
-    const firstScorerIndex = opponentTeam.pitchPlayers.findIndex(player => player.goals >= 1 || player.mpgGoals >= 1);
+    const firstScorerIndex = this.getFirstScorer(opponentTeam);
     if (firstScorerIndex >= 0) {
       opponentTeam.pitchPlayers[firstScorerIndex].canceledGoals = 1;
     }
   }
+
+  getFirstScorer = (team) => {
+    return team.pitchPlayers.findIndex((player) => {
+      return (player.goals >= 1 || player.mpgGoals >= 1) && ! player.savedGoals;
+    });
+  };
 }

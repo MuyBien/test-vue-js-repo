@@ -63,4 +63,12 @@ describe("Le bonus RemoveGoalBonus", () => {
 
     expect(team.pitchPlayers.every(p => p.canceledGoals)).toBeFalsy();
   });
+
+  it("n'annule pas un but déjà arrêté par le gardien", () => {
+    opponentTeam.pitchPlayers[0].savedGoals = 1;
+    const bonus = new RemoveGoalBonus();
+    bonus.apply(team, opponentTeam);
+
+    expect(opponentTeam.pitchPlayers[0].canceledGoals).toBe(0);
+  });
 });
