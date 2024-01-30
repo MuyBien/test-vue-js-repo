@@ -18,22 +18,18 @@ describe("Le setter de notes moyennes", () => {
         home: { clubId: 1 },
         away: { clubId: 2 },
       },
-      2: {
-        period: "fullTime", // terminé
-        home: { clubId: 3 },
-        away: { clubId: 4 },
-      },
-      3: {
-        period: "firstHalf", // en cours
-        home: { clubId: 5 },
-        away: { clubId: 6 },
-      },
     };
     resetPlayersClubId(4);
     getPlayerInfos = vi.fn().mockResolvedValue({ averageRating: 5.6 });
   });
 
   it("donne sa note moyenne à un joueur dont son match n'a pas commencé", async () => {
+    championshipMatches = {
+      1: {
+        home: { clubId: 1 },
+        away: { clubId: 2 },
+      },
+    };
     match.homeTeam.pitchPlayers[0].clubId = 1;
 
     const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
@@ -61,7 +57,14 @@ describe("Le setter de notes moyennes", () => {
   });
 
   it("ne change pas la note d'un joueur dont son match a commencé", async () => {
-    match.homeTeam.pitchPlayers[0].clubId = 5;
+    championshipMatches = {
+      1: {
+        period: "firstHalf", // commencé
+        home: { clubId: 1 },
+        away: { clubId: 2 },
+      },
+    };
+    match.homeTeam.pitchPlayers[0].clubId = 1;
 
     const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
 
@@ -71,7 +74,14 @@ describe("Le setter de notes moyennes", () => {
   });
 
   it("ne change pas la note d'un joueur dont son match est terminé", async () => {
-    match.homeTeam.pitchPlayers[0].clubId = 3;
+    championshipMatches = {
+      1: {
+        period: "fullTime", // fini
+        home: { clubId: 1 },
+        away: { clubId: 2 },
+      },
+    };
+    match.homeTeam.pitchPlayers[0].clubId = 1;
 
     const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
 
