@@ -43,6 +43,23 @@ describe("Le setter de notes moyennes", () => {
     expect(testPlayer.isAverageRating).toBeTruthy();
   });
 
+  it("donne sa note moyenne à un joueur dont son match va bientôt commencé", async () => {
+    championshipMatches = {
+      1: {
+        period: "preMatch", // bientôt commencé
+        home: { clubId: 1 },
+        away: { clubId: 2 },
+      },
+    };
+    match.homeTeam.pitchPlayers[0].clubId = 1;
+
+    const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
+
+    const testPlayer = resultMatch.homeTeam.pitchPlayers[0];
+    expect(testPlayer.rating).toBe(5.6);
+    expect(testPlayer.isAverageRating).toBeTruthy();
+  });
+
   it("ne change pas la note d'un joueur dont son match a commencé", async () => {
     match.homeTeam.pitchPlayers[0].clubId = 5;
 
