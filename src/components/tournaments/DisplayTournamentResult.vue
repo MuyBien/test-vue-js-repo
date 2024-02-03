@@ -68,7 +68,7 @@ const awayTeamAverage = calculateTournamentTeamAverage(props.match.awayTeam, tru
 /**
  * Line to line average comparaison
  */
-const needLineAverageComparaison = homeTeamAverage === awayTeamAverage;
+const needLineAverageComparaison = needTeamAverageComparaison && homeTeamAverage === awayTeamAverage;
 const lines = ["de l'attaque", "du milieu", "de la défense", "du gardien"];
 const homeTeamLinesAverages = calculatePositionsAverages(props.match.homeTeam).reverse();
 const awayTeamLinesAverages = calculatePositionsAverages(props.match.awayTeam).reverse();
