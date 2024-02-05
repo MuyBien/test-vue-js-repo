@@ -169,9 +169,16 @@ const match = computed(() => {
   if (! initialMatch.value) {
     return;
   }
+
   const newMatch = new Match(initialMatch.value);
   newMatch.homeTeam.bonus = homeTeamBonus.value;
   newMatch.awayTeam.bonus = awayTeamBonus.value;
+  if (homeTeamBonus.value.value === "mirror") {
+    newMatch.homeTeam.bonus = new homeTeamBonus.value.constructor(homeTeamBonus.value);
+  }
+  if (awayTeamBonus.value.value === "mirror") {
+    newMatch.awayTeam.bonus = new awayTeamBonus.value.constructor(awayTeamBonus.value);
+  }
   return newMatch;
 });
 
@@ -197,7 +204,7 @@ const updateAwayTeamBonus = (bonus) => {
 
 const updateTeamBonus = (teamBonus, bonus, initialBonusValue) => {
   const teamBonusUpdated = new bonus.constructor();
-  if (initialBonusValue !== bonus.value) {
+  if (initialBonusValue !== bonus.value && teamBonusUpdated.isLiveApplied) {
     teamBonusUpdated.isLiveApplied = false;
   }
   if (bonus.playerId) {
