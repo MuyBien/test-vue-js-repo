@@ -194,6 +194,10 @@ export function useMPG () {
       body: null,
     });
     const data = await response.json();
+    const SUPERLEAGUE_ID = 7;
+    if (championshipId === SUPERLEAGUE_ID) {
+      championshipId = data.aggregatedChampionshipsCorrelations[SUPERLEAGUE_ID];
+    }
     return data.championships[championshipId].keySeasonStats || {};
   };
 
