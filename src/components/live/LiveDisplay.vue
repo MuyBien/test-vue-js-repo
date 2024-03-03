@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 import LiveOptions from "@/components/live/LiveOptions.vue";
 import TournamentDisplay from "@/components/tournaments/TournamentDisplay.vue";
@@ -40,7 +40,11 @@ const { liveLeagues, liveTournaments } = useMPG();
 /**
  * Options
  */
-const options = ref({ showAllMatches: true });
+const options = ref();
+options.value = JSON.parse(localStorage.getItem("options")) || { showAllMatches: true };
+watchEffect(() => {
+  localStorage.setItem("options", JSON.stringify(options.value));
+});
 </script>
 
 <style lang="scss" scoped>

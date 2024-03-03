@@ -8,6 +8,7 @@
           'bonus--selected': selectedBonusValue === team.bonus.value,
         }"
         title="Bonus initial"
+        @click="showBonusList = !showBonusList"
       />
       <button class="btn btn-link btn-sm do-not-share" data-bs-toggle="button" @click="showBonusList = !showBonusList">
         Changer le bonus
