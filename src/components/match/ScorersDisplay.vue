@@ -2,7 +2,7 @@
   <section class="scorers">
     <div class="scorers__team scorers__team--home">
       <div v-for="player in homeScorers" :key="player.playerId" class="player">
-        <p>
+        <p class="player__name" :class="{ 'player__name--removed': isGoalRemoved(player) }">
           {{ player.lastName }}
         </p>
         <div class="goals">
@@ -12,7 +12,7 @@
     </div>
     <div class="scorers__team scorers__team--away">
       <div v-for="player in awayScorers" :key="player.playerId" class="player">
-        <p>
+        <p class="player__name" :class="{ 'player__name--removed': isGoalRemoved(player) }">
           {{ player.lastName }}
         </p>
         <div class="goals">
@@ -48,6 +48,13 @@ const awayScorers = computed(() => {
   const homeScorers = props.match.homeTeam.pitchPlayers.filter(({ ownGoals }) => ownGoals > 0);
   return awayScorers.concat(homeScorers);
 });
+
+/**
+ * Vérifie si le but a été annulé
+ */
+const isGoalRemoved = (player) => {
+  return player.canceledGoals + player.savedGoals > 0 ;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -88,6 +95,14 @@ const awayScorers = computed(() => {
     .player {
       display: flex;
       align-items: center;
+
+      &__name {
+        &--removed {
+          text-decoration: line-through;
+          text-decoration-color: rgb(232, 30, 41);
+          text-decoration-thickness: 0.1rem;
+        }
+      }
 
       p {
         margin-bottom: 0;
