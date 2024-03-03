@@ -63,6 +63,21 @@ describe("Le constructeur d'équipe", () => {
       expect(substitutions.length).toBe(2);
       expect(substitutions[0]).toBeInstanceOf(LiveSubstitution);
     });
+
+    it("ne récupère qu'un seul gardien remplaçant", () => {
+      const liveTeamMock = JSON.parse(JSON.stringify(liveMatchMock.away));
+      liveTeamMock.players["mock_player_100000"] = {
+        ...Object.values(liveMatchMock.away.players)[0],
+        playerId: "mock_player_100000",
+        lastName: "FakeGoalKeeper",
+        position: 1,
+        ultraPosition: 10,
+      };
+      team = teamConstructor(liveTeamMock);
+
+      const benchGoalkeepers = team.benchPlayers.filter(player => player.position === 1);
+      expect(benchGoalkeepers.length).toBe(1);
+    });
   });
 
 });
