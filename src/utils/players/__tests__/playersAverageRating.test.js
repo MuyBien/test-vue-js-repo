@@ -90,6 +90,27 @@ describe("Le setter de notes moyennes", () => {
     expect(testPlayer.isAverageRating).toBeFalsy();
   });
 
+  it("laisse la note temporaire d'un joueur dont son match est reporté", async () => {
+    championshipMatches = {
+      1: {
+        home: { clubId: 1 },
+        away: { clubId: 2 },
+        period: "preMatch",
+        matchStatus: "postponed",
+      },
+    };
+    match.homeTeam.pitchPlayers[0].clubId = 1;
+    match.homeTeam.pitchPlayers[0].hasMatchPostponed = true;
+    match.homeTeam.pitchPlayers[0].rating = 5;
+    match.homeTeam.pitchPlayers[0].defaultRating = true;
+
+    const resultMatch = await setMatchPlayersAverageRating(match, championshipMatches, getPlayerInfos);
+
+    const testPlayer = resultMatch.homeTeam.pitchPlayers[0];
+    expect(testPlayer.rating).toBe(5);
+    expect(testPlayer.isAverageRating).toBeFalsy();
+  });
+
   it("récupère la note moyenne d'un joueur en local si elle existe", async () => {
     match.homeTeam.pitchPlayers[0].clubId = 1;
 
