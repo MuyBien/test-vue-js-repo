@@ -59,11 +59,16 @@ const setPitchPlayers = (teamData) => {
 
 const setBenchPlayers = (teamData) => {
   if (teamData.isLiveSubstitutesEnabled) {
-    const lastPlayerOnPitch = getLastPlayerIdOnPitch(teamData.playersOnPitch); // gardien remplaçant
+    const benchGoalkeeperId = getLastPlayerIdOnPitch(teamData.playersOnPitch);
 
     const pitchPlayerIds = new Set(Object.values(teamData.playersOnPitch).map(p => p.playerId));
     const benchPlayers = Object.values(teamData.players)
-      .filter(({ playerId }) => ! pitchPlayerIds.has(playerId) || playerId === lastPlayerOnPitch)
+      .filter(({ playerId, position }) => {
+        if (position === 1) {
+          return playerId === benchGoalkeeperId;
+        }
+        return ! pitchPlayerIds.has(playerId);
+      })
       .map(playerData => new Player(playerData));
 
     return benchPlayers;
