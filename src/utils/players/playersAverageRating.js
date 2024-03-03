@@ -21,7 +21,7 @@ const setMatchPlayersAverageRating = async (match, championshipMatches, getPlaye
 
 const getNotStartedTeams = (championshipMatches) => {
   const notStartedChampionshipMatches = Object.values(championshipMatches).filter((match) => {
-    return ! match.period || match.period === "preMatch";
+    return match.matchStatus !== "postponed" && (! match.period || match.period === "preMatch");
   });
   const notStartedTeamIds = [];
   notStartedChampionshipMatches.forEach(async (championshipMatch) => {
