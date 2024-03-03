@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { Match } from "@/models/match/Match";
 import { matchConstructor } from "@/utils/constructors/matchConstructor";
@@ -288,6 +288,18 @@ describe("Le substitutionMaker", () => {
 
         const updatedMatch = doMatchSubstitutions(match);
         expect(updatedMatch.homeTeam.pitchPlayers[10].isSubstitute).toBeTruthy();
+      });
+
+      it("Par Rotaldo si l'équipe joue en remplacement live", () => {
+        match.homeTeam.pitchPlayers.forEach(player => player.rating = 5);
+        delete match.homeTeam.pitchPlayers[10].rating;
+
+        match.homeTeam.substitutions = [];
+        match.homeTeam.isLiveSubstitutesEnabled = true;
+
+        const updatedMatch = doMatchSubstitutions(match);
+        expect(updatedMatch.homeTeam.pitchPlayers[10].lastName).toBe("Rotaldo");
+        expect(updatedMatch.homeTeam.pitchPlayers[10].rating).toBe(2.5);
       });
 
     });

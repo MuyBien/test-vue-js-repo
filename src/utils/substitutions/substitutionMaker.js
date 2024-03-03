@@ -1,6 +1,6 @@
 import { Match } from "@/models/match/Match";
-import { Team } from "@/models/teams/Team";
 import { Rotaldo } from "@/models/players/Rotaldo";
+import { Team } from "@/models/teams/Team";
 
 const POSITION_GOALKEEPER = 1;
 
@@ -23,9 +23,15 @@ const doSubstitutions = (team) => {
   const pitchPlayersCopy = [...team.pitchPlayers];
   const benchPlayersCopy = [...team.benchPlayers];
 
-  const playersAfterRT = applyTacticalSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
-  const playersAfterSub = applyClassicSubstitutions(playersAfterRT, benchPlayersCopy);
-  const finalPlayers = applyRotaldoSubstitutions(playersAfterSub);
+  let finalPlayers;
+  if (team.isLiveSubstitutesEnabled) {
+    const playersAfterRL = applyTacticalSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
+    finalPlayers = applyRotaldoSubstitutions(playersAfterRL);
+  } else {
+    const playersAfterRT = applyTacticalSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
+    const playersAfterSub = applyClassicSubstitutions(playersAfterRT, benchPlayersCopy);
+    finalPlayers = applyRotaldoSubstitutions(playersAfterSub);
+  }
 
   return new Team({
     ...team,
