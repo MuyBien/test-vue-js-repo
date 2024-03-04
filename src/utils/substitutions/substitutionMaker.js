@@ -25,7 +25,7 @@ const doSubstitutions = (team) => {
 
   let finalPlayers;
   if (team.isLiveSubstitutesEnabled) {
-    const playersAfterRL = applyTacticalSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
+    const playersAfterRL = applyLiveSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
     finalPlayers = applyRotaldoSubstitutions(playersAfterRL);
   } else {
     const playersAfterRT = applyTacticalSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
@@ -41,6 +41,9 @@ const doSubstitutions = (team) => {
 
 /**
  * Effectue les RT
+ * Fais rentrer le joueur remplaçant :
+ *   - si le joueur titulaire n'a pas joué  ou si elle est inférieure à la note définie
+ *   - si le joueur remplaçant a joué
  */
 const applyTacticalSubstitutions = (finalPlayers, substitutesCopy, substitutions) => {
   substitutions.forEach(substitution => {
@@ -57,6 +60,23 @@ const applyTacticalSubstitutions = (finalPlayers, substitutesCopy, substitutions
         substitutesCopy.splice(substituteIndex, 1);
       }
     }
+  });
+  return finalPlayers;
+};
+
+/**
+ * Effectue les remplacements Live
+ * Fais rentrer le joueur remplaçant dans tous les cas
+ */
+const applyLiveSubstitutions = (finalPlayers, substitutesCopy, substitutions) => {
+  substitutions.forEach(substitution => {
+    const { starterId, subId } = substitution;
+    const substitutionStarterIndex = finalPlayers.findIndex(starter => starter.playerId === starterId);
+    const substituteIndex = substitutesCopy.findIndex(substitute => substitute.playerId === subId);
+
+    finalPlayers[substitutionStarterIndex] = substitutesCopy[substituteIndex];
+    finalPlayers[substitutionStarterIndex].isSubstitute = true;
+    substitutesCopy.splice(substituteIndex, 1);
   });
   return finalPlayers;
 };
