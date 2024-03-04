@@ -302,6 +302,26 @@ describe("Le substitutionMaker", () => {
         expect(updatedMatch.homeTeam.pitchPlayers[10].rating).toBe(2.5);
       });
 
+      it("Par Rotaldo si l'entrant n'a pas joué en remplacement live", () => {
+        match.homeTeam.pitchPlayers.forEach(player => player.rating = 5);
+
+        match.homeTeam.benchPlayers[1].lastName = "Balogun";
+        match.homeTeam.benchPlayers[1].position = 4;
+        match.homeTeam.benchPlayers[1].rating = undefined;
+
+        match.homeTeam.substitutions = [];
+        match.homeTeam.substitutions.push({
+          rating: Infinity,
+          subId: match.homeTeam.benchPlayers[1].playerId,
+          starterId: match.homeTeam.pitchPlayers[10].playerId,
+        });
+        match.homeTeam.isLiveSubstitutesEnabled = true;
+
+        const updatedMatch = doMatchSubstitutions(match);
+        expect(updatedMatch.homeTeam.pitchPlayers[10].lastName).toBe("Rotaldo");
+        expect(updatedMatch.homeTeam.pitchPlayers[10].rating).toBe(2.5);
+      });
+
     });
 
   });
