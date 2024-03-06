@@ -1,15 +1,20 @@
 <template>
-  <div
-    class="progress"
-    role="progressbar"
-    aria-label="Progression dans le match"
-    :aria-valuenow="matchProgress"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    style="height: 2px"
-  >
-    <div class="progress-bar" :class="progressClass" :style="{ width: matchProgress + '%' }" />
-  </div>
+  <section class="progress-wrapper">
+    <p class="progress-wrapper__title" :class="progressClass">
+      Progression : {{ matchProgress }}%
+    </p>
+    <div
+      class="progress progress-wrapper__bar-wrapper"
+      role="progressbar"
+      aria-label="Progression dans le match"
+      :aria-valuenow="matchProgress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      style="height: 1px"
+    >
+      <div class="progress-bar progress-wrapper__bar-wrapper__bar" :class="progressClass" :style="{ width: matchProgress + '%' }" />
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -50,23 +55,47 @@ const progressClass = computed(() => {
   }
   return "just-started";
 });
-
-// firstHalf pour la 1ere mi-temps
 </script>
 
 <style lang="scss" scoped>
-.progress-bar {
-  &.finished {
-    background-color: rgb(120, 199, 61);
+.progress-wrapper {
+  --var-finished-color: rgb(120, 199, 61);
+  --var-almost-finished-color: rgb(181, 224, 37);
+  --var-almost-started-color: rgb(224, 201, 72);
+  --var-just-started-color: rgb(244, 149, 56);
+
+  &__title {
+    font-size: .6rem;
+    font-weight: bold;
+    margin: 0;
+
+    &.finished {
+      color: var(--var-finished-color);
+    }
+    &.almost-finished {
+      color: var(--var-almost-finished-color);
+    }
+    &.almost-started {
+      color: var(--var-almost-started-color);
+    }
+    &.just-started {
+      color: var(--var-just-started-color);
+    }
   }
-  &.almost-finished {
-    background-color: rgb(181, 224, 37);
-  }
-  &.almost-started {
-    background-color: rgb(224, 201, 72);
-  }
-  &.just-started {
-    background-color: rgb(244, 149, 56);
+
+  &__bar-wrapper__bar {
+    &.finished {
+      background-color: var(--var-finished-color);
+    }
+    &.almost-finished {
+      background-color: var(--var-almost-finished-color);
+    }
+    &.almost-started {
+      background-color: var(--var-almost-started-color);
+    }
+    &.just-started {
+      background-color: var(--var-just-started-color);
+    }
   }
 }
 </style>
