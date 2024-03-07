@@ -19,6 +19,7 @@
 
 <script setup>
 import { Match } from "@/models/match/Match";
+import { getMatchProgress } from "@/utils/progress/matchProgress";
 import { computed } from "vue";
 
 const props = defineProps({
@@ -32,12 +33,7 @@ const props = defineProps({
  * Joueurs
  */
 const matchProgress = computed(() => {
-  const allHomePlayers = props.match.homeTeam.pitchPlayers.concat(props.match.homeTeam.benchPlayers);
-  const allAwayPlayers = props.match.awayTeam.pitchPlayers.concat(props.match.awayTeam.benchPlayers);
-  const allPlayers = allHomePlayers.concat(allAwayPlayers);
-
-  const playersNotPlayed = allPlayers.filter((player) => player.isAverageRating);
-  return Math.round(100 - (playersNotPlayed.length / allPlayers.length) * 100);
+  return getMatchProgress(props.match);
 });
 
 /**
