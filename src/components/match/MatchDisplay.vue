@@ -44,7 +44,7 @@
               <score-display :match="resultMatch" />
               <scorers-display :match="resultMatch" class="mt-3" />
 
-              <match-progress :match="match" class="match-details__progress do-not-share mb-3" />
+              <match-progress :match="resultMatch" class="match-details__progress do-not-share mb-3" />
 
               <div v-if="!isTournament" class="row mt-3">
                 <bonus-selector
