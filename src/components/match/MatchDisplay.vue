@@ -44,6 +44,8 @@
               <score-display :match="resultMatch" />
               <scorers-display :match="resultMatch" class="mt-3" />
 
+              <match-progress :match="resultMatch" class="match-details__progress do-not-share mb-3" />
+
               <div v-if="!isTournament" class="row mt-3">
                 <bonus-selector
                   :team="match.homeTeam"
@@ -109,21 +111,22 @@
 
 <script setup>
 import { useMPG } from "@/use/useMPG";
-import { ref, computed, onMounted, onUpdated } from "vue";
 import { Collapse } from "bootstrap";
+import { computed, onMounted, onUpdated, ref } from "vue";
 
 import { calculateFinalMatch } from "@/utils/match/resultMatchCalculator.js";
 
-import ScoreLineDisplay from "@/components/score/ScoreLineDisplay.vue";
-import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
-import ScorersDisplay from "@/components/match/ScorersDisplay.vue";
-import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
-import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
-import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
-import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import BonusSelector from "@/components/bonus/BonusSelector.vue";
 import InfoIcon from "@/components/icons/InfoIcon.vue";
+import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
+import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
+import MatchProgress from "@/components/match/MatchProgress.vue";
+import ScorersDisplay from "@/components/match/ScorersDisplay.vue";
+import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
+import ScoreLineDisplay from "@/components/score/ScoreLineDisplay.vue";
+import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
 import ShareMatch from "@/components/share/ShareMatch.vue";
+import DisplayTournamentResult from "@/components/tournaments/DisplayTournamentResult.vue";
 
 import { Match } from "@/models/match/Match";
 
@@ -309,6 +312,13 @@ li {
   .match-details, .sharing {
     position: relative;
     z-index: 1;
+  }
+
+  .match-details {
+    &__progress {
+      width: 20%;
+      margin: 1rem auto;
+    }
   }
 
   .rating-disclaimer {
