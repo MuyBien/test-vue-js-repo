@@ -34,4 +34,30 @@ describe("Le calcul de progression du match", () => {
     const progress = getMatchProgress(match);
     expect(progress).toBe(50);
   });
+
+  it("vérifie que les joueurs remplacés ont joué", () => {
+    match.homeTeam.pitchPlayers.forEach((player) => player.isAverageRating = false);
+    match.awayTeam.pitchPlayers.forEach((player) => player.isAverageRating = false);
+
+    match.homeTeam.pitchPlayers[10].substitued = { isAverageRating: true };
+
+    const progress = getMatchProgress(match);
+    expect(progress).not.toBe(100);
+  });
+
+  it("ne considère pas un joueur en live comme terminé", () => {
+    match.homeTeam.pitchPlayers.forEach((player) => player.isAverageRating = false);
+    match.awayTeam.pitchPlayers.forEach((player) => player.isAverageRating = false);
+    match.homeTeam.pitchPlayers.forEach((player) => player.isLiveRating = false);
+    match.awayTeam.pitchPlayers.forEach((player) => player.isLiveRating = false);
+
+    match.homeTeam.pitchPlayers[10].substitued = {
+      isAverageRating: false,
+      isLiveRating: true,
+    };
+
+    const progress = getMatchProgress(match);
+    expect(progress).not.toBe(100);
+  });
+
 });

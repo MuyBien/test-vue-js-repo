@@ -5,9 +5,11 @@
  * @returns {number} - La progression du match en pourcentage
  */
 const getMatchProgress = (match) => {
-  const allPlayers = match.homeTeam.pitchPlayers.concat(match.awayTeam.pitchPlayers);
-  const playersNotPlayed = allPlayers.filter((player) => player.isAverageRating);
-  return Math.round(100 - (playersNotPlayed.length / allPlayers.length) * 100);
+  const allPositions = match.homeTeam.pitchPlayers.concat(match.awayTeam.pitchPlayers);
+  const positionsNotPlayed = allPositions.filter((player) => {
+    return player.isAverageRating || player.isLiveRating || player.substitued?.isAverageRating || player.substitued?.isLiveRating;
+  });
+  return Math.round(100 - (positionsNotPlayed.length / allPositions.length) * 100);
 };
 
 export { getMatchProgress };
