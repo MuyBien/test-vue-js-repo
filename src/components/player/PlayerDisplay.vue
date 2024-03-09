@@ -1,8 +1,11 @@
 <template>
-  <tr class="player">
+  <tr class="player" :class="{ substitued: substitued }">
     <td class="player_infos">
-      <p class="player_infos__number">
+      <p v-if="!substitued" class="player_infos__number">
         {{ playerIndex + 1 }}
+      </p>
+      <p v-else>
+        -->
       </p>
       <div class="player_infos__club_jersey" />
       <p class="player_infos__name">
@@ -35,13 +38,19 @@
       {{ player.rating ? player.getTotalScore() : "-" }}
     </td>
   </tr>
+  <player-display
+    v-if="player.isSubstitute"
+    :player="player.substitued"
+    :player-index="playerIndex"
+    substitued
+  />
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { Player } from "@/models/players/Player";
 import GoalsDisplay from "@/components/goals/GoalsDisplay.vue";
 import SubstitutionIcon from "@/components/icons/SubstitutionIcon.vue";
+import { Player } from "@/models/players/Player";
+import { computed } from "vue";
 
 const props = defineProps({
   player: {
@@ -51,6 +60,10 @@ const props = defineProps({
   playerIndex: {
     type: Number,
     required: true,
+  },
+  substitued: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -200,6 +213,11 @@ const ratingClass = computed(() => {
     &.very-bad {
       background-color: rgb(250, 111, 111);
     }
+  }
+
+  &.substitued {
+    filter: grayscale(100%);
+    font-size: .6em;
   }
 }
 </style>
