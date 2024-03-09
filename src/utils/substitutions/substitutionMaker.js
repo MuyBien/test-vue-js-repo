@@ -1,4 +1,5 @@
 import { Match } from "@/models/match/Match";
+import { Player } from "@/models/players/Player";
 import { Rotaldo } from "@/models/players/Rotaldo";
 import { Team } from "@/models/teams/Team";
 
@@ -55,8 +56,8 @@ const applyTacticalSubstitutions = (finalPlayers, substitutesCopy, substitutions
       const substituteIndex = substitutesCopy.findIndex(substitute => substitute.playerId === subId);
 
       if (substituteIndex >= 0 && substitutesCopy[substituteIndex].rating) {
-        finalPlayers[substitutionStarterIndex] = substitutesCopy[substituteIndex];
-        finalPlayers[substitutionStarterIndex].isSubstitute = true;
+        const substituedPlayer = new Player(finalPlayers[substitutionStarterIndex]);
+        finalPlayers[substitutionStarterIndex] = substitutePlayer(substituedPlayer, substitutesCopy[substituteIndex]);
         substitutesCopy.splice(substituteIndex, 1);
       }
     }
@@ -87,24 +88,20 @@ const applyLiveSubstitutions = (finalPlayers, substitutesCopy, substitutions) =>
 const applyClassicSubstitutions = (finalPlayers, substitutesCopy) => {
   finalPlayers.forEach((player, index) => {
     if (! player.rating) {
+      const substituedPlayer = new Player(finalPlayers[index]);
       const substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position === player.position);
       if (substituteIndex >= 0) {
-        finalPlayers[index] = substitutesCopy[substituteIndex];
-        finalPlayers[index].isSubstitute = true;
+        finalPlayers[index] = substitutePlayer(substituedPlayer, substitutesCopy[substituteIndex]);
         substitutesCopy.splice(substituteIndex, 1);
       } else {
         let substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 1 === player.position);
         if (substituteIndex >= 0) {
-          finalPlayers[index] = substitutesCopy[substituteIndex];
-          finalPlayers[index].bonusRating -= 1;
-          finalPlayers[index].isSubstitute = true;
+          finalPlayers[index] = substitutePlayer(substituedPlayer, substitutesCopy[substituteIndex], - 1);
           substitutesCopy.splice(substituteIndex, 1);
         } else {
           substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position > POSITION_GOALKEEPER && substitute.position + 2 === player.position);
           if (substituteIndex >= 0) {
-            finalPlayers[index] = substitutesCopy[substituteIndex];
-            finalPlayers[index].bonusRating -= 2;
-            finalPlayers[index].isSubstitute = true;
+            finalPlayers[index] = substitutePlayer(substituedPlayer, substitutesCopy[substituteIndex], - 2);
             substitutesCopy.splice(substituteIndex, 1);
           }
         }
@@ -121,15 +118,25 @@ const applyRotaldoSubstitutions = (finalPlayers) => {
   let rotaldoAmount = finalPlayers.filter(player => player.lastName === "Rotaldo").length;
   return finalPlayers.map(player => {
     if (! player.rating) {
+      const substituedPlayer = new Player(player);
       rotaldoAmount ++;
       return new Rotaldo({
         ...player,
         ownGoals: rotaldoAmount % 3 ? 0 : 1,
         isSubstitute: true,
+        substitued: substituedPlayer,
       });
     }
     return player;
   });
+};
+
+const substitutePlayer = (substituedPlayer, substitute, bonusRating = 0) => {
+  const newSubstitute = new Player(substitute);
+  newSubstitute.bonusRating += bonusRating;
+  newSubstitute.isSubstitute = true;
+  newSubstitute.substitued = substituedPlayer;
+  return newSubstitute;
 };
 
 export { doMatchSubstitutions };

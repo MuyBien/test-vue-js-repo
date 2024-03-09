@@ -20,8 +20,8 @@ describe("Le substitutionMaker", () => {
     expect(updatedMatch).toBeInstanceOf(Match);
     expect(updatedMatch.homeTeam.pitchPlayers).not.toEqual(match.homeTeam.pitchPlayers);
   });
-  describe("Calcule les joueurs sur le terrain", () => {
 
+  describe("Calcule les joueurs sur le terrain", () => {
     describe("En faisant les remplacements tactiques", () => {
 
       it("D'un joueur qui a eu une note inférieure à la note requise", () => {
@@ -261,20 +261,6 @@ describe("Le substitutionMaker", () => {
         expect(updatedMatch.homeTeam.pitchPlayers[10].rating).toBe(2.5); // 6 - 1
       });
 
-      it("Par Rotaldo si plus aucun joueur n'est disponible", () => {
-        match.homeTeam.pitchPlayers.forEach(player => player.rating = 5);
-        delete match.homeTeam.pitchPlayers[10].rating;
-        match.homeTeam.pitchPlayers[10].lastName = "Satriano";
-        match.homeTeam.pitchPlayers[10].position = 3;
-
-        match.homeTeam.benchPlayers = [];
-        match.homeTeam.substitutions = [];
-
-        const updatedMatch = doMatchSubstitutions(match);
-        expect(updatedMatch.homeTeam.pitchPlayers[10].lastName).toBe("Rotaldo");
-        expect(updatedMatch.homeTeam.pitchPlayers[10].rating).toBe(2.5);
-      });
-
       it("En marquant le joueur entrant comme remplaçant", () => {
         delete match.homeTeam.pitchPlayers[10].rating;
         match.homeTeam.pitchPlayers[10].lastName = "Satriano";
@@ -326,4 +312,55 @@ describe("Le substitutionMaker", () => {
 
   });
 
+  describe("spécifie le joueur remplacé", () => {
+
+    it("en faisant les remplacements tactiques", () => {
+      const pitchPlayer = match.homeTeam.pitchPlayers[10];
+      pitchPlayer.rating = 5.5;
+      pitchPlayer.bonusRating = 0;
+      pitchPlayer.lastName = "Satriano";
+
+      const benchPlayer = match.homeTeam.benchPlayers[2];
+      benchPlayer.rating = 6;
+      benchPlayer.lastName = "Emegha";
+
+      match.homeTeam.substitutions[0] = {
+        rating: 6,
+        subId: benchPlayer.playerId,
+        starterId: pitchPlayer.playerId,
+      };
+
+      const updatedMatch = doMatchSubstitutions(match);
+      expect(updatedMatch.homeTeam.pitchPlayers[10].substitued.lastName).toBe("Satriano");
+    });
+
+    it("En remplaçant les joueurs qui n'ont pas joué", () => {
+      match.homeTeam.pitchPlayers[10].lastName = "Satriano";
+      match.homeTeam.pitchPlayers[10].position = 4;
+      delete match.homeTeam.pitchPlayers[10].rating;
+
+      match.homeTeam.benchPlayers[0].lastName = "Emegha";
+      match.homeTeam.benchPlayers[0].position = 4;
+      match.homeTeam.benchPlayers[0].rating = 6;
+
+      match.homeTeam.substitutions = [];
+
+      const updatedMatch = doMatchSubstitutions(match);
+      expect(updatedMatch.homeTeam.pitchPlayers[10].substitued.lastName).toBe("Satriano");
+    });
+
+    it("en remplaçant un joueur par Rotaldo", () => {
+      match.homeTeam.pitchPlayers.forEach(player => player.rating = 5);
+      delete match.homeTeam.pitchPlayers[10].rating;
+      match.homeTeam.pitchPlayers[10].lastName = "Satriano";
+      match.homeTeam.pitchPlayers[10].position = 3;
+
+      match.homeTeam.benchPlayers = [];
+      match.homeTeam.substitutions = [];
+
+      const updatedMatch = doMatchSubstitutions(match);
+      expect(updatedMatch.homeTeam.pitchPlayers[10].substitued.lastName).toBe("Satriano");
+    });
+
+  });
 });
