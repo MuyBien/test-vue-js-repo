@@ -14,6 +14,8 @@ export class Rotaldo extends Player {
     this.bonusRating = 0;
     this.goals = 0;
     this.isCaptain = false;
+    this.isAverageRating = false;
+    this.isLiveRating = false;
   }
 
 }
