@@ -17,7 +17,7 @@
   </section>
   <section v-else class="team-progress-wrapper">
     <p class="team-progress-wrapper__title" :class="progressClass">
-      {{ team.substitutions.length }} / 10 {{ team.substitutions.length > 1 ? "remplacements effectués" : "remplacement effectué" }}
+      {{ team.substitutions.length }} / {{ liveSubstitutionsAllowedNumber }} {{ team.substitutions.length > 1 ? "remplacements effectués" : "remplacement effectué" }}
     </p>
   </section>
 </template>
@@ -32,14 +32,22 @@ const props = defineProps({
     type: Team,
     required: true,
   },
+  isSubstitutionsBlocked: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 /**
  * Progress
  */
+const liveSubstitutionsAllowedNumber = computed(() => {
+  return props.isSubstitutionsBlocked ? 2 : 10;
+});
+
 const teamProgress = computed(() => {
   if (props.team.isLiveSubstitutesEnabled) {
-    return Math.round((props.team.substitutions.length / 10) * 100);
+    return Math.round((props.team.substitutions.length / liveSubstitutionsAllowedNumber.value) * 100);
   }
   return getTeamProgress(props.team);
 });
@@ -102,4 +110,4 @@ const progressClass = computed(() => {
     }
   }
 }
-</style>@/utils/progress/teamProgress
+</style>

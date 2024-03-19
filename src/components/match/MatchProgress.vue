@@ -1,7 +1,7 @@
 <template>
   <section class="match-progress-wrapper">
-    <team-progress :team="match.homeTeam " />
-    <team-progress :team="match.awayTeam " />
+    <team-progress :team="match.homeTeam " :is-substitutions-blocked="match.awayTeam.bonus.value === 'blockTacticalSubs'" />
+    <team-progress :team="match.awayTeam " :is-substitutions-blocked="match.homeTeam.bonus.value === 'blockTacticalSubs'" />
   </section>
 </template>
 
