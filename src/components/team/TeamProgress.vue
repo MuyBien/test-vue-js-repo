@@ -71,10 +71,10 @@ const progressClass = computed(() => {
 
 <style lang="scss" scoped>
 .team-progress-wrapper {
-  --var-finished-color: rgb(120, 199, 61);
-  --var-almost-finished-color: rgb(181, 224, 37);
-  --var-almost-started-color: rgb(224, 201, 72);
-  --var-just-started-color: rgb(244, 149, 56);
+  --var-finished-color: hsl(100, 60%, 50%);
+  --var-almost-finished-color: hsl(75, 60%, 50%);
+  --var-almost-started-color: hsl(50, 60%, 50%);
+  --var-just-started-color: hsl(25, 60%, 50%);
 
   &__title {
     font-size: .6rem;
