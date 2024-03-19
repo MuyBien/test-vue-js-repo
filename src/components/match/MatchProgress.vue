@@ -20,7 +20,7 @@ defineProps({
 <style lang="scss" scoped>
 .match-progress-wrapper {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   width: 100%;
 }
 </style>
