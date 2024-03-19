@@ -5,12 +5,15 @@
  * @returns {number} - La progression du match en pourcentage
  */
 const getTeamProgress = (team) => {
-  const positionsNotPlayed = getTeamUnfinishedPosition(team);
-  return Math.round(100 - (positionsNotPlayed.length / 11) * 100);
+  if (! team.isLiveSubstitutesEnabled) {
+    const positionsNotPlayed = getTeamUnfinishedPosition(team);
+    return Math.round(100 - (positionsNotPlayed.length / 11) * 100);
+  }
+  return undefined;
 };
 
 const getTeamUnfinishedPosition = (team) => {
-  const positionsNotPlayed = team.isLiveSubstitutesEnabled ? getLiveTeamUnfinishedPositions(team) : getTacticalTeamUnfinishedPositions(team);
+  const positionsNotPlayed = getTacticalTeamUnfinishedPositions(team);
   return positionsNotPlayed;
 };
 
@@ -19,10 +22,6 @@ const getTacticalTeamUnfinishedPositions = (team) => {
     return player.isAverageRating || player.isLiveRating || player.substitued?.isAverageRating || player.substitued?.isLiveRating;
   });
   return unfinishedPositions;
-};
-
-const getLiveTeamUnfinishedPositions = () => {
-  return [];
 };
 
 export { getTeamProgress };

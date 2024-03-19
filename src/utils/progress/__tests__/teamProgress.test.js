@@ -69,9 +69,9 @@ describe("Le calcul de progression d'une équipe", () => {
       team.isLiveSubstitutesEnabled = true;
     });
 
-    it("retourne toujours 100% pour le moment", () => {
+    it("retourne undefined", () => {
       const progress = getTeamProgress(team);
-      expect(progress).toBe(100);
+      expect(progress).toBeUndefined();
     });
 
   });

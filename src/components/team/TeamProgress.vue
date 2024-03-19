@@ -1,5 +1,5 @@
 <template>
-  <section class="team-progress-wrapper">
+  <section v-if="! team.isLiveSubstitutesEnabled" class="team-progress-wrapper">
     <p class="team-progress-wrapper__title" :class="progressClass">
       Progression : {{ teamProgress }}%
     </p>
@@ -14,6 +14,11 @@
     >
       <div class="progress-bar team-progress-wrapper__bar-wrapper__bar" :class="progressClass" :style="{ width: teamProgress + '%' }" />
     </div>
+  </section>
+  <section v-else class="team-progress-wrapper">
+    <p class="team-progress-wrapper__title" :class="progressClass">
+      {{ team.substitutions.length }} / 10 {{ team.substitutions.length > 1 ? "remplacements effectués" : "remplacement effectué" }}
+    </p>
   </section>
 </template>
 
@@ -33,6 +38,9 @@ const props = defineProps({
  * Progress
  */
 const teamProgress = computed(() => {
+  if (props.team.isLiveSubstitutesEnabled) {
+    return Math.round((props.team.substitutions.length / 10) * 100);
+  }
   return getTeamProgress(props.team);
 });
 
