@@ -316,8 +316,7 @@ li {
 
   .match-details {
     &__progress {
-      width: 20%;
-      margin: 1rem auto;
+      margin: 1rem 0;
     }
   }
 
