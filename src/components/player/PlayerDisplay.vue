@@ -1,15 +1,12 @@
 <template>
-  <tr class="player" :class="{ substitued: substitued }">
+  <tr class="player">
     <td class="player_infos">
-      <p v-if="!substitued" class="player_infos__number">
+      <p class="player_infos__number">
         {{ playerIndex + 1 }}
       </p>
-      <p v-else>
-        -->
-      </p>
-      <div class="player_infos__club_jersey" />
       <p class="player_infos__name">
         {{ player.lastName }}
+        <substitued-display v-if="player.isSubstitute" :player="player.substitued" />
       </p>
       <div class="player_infos__additionnal">
         <p v-if="player.isCaptain" class="player_infos__additionnal__cap">
@@ -38,17 +35,12 @@
       {{ player.rating ? player.getTotalScore() : "-" }}
     </td>
   </tr>
-  <player-display
-    v-if="player.isSubstitute"
-    :player="player.substitued"
-    :player-index="playerIndex"
-    substitued
-  />
 </template>
 
 <script setup>
 import GoalsDisplay from "@/components/goals/GoalsDisplay.vue";
 import SubstitutionIcon from "@/components/icons/SubstitutionIcon.vue";
+import SubstituedDisplay from "@/components/player/SubstituedDisplay.vue";
 import { Player } from "@/models/players/Player";
 import { computed } from "vue";
 
@@ -89,13 +81,12 @@ const ratingClass = computed(() => {
     return "very-bad";
   }
 });
-
 </script>
 
 <style lang="scss" scoped>
 .player_infos {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   column-gap: 5px;
 
@@ -146,6 +137,7 @@ const ratingClass = computed(() => {
   &__rating,
   &__bonus_rating {
     color: #959daf;
+    vertical-align: top;
   }
 
   &__rating {
@@ -213,11 +205,6 @@ const ratingClass = computed(() => {
     &.very-bad {
       background-color: rgb(250, 111, 111);
     }
-  }
-
-  &.substitued {
-    filter: grayscale(100%);
-    font-size: .6em;
   }
 }
 </style>
