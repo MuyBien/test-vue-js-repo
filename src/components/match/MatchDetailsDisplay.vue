@@ -40,11 +40,11 @@
 </template>
 
 <script setup>
-import { watch, onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
-import TeamDisplay from "@/components/team/TeamDisplay.vue";
 import BonusDisplay from "@/components/bonus/BonusDisplay.vue";
 import LegendDisplay from "@/components/legend/LegendDisplay.vue";
+import TeamDisplay from "@/components/team/TeamDisplay.vue";
 
 import { Modal } from "bootstrap";
 

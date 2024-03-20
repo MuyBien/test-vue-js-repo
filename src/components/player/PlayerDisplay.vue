@@ -4,9 +4,9 @@
       <p class="player_infos__number">
         {{ playerIndex + 1 }}
       </p>
-      <div class="player_infos__club_jersey" />
       <p class="player_infos__name">
         {{ player.lastName }}
+        <substitued-display v-if="player.isSubstitute" :player="player.substitued" />
       </p>
       <div class="player_infos__additionnal">
         <p v-if="player.isCaptain" class="player_infos__additionnal__cap">
@@ -38,10 +38,11 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { Player } from "@/models/players/Player";
 import GoalsDisplay from "@/components/goals/GoalsDisplay.vue";
 import SubstitutionIcon from "@/components/icons/SubstitutionIcon.vue";
+import SubstituedDisplay from "@/components/player/SubstituedDisplay.vue";
+import { Player } from "@/models/players/Player";
+import { computed } from "vue";
 
 const props = defineProps({
   player: {
@@ -51,6 +52,10 @@ const props = defineProps({
   playerIndex: {
     type: Number,
     required: true,
+  },
+  substitued: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -76,13 +81,12 @@ const ratingClass = computed(() => {
     return "very-bad";
   }
 });
-
 </script>
 
 <style lang="scss" scoped>
 .player_infos {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   column-gap: 5px;
 
@@ -133,6 +137,7 @@ const ratingClass = computed(() => {
   &__rating,
   &__bonus_rating {
     color: #959daf;
+    vertical-align: top;
   }
 
   &__rating {

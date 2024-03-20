@@ -75,7 +75,8 @@ const applyLiveSubstitutions = (finalPlayers, substitutesCopy, substitutions) =>
     const substitutionStarterIndex = finalPlayers.findIndex(starter => starter.playerId === starterId);
     const substituteIndex = substitutesCopy.findIndex(substitute => substitute.playerId === subId);
 
-    finalPlayers[substitutionStarterIndex] = substitutesCopy[substituteIndex];
+    const substituedPlayer = new Player(finalPlayers[substitutionStarterIndex]);
+    finalPlayers[substitutionStarterIndex] = substitutePlayer(substituedPlayer, substitutesCopy[substituteIndex]);
     finalPlayers[substitutionStarterIndex].isSubstitute = true;
     substitutesCopy.splice(substituteIndex, 1);
   });
