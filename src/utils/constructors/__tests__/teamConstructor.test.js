@@ -43,6 +43,14 @@ describe("Le constructeur d'équipe", () => {
     expect(team.bonus).toBeInstanceOf(BONUSES["boostAllPlayers"]);
   });
 
+  it("applique le bonus 4-Decat si il y a 4 attaquants sur le terrain", () => {
+    matchMock.home.composition = "424";
+    matchMock.home.bonuses = {};
+
+    team = teamConstructor(matchMock.home);
+    expect(team.bonus).toBeInstanceOf(BONUSES["fourStrikers"]);
+  });
+
   describe("pour une équipe live", () => {
 
     beforeEach(() => {
