@@ -121,7 +121,7 @@ import InfoIcon from "@/components/icons/InfoIcon.vue";
 import MatchDetailsDisplay from "@/components/match/MatchDetailsDisplay.vue";
 import MatchPlaceholder from "@/components/match/MatchPlaceholder.vue";
 import MatchProgress from "@/components/match/MatchProgress.vue";
-import ScorersDisplay from "@/components/match/ScorersDisplay.vue";
+import ScorersDisplay from "@/components/player/ScorersDisplay.vue";
 import ScoreDisplay from "@/components/score/ScoreDisplay.vue";
 import ScoreLineDisplay from "@/components/score/ScoreLineDisplay.vue";
 import ScoresListDisplay from "@/components/score/ScoresListDisplay.vue";
