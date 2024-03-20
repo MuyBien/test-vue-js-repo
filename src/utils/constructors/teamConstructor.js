@@ -33,7 +33,7 @@ const teamConstructor = (teamData) => {
 
   setCaptain(team.pitchPlayers, teamData.captain);
 
-  team.bonus = setBonus(teamData.bonuses);
+  team.bonus = setBonus(teamData.bonuses, teamData.composition);
   team.availableBonuses = teamData.availableBonuses;
 
   return team;
@@ -90,12 +90,15 @@ const setCaptain = (starters, captainId) => {
   }
 };
 
-const setBonus = (allBonuses) => {
+const setBonus = (allBonuses, composition) => {
   for (const bonusKey in allBonuses) {
     const bonusClass = BONUSES[bonusKey];
     if (bonusClass) {
       return new bonusClass(allBonuses[bonusKey]);
     }
+  }
+  if (composition === "424") {
+    return new BONUSES["fourStrikers"]();
   }
   return new BONUSES["none"];
 };
