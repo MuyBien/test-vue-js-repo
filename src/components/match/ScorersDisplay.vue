@@ -24,9 +24,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { Match } from "@/models/match/Match";
 import GoalsDisplay from "@/components/goals/GoalsDisplay.vue";
+import { Match } from "@/models/match/Match";
+import { computed } from "vue";
 
 const props = defineProps({
   match: {
@@ -50,10 +50,10 @@ const awayScorers = computed(() => {
 });
 
 /**
- * Vérifie si le but a été annulé
+ * Vérifie si tous les buts du joueurs ont été annulés ou arrêtés
  */
 const isGoalRemoved = (player) => {
-  return player.canceledGoals + player.savedGoals > 0 ;
+  return player.goals + player.mpgGoals - player.canceledGoals - player.savedGoals <= 0 ;
 };
 </script>
 
