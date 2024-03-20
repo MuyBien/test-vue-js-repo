@@ -1,7 +1,7 @@
 <template>
   <svg
-    width="20"
-    height="20"
+    :width="smallIcon ? 13 : 20"
+    :height="smallIcon ? 13 : 20"
     viewBox="0 0 25 25"
     :class="{ 'own-goal': isOwnGoal, 'mpg-goal': isMpgGoal }"
     fill="none"
@@ -98,6 +98,10 @@ defineProps({
     default: false,
   },
   isCanceled: {
+    type: Boolean,
+    default: false,
+  },
+  smallIcon: {
     type: Boolean,
     default: false,
   },

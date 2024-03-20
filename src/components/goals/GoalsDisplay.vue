@@ -3,7 +3,7 @@
     :class="{'reverse': reverseDisplay}"
   >
     <template v-if="haveFinallyScored">
-      <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" />
+      <goal-icon v-for="goal in (player.goals - player.savedGoals - player.canceledGoals)" :key="goal" :small-icon="smallIcons" />
     </template>
     <goal-icon v-if="player.goals > 0 && player.canceledGoals > 0" is-canceled />
     <goal-icon v-for="ownGoal in player.ownGoals" :key="ownGoal" is-own-goal />
@@ -23,6 +23,10 @@ const props = defineProps({
     required: true,
   },
   reverseDisplay: {
+    type: Boolean,
+    default: false,
+  },
+  smallIcons: {
     type: Boolean,
     default: false,
   },

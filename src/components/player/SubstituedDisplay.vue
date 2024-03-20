@@ -4,7 +4,7 @@
       {{ player.lastName }}
     </span>
     <span class="player_infos__additionnal__goals">
-      <goals-display :player="player" />
+      <goals-display :player="player" small-icons />
     </span>
     <span class="player__total_rating">
       {{ player.rating ? player.getTotalScore() : "-" }}
