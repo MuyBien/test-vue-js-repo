@@ -71,4 +71,13 @@ describe("Le bonus RemoveGoalBonus", () => {
 
     expect(opponentTeam.pitchPlayers[0].canceledGoals).toBe(0);
   });
+
+  it("annule le 2eme but d'un doublé si le 1er a déjà arrêté par le gardien", () => {
+    opponentTeam.pitchPlayers[0].goals = 2;
+    opponentTeam.pitchPlayers[0].savedGoals = 1;
+    const bonus = new RemoveGoalBonus();
+    bonus.apply(team, opponentTeam);
+
+    expect(opponentTeam.pitchPlayers[0].canceledGoals).toBe(1);
+  });
 });
