@@ -60,7 +60,7 @@
                 />
               </div>
 
-              <a v-if="!isResultProbabilities" class="show-players do-not-share" @click="openModal">
+              <a class="show-players do-not-share" @click="openModal">
                 <span>Afficher les joueurs</span>
                 <info-icon />
               </a>
