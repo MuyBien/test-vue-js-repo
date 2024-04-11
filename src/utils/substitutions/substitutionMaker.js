@@ -27,7 +27,8 @@ const doSubstitutions = (team) => {
   let finalPlayers;
   if (team.isLiveSubstitutesEnabled) {
     const playersAfterRL = applyLiveSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
-    finalPlayers = applyRotaldoSubstitutions(playersAfterRL);
+    const playerAfterSub = applyGoalkeeperSubstitution(playersAfterRL, benchPlayersCopy);
+    finalPlayers = applyRotaldoSubstitutions(playerAfterSub);
   } else {
     const playersAfterRT = applyTacticalSubstitutions(pitchPlayersCopy, benchPlayersCopy, team.substitutions);
     const playersAfterSub = applyClassicSubstitutions(playersAfterRT, benchPlayersCopy);
@@ -109,6 +110,23 @@ const applyClassicSubstitutions = (finalPlayers, substitutesCopy) => {
       }
     }
   });
+  return finalPlayers;
+};
+
+/**
+ * Effectue le remplacement obligatoire du gardien (mode RL)
+ */
+const applyGoalkeeperSubstitution = (finalPlayers, substitutesCopy) => {
+  const goalkeeperIndex = finalPlayers.findIndex(player => player.position === POSITION_GOALKEEPER);
+  const goalkeeper = finalPlayers[goalkeeperIndex];
+  if (! goalkeeper.rating) {
+    const substituedPlayer = new Player(goalkeeper);
+    const substituteIndex = substitutesCopy.findIndex(substitute => substitute.rating && substitute.position === goalkeeper.position);
+    if (substituteIndex >= 0) {
+      finalPlayers[goalkeeperIndex] = substitutePlayer(substituedPlayer, substitutesCopy[substituteIndex]);
+      substitutesCopy.splice(substituteIndex, 1);
+    }
+  }
   return finalPlayers;
 };
 
